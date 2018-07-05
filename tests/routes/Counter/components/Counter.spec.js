@@ -1,9 +1,9 @@
 import React from 'react'
 import { bindActionCreators } from 'redux'
-import { Counter } from 'routes/Counter/components/Counter'
+import { Account } from 'routes/Account/components/Account'
 import { shallow } from 'enzyme'
 
-describe('(Component) Counter', () => {
+describe('(Component) Account', () => {
   let _props, _spies, _wrapper
 
   beforeEach(() => {
@@ -15,15 +15,15 @@ describe('(Component) Counter', () => {
         increment   : (_spies.increment = sinon.spy())
       }, _spies.dispatch = sinon.spy())
     }
-    _wrapper = shallow(<Counter {..._props} />)
+    _wrapper = shallow(<Account {..._props} />)
   })
 
   it('renders as a <div>.', () => {
     expect(_wrapper.is('div')).to.equal(true)
   })
 
-  it('renders with an <h2> that includes Counter label.', () => {
-    expect(_wrapper.find('h2').text()).to.match(/Counter:/)
+  it('renders with an <h2> that includes Account label.', () => {
+    expect(_wrapper.find('h2').text()).to.match(/Account:/)
   })
 
   it('renders {props.counter} at the end of the sample counter <h2>.', () => {

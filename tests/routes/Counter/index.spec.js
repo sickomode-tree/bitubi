@@ -1,6 +1,6 @@
-import CounterRoute from 'routes/Counter'
+import CounterRoute from 'routes/Account'
 
-describe('(Route) Counter', () => {
+describe('(Route) Account', () => {
   it('returns a route configuration object', () => {
     expect(typeof CounterRoute({})).to.equal('object')
   })
