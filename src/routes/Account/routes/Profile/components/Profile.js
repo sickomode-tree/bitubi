@@ -2,7 +2,7 @@ import React from 'react'
 
 export const Profile = () => (
   <div>
-    <h2>Account Profile</h2>
+    <h2>Профиль</h2>
   </div>
 )
 

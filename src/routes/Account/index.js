@@ -1,28 +1,17 @@
 import { injectReducer } from 'store/reducers'
+import Account from './components/Account'
+import FavouritesRoute from "./routes/Favourites";
+import HistoryRoute from './routes/History'
 import ProfileRoute from './routes/Profile'
+import TendersRoute from './routes/Tenders'
 
 export default (store) => ({
   path : 'account',
+  indexRoute  : Account,
   childRoutes : [
-    ProfileRoute(store)
+    FavouritesRoute(store),
+    HistoryRoute(store),
+    ProfileRoute(store),
+    TendersRoute(store),
   ],
-  /*  Async getComponent is only invoked when route matches   */
-  getComponent (nextState, cb) {
-    /*  Webpack - use 'require.ensure' to create a split point
-        and embed an async module loader (jsonp) when bundling   */
-    require.ensure([], (require) => {
-      /*  Webpack - use require callback to define
-          dependencies for bundling   */
-      const Account = require('./containers/AccountContainer').default
-      const reducer = require('./modules/counter').default
-
-      /*  Add the reducer to the store on key 'counter'  */
-      injectReducer(store, { key: 'counter', reducer })
-
-      /*  Return getComponent   */
-      cb(null, Account)
-
-    /* Webpack named bundle   */
-    }, 'account')
-  }
 })
