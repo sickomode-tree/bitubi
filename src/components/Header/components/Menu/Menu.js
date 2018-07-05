@@ -4,7 +4,7 @@ import { Button as ButtonUI, Input as InputUI, Menu as MenuUI, Select as SelectU
 
 const Menu = props => (
   <MenuUI stackable>
-    <IndexLink to='/' component={Menu.Item} className='item' activeClassName='active'>Главная</IndexLink>
+    <IndexLink to='/' className='item' activeClassName='active'>Главная</IndexLink>
     <Link to='/account/profile' className='item' activeClassName='active'>Профиль</Link>
     <Link to='/account/tenders' className='item' activeClassName='active'>Тендеры</Link>
     <Link to='/account/favourites' className='item' activeClassName='active'>Закладки</Link>
@@ -12,7 +12,7 @@ const Menu = props => (
 
     <MenuUI.Menu position='right'>
       <MenuUI.Item>
-        <InputUI icon='search' placeholder='Поиск...' action>
+        <InputUI placeholder='Поиск...' action>
           <input />
           <SelectUI compact options={[
             { key: 'all', text: 'All', value: 'all' },
@@ -29,7 +29,7 @@ const Menu = props => (
         </InputUI>
       </MenuUI.Item>
 
-      <a className='item' activeClassName='active' href={''}>Выйти</a>
+      <a className='item' href={''}>Выйти</a>
     </MenuUI.Menu>
   </MenuUI>
 )
