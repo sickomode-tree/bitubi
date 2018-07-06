@@ -1,13 +1,18 @@
 const express = require('express')
 const path = require('path')
 const webpack = require('webpack')
+var proxy = require('http-proxy-middleware')
 const logger = require('../build/lib/logger')
 const webpackConfig = require('../build/webpack.config')
 const project = require('../project.config')
+
 const compress = require('compression')
 
 const app = express()
 app.use(compress())
+
+// Enable proxy
+app.use('/test', proxy({target: 'https://localhost:8443', changeOrigin: true, secure: false}));
 
 // ------------------------------------
 // Apply Webpack HMR Middleware

@@ -30,4 +30,12 @@ module.exports = {
     'redux-thunk',
     'react-router',
   ],
+  /** */
+  proxy: {
+    enabled: true,
+    options: {
+      target: 'https://localhost:8443',
+      changeOrigin: true,
+    }
+  }
 }
