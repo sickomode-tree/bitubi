@@ -1,12 +1,13 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import Header from 'components/Header/Header'
+import { Grid } from 'semantic-ui-react'
 import './DefaultLayout.scss'
 
 export const DefaultLayout = ({ children }) => (
-  <div className='container text-center'>
+  <div>
     <Header />
-    <div className='page-layout__viewport'>
+    <div>
       {children}
     </div>
   </div>

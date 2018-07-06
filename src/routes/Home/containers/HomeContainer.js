@@ -1,7 +1,7 @@
 import { connect } from 'react-redux';
 
 import {
-  sendRequest,
+  fetchProducts,
 } from '../modules/products';
 
 /*  This is a container component. Notice it does not contain any JSX,
@@ -16,12 +16,12 @@ import Home from '../components/Home';
     implementing our wrapper around increment; the component doesn't care   */
 
 const mapDispatchToProps = {
-  sendRequest,
+  fetchProducts,
 };
 
 const mapStateToProps = (state) => {
   return {
-    items: state.products.products,
+    products: state.products.products,
   }
 };
 
