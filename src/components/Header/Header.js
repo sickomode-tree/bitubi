@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import {browserHistory, IndexLink, Link} from 'react-router'
 import PropTypes from 'prop-types'
-import {Container, Image, Item, Menu} from 'semantic-ui-react'
+import {Container, Dropdown, Image, Item, Menu} from 'semantic-ui-react'
 import {Search} from './components/Search/Search'
 import LoginModal from './components/LoginModal/LoginModal'
 
@@ -22,14 +22,14 @@ class Header extends Component {
           <Menu.Menu position='right'>
             {
               isAuthorized &&
-              <Link to='/account/profile' className='item' activeClassName='active'>
+              <Dropdown item icon={null} trigger={
                 <Image src='https://react.semantic-ui.com/images/avatar/large/matthew.png' avatar/>
-                <span>Профиль</span>
-              </Link>
-            }
-            {
-              isAuthorized &&
-              <a className='item' onClick={this.handleSignOut.bind(this)}>Выйти</a>
+              }>
+                <Dropdown.Menu>
+                  <Link to='/account/profile' className='item' activeClassName='active'>Личный кабинет</Link>
+                  <a className='item' onClick={this.handleSignOut.bind(this)}>Выйти</a>
+                </Dropdown.Menu>
+              </Dropdown>
             }
             {
               !isAuthorized &&
