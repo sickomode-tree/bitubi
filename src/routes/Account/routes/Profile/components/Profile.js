@@ -25,7 +25,7 @@ export default class Profile extends Component {
     const { user } = this.props
 
     return (
-      <Grid>
+      <Grid style={{flex: 1}}>
         <Grid.Row>
           <Grid.Column width={4}>
             <Card fluid>

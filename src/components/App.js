@@ -16,7 +16,7 @@ class App extends React.Component {
   render () {
     return (
       <Provider store={this.props.store}>
-        <div style={{ height: '100%' }}>
+        <div style={{ display: 'flex', flexDirection: 'column' }}>
           <Router history={browserHistory} children={this.props.routes} />
         </div>
       </Provider>

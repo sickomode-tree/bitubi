@@ -22,7 +22,7 @@ class Header extends Component {
           <Menu.Menu position='right'>
             {
               isAuthorized &&
-              <Dropdown item icon={null} trigger={
+              <Dropdown item trigger={
                 <Image src='https://react.semantic-ui.com/images/avatar/large/matthew.png' avatar/>
               }>
                 <Dropdown.Menu>

@@ -2,22 +2,20 @@ import React from 'react'
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types'
 import Header from 'components/Header/Header'
-import { Container as ContainerUI, Segment as SegmentUI } from 'semantic-ui-react'
+import { Container, Segment } from 'semantic-ui-react'
 import { sendAuthRequest, signOut } from 'store/auth';
 import './DefaultLayout.scss'
 
 const DefaultLayout = ({ children, isAuthorized, sendAuthRequest, signOut }) => (
-  <div className='h-100'>
+  <div style={{ display: 'flex', flexDirection: 'column' }}>
     <Header
       isAuthorized={isAuthorized}
       sendAuthRequest={sendAuthRequest}
       signOut={signOut}
     />
-    <SegmentUI padded='very' basic className='h-100'>
-      <ContainerUI>
-        {children}
-      </ContainerUI>
-    </SegmentUI>
+    <Container className='d-flex' style={{overflow: 'hidden'}}>
+      {children}
+    </Container>
   </div>
 )
 
