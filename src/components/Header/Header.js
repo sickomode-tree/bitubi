@@ -39,7 +39,7 @@ class Header extends Component {
             }
             {
               !isAuthorized &&
-              <SignUpModal handleSignUp={this.handleSignUp.bind(this)}/>
+              <Item><SignUpModal handleSignUp={this.handleSignUp.bind(this)}/></Item>
             }
             {
               !isAuthorized &&

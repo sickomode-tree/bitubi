@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
-import { Button, Form, Item, Modal } from 'semantic-ui-react'
+import { Button, Form, Modal } from 'semantic-ui-react'
 
 class SignUpModal extends Component {
   static propTypes = {
@@ -11,7 +11,7 @@ class SignUpModal extends Component {
 
     return (
       <Modal
-        trigger={<Item><Button basic color='green'>Зарегистрироваться</Button></Item>}
+        trigger={<Button basic color='green'>Зарегистрироваться</Button>}
         size='tiny'
         className='scrolling'
         style={{height: 'fit-content'}}
