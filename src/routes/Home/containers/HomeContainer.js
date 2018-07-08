@@ -1,8 +1,5 @@
 import { connect } from 'react-redux';
-
-import {
-  fetchProducts,
-} from '../modules/products';
+import { fetchProducts } from '../modules/products';
 
 /*  This is a container component. Notice it does not contain any JSX,
     nor does it import React. This component is **only** responsible for

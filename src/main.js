@@ -1,11 +1,18 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
 import createStore from './store/createStore'
+import {loadState, saveState} from 'utils/localStorage'
 import './styles/main.scss'
 
 // Store Initialization
 // ------------------------------------
-const store = createStore(window.__INITIAL_STATE__)
+const store = createStore(_.merge(window.__INITIAL_STATE__, loadState()))
+
+store.subscribe(() => {
+  saveState({
+    auth: store.getState().auth,
+  })
+})
 
 // Render Setup
 // ------------------------------------

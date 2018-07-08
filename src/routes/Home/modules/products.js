@@ -51,15 +51,15 @@ export function fetchProducts() {
         return response;
       })
       .then(response => response.json())
-      .then(json => console.log(json))
-      .catch(error => dispatch(onFetchError(true)));
+      .then(json => dispatch(onFetchSuccess(json)))
+      .catch(error => dispatch(onFetchError(true)))
   };
 }
 
 export function errorAfterFiveSeconds() {
   return (dispatch) => {
     setTimeout(() => {
-      dispatch(onFetchError(true));
+      dispatch(onFetchError(true))
     }, 5000);
   };
 }
