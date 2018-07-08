@@ -1,10 +1,9 @@
 // ------------------------------------
 // Constants
 // ------------------------------------
-
-export const PRODUCTS_FETCH_ERROR = 'PRODUCTS_FETCH_ERROR'
-export const PRODUCTS_FETCH_SUCCESS = 'PRODUCTS_FETCH_SUCCESS'
-export const PRODUCTS_IS_LOADING = 'PRODUCTS_IS_LOADING'
+export const USER_IS_LOADING = 'USER_IS_LOADING'
+export const USER_FETCH_SUCCESS = 'USER_FETCH_SUCCESS'
+export const USER_FETCH_ERROR = 'USER_FETCH_ERROR'
 
 // ------------------------------------
 // Actions
@@ -12,35 +11,38 @@ export const PRODUCTS_IS_LOADING = 'PRODUCTS_IS_LOADING'
 
 export function onFetchStart(bool) {
   return {
-    type: PRODUCTS_IS_LOADING,
+    type: USER_IS_LOADING,
     isLoading: bool
   };
 }
 
 export function onFetchSuccess(json) {
   return {
-    type: PRODUCTS_FETCH_SUCCESS,
-    products: json,
+    type: USER_FETCH_SUCCESS,
+    user: json,
   };
 }
 
 export function onFetchError(bool) {
   return {
-    type: PRODUCTS_FETCH_ERROR,
+    type: USER_FETCH_ERROR,
     hasErrored: bool
   };
 }
 
-/*  This is a thunk, meaning it is a function that immediately
-    returns a function for lazy evaluation. */
+export function fetchUser() {
+  const url = '/test/private/user';
 
-export function fetchProducts() {
-  const url = '/test/public/products';
+  return (dispatch, getState) => {
+    const token = getState().auth.token;
 
-  return (dispatch) => {
     dispatch(onFetchStart(true));
-
-    fetch(url)
+    fetch(url, {
+      headers: {
+        'Content-Type': 'application/x-www-form-urlencoded',
+        'Authorization': `Bearer ${token}`
+      }
+    })
       .then(response => {
         if (!response.ok) {
           throw Error(response.statusText);
@@ -56,47 +58,40 @@ export function fetchProducts() {
   };
 }
 
-export function errorAfterFiveSeconds() {
-  return (dispatch) => {
-    setTimeout(() => {
-      dispatch(onFetchError(true))
-    }, 5000);
-  };
-}
-
 export const actions = {
-  fetchProducts,
-};
+  fetchUser,
+}
 
 // ------------------------------------
 // Action Handlers
 // ------------------------------------
 const ACTION_HANDLERS = {
-  [PRODUCTS_FETCH_ERROR]: (state, action) => ({
+  [USER_FETCH_ERROR]: (state, action) => ({
     ...state,
     isErrored: action.hasErrored,
   }),
-  [PRODUCTS_IS_LOADING]: (state, action) => ({
+  [USER_IS_LOADING]: (state, action) => ({
     ...state,
     isLoading: action.isLoading
   }),
-  [PRODUCTS_FETCH_SUCCESS]: (state, action) => ({
+  [USER_FETCH_SUCCESS]: (state, action) => ({
     ...state,
-    products: action.products
+    user: action.user,
   }),
-};
+}
 
 // ------------------------------------
 // Reducer
 // ------------------------------------
+
 const initialState = {
-  products: [],
+  user: {},
   isLoading: false,
   isErrored: false,
 };
 
-export default function productsReducer(state = initialState, action) {
-  const handler = ACTION_HANDLERS[action.type];
+export default function counterReducer (state = initialState, action) {
+  const handler = ACTION_HANDLERS[action.type]
 
   return handler ? handler(state, action) : state
 }

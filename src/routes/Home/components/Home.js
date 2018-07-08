@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
-import { Card } from 'semantic-ui-react'
+import { Card, Grid } from 'semantic-ui-react'
 
 export default class Home extends Component {
   static propTypes = {
@@ -25,11 +25,35 @@ export default class Home extends Component {
 }
 
 export class CardGrid extends Component {
+  static propTypes = {
+    cards: PropTypes.array.isRequired,
+  }
+
   render() {
     const { cards } = this.props
 
     return (
-      <Card.Group itemsPerRow={3}>
+      <Grid columns={3} divided>
+        <Grid.Row>
+          <Grid.Column>
+            <CardGridGroup cards={cards}/>
+          </Grid.Column>
+        </Grid.Row>
+      </Grid>
+    )
+  }
+}
+
+export class CardGridGroup extends Component {
+  static propTypes = {
+    cards: PropTypes.array.isRequired,
+  }
+
+  render() {
+    const { cards } = this.props
+
+    return (
+      <Card.Group itemsPerRow={1}>
         {
           cards.map(card =>
             <Card
