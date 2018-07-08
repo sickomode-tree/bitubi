@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { Button, Form, Modal } from 'semantic-ui-react'
 
-class LoginModal extends Component {
+class SignInModal extends Component {
   static propTypes = {
     handleSignIn: PropTypes.func.isRequired,
   }
@@ -29,7 +29,6 @@ class LoginModal extends Component {
           </Form>
         </Modal.Content>
         <Modal.Actions>
-          <Button basic content='Зарегистрироваться'/>
           <Button positive type='submit' form='authForm' icon='checkmark' labelPosition='right' content='Войти'/>
         </Modal.Actions>
       </Modal>
@@ -44,4 +43,4 @@ class LoginModal extends Component {
   }
 }
 
-export default LoginModal
+export default SignInModal

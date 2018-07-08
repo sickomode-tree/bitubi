@@ -3,7 +3,8 @@ import {browserHistory, IndexLink, Link} from 'react-router'
 import PropTypes from 'prop-types'
 import {Container, Dropdown, Image, Item, Menu} from 'semantic-ui-react'
 import {Search} from './components/Search/Search'
-import LoginModal from './components/LoginModal/LoginModal'
+import SignInModal from './components/SignInModal/SignInModal'
+import SignUpModal from './components/SignUpModal/SignUpModal'
 
 class Header extends Component {
   render() {
@@ -12,10 +13,15 @@ class Header extends Component {
     return (
       <Menu fixed={'top'} stackable borderless>
         <Container>
-          <IndexLink to='/' className='item' activeClassName='active'>Главная</IndexLink>
-          <Link to='/account/tenders' className='item' activeClassName='active'>Тендеры</Link>
-          <Link to='/account/favourites' className='item' activeClassName='active'>Закладки</Link>
-          <Link to='/account/history' className='item' activeClassName='active'>История</Link>
+          {
+            isAuthorized &&
+            <Menu.Menu position='left'>
+              <IndexLink to='/' className='item' activeClassName='active'>Главная</IndexLink>
+              <Link to='/account/tenders' className='item' activeClassName='active'>Тендеры</Link>
+              <Link to='/account/favourites' className='item' activeClassName='active'>Закладки</Link>
+              <Link to='/account/history' className='item' activeClassName='active'>История</Link>
+            </Menu.Menu>
+          }
           <Menu.Item style={{flex: 1}}>
             <Search/>
           </Menu.Item>
@@ -33,12 +39,21 @@ class Header extends Component {
             }
             {
               !isAuthorized &&
-              <LoginModal handleSignIn={this.handleSignIn.bind(this)}/>
+              <SignUpModal handleSignUp={this.handleSignUp.bind(this)}/>
+            }
+            {
+              !isAuthorized &&
+              <SignInModal handleSignIn={this.handleSignIn.bind(this)}/>
             }
           </Menu.Menu>
         </Container>
       </Menu>
     )
+  }
+
+  handleSignUp(form) {
+    this.props.sendRegisterRequest(form);
+    browserHistory.push('/')
   }
 
   handleSignIn(form) {
@@ -55,6 +70,7 @@ class Header extends Component {
 Header.propTypes = {
   isAuthorized: PropTypes.bool.isRequired,
   sendAuthRequest: PropTypes.func.isRequired,
+  sendRegisterRequest: PropTypes.func.isRequired,
   signOut: PropTypes.func.isRequired,
 }
 

@@ -12,7 +12,7 @@ export default class CardGridGroup extends Component {
     const { cards, title } = this.props
 
     return (
-      <Card.Group itemsPerRow={1} className='d-flex h-100 p-1' style={{flexDirection: 'column'}}>
+      <Card.Group itemsPerRow={1} style={{overflow: 'hidden', display: 'flex', flexDirection: 'column', height: '100%', padding: '1em'}}>
         {
           cards.map(card =>
             <Card

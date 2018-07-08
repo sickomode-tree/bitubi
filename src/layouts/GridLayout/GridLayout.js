@@ -1,18 +1,39 @@
 import React from 'react'
+import { connect } from 'react-redux';
 import PropTypes from 'prop-types'
 import Header from 'components/Header/Header'
-import './PageLayout.scss'
+import { Container, Segment } from 'semantic-ui-react'
+import { sendAuthRequest, signOut } from 'store/auth';
 
-export const PageLayout = ({ children }) => (
-  <div className='container text-center'>
-    <Header />
-    <div className='page-layout__viewport'>
+const DefaultLayout = ({ children, isAuthorized, sendAuthRequest, signOut }) => (
+  <div style={{ display: 'flex', flexDirection: 'column' }}>
+    <Header
+      isAuthorized={isAuthorized}
+      sendAuthRequest={sendAuthRequest}
+      signOut={signOut}
+    />
+    <Container style={{display: 'flex'}}>
       {children}
-    </div>
+    </Container>
   </div>
 )
-PageLayout.propTypes = {
+
+DefaultLayout.propTypes = {
   children: PropTypes.node,
+  isAuthorized: PropTypes.bool.isRequired,
+  sendAuthRequest: PropTypes.func.isRequired,
+  signOut: PropTypes.func.isRequired,
 }
 
-export default PageLayout
+const mapDispatchToProps = {
+  sendAuthRequest,
+  signOut,
+};
+
+const mapStateToProps = (state) => {
+  return {
+    isAuthorized: state.auth.isAuthorized,
+  }
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(DefaultLayout);

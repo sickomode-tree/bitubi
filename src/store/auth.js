@@ -76,6 +76,35 @@ export function sendAuthRequest(form) {
   };
 }
 
+export function sendRegisterRequest(form) {
+  const formData = new FormData(form);
+  const url = '/test/auth/signup';
+
+  return (dispatch) => {
+    dispatch(onSendRequestStart(true));
+
+    fetch(url, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/x-www-form-urlencoded',
+      },
+      body: new URLSearchParams(formData),
+    })
+      .then(response => {
+        if (!response.ok) {
+          throw Error(response.statusText);
+        }
+
+        dispatch(onSendRequestStart(false));
+
+        return response;
+      })
+      .then(response => response.json())
+      .then(json => dispatch(console.log(json)))
+      .catch(error => dispatch(onSendRequestError(true)))
+  };
+}
+
 export function signOut() {
   return (dispatch) => {
     dispatch(onSignOut())
@@ -92,6 +121,7 @@ export function errorAfterFiveSeconds() {
 
 export const actions = {
   sendAuthRequest,
+  sendRegisterRequest,
   signOut,
 };
 

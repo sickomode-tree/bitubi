@@ -22,7 +22,7 @@ export default class CardGrid extends Component {
 
   render() {
     return (
-      <section className='d-flex'>
+      <section style={{display: 'flex'}}>
         <Button onClick={this.showPreviousCardGroup.bind(this)} style={{position: 'fixed', top: '50%', left: 20}} icon='angle left'/>
         <Button onClick={this.showNextCardGroup.bind(this)} style={{position: 'fixed', top: '50%', right: 20}} icon='angle right'/>
 
@@ -30,7 +30,7 @@ export default class CardGrid extends Component {
           <Grid.Row>
             {
               this.state.groups.map(group => (
-                <Grid.Column key={group.title} className='d-flex h-100' style={{overflow: 'hidden', flexDirection: 'column'}}>
+                <Grid.Column key={group.title} style={{display: 'flex', flexDirection: 'column', height: '100%'}}>
                   <Segment
                     basic
                     textAlign='center'
