@@ -24,12 +24,13 @@ class SignUpModal extends Component {
             id='registerForm'
             onSubmit={this.handleSubmit.bind(this)}
           >
+            <Form.Input name='login' label='Логин' placeholder='Логин' required/>
+            <Form.Input name='password' label='Пароль' placeholder='Пароль' type='password' required/>
+            <Form.Input name='email' label='Email' placeholder='Email' required/>
             <Form.Group>
               <Form.Input name='firstName' label='Имя' placeholder='Имя' width={8} required/>
               <Form.Input name='lastName' label='Фамилия' placeholder='Фамилия' width={8} required/>
             </Form.Group>
-            <Form.Input name='login' label='Логин' placeholder='Логин' required/>
-            <Form.Input name='password' label='Пароль' placeholder='Пароль' type='password' required/>
           </Form>
         </Modal.Content>
         <Modal.Actions>
