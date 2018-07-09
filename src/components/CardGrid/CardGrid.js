@@ -22,11 +22,11 @@ export default class CardGrid extends Component {
 
   render() {
     return (
-      <section style={{display: 'flex'}}>
+      <section style={{display: 'flex', width: '100%'}}>
         <Button onClick={this.showPreviousCardGroup.bind(this)} style={{position: 'fixed', top: '50%', left: 20}} icon='angle left'/>
         <Button onClick={this.showNextCardGroup.bind(this)} style={{position: 'fixed', top: '50%', right: 20}} icon='angle right'/>
 
-        <Grid columns={3} style={{overflow: 'hidden'}}>
+        <Grid columns={3} style={{overflow: 'hidden', width: '100%'}}>
           <Grid.Row>
             {
               this.state.groups.map(group => (
@@ -44,7 +44,7 @@ export default class CardGrid extends Component {
                   >
                     {group.title}
                   </Segment>
-                  <CardGridGroup title={group.title} cards={group.cards}/>
+                  <CardGridGroup cards={group.cards}/>
                 </Grid.Column>
               ))
             }

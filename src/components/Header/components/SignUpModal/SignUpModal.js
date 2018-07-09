@@ -4,14 +4,16 @@ import { Button, Form, Modal } from 'semantic-ui-react'
 
 class SignUpModal extends Component {
   static propTypes = {
+    trigger: PropTypes.node,
     handleSignUp: PropTypes.func.isRequired,
   }
 
   render() {
+    const { trigger } = this.props
 
     return (
       <Modal
-        trigger={<Button basic color='green'>Зарегистрироваться</Button>}
+        trigger={trigger || <Button basic color='green'>Зарегистрироваться</Button>}
         size='tiny'
         className='scrolling'
         style={{height: 'fit-content'}}

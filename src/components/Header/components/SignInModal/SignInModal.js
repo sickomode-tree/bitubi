@@ -4,14 +4,16 @@ import { Button, Form, Modal } from 'semantic-ui-react'
 
 class SignInModal extends Component {
   static propTypes = {
+    trigger: PropTypes.node,
     handleSignIn: PropTypes.func.isRequired,
   }
 
   render() {
+    const {trigger} = this.props
 
     return (
       <Modal
-        trigger={<a className='item'>Войти</a>}
+        trigger={trigger || <a className='item'>Войти</a>}
         size='tiny'
         className='scrolling'
         style={{height: 'fit-content'}}

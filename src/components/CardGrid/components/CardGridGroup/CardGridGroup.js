@@ -1,15 +1,14 @@
 import React, {Component} from "react";
 import PropTypes from "prop-types";
-import { Card, Segment } from 'semantic-ui-react'
+import { Card } from 'semantic-ui-react'
 
 export default class CardGridGroup extends Component {
   static propTypes = {
     cards: PropTypes.array.isRequired,
-    title: PropTypes.string.isRequired,
   }
 
   render() {
-    const { cards, title } = this.props
+    const { cards } = this.props
 
     return (
       <Card.Group itemsPerRow={1} style={{overflow: 'hidden', display: 'flex', flexDirection: 'column', height: '100%', padding: '1em'}}>
@@ -20,7 +19,7 @@ export default class CardGridGroup extends Component {
               header={card.provider.name}
               meta={card.provider.city}
               description={card.description}
-              style={{flex: '1 0 25%'}}
+              style={{flex: '0 1 25%'}}
             />
           )
         }
