@@ -10,6 +10,7 @@ export default class Home extends Component {
     filter: PropTypes.object.isRequired,
     products: PropTypes.array.isRequired,
     fetchProducts: PropTypes.func.isRequired,
+    changeFilterValue: PropTypes.func.isRequired,
   }
 
   componentDidMount() {
@@ -101,6 +102,8 @@ export default class Home extends Component {
     return <Card
       header={card.subcategory.title}
       style={{flex: '0 1 25%'}}
+      link={true}
+      onClick={() => this.props.changeFilterValue('subcategory.title', card.subcategory.title)}
     />
   }
 

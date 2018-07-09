@@ -1,4 +1,5 @@
 import { connect } from 'react-redux';
+import { changeFilterValue } from 'store/filter';
 import { fetchProducts } from '../modules/products';
 
 /*  This is a container component. Notice it does not contain any JSX,
@@ -13,6 +14,7 @@ import Home from '../components/Home';
     implementing our wrapper around increment; the component doesn't care   */
 
 const mapDispatchToProps = {
+  changeFilterValue,
   fetchProducts,
 };
 
