@@ -4,12 +4,14 @@ import PropTypes from 'prop-types'
 import {Button, Input, Dropdown} from 'semantic-ui-react'
 import {getValues} from 'utils/array'
 import SignInModal from '../SignInModal/SignInModal'
+import _ from "lodash";
 
 export default class Search extends Component {
   static propTypes = {
     cards: PropTypes.array.isRequired,
     filters: PropTypes.object.isRequired,
     isAuthorized: PropTypes.bool.isRequired,
+    searchTerm: PropTypes.string.isRequired,
     changeFilterValue: PropTypes.func.isRequired,
     changeSearchTerm: PropTypes.func.isRequired,
     handleSignIn: PropTypes.func.isRequired,
@@ -21,7 +23,7 @@ export default class Search extends Component {
   }
 
   render() {
-    const {filters, isAuthorized, handleSignIn} = this.props
+    const {filters, isAuthorized, searchTerm, handleSignIn} = this.props
 
     return (
       <Input placeholder='Поиск...' action>
@@ -35,7 +37,7 @@ export default class Search extends Component {
                       options={this.getOptions.call(this, quickFilter.key)} value={filters[quickFilter.key] || null}
                       search={true} selection={true}
                       selectOnBlur={false} selectOnNavigation={false} wrapSelection={false}
-                      style={{width: 100, whiteSpace: 'nowrap', textOverflow: 'ellipsis'}}
+                      style={{width: 100, whiteSpace: 'nowrap'}}
                       onChange={(event, data) => this.handleQuickFilterChange.call(this, event, data)}
             />
           ))
@@ -49,7 +51,7 @@ export default class Search extends Component {
           !isAuthorized &&
           <SignInModal trigger={<Button icon='filter' basic/>} handleSignIn={handleSignIn}/>
         }
-        <Button icon='sync' basic disabled={_.isEmpty(filters)} onClick={this.handleResetFilterButtonClick.bind(this)}/>
+        <Button icon='sync' basic disabled={_.isEmpty(filters) && _.isEmpty(searchTerm)} onClick={this.handleResetFilterButtonClick.bind(this)}/>
       </Input>
     )
   }

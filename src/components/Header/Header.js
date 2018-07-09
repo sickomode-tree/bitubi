@@ -12,6 +12,7 @@ export default class Header extends Component {
     cards: PropTypes.array.isRequired,
     filters: PropTypes.object.isRequired,
     isAuthorized: PropTypes.bool.isRequired,
+    searchTerm: PropTypes.string.isRequired,
     changeFilterValue: PropTypes.func.isRequired,
     changeSearchTerm: PropTypes.func.isRequired,
     resetFilter: PropTypes.func.isRequired,
@@ -21,7 +22,7 @@ export default class Header extends Component {
   }
 
   render() {
-    const { cards, filters, isAuthorized, changeFilterValue, changeSearchTerm, resetFilter } = this.props
+    const { cards, filters, isAuthorized, changeFilterValue, changeSearchTerm, resetFilter, searchTerm } = this.props
 
     return (
       <Menu fixed={'top'} stackable borderless>
@@ -40,6 +41,7 @@ export default class Header extends Component {
               cards={cards}
               filters={filters}
               isAuthorized={isAuthorized}
+              searchTerm={searchTerm}
               changeFilterValue={changeFilterValue}
               changeSearchTerm={changeSearchTerm}
               handleSignIn={this.handleSignIn.bind(this)}

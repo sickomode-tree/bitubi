@@ -22,7 +22,7 @@ export default class CardGridGroup extends Component {
         {
           cards.map(card => {
             let CardComponent = () => getCardComponent(card)
-            console.log(CardComponent())
+
             return (
               <CardComponent key={card.id} />
             )

@@ -78,6 +78,7 @@ const ACTION_HANDLERS = {
   [RESET_FILTER]: (state, action) => ({
     ...state,
     filters: {},
+    searchTerm: '',
   }),
 };
 
@@ -85,8 +86,8 @@ const ACTION_HANDLERS = {
 // Reducer
 // ------------------------------------
 const initialState = {
-  searchTerm: '',
   filters: {},
+  searchTerm: '',
 };
 
 export default function filterReducer(state = initialState, action) {

@@ -2,7 +2,7 @@ import React from 'react'
 import {connect} from 'react-redux';
 import PropTypes from 'prop-types'
 import Header from 'components/Header/Header'
-import {Container, Segment} from 'semantic-ui-react'
+import {Container} from 'semantic-ui-react'
 import {sendAuthRequest, sendRegisterRequest, signOut} from 'store/auth';
 import {changeFilterValue, changeSearchTerm, resetFilter} from 'store/filter';
 import './DefaultLayout.scss'
@@ -12,6 +12,7 @@ const DefaultLayout = ({
                          cards,
                          filters,
                          isAuthorized,
+                         searchTerm,
                          changeFilterValue,
                          changeSearchTerm,
                          resetFilter,
@@ -24,6 +25,7 @@ const DefaultLayout = ({
       cards={cards}
       filters={filters}
       isAuthorized={isAuthorized}
+      searchTerm={searchTerm}
       changeFilterValue={changeFilterValue}
       changeSearchTerm={changeSearchTerm}
       resetFilter={resetFilter}
@@ -64,6 +66,7 @@ const mapStateToProps = (state) => {
     cards: state.products.products,
     filters: state.filter.filters,
     isAuthorized: state.auth.isAuthorized,
+    searchTerm: state.filter.searchTerm,
   }
 };
 
