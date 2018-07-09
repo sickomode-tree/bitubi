@@ -3,6 +3,7 @@ import PropTypes from 'prop-types'
 import _ from 'lodash'
 import {Card} from 'semantic-ui-react'
 import CardGrid from 'components/CardGrid/CardGrid'
+import ProductModal from 'components/ProductModal/ProductModal'
 import {getObjectValue} from 'utils/array'
 
 export default class Home extends Component {
@@ -92,7 +93,7 @@ export default class Home extends Component {
     const {filter} = this.props
 
     if (_.isEmpty(filter.filters) && _.isEmpty(filter.searchTerm)) {
-      return this.getSubcategoryCardComponent.call(this,card)
+      return this.getSubcategoryCardComponent.call(this, card)
     }
 
     return this.getProductCardComponent.call(this, card)
@@ -108,11 +109,18 @@ export default class Home extends Component {
   }
 
   getProductCardComponent(card) {
-    return <Card
-      header={card.provider.name}
-      meta={card.provider.city}
-      description={card.description}
-      style={{flex: '0 1 25%'}}
-    />
+    return (
+      <ProductModal
+        card={card}
+        trigger={
+          <Card
+            header={card.provider.name}
+            meta={card.provider.city}
+            description={card.description}
+            style={{flex: '0 1 25%'}}
+          />
+        }
+      />
+    )
   }
 }
