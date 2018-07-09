@@ -19,7 +19,7 @@ const DefaultLayout = ({
                          sendRegisterRequest,
                          signOut,
                        }) => (
-  <div style={{display: 'flex', flexDirection: 'column'}}>
+  <div style={{display: 'flex', flexDirection: 'column', height: '100%'}}>
     <Header
       cards={cards}
       filters={filters}
@@ -31,7 +31,7 @@ const DefaultLayout = ({
       sendRegisterRequest={sendRegisterRequest}
       signOut={signOut}
     />
-    <Container style={{display: 'flex'}}>
+    <Container style={{display: 'flex', height: '100%'}}>
       {children}
     </Container>
   </div>

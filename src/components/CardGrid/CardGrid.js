@@ -1,13 +1,14 @@
 import React, {Component} from "react";
 import PropTypes from "prop-types";
 import _ from 'lodash'
-import { Button, Grid, Icon, Segment } from 'semantic-ui-react'
+import {Button, Grid, Segment} from 'semantic-ui-react'
 import CardGridGroup from './components/CardGridGroup/CardGridGroup'
 
 export default class CardGrid extends Component {
   static propTypes = {
     cards: PropTypes.array.isRequired,
     groupKey: PropTypes.string.isRequired,
+    getCardComponent: PropTypes.func.isRequired,
   }
 
   state = {
@@ -21,10 +22,14 @@ export default class CardGrid extends Component {
   }
 
   render() {
+    const {getCardComponent} = this.props
+
     return (
       <section style={{display: 'flex', width: '100%'}}>
-        <Button onClick={this.showPreviousCardGroup.bind(this)} style={{position: 'fixed', top: '50%', left: 20}} icon='angle left'/>
-        <Button onClick={this.showNextCardGroup.bind(this)} style={{position: 'fixed', top: '50%', right: 20}} icon='angle right'/>
+        <Button onClick={this.showPreviousCardGroup.bind(this)} style={{position: 'fixed', top: '50%', left: 20}}
+                icon='angle left'/>
+        <Button onClick={this.showNextCardGroup.bind(this)} style={{position: 'fixed', top: '50%', right: 20}}
+                icon='angle right'/>
 
         <Grid columns={3} style={{overflow: 'hidden', width: '100%'}}>
           <Grid.Row>
@@ -44,7 +49,7 @@ export default class CardGrid extends Component {
                   >
                     {group.title}
                   </Segment>
-                  <CardGridGroup cards={group.cards}/>
+                  <CardGridGroup cards={group.cards} getCardComponent={getCardComponent}/>
                 </Grid.Column>
               ))
             }
@@ -81,7 +86,7 @@ export default class CardGrid extends Component {
   }
 
   showPreviousCardGroup() {
-    const { groups } = this.state;
+    const {groups} = this.state;
 
     groups.unshift(groups.pop());
 
@@ -91,7 +96,7 @@ export default class CardGrid extends Component {
   }
 
   showNextCardGroup() {
-    const { groups } = this.state;
+    const {groups} = this.state;
 
     groups.push(groups.shift());
 

@@ -1,27 +1,32 @@
-import React, {Component} from "react";
-import PropTypes from "prop-types";
-import { Card } from 'semantic-ui-react'
+import React, {Component} from 'react'
+import PropTypes from 'prop-types'
+import {Card} from 'semantic-ui-react'
 
 export default class CardGridGroup extends Component {
   static propTypes = {
     cards: PropTypes.array.isRequired,
+    getCardComponent: PropTypes.func.isRequired,
   }
 
   render() {
-    const { cards } = this.props
+    const {cards, getCardComponent} = this.props
 
     return (
-      <Card.Group itemsPerRow={1} style={{overflow: 'hidden', display: 'flex', flexDirection: 'column', height: '100%', padding: '1em'}}>
+      <Card.Group itemsPerRow={1} style={{
+        overflow: 'hidden',
+        display: 'flex',
+        flexDirection: 'column',
+        height: '100%',
+        padding: '1em',
+      }}>
         {
-          cards.map(card =>
-            <Card
-              key={card.id}
-              header={card.provider.name}
-              meta={card.provider.city}
-              description={card.description}
-              style={{flex: '0 1 25%'}}
-            />
-          )
+          cards.map(card => {
+            let CardComponent = () => getCardComponent(card)
+            console.log(CardComponent())
+            return (
+              <CardComponent key={card.id} />
+            )
+          })
         }
       </Card.Group>
     )

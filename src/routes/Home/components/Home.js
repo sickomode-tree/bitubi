@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import _ from 'lodash'
+import {Card} from 'semantic-ui-react'
 import CardGrid from 'components/CardGrid/CardGrid'
 import {getObjectValue} from 'utils/array'
 
@@ -21,6 +22,7 @@ export default class Home extends Component {
     return (
       <CardGrid
         cards={cards}
+        getCardComponent={this.getCardComponent.bind(this)}
         groupKey='category.title'
       />
     )
@@ -54,5 +56,14 @@ export default class Home extends Component {
     console.log(cards)
 
     return cards;
+  }
+
+  getCardComponent(card) {
+    return <Card
+      header={card.provider.name}
+      meta={card.provider.city}
+      description={card.description}
+      style={{flex: '0 1 25%'}}
+    />
   }
 }
