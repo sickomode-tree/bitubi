@@ -1,20 +1,15 @@
 import _ from 'lodash'
+import {loadState} from "./localStorage";
 
 const tokenKey = 'accessToken';
 
 export function checkAuth() {
-  const token = getToken();
+  const { token } = loadState().auth
   return !_.isNil(token);
 }
 
-export function setToken(token) {
-  return localStorage.setItem(tokenKey, token)
-}
-
 export function getToken() {
-  return localStorage.getItem(tokenKey)
-}
+  const { token } = loadState().auth
 
-export function removeToken() {
-  return localStorage.removeItem(tokenKey)
+  return token
 }

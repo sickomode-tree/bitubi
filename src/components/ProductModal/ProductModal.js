@@ -6,10 +6,11 @@ export default class ProductModal extends Component {
   static propTypes = {
     card: PropTypes.object.isRequired,
     trigger: PropTypes.node,
+    saveToHistory: PropTypes.func.isRequired,
   }
 
   render() {
-    const {card, trigger} = this.props
+    const {card, trigger, saveToHistory} = this.props
 
     return (
       <Modal
@@ -17,6 +18,7 @@ export default class ProductModal extends Component {
         size='tiny'
         className='scrolling'
         style={{height: 'fit-content'}}
+        onOpen={() => saveToHistory(card.id)}
       >
         <Modal.Header>{card.provider.name}</Modal.Header>
         <Modal.Content>

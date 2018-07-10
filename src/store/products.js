@@ -7,7 +7,6 @@ import {getToken} from 'utils/auth'
 export const PRODUCTS_FETCH_ERROR = 'PRODUCTS_FETCH_ERROR'
 export const PRODUCTS_FETCH_SUCCESS = 'PRODUCTS_FETCH_SUCCESS'
 export const PRODUCTS_IS_LOADING = 'PRODUCTS_IS_LOADING'
-export const PRODUCT_SAVE_TO_HISTORY = 'PRODUCT_SAVE_TO_HISTORY'
 
 // ------------------------------------
 // Actions
@@ -16,7 +15,7 @@ export const PRODUCT_SAVE_TO_HISTORY = 'PRODUCT_SAVE_TO_HISTORY'
 export function onFetchStart(bool) {
   return {
     type: PRODUCTS_IS_LOADING,
-    isLoading: bool
+    isLoading: bool,
   }
 }
 
@@ -30,13 +29,7 @@ export function onFetchSuccess(json) {
 export function onFetchError(bool) {
   return {
     type: PRODUCTS_FETCH_ERROR,
-    hasErrored: bool
-  }
-}
-
-export function onSaveToHistorySuccess() {
-  return {
-    type: PRODUCT_SAVE_TO_HISTORY,
+    hasErrored: bool,
   }
 }
 
@@ -65,38 +58,6 @@ export function fetchProducts() {
   };
 }
 
-export function saveToHistory(id) {
-  const formData = new FormData()
-  const url = '/test/private/user/history'
-
-  formData.append('id', id)
-
-  return (dispatch) => {
-    dispatch(onFetchStart(true))
-
-    fetch(url, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/x-www-form-urlencoded',
-        'Authorization': `Bearer ${getToken()}`
-      },
-      body: new URLSearchParams(formData),
-    })
-      .then(response => {
-        if (!response.ok) {
-          throw Error(response.statusText)
-        }
-
-        dispatch(onFetchStart(false))
-
-        return response
-      })
-      .then(response => response.json())
-      .then(json => dispatch(onSaveToHistorySuccess()))
-      .catch(error => dispatch(onFetchError(true)))
-  };
-}
-
 export function errorAfterFiveSeconds() {
   return (dispatch) => {
     setTimeout(() => {
@@ -107,7 +68,6 @@ export function errorAfterFiveSeconds() {
 
 export const actions = {
   fetchProducts,
-  saveToHistory,
 };
 
 // ------------------------------------
@@ -125,9 +85,6 @@ const ACTION_HANDLERS = {
   [PRODUCTS_FETCH_SUCCESS]: (state, action) => ({
     ...state,
     products: action.products
-  }),
-  [PRODUCT_SAVE_TO_HISTORY]: (state, action) => ({
-    ...state,
   }),
 };
 

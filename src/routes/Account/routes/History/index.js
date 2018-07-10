@@ -10,7 +10,7 @@ export default (store) => ({
       /*  Webpack - use require callback to define
           dependencies for bundling   */
       const Profile = require('./containers/HistoryContainer').default
-      const reducer = require('./modules/counter').default
+      const reducer = require('./modules/history').default
 
       /*  Add the reducer to the store on key 'counter'  */
       injectReducer(store, { key: 'history', reducer })

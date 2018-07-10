@@ -81,6 +81,7 @@ export default class Search extends Component {
       value = data.value;
 
     this.props.changeFilterValue(filter, value)
+    browserHistory.push('/')
   }
 
   handleSearchInputKeyPress(event) {
@@ -91,7 +92,8 @@ export default class Search extends Component {
   }
 
   handleResetFilterButtonClick() {
-    this.props.resetFilter();
+    this.props.resetFilter()
+    browserHistory.push('/')
   }
 
   handleSearchButtonClick() {
