@@ -7,12 +7,13 @@ import CardGridGroup from './components/CardGridGroup/CardGridGroup'
 export default class CardGrid extends Component {
   static propTypes = {
     cards: PropTypes.array.isRequired,
-    groupKey: PropTypes.string.isRequired,
     getCardComponent: PropTypes.func.isRequired,
+    groupKey: PropTypes.string.isRequired,
   }
 
   state = {
-    groups: this.getGroups.call(this, this.props.cards, this.props.groupKey)
+    groups: this.getGroups.call(this, this.props.cards, this.props.groupKey),
+    groupCount: 3,
   }
 
   componentWillReceiveProps(nextProps) {
@@ -23,18 +24,24 @@ export default class CardGrid extends Component {
 
   render() {
     const {getCardComponent} = this.props
+    const {groups, groupCount} = this.state
 
     return (
       <section style={{display: 'flex', width: '100%'}}>
+      {
+        groups.length > groupCount &&
         <Button onClick={this.showPreviousCardGroup.bind(this)} style={{position: 'fixed', top: '50%', left: 20}}
                 icon='angle left'/>
+      }
+      {
+        groups.length > groupCount &&
         <Button onClick={this.showNextCardGroup.bind(this)} style={{position: 'fixed', top: '50%', right: 20}}
                 icon='angle right'/>
-
-        <Grid columns={3} style={{overflow: 'hidden', width: '100%'}}>
+      }
+        <Grid columns={groupCount} style={{overflow: 'hidden', width: '100%'}}>
           <Grid.Row>
             {
-              this.state.groups.map(group => (
+              groups.map(group => (
                 <Grid.Column key={group.title} style={{display: 'flex', flexDirection: 'column', height: '100%'}}>
                   <Segment
                     basic

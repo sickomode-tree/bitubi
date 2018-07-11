@@ -35,7 +35,7 @@ export default class Search extends Component {
           [{title: 'Город', key: 'provider.city'}, {title: 'Категория', key: 'category.title'}].map(quickFilter => (
             <Dropdown key={quickFilter.key} name={quickFilter.key} placeholder={quickFilter.title}
                       options={this.getOptions.call(this, quickFilter.key)} value={filters[quickFilter.key] || null}
-                      search={true} selection={true}
+                      search={true} selection={true} noResultsMessage='Нет результатов.'
                       selectOnBlur={false} selectOnNavigation={false} wrapSelection={false}
                       style={{width: 100, whiteSpace: 'nowrap'}}
                       onChange={(event, data) => this.handleQuickFilterChange.call(this, event, data)}
