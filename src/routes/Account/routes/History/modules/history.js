@@ -90,7 +90,7 @@ const initialState = {
   isErrored: false,
 };
 
-export default function counterReducer (state = initialState, action) {
+export default function historyReducer (state = initialState, action) {
   const handler = ACTION_HANDLERS[action.type]
 
   return handler ? handler(state, action) : state

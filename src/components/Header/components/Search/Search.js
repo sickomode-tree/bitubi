@@ -1,7 +1,7 @@
 import React, {Component} from 'react'
 import {browserHistory} from 'react-router'
 import PropTypes from 'prop-types'
-import {Button, Input, Dropdown} from 'semantic-ui-react'
+import {Button, Icon, Input, Dropdown, Label} from 'semantic-ui-react'
 import {getValues} from 'utils/array'
 import SignInModal from '../SignInModal/SignInModal'
 import _ from "lodash";
@@ -45,13 +45,14 @@ export default class Search extends Component {
         {
           isAuthorized &&
           // <FilterModal/>
-          <Button icon='filter' basic/>
+          <Button icon basic><Icon name='filter' color={_.isEmpty(filters) ? 'grey' : 'green'}/></Button>
         }
         {
           !isAuthorized &&
           <SignInModal trigger={<Button icon='filter' basic/>} handleSignIn={handleSignIn}/>
         }
-        <Button icon='sync' basic disabled={_.isEmpty(filters) && _.isEmpty(searchTerm)} onClick={this.handleResetFilterButtonClick.bind(this)}/>
+        <Button icon='sync' basic disabled={_.isEmpty(filters) && _.isEmpty(searchTerm)}
+                onClick={this.handleResetFilterButtonClick.bind(this)}/>
       </Input>
     )
   }

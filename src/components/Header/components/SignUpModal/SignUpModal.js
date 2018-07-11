@@ -43,7 +43,7 @@ class SignUpModal extends Component {
   handleSubmit(event) {
     const { handleSignUp } = this.props
     const form = event.target;
-debugger;
+
     handleSignUp(form);
   }
 }

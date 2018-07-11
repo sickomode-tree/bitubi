@@ -1,6 +1,6 @@
 import React, {Component} from 'react'
 import PropTypes from 'prop-types'
-import {Card, Grid} from 'semantic-ui-react'
+import {Card} from 'semantic-ui-react'
 
 export default class History extends Component {
   static propTypes = {
