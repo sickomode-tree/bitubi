@@ -1,6 +1,6 @@
 import React, {Component} from 'react'
 import PropTypes from 'prop-types'
-import {Modal} from 'semantic-ui-react'
+import {Button, Icon, Modal} from 'semantic-ui-react'
 
 export default class ProductModal extends Component {
   static propTypes = {
@@ -10,12 +10,12 @@ export default class ProductModal extends Component {
   }
 
   render() {
-    const {card, trigger, saveToHistory} = this.props
+    const {card, trigger, saveToFavourites, saveToHistory} = this.props
 
     return (
       <Modal
         trigger={trigger || <a className='item'>Продукт</a>}
-        size='tiny'
+        size='large'
         className='scrolling'
         style={{height: 'fit-content'}}
         onOpen={() => saveToHistory(card.id)}
@@ -26,9 +26,15 @@ export default class ProductModal extends Component {
           <p>{card.description}</p>
         </Modal.Content>
         <Modal.Actions>
-
+          <Button basic icon='outline star' content='Сохранить' color='yellow' onClick={this.saveToFavourites.bind(this, card.id)}/>
         </Modal.Actions>
       </Modal>
     )
+  }
+
+  saveToFavourites(id) {
+    const {saveToFavourites} = this.props
+
+    saveToFavourites(id)
   }
 }

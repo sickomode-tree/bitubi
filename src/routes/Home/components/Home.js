@@ -12,6 +12,7 @@ export default class Home extends Component {
     products: PropTypes.array.isRequired,
     fetchProducts: PropTypes.func.isRequired,
     changeFilterValue: PropTypes.func.isRequired,
+    saveToFavourites: PropTypes.func.isRequired,
     saveToHistory: PropTypes.func.isRequired,
   }
 
@@ -115,11 +116,12 @@ export default class Home extends Component {
   }
 
   getProductCardComponent(card) {
-    const {saveToHistory} = this.props
+    const {saveToFavourites, saveToHistory} = this.props
 
     return (
       <ProductModal
         card={card}
+        saveToFavourites={saveToFavourites}
         saveToHistory={saveToHistory}
         trigger={
           <Card
