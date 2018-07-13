@@ -37,7 +37,10 @@ export default class Profile extends Component {
         <Grid.Row>
           <Grid.Column width={4}>
             <Card fluid>
-              <Image src='https://react.semantic-ui.com/images/avatar/large/matthew.png'/>
+              <Image
+                src='https://react.semantic-ui.com/images/avatar/large/matthew.png'
+                label={user.userType && {content: user.userType, icon: 'key', ribbon: true}}
+              />
               <Card.Content>
                 <Card.Header></Card.Header>
               </Card.Content>
