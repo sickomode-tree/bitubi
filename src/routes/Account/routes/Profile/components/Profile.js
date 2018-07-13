@@ -6,7 +6,6 @@ import {
   Header,
   Icon,
   Image,
-  Item,
   Segment,
   Table,
 } from 'semantic-ui-react'
@@ -22,50 +21,50 @@ export default class Profile extends Component {
   }
 
   render() {
-    const { user } = this.props
+    const {user} = this.props
+    const userInfo = [
+      {code: 'login', title: 'Логин'},
+      {code: 'city', title: 'Город'},
+      {code: 'district', title: 'Район'},
+      {code: 'address', title: 'Адрес'},
+      {code: 'email', title: 'Email'},
+      {code: 'phoneNumber', title: 'Телефон'},
+      {code: 'url', title: 'Сайт'},
+    ]
 
     return (
       <Grid>
         <Grid.Row>
           <Grid.Column width={4}>
             <Card fluid>
-              <Image src='https://react.semantic-ui.com/images/avatar/large/matthew.png' />
+              <Image src='https://react.semantic-ui.com/images/avatar/large/matthew.png'/>
               <Card.Content>
                 <Card.Header></Card.Header>
               </Card.Content>
               <Card.Content extra>
                 {
                   user.verified
-                  ? <div><Icon name='check circle' size='large' color='green' /> Подтвержден</div>
-                  : <div><Icon name='question circle' size='large' color='yellow' /> На рассмотрении</div>
+                    ? <div><Icon name='check circle' size='large' color='green'/> Подтвержден</div>
+                    : <div><Icon name='question circle' size='large' color='yellow'/> На рассмотрении</div>
                 }
               </Card.Content>
             </Card>
           </Grid.Column>
           <Grid.Column width={12}>
             <Segment>
-              <Header as='h1'>{ user.username }</Header>
+              <Header as='h1'>{user.firstName} {user.lastName}</Header>
             </Segment>
             <Table>
               <Table.Body>
-                <Table.Row>
-                  <Table.Cell>Логин</Table.Cell>
-                  <Table.Cell>
-                    {user.login}
-                  </Table.Cell>
-                </Table.Row>
-                <Table.Row>
-                  <Table.Cell>Email</Table.Cell>
-                  <Table.Cell>
-                    {user.email}
-                  </Table.Cell>
-                </Table.Row>
-                <Table.Row>
-                  <Table.Cell>Контакты</Table.Cell>
-                  <Table.Cell>
-                    {user.contactInfo}
-                  </Table.Cell>
-                </Table.Row>
+                {
+                  userInfo.map(info => (
+                    !_.isEmpty(user[info.code]) &&
+                    <Table.Row>
+                      <Table.Cell>{info.title}</Table.Cell>
+                      <Table.Cell>{user[info.code]}</Table.Cell>
+                    </Table.Row>
+                  ))
+                }
               </Table.Body>
             </Table>
           </Grid.Column>
