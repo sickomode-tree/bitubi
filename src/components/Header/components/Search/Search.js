@@ -4,6 +4,7 @@ import PropTypes from 'prop-types'
 import {Button, Icon, Input, Dropdown, Label} from 'semantic-ui-react'
 import {getValues} from 'utils/array'
 import SignInModal from '../SignInModal/SignInModal'
+import FilterModal from '../FilterModal/FilterModal'
 import _ from "lodash";
 
 export default class Search extends Component {
@@ -24,6 +25,10 @@ export default class Search extends Component {
 
   render() {
     const {filters, isAuthorized, searchTerm, handleSignIn} = this.props
+    const quickFilters = [
+      {title: 'Город', key: 'provider.city'},
+      {title: 'Категория', key: 'category.title'},
+    ]
 
     return (
       <Input placeholder='Поиск...' action>
@@ -32,20 +37,25 @@ export default class Search extends Component {
           onKeyPress={event => this.handleSearchInputKeyPress.call(this, event)}
         />
         {
-          [{title: 'Город', key: 'provider.city'}, {title: 'Категория', key: 'category.title'}].map(quickFilter => (
+          quickFilters.map(quickFilter => (
             <Dropdown key={quickFilter.key} name={quickFilter.key} placeholder={quickFilter.title}
                       options={this.getOptions.call(this, quickFilter.key)} value={filters[quickFilter.key] || null}
                       search={true} selection={true} noResultsMessage='Нет результатов.'
                       selectOnBlur={false} selectOnNavigation={false} wrapSelection={false}
                       style={{width: 100, whiteSpace: 'nowrap'}}
-                      onChange={(event, data) => this.handleQuickFilterChange.call(this, event, data)}
+                      onChange={(event, data) => this.handleFilterChange.call(this, event, data)}
             />
           ))
         }
         {
           isAuthorized &&
-          // <FilterModal/>
-          <Button icon basic><Icon name='filter' color={_.isEmpty(filters) ? 'grey' : 'green'}/></Button>
+          <FilterModal
+            trigger={<Button icon basic><Icon name='filter' color={_.isEmpty(filters) ? 'grey' : 'green'}/></Button>}
+            filters={filters}
+            getOptions={this.getOptions.bind(this)}
+            handleFilterChange={this.handleFilterChange.bind(this)}
+            handleResetFilterButtonClick={this.handleResetFilterButtonClick.bind(this)}
+          />
         }
         {
           !isAuthorized &&
@@ -77,7 +87,7 @@ export default class Search extends Component {
     });
   }
 
-  handleQuickFilterChange(event, data) {
+  handleFilterChange(event, data) {
     const filter = data.name,
       value = data.value;
 
