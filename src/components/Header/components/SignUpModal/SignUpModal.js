@@ -9,13 +9,13 @@ class SignUpModal extends Component {
   }
 
   state = {
-    selectedRole: 'customer',
+    selectedUserType: 'customer',
   }
 
   render() {
     const {trigger} = this.props
-    const {selectedRole} = this.state
-    const roles = [
+    const {selectedUserType} = this.state
+    const userTypes = [
       {code: 'customer', name: 'Покупатель'},
       {code: 'provider', name: 'Поставщик'},
     ]
@@ -33,18 +33,18 @@ class SignUpModal extends Component {
             id='registerForm'
             onSubmit={this.handleSubmit.bind(this)}
           >
-            <Menu fluid size='tiny' widths={roles.length}>
+            <Menu fluid size='tiny' widths={userTypes.length}>
               {
-                roles.map(role => (
+                userTypes.map(userType => (
                   <Menu.Item
-                    key={role.code}
-                    name={role.name}
-                    active={selectedRole === role.code}
-                    onClick={this.handleRoleSelectChange.bind(this, role.code)}
+                    key={userType.code}
+                    name={userType.name}
+                    active={selectedUserType === userType.code}
+                    onClick={this.handleUserTypeSelectChange.bind(this, userType.code)}
                   />
                 ))
               }
-              <input type='hidden' name='role' value={selectedRole}/>
+              <input type='hidden' name='userType' value={selectedUserType}/>
             </Menu>
             <Form.Group>
               <Form.Input name='firstName' label='Имя' placeholder='Имя' width={8} required/>
@@ -62,8 +62,8 @@ class SignUpModal extends Component {
     )
   }
 
-  handleRoleSelectChange(role) {
-    this.setState({selectedRole: role})
+  handleUserTypeSelectChange(userType) {
+    this.setState({selectedUserType: userType})
   }
 
   handleSubmit(event) {

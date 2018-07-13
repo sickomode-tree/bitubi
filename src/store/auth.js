@@ -99,7 +99,7 @@ export function sendRegisterRequest(form) {
         return response;
       })
       .then(response => response.json())
-      .then(json => dispatch(console.log(json)))
+      .then(json => dispatch(onSendRequestSuccess(json)))
       .catch(error => dispatch(onSendRequestError(true)))
   };
 }
