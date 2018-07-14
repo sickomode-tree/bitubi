@@ -5,35 +5,11 @@ import {Button, Dropdown, Form, Modal, TextArea} from 'semantic-ui-react'
 class TenderFormModal extends Component {
   static propTypes = {
     trigger: PropTypes.node,
-    categories: PropTypes.array.isRequired,
-    subcategories: PropTypes.array.isRequired,
     saveTender: PropTypes.func.isRequired,
-    fetchCategories: PropTypes.func.isRequired,
-    fetchSubcategories: PropTypes.func.isRequired,
-  }
-
-  state = {
-    category: null,
-    subcategory: null,
-  }
-
-  componentDidMount() {
-    const {fetchCategories, fetchSubcategories} = this.props
-
-    fetchCategories()
-    fetchSubcategories()
   }
 
   render() {
-    const {categories, subcategories, trigger} = this.props
-    const {category, subcategory} = this.state
-
-    const categoryOptions = categories.map(category => ({key: category.id, value: category.id, text: category.title}))
-    const subcategoryOptions = subcategories.map(subcategory => ({
-      key: subcategory.id,
-      value: subcategory.id,
-      text: subcategory.title
-    }))
+    const {trigger} = this.props
 
     return (
       <Modal
@@ -51,17 +27,8 @@ class TenderFormModal extends Component {
             <Form.Input name='title' label='Название' placeholder='Название' required/>
             <Form.Input name='amount' label='Количество' placeholder='Количество' type='number' required/>
             <Form.Group>
-              <Form.Field label='Категория' control={Dropdown} selection placeholder='Категория'
-                          options={categoryOptions}
-                          value={category}
-                          onChange={this.handleSelectChange.bind(this, 'category')}
-                          width={8} required/>
-
-              <Form.Select label='Подкатегория' placeholder='Подкатегория'
-                           options={subcategoryOptions}
-                           value={subcategory}
-                           onChange={this.handleSelectChange.bind(this, 'subcategory')}
-                           width={8} required/>
+              <Form.Select label='Категория' options={[]} placeholder='Категория' width={8} required/>
+              <Form.Select label='Подкатегория' options={[]} placeholder='Подкатегория' width={8} required/>
             </Form.Group>
             <Form.Group>
               <Form.Input name='price' label='Ожидаемая цена' placeholder='Ожидаемая цена' width={8} type='number'/>
@@ -79,10 +46,6 @@ class TenderFormModal extends Component {
         </Modal.Actions>
       </Modal>
     )
-  }
-
-  handleSelectChange = (key, event, field) => {
-    this.setState({[key]: field.value})
   }
 
   handleSubmit(event) {
