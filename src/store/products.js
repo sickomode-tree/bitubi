@@ -19,10 +19,11 @@ export function onFetchStart(bool) {
   }
 }
 
-export function onFetchSuccess(json) {
+export function onFetchSuccess(key, json) {
   return {
     type: PRODUCTS_FETCH_SUCCESS,
-    products: json,
+    key: key,
+    value: json,
   }
 }
 
@@ -53,7 +54,51 @@ export function fetchProducts() {
         return response;
       })
       .then(response => response.json())
-      .then(json => dispatch(onFetchSuccess(json)))
+      .then(json => dispatch(onFetchSuccess('products', json)))
+      .catch(error => dispatch(onFetchError(true)))
+  };
+}
+
+export function fetchCategories() {
+  const url = '/test/public/categories'
+
+  return (dispatch) => {
+    dispatch(onFetchStart(true))
+
+    fetch(url)
+      .then(response => {
+        if (!response.ok) {
+          throw Error(response.statusText)
+        }
+
+        dispatch(onFetchStart(false))
+
+        return response;
+      })
+      .then(response => response.json())
+      .then(json => dispatch(onFetchSuccess('categories', json)))
+      .catch(error => dispatch(onFetchError(true)))
+  };
+}
+
+export function fetchSubcategories() {
+  const url = '/test/public/subcategories'
+
+  return (dispatch) => {
+    dispatch(onFetchStart(true))
+
+    fetch(url)
+      .then(response => {
+        if (!response.ok) {
+          throw Error(response.statusText)
+        }
+
+        dispatch(onFetchStart(false))
+
+        return response;
+      })
+      .then(response => response.json())
+      .then(json => dispatch(onFetchSuccess('subcategories', json)))
       .catch(error => dispatch(onFetchError(true)))
   };
 }
@@ -68,6 +113,8 @@ export function errorAfterFiveSeconds() {
 
 export const actions = {
   fetchProducts,
+  fetchCategories,
+  fetchSubcategories,
 };
 
 // ------------------------------------
@@ -84,7 +131,7 @@ const ACTION_HANDLERS = {
   }),
   [PRODUCTS_FETCH_SUCCESS]: (state, action) => ({
     ...state,
-    products: action.products
+    [action.key]: action.value
   }),
 };
 

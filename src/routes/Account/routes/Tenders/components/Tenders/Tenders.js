@@ -6,8 +6,12 @@ import TenderFormModal from './components/TenderFormModal/TenderFormModal'
 export default class Tenders extends Component {
   static propTypes = {
     items: PropTypes.array.isRequired,
+    categories: PropTypes.array.isRequired,
+    subcategories: PropTypes.array.isRequired,
     fetchTenders: PropTypes.func.isRequired,
     saveTender: PropTypes.func.isRequired,
+    fetchCategories: PropTypes.func.isRequired,
+    fetchSubcategories: PropTypes.func.isRequired,
   }
 
   componentDidMount() {
@@ -15,14 +19,18 @@ export default class Tenders extends Component {
   }
 
   render() {
-    const {items, saveTender} = this.props
+    const {items, categories, subcategories, saveTender, fetchCategories, fetchSubcategories} = this.props
 
     return (
       <div style={{flex: 1}}>
         <h2>Тендеры</h2>
         <Card.Group itemsPerRow={2}>
           <TenderFormModal
+            categories={categories}
+            subcategories={subcategories}
             saveTender={saveTender}
+            fetchCategories={fetchCategories}
+            fetchSubcategories={fetchSubcategories}
             trigger={
               <Card
                 fluid
