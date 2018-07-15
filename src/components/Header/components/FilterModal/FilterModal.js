@@ -1,6 +1,6 @@
 import React, {Component} from 'react'
 import PropTypes from 'prop-types'
-import {Button, Dropdown, Form, Item, Menu, Modal} from 'semantic-ui-react'
+import {Button, Dropdown, Form, Modal} from 'semantic-ui-react'
 
 class FilterModal extends Component {
   static propTypes = {

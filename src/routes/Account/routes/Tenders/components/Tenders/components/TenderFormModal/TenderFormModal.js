@@ -34,6 +34,7 @@ class TenderFormModal extends Component {
           subcategories: json.map(subcategory => ({
             value: subcategory.id,
             text: subcategory.title,
+            parent: subcategory.parent.id,
           }))
         })
       })
@@ -59,9 +60,12 @@ class TenderFormModal extends Component {
             <Form.Input name='title' label='Название' placeholder='Название' required/>
             <Form.Input name='amount' label='Количество' placeholder='Количество' type='number' required/>
             <Form.Group>
-              <Form.Select name='category' label='Категория' options={categories} value={category} placeholder='Категория' width={8} required onChange={this.handleSelectChange.bind(this)}/>
+              <Form.Select name='category' label='Категория' options={categories} value={category}
+                           placeholder='Категория' width={8} required onChange={this.handleSelectChange.bind(this)}/>
               <input type='hidden' name='category' value={category}/>
-              <Form.Select name='subcategory' label='Категория' options={subcategories} value={subcategory} placeholder='Подкатегория' width={8} required onChange={this.handleSelectChange.bind(this)}/>
+              <Form.Select name='subcategory' label='Подкатегория' options={subcategories.filter(subcategory => subcategory.parent === category)} value={subcategory}
+                           placeholder='Подкатегория' width={8} required onChange={this.handleSelectChange.bind(this)}
+                           disabled={_.isNil(category)}/>
               <input type='hidden' name='subcategory' value={subcategory}/>
             </Form.Group>
             <Form.Group>
@@ -77,7 +81,7 @@ class TenderFormModal extends Component {
           </Form>
         </Modal.Content>
         <Modal.Actions>
-          <Button positive type='submit' form='tenderForm' icon='checkmark' labelPosition='right' content='Далее'/>
+          <Button positive type='submit' form='tenderForm' icon='checkmark' labelPosition='right' content='Создать'/>
         </Modal.Actions>
       </Modal>
     )
@@ -85,9 +89,9 @@ class TenderFormModal extends Component {
 
   handleSubmit(event) {
     const {saveTender} = this.props
-    const form = event.target;
+    const form = event.target
 
-    saveTender(form);
+    saveTender(form)
   }
 
   handleSelectChange(event, field) {
