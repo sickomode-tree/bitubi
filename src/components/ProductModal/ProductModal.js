@@ -26,7 +26,10 @@ export default class ProductModal extends Component {
           <p>{card.description}</p>
         </Modal.Content>
         <Modal.Actions>
-          <Button basic icon='outline star' content='Сохранить' color='yellow' onClick={this.saveToFavourites.bind(this, card.id)}/>
+          <Button basic={!card.favourite} icon={`star${!card.favourite ? ' outline' : ''}`}
+                  content={card.favourite ? 'Убрать из закладок' : 'Сохранить'}
+                  color={card.favourite ? 'yellow' : 'twitter'}
+                  onClick={this.saveToFavourites.bind(this, card.id)}/>
         </Modal.Actions>
       </Modal>
     )

@@ -1,7 +1,7 @@
 import React, {Component} from 'react'
 import PropTypes from 'prop-types'
 import _ from 'lodash'
-import {Card} from 'semantic-ui-react'
+import {Card, Icon} from 'semantic-ui-react'
 import CardGrid from 'components/CardGrid/CardGrid'
 import ProductModal from 'components/ProductModal/ProductModal'
 import {getObjectValue} from 'utils/array'
@@ -128,7 +128,11 @@ export default class Home extends Component {
             header={card.provider.name}
             meta={card.provider.city}
             description={card.description}
+            extra={
+              card.favourite && <Icon name='star' color='yellow'/>
+            }
             style={{flex: '0 1 25%'}}
+            color={card.favourite && 'yellow'}
           />
         }
       />

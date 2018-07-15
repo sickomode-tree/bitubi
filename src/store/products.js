@@ -41,9 +41,10 @@ export function onSaveToHistorySuccess() {
   }
 }
 
-export function onSaveToFavouritesSuccess() {
+export function onSaveToFavouritesSuccess(id) {
   return {
     type: PRODUCT_SAVE_TO_FAVOURITES,
+    id: id,
   }
 }
 
@@ -53,12 +54,19 @@ export function onSaveToFavouritesSuccess() {
 export function fetchProducts() {
   const isAuthorized = checkAuthorized()
   const controller = isAuthorized ? 'private' : 'public'
-  const url = `/test/${'public'}/products`
+  const url = `/test/${controller}/products`
 
-  return (dispatch) => {
+  return (dispatch, getState) => {
+    const token = getState().auth.token
+
     dispatch(onFetchStart(true))
 
-    fetch(url)
+    fetch(url, {
+      headers: {
+        'Content-Type': 'application/x-www-form-urlencoded',
+        'Authorization': `Bearer ${token}`,
+      }
+    })
       .then(response => {
         if (!response.ok) {
           throw Error(response.statusText)
@@ -133,7 +141,7 @@ export function saveToFavourites(id) {
         return response
       })
       .then(response => response.json())
-      .then(json => dispatch(onSaveToFavouritesSuccess()))
+      .then(json => dispatch(onSaveToFavouritesSuccess(id)))
       .catch(error => dispatch(onFetchError(true)))
   };
 }
@@ -168,6 +176,15 @@ const ACTION_HANDLERS = {
     ...state,
     products: action.products
   }),
+  [PRODUCT_SAVE_TO_FAVOURITES]: (state, action) => ({
+    ...state,
+    products: state.products.map(product => {
+      if (product.id === action.id) {
+        product.favourite = !product.favourite
+      }
+      return product
+    })
+  })
 };
 
 // ------------------------------------
