@@ -1,6 +1,6 @@
 import React, {Component} from 'react'
 import PropTypes from 'prop-types'
-import {Button, Dropdown, Form, Modal, TextArea} from 'semantic-ui-react'
+import {Button, Form, Modal, TextArea} from 'semantic-ui-react'
 
 class TenderFormModal extends Component {
   static propTypes = {
@@ -8,8 +8,40 @@ class TenderFormModal extends Component {
     saveTender: PropTypes.func.isRequired,
   }
 
+  state = {
+    category: null,
+    subcategory: null,
+    categories: [],
+    subcategories: [],
+  }
+
+  componentDidMount() {
+    fetch('/test/public/categories')
+      .then(res => res.json())
+      .then(json => {
+        this.setState({
+          categories: json.map(category => ({
+            value: category.id,
+            text: category.title,
+          }))
+        })
+      })
+
+    fetch('/test/public/subcategories')
+      .then(res => res.json())
+      .then(json => {
+        this.setState({
+          subcategories: json.map(subcategory => ({
+            value: subcategory.id,
+            text: subcategory.title,
+          }))
+        })
+      })
+  }
+
   render() {
     const {trigger} = this.props
+    const {categories, category, subcategories, subcategory} = this.state
 
     return (
       <Modal
@@ -27,8 +59,10 @@ class TenderFormModal extends Component {
             <Form.Input name='title' label='Название' placeholder='Название' required/>
             <Form.Input name='amount' label='Количество' placeholder='Количество' type='number' required/>
             <Form.Group>
-              <Form.Select label='Категория' options={[]} placeholder='Категория' width={8} required/>
-              <Form.Select label='Подкатегория' options={[]} placeholder='Подкатегория' width={8} required/>
+              <Form.Select name='category' label='Категория' options={categories} value={category} placeholder='Категория' width={8} required onChange={this.handleSelectChange.bind(this)}/>
+              <input type='hidden' name='category' value={category}/>
+              <Form.Select name='subcategory' label='Категория' options={subcategories} value={subcategory} placeholder='Подкатегория' width={8} required onChange={this.handleSelectChange.bind(this)}/>
+              <input type='hidden' name='subcategory' value={subcategory}/>
             </Form.Group>
             <Form.Group>
               <Form.Input name='price' label='Ожидаемая цена' placeholder='Ожидаемая цена' width={8} type='number'/>
@@ -36,6 +70,7 @@ class TenderFormModal extends Component {
             </Form.Group>
             <Form.Field
               control={TextArea}
+              name='comment'
               label='Комментарий'
               placeholder='Комментарий'
             />
@@ -53,6 +88,11 @@ class TenderFormModal extends Component {
     const form = event.target;
 
     saveTender(form);
+  }
+
+  handleSelectChange(event, field) {
+    this.setState({[field.name]: field.value})
+    console.log(this.state)
   }
 }
 
