@@ -6,10 +6,12 @@ export default class Favourites extends Component {
   static propTypes = {
     items: PropTypes.array.isRequired,
     fetchHistory: PropTypes.func.isRequired,
+    resetFilter: PropTypes.func.isRequired,
   }
 
   componentDidMount() {
     this.props.fetchFavourites()
+    this.props.resetFilter()
   }
 
   render() {

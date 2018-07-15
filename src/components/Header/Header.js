@@ -30,7 +30,7 @@ export default class Header extends Component {
           {
             isAuthorized &&
             <Menu.Menu position='left'>
-              <IndexLink to='/' className='item' activeClassName='active'>Главная</IndexLink>
+              <IndexLink to='/' className='item' activeClassName='active' onClick={resetFilter}>Главная</IndexLink>
               <Link to='/account/tenders' className='item' activeClassName='active'>Тендеры</Link>
               <Link to='/account/favourites' className='item' activeClassName='active'>Закладки</Link>
               <Link to='/account/history' className='item' activeClassName='active'>История</Link>
@@ -86,6 +86,7 @@ export default class Header extends Component {
 
   handleSignOut() {
     this.props.signOut()
+    this.props.resetFilter()
     browserHistory.push('/')
   }
 }

@@ -6,10 +6,12 @@ export default class History extends Component {
   static propTypes = {
     items: PropTypes.array.isRequired,
     fetchHistory: PropTypes.func.isRequired,
+    resetFilter: PropTypes.func.isRequired,
   }
 
   componentDidMount() {
     this.props.fetchHistory()
+    this.props.resetFilter()
   }
 
   render() {

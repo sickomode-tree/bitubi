@@ -8,10 +8,12 @@ export default class Tenders extends Component {
     items: PropTypes.array.isRequired,
     fetchTenders: PropTypes.func.isRequired,
     saveTender: PropTypes.func.isRequired,
+    resetFilter: PropTypes.func.isRequired,
   }
 
   componentDidMount() {
     this.props.fetchTenders()
+    this.props.resetFilter()
   }
 
   render() {

@@ -1,5 +1,6 @@
 import {connect} from 'react-redux'
 import {fetchTenders, saveTender} from '../modules/tenders'
+import {resetFilter} from 'store/filter'
 
 /*  This is a container component. Notice it does not contain any JSX,
     nor does it import React. This component is **only** responsible for
@@ -15,6 +16,7 @@ import Tenders from '../components/Tenders/Tenders'
 const mapDispatchToProps = {
   fetchTenders,
   saveTender,
+  resetFilter,
 }
 
 const mapStateToProps = (state) => ({

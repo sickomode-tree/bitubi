@@ -1,5 +1,6 @@
-import { connect } from 'react-redux'
-import { fetchFavourites } from '../modules/favourites'
+import {connect} from 'react-redux'
+import {fetchFavourites} from '../modules/favourites'
+import {resetFilter} from 'store/filter'
 
 /*  This is a container component. Notice it does not contain any JSX,
     nor does it import React. This component is **only** responsible for
@@ -14,10 +15,11 @@ import Favourites from '../components/Favourites'
 
 const mapDispatchToProps = {
   fetchFavourites,
+  resetFilter,
 }
 
 const mapStateToProps = (state) => ({
-  items : state.favourites.items,
+  items: state.favourites.items,
 })
 
 /*  Note: mapStateToProps is where you should use `reselect` to create selectors, ie:

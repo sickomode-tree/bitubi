@@ -1,6 +1,6 @@
-import {connect} from 'react-redux';
-import {changeFilterValue} from 'store/filter';
-import {fetchProducts, saveToFavourites, saveToHistory} from '../modules/products';
+import {connect} from 'react-redux'
+import {changeFilterValue} from 'store/filter'
+import {fetchProducts, saveToFavourites, saveToHistory} from '../modules/products'
 
 /*  This is a container component. Notice it does not contain any JSX,
     nor does it import React. This component is **only** responsible for

@@ -14,10 +14,12 @@ export default class Profile extends Component {
   static propTypes = {
     user: PropTypes.object.isRequired,
     fetchUser: PropTypes.func.isRequired,
+    resetFilter: PropTypes.func.isRequired,
   }
 
   componentDidMount() {
     this.props.fetchUser()
+    this.props.resetFilter()
   }
 
   render() {

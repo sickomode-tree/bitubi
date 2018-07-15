@@ -17,7 +17,7 @@ export default class Home extends Component {
   }
 
   componentDidMount() {
-    this.props.fetchProducts();
+    this.props.fetchProducts()
   }
 
   render() {
