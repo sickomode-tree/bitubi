@@ -19,7 +19,7 @@ export default class CardGrid extends Component {
   componentWillReceiveProps(nextProps) {
     this.setState({
       groups: this.getGroups.call(this, nextProps.cards, nextProps.groupKey),
-    });
+    })
   }
 
   render() {
@@ -28,16 +28,16 @@ export default class CardGrid extends Component {
 
     return (
       <section style={{display: 'flex', width: '100%'}}>
-      {
-        groups.length > groupCount &&
-        <Button onClick={this.showPreviousCardGroup.bind(this)} style={{position: 'fixed', top: '50%', left: 20}}
-                icon='angle left'/>
-      }
-      {
-        groups.length > groupCount &&
-        <Button onClick={this.showNextCardGroup.bind(this)} style={{position: 'fixed', top: '50%', right: 20}}
-                icon='angle right'/>
-      }
+        {
+          groups.length > groupCount &&
+          <Button onClick={this.showPreviousCardGroup.bind(this)} style={{position: 'fixed', top: '50%', left: 20}}
+                  icon='angle left'/>
+        }
+        {
+          groups.length > groupCount &&
+          <Button onClick={this.showNextCardGroup.bind(this)} style={{position: 'fixed', top: '50%', right: 20}}
+                  icon='angle right'/>
+        }
         <Grid columns={groupCount} style={{overflow: 'hidden', width: '100%'}}>
           <Grid.Row>
             {
