@@ -30,13 +30,15 @@ export default class CardGrid extends Component {
       <section style={{display: 'flex', width: '100%'}}>
         {
           groups.length > groupCount &&
-          <Button onClick={this.showPreviousCardGroup.bind(this)} style={{position: 'fixed', top: '50%', left: 20}}
-                  icon='angle left'/>
+          <Button onClick={this.showPreviousCardGroup.bind(this)}
+                  style={{position: 'fixed', top: '50%', left: 20, boxShadow: 'none'}}
+                  icon='angle left' basic size='large'/>
         }
         {
           groups.length > groupCount &&
-          <Button onClick={this.showNextCardGroup.bind(this)} style={{position: 'fixed', top: '50%', right: 20}}
-                  icon='angle right'/>
+          <Button onClick={this.showNextCardGroup.bind(this)}
+                  style={{position: 'fixed', top: '50%', right: 20, boxShadow: 'none'}}
+                  icon='angle right' basic size='large'/>
         }
         <Grid columns={groupCount} style={{overflow: 'hidden', width: '100%'}}>
           <Grid.Row>
