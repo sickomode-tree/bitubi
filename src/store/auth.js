@@ -9,29 +9,33 @@ export const AUTH_REQUEST_SUCCESS = 'AUTH_REQUEST_SUCCESS';
 export const AUTH_REQUEST_ERROR = 'AUTH_REQUEST_ERROR';
 export const SIGN_OUT = 'SIGN_OUT';
 
+const defaultUserType = 'guest'
+
 // ------------------------------------
 // Actions
 // ------------------------------------
 
-export function onSendRequestStart(bool) {
+export function onAuthRequestSent(bool) {
   return {
     type: AUTH_REQUEST_SENT,
     isLoading: bool
   };
 }
 
-export function onSendRequestSuccess(json) {
-  const token = json.accessToken;
+export function onAuthRequestSuccess(json) {
+  const token = json.accessToken
+  const userType = json.userType || defaultUserType
 
   if (!_.isNil(token)) {
     return {
       type: AUTH_REQUEST_SUCCESS,
       token: token,
+      userType: userType,
     };
   }
 }
 
-export function onSendRequestError(bool) {
+export function onAuthRequestError(bool) {
   return {
     type: AUTH_REQUEST_ERROR,
     hasErrored: bool
@@ -51,7 +55,7 @@ export function sendAuthRequest(form) {
   const url = '/test/auth/signin';
 
   return (dispatch) => {
-    dispatch(onSendRequestStart(true));
+    dispatch(onAuthRequestSent(true));
 
     fetch(url, {
       method: 'POST',
@@ -65,13 +69,13 @@ export function sendAuthRequest(form) {
           throw Error(response.statusText);
         }
 
-        dispatch(onSendRequestStart(false));
+        dispatch(onAuthRequestSent(false));
 
         return response;
       })
       .then(response => response.json())
-      .then(json => dispatch(onSendRequestSuccess(json)))
-      .catch(error => dispatch(onSendRequestError(true)))
+      .then(json => dispatch(onAuthRequestSuccess(json)))
+      .catch(error => dispatch(onAuthRequestError(true)))
   };
 }
 
@@ -80,7 +84,7 @@ export function sendRegisterRequest(form) {
   const url = '/test/auth/signup';
 
   return (dispatch) => {
-    dispatch(onSendRequestStart(true));
+    dispatch(onAuthRequestSent(true));
 
     fetch(url, {
       method: 'POST',
@@ -94,13 +98,13 @@ export function sendRegisterRequest(form) {
           throw Error(response.statusText);
         }
 
-        dispatch(onSendRequestStart(false));
+        dispatch(onAuthRequestSent(false));
 
         return response;
       })
       .then(response => response.json())
-      .then(json => dispatch(onSendRequestSuccess(json)))
-      .catch(error => dispatch(onSendRequestError(true)))
+      .then(json => dispatch(onAuthRequestSuccess(json)))
+      .catch(error => dispatch(onAuthRequestError(true)))
   };
 }
 
@@ -140,11 +144,13 @@ const ACTION_HANDLERS = {
     ...state,
     isAuthorized: true,
     token: action.token,
+    userType: action.userType,
   }),
   [SIGN_OUT]: (state, action) => ({
     ...state,
     isAuthorized: false,
     token: null,
+    userType: defaultUserType,
   }),
 };
 
@@ -156,6 +162,7 @@ const initialState = {
   isErrored: false,
   isAuthorized: false,
   token: null,
+  userType: defaultUserType,
 };
 
 export default function authReducer(state = initialState, action) {
