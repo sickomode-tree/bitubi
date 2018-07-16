@@ -5,7 +5,7 @@ import {Button, Dropdown, Form, Modal} from 'semantic-ui-react'
 class FilterModal extends Component {
   static propTypes = {
     trigger: PropTypes.node,
-    filters: PropTypes.array.isRequired,
+    filters: PropTypes.object.isRequired,
     getOptions: PropTypes.func.isRequired,
     handleFilterChange: PropTypes.func.isRequired,
     handleResetFilterButtonClick: PropTypes.func.isRequired,
@@ -37,8 +37,8 @@ class FilterModal extends Component {
           >
             {
               filterTypes.map(filter => (
-                <Form.Field>
-                  <Dropdown key={filter.key} name={filter.key} placeholder={filter.title}
+                <Form.Field key={filter.key}>
+                  <Dropdown name={filter.key} placeholder={filter.title}
                             options={getOptions.call(this, filter.key)} value={filters[filter.key] || null}
                             search={true} selection={true} noResultsMessage='Нет результатов.'
                             selectOnBlur={false} selectOnNavigation={false} wrapSelection={false}

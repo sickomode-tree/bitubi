@@ -4,6 +4,7 @@ import _ from 'lodash'
 import {Card, Icon} from 'semantic-ui-react'
 import CardGrid from 'components/CardGrid/CardGrid'
 import ProductModal from 'components/ProductModal/ProductModal'
+import EmptyText from 'components/EmptyText/EmptyText'
 import {getObjectValue} from 'utils/array'
 
 export default class Home extends Component {
@@ -25,11 +26,20 @@ export default class Home extends Component {
     const cards = this.getCards.call(this, products)
     const groupKey = _.isEmpty(filter.filters) && _.isEmpty(filter.searchTerm) ? 'category.title' : 'subcategory.title'
 
+    if (!_.isEmpty(cards)) {
+      return (
+        <CardGrid
+          cards={cards}
+          getCardComponent={this.getCardComponent.bind(this)}
+          groupKey={groupKey}
+        />
+      )
+    }
+
     return (
-      <CardGrid
-        cards={cards}
-        getCardComponent={this.getCardComponent.bind(this)}
-        groupKey={groupKey}
+      <EmptyText
+        icon='shopping cart'
+        primaryText='Продукты не найдены'
       />
     )
   }
