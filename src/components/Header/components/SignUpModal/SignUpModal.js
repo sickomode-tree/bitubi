@@ -46,13 +46,32 @@ class SignUpModal extends Component {
               }
               <input type='hidden' name='userType' value={selectedUserType}/>
             </Menu>
-            <Form.Group>
-              <Form.Input name='firstName' label='Имя' placeholder='Имя' width={8} required/>
-              <Form.Input name='lastName' label='Фамилия' placeholder='Фамилия' width={8} required/>
-            </Form.Group>
+            {
+              selectedUserType === 'customer' &&
+              <Form.Group>
+                <Form.Input name='firstName' label='Имя' placeholder='Имя' width={8} required/>
+                <Form.Input name='lastName' label='Фамилия' placeholder='Фамилия' width={8} required/>
+              </Form.Group>
+            }
+            {
+              selectedUserType === 'provider' &&
+              <Form.Input name='providerName' label='Название компании' placeholder='Название компании' required/>
+            }
             <Form.Input name='email' label='Email' placeholder='Email' required/>
             <Form.Input name='login' label='Логин' placeholder='Логин' required/>
             <Form.Input name='password' label='Пароль' placeholder='Пароль' type='password' required/>
+            {
+              selectedUserType === 'provider' &&
+              <Form.Input name='address' label='Адрес' placeholder='Адрес' type='text' required/>
+            }
+            {
+              selectedUserType === 'provider' &&
+              <Form.Input name='phoneNumber' label='Телефон' placeholder='Телефон' type='text' required/>
+            }
+            {
+              selectedUserType === 'provider' &&
+              <Form.Input name='url' label='Сайт' placeholder='http://example.com' type='text'/>
+            }
           </Form>
         </Modal.Content>
         <Modal.Actions>
