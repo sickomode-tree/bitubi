@@ -44,7 +44,7 @@ export default class History extends Component {
     return (
       <EmptyText
         icon='history'
-        primaryText='Здесь появится история просмотренных карточек'
+        title='Здесь появится история просмотренных карточек'
       />
     )
   }

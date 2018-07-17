@@ -6,7 +6,6 @@ import {Container} from 'semantic-ui-react'
 import {sendAuthRequest, sendRegisterRequest, signOut} from 'store/auth'
 import {changeFilterValue, changeSearchTerm, resetFilter} from 'store/filter'
 import {fetchProducts} from 'store/products'
-import {getUserType} from 'utils/auth'
 
 class DefaultLayout extends Component {
   static propTypes = {
@@ -34,8 +33,6 @@ class DefaultLayout extends Component {
       sendAuthRequest, sendRegisterRequest, signOut,
     } = this.props
 
-    const userType = getUserType()
-
     return (
       <div style={{display: 'flex', flexDirection: 'column', height: '100%'}}>
         <Header
@@ -43,7 +40,6 @@ class DefaultLayout extends Component {
           filters={filters}
           isAuthorized={isAuthorized}
           searchTerm={searchTerm}
-          userType={userType}
           changeFilterValue={changeFilterValue}
           changeSearchTerm={changeSearchTerm}
           resetFilter={resetFilter}

@@ -39,7 +39,7 @@ export default class Home extends Component {
     return (
       <EmptyText
         icon='shopping cart'
-        primaryText='Продукты не найдены'
+        title='Продукты не найдены'
       />
     )
   }

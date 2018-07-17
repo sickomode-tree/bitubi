@@ -6,7 +6,6 @@ import Search from './components/Search/Search'
 import SignInModal from './components/SignInModal/SignInModal'
 import SignUpModal from './components/SignUpModal/SignUpModal'
 import {changeSearchTerm} from 'store/filter'
-import {customerUserType} from 'utils/auth'
 
 export default class Header extends Component {
   static propTypes = {
@@ -14,7 +13,6 @@ export default class Header extends Component {
     filters: PropTypes.object.isRequired,
     isAuthorized: PropTypes.bool.isRequired,
     searchTerm: PropTypes.string.isRequired,
-    userType: PropTypes.string.isRequired,
     changeFilterValue: PropTypes.func.isRequired,
     changeSearchTerm: PropTypes.func.isRequired,
     resetFilter: PropTypes.func.isRequired,
@@ -24,7 +22,7 @@ export default class Header extends Component {
   }
 
   render() {
-    const { cards, filters, isAuthorized, userType, changeFilterValue, changeSearchTerm, resetFilter, searchTerm } = this.props
+    const { cards, filters, isAuthorized, changeFilterValue, changeSearchTerm, resetFilter, searchTerm } = this.props
 
     return (
       <Menu fixed={'top'} stackable borderless>
@@ -33,10 +31,7 @@ export default class Header extends Component {
             isAuthorized &&
             <Menu.Menu position='left'>
               <IndexLink to='/' className='item' activeClassName='active' onClick={resetFilter}>Главная</IndexLink>
-              {
-                userType === customerUserType &&
-                <Link to='/account/tenders' className='item' activeClassName='active'>Тендеры</Link>
-              }
+              <Link to='/account/tenders' className='item' activeClassName='active'>Тендеры</Link>
               <Link to='/account/favourites' className='item' activeClassName='active'>Закладки</Link>
               <Link to='/account/history' className='item' activeClassName='active'>История</Link>
             </Menu.Menu>

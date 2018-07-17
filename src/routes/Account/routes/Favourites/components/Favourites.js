@@ -43,7 +43,7 @@ export default class Favourites extends Component {
     return (
       <EmptyText
         icon='star outline'
-        primaryText='Здесь появятся сохраненные карточки'
+        title='Здесь появятся сохраненные карточки'
       />
     )
   }
