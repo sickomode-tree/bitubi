@@ -9,12 +9,42 @@ class SignUpModal extends Component {
   }
 
   state = {
+    category: null,
+    subcategory: null,
+    categories: [],
+    subcategories: [],
     selectedUserType: 'customer',
+  }
+
+  componentDidMount() {
+    fetch('/test/public/categories')
+      .then(res => res.json())
+      .then(json => {
+        this.setState({
+          categories: json.map(category => ({
+            value: category.id,
+            text: category.title,
+          }))
+        })
+      })
+
+    fetch('/test/public/subcategories')
+      .then(res => res.json())
+      .then(json => {
+        this.setState({
+          subcategories: json.map(subcategory => ({
+            value: subcategory.id,
+            text: subcategory.title,
+            parent: subcategory.parent.id,
+          }))
+        })
+      })
   }
 
   render() {
     const {trigger} = this.props
-    const {selectedUserType} = this.state
+    const {categories, category, subcategories, subcategory, selectedUserType} = this.state
+
     const userTypes = [
       {code: 'customer', name: 'Покупатель'},
       {code: 'provider', name: 'Поставщик'},
@@ -72,6 +102,20 @@ class SignUpModal extends Component {
               selectedUserType === 'provider' &&
               <Form.Input name='url' label='Сайт' placeholder='http://example.com' type='text'/>
             }
+            {
+              selectedUserType === 'provider' &&
+              <Form.Group>
+                <Form.Select name='category' label='Категория' options={categories} value={category}
+                             placeholder='Категория' width={8} required onChange={this.handleSelectChange.bind(this)}/>
+                <input type='hidden' name='category' value={category}/>
+                <Form.Select name='subcategory' label='Подкатегория'
+                             options={subcategories.filter(subcategory => subcategory.parent === category)}
+                             value={subcategory}
+                             placeholder='Подкатегория' width={8} required onChange={this.handleSelectChange.bind(this)}
+                             disabled={_.isNil(category)}/>
+                <input type='hidden' name='subcategory' value={subcategory}/>
+              </Form.Group>
+            }
           </Form>
         </Modal.Content>
         <Modal.Actions>
@@ -83,6 +127,10 @@ class SignUpModal extends Component {
 
   handleUserTypeSelectChange(userType) {
     this.setState({selectedUserType: userType})
+  }
+
+  handleSelectChange(event, field) {
+    this.setState({[field.name]: field.value})
   }
 
   handleSubmit(event) {

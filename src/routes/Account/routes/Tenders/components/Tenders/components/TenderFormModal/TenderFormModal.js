@@ -96,7 +96,6 @@ class TenderFormModal extends Component {
 
   handleSelectChange(event, field) {
     this.setState({[field.name]: field.value})
-    console.log(this.state)
   }
 }
 
