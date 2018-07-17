@@ -136,7 +136,7 @@ export default class Home extends Component {
         trigger={
           <Card
             header={card.provider.name}
-            meta={card.provider.city}
+            meta={card.provider.city.name}
             description={card.description}
             extra={
               card.favourite && <Icon name='star' color='yellow'/>

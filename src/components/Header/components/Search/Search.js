@@ -26,7 +26,7 @@ export default class Search extends Component {
   render() {
     const {filters, isAuthorized, searchTerm, handleSignIn} = this.props
     const quickFilters = [
-      {title: 'Город', key: 'provider.city'},
+      {title: 'Город', key: 'provider.city.name'},
       {title: 'Категория', key: 'category.title'},
     ]
 

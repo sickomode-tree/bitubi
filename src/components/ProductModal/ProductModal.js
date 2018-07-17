@@ -6,7 +6,8 @@ export default class ProductModal extends Component {
   static propTypes = {
     card: PropTypes.object.isRequired,
     trigger: PropTypes.node,
-    saveToHistory: PropTypes.func.isRequired,
+    saveToHistory: PropTypes.func,
+    saveToFavourites: PropTypes.func,
   }
 
   render() {
@@ -22,22 +23,18 @@ export default class ProductModal extends Component {
       >
         <Modal.Header>{card.provider.name}</Modal.Header>
         <Modal.Content>
-          <p>{card.provider.city}</p>
+          <p>{card.provider.city.name}</p>
           <p>{card.description}</p>
         </Modal.Content>
         <Modal.Actions>
-          <Button basic={!card.favourite} icon={`star${!card.favourite ? ' outline' : ''}`}
-                  content={card.favourite ? 'Убрать из закладок' : 'Сохранить'}
-                  color={card.favourite ? 'yellow' : 'twitter'}
-                  onClick={this.saveToFavourites.bind(this, card.id)}/>
+          <Button
+            basic={!card.favourite} icon={`star${!card.favourite ? ' outline' : ''}`}
+            content={card.favourite ? 'Убрать из закладок' : 'Сохранить'}
+            color={card.favourite ? 'yellow' : 'twitter'}
+            onClick={() => saveToFavourites(card.id)}
+          />
         </Modal.Actions>
       </Modal>
     )
-  }
-
-  saveToFavourites(id) {
-    const {saveToFavourites} = this.props
-
-    saveToFavourites(id)
   }
 }

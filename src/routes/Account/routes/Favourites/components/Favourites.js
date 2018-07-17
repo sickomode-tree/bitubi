@@ -30,7 +30,7 @@ export default class Favourites extends Component {
                   fluid
                   key={card.id}
                   header={card.provider.name}
-                  meta={card.provider.city}
+                  meta={card.provider.city.name}
                   description={card.description}
                 />
               ))

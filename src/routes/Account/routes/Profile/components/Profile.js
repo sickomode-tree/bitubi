@@ -35,7 +35,7 @@ export default class Profile extends Component {
     ]
 
     return (
-      <Grid>
+      <Grid container>
         <Grid.Row>
           <Grid.Column width={4}>
             <Card fluid>
