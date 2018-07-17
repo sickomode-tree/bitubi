@@ -142,7 +142,7 @@ export default class Home extends Component {
               card.favourite && <Icon name='star' color='yellow'/>
             }
             style={{flex: '0 1 25%'}}
-            color={card.favourite && 'yellow'}
+            color={card.favourite ? 'yellow' : null}
           />
         }
       />
