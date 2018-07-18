@@ -9,6 +9,8 @@ export const PRODUCTS_FETCH_SUCCESS = 'PRODUCTS_FETCH_SUCCESS'
 export const PRODUCTS_IS_LOADING = 'PRODUCTS_IS_LOADING'
 export const PRODUCT_SAVE_TO_HISTORY = 'PRODUCT_SAVE_TO_HISTORY'
 export const PRODUCT_SAVE_TO_FAVOURITES = 'PRODUCT_SAVE_TO_FAVOURITES'
+export const CATEGORIES_FETCH_SUCCESS = 'CATEGORIES_FETCH_SUCCESS'
+export const SUBCATEGORIES_FETCH_SUCCESS = 'SUBCATEGORIES_FETCH_SUCCESS'
 
 // ------------------------------------
 // Actions
@@ -25,6 +27,20 @@ export function onFetchSuccess(json) {
   return {
     type: PRODUCTS_FETCH_SUCCESS,
     products: json,
+  }
+}
+
+export function onFetchCategoriesSuccess(json) {
+  return {
+    type: CATEGORIES_FETCH_SUCCESS,
+    categories: json,
+  }
+}
+
+export function onFetchSubcategoriesSuccess(json) {
+  return {
+    type: SUBCATEGORIES_FETCH_SUCCESS,
+    subcategories: json,
   }
 }
 
@@ -78,6 +94,64 @@ export function fetchProducts() {
       })
       .then(response => response.json())
       .then(json => dispatch(onFetchSuccess(json)))
+      .catch(error => dispatch(onFetchError(true)))
+  };
+}
+
+export function fetchCategories() {
+  const url = '/test/public/categories'
+
+  return (dispatch, getState) => {
+    const token = getState().auth.token
+
+    dispatch(onFetchStart(true))
+
+    fetch(url, {
+      headers: {
+        'Content-Type': 'application/x-www-form-urlencoded',
+        'Authorization': `Bearer ${token}`,
+      }
+    })
+      .then(response => {
+        if (!response.ok) {
+          throw Error(response.statusText)
+        }
+
+        dispatch(onFetchStart(false))
+
+        return response;
+      })
+      .then(response => response.json())
+      .then(json => dispatch(onFetchCategoriesSuccess(json)))
+      .catch(error => dispatch(onFetchError(true)))
+  };
+}
+
+export function fetchSubcategories() {
+  const url = '/test/public/subcategories'
+
+  return (dispatch, getState) => {
+    const token = getState().auth.token
+
+    dispatch(onFetchStart(true))
+
+    fetch(url, {
+      headers: {
+        'Content-Type': 'application/x-www-form-urlencoded',
+        'Authorization': `Bearer ${token}`,
+      }
+    })
+      .then(response => {
+        if (!response.ok) {
+          throw Error(response.statusText)
+        }
+
+        dispatch(onFetchStart(false))
+
+        return response;
+      })
+      .then(response => response.json())
+      .then(json => dispatch(onFetchSubcategoriesSuccess(json)))
       .catch(error => dispatch(onFetchError(true)))
   };
 }
@@ -156,6 +230,8 @@ export function errorAfterFiveSeconds() {
 
 export const actions = {
   fetchProducts,
+  fetchCategories,
+  fetchSubcategories,
   saveToHistory,
   saveToFavourites,
 };
@@ -184,7 +260,15 @@ const ACTION_HANDLERS = {
       }
       return product
     })
-  })
+  }),
+  [CATEGORIES_FETCH_SUCCESS]: (state, action) => ({
+    ...state,
+    categories: action.categories
+  }),
+  [SUBCATEGORIES_FETCH_SUCCESS]: (state, action) => ({
+    ...state,
+    subcategories: action.subcategories
+  }),
 };
 
 // ------------------------------------
@@ -192,6 +276,8 @@ const ACTION_HANDLERS = {
 // ------------------------------------
 const initialState = {
   products: [],
+  categories: [],
+  subcategories: [],
   isLoading: false,
   isErrored: false,
 };

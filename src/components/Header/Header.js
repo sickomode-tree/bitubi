@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React, {Component} from 'react'
 import {browserHistory, IndexLink, Link} from 'react-router'
 import PropTypes from 'prop-types'
 import {Container, Dropdown, Image, Item, Menu} from 'semantic-ui-react'
@@ -10,11 +10,15 @@ import {changeSearchTerm} from 'store/filter'
 export default class Header extends Component {
   static propTypes = {
     cards: PropTypes.array.isRequired,
+    categories: PropTypes.array.isRequired,
+    subcategories: PropTypes.array.isRequired,
     filters: PropTypes.object.isRequired,
     isAuthorized: PropTypes.bool.isRequired,
     searchTerm: PropTypes.string.isRequired,
     changeFilterValue: PropTypes.func.isRequired,
     changeSearchTerm: PropTypes.func.isRequired,
+    fetchCategories: PropTypes.func.isRequired,
+    fetchSubcategories: PropTypes.func.isRequired,
     resetFilter: PropTypes.func.isRequired,
     sendAuthRequest: PropTypes.func.isRequired,
     sendRegisterRequest: PropTypes.func.isRequired,
@@ -22,10 +26,10 @@ export default class Header extends Component {
   }
 
   render() {
-    const { cards, filters, isAuthorized, changeFilterValue, changeSearchTerm, resetFilter, searchTerm } = this.props
+    const {cards, categories, subcategories, filters, isAuthorized, changeFilterValue, changeSearchTerm, fetchCategories, fetchSubcategories, resetFilter, searchTerm} = this.props
 
     return (
-      <Menu fixed={'top'} stackable borderless>
+      <Menu fixed='top' stackable borderless>
         <Container>
           {
             isAuthorized &&
@@ -62,7 +66,7 @@ export default class Header extends Component {
             }
             {
               !isAuthorized &&
-              <Item><SignUpModal handleSignUp={this.handleSignUp.bind(this)}/></Item>
+              <Item><SignUpModal categories={categories} subcategories={subcategories} handleSignUp={this.handleSignUp.bind(this)} fetchCategories={fetchCategories} fetchSubcategories={fetchSubcategories}/></Item>
             }
             {
               !isAuthorized &&

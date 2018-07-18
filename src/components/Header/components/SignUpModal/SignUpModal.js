@@ -5,45 +5,30 @@ import {Button, Form, Item, Menu, Modal} from 'semantic-ui-react'
 class SignUpModal extends Component {
   static propTypes = {
     trigger: PropTypes.node,
+    categories: PropTypes.array.isRequired,
+    subcategories: PropTypes.array.isRequired,
     handleSignUp: PropTypes.func.isRequired,
+    fetchCategories: PropTypes.func.isRequired,
+    fetchSubcategories: PropTypes.func.isRequired,
   }
 
   state = {
     category: null,
     subcategory: null,
-    categories: [],
-    subcategories: [],
     selectedUserType: 'customer',
   }
 
   componentDidMount() {
-    fetch('/test/public/categories')
-      .then(res => res.json())
-      .then(json => {
-        this.setState({
-          categories: json.map(category => ({
-            value: category.id,
-            text: category.title,
-          }))
-        })
-      })
+    const {fetchCategories} = this.props
+    const {fetchSubcategories} = this.props
 
-    fetch('/test/public/subcategories')
-      .then(res => res.json())
-      .then(json => {
-        this.setState({
-          subcategories: json.map(subcategory => ({
-            value: subcategory.id,
-            text: subcategory.title,
-            parent: subcategory.parent.id,
-          }))
-        })
-      })
+    fetchCategories()
+    fetchSubcategories()
   }
 
   render() {
-    const {trigger} = this.props
-    const {categories, category, subcategories, subcategory, selectedUserType} = this.state
+    const {categories, subcategories, trigger} = this.props
+    const {category, subcategory, selectedUserType} = this.state
 
     const userTypes = [
       {code: 'customer', name: 'Покупатель'},
@@ -105,10 +90,19 @@ class SignUpModal extends Component {
             {
               selectedUserType === 'provider' &&
               <Form.Group>
-                <Form.Select name='category' label='Категория' options={categories} value={category}
+                <Form.Select name='category' label='Категория'
+                             options={categories.map(category => ({
+                               value: category.id,
+                               text: category.title,
+                             }))}
+                             value={category}
                              placeholder='Категория' width={8} required onChange={this.handleSelectChange.bind(this)}/>
                 <Form.Select name='subcategory' label='Подкатегория'
-                             options={subcategories.filter(subcategory => subcategory.parent === category)}
+                             options={subcategories.map(subcategory => ({
+                               value: subcategory.id,
+                               text: subcategory.title,
+                               parent: subcategory.parent.id,
+                             })).filter(subcategory => subcategory.parent === category)}
                              value={subcategory}
                              placeholder='Подкатегория' width={8} required onChange={this.handleSelectChange.bind(this)}
                              disabled={_.isNil(category)}/>

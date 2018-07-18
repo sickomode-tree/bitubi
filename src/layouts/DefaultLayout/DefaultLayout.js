@@ -5,17 +5,20 @@ import Header from 'components/Header/Header'
 import {Container} from 'semantic-ui-react'
 import {sendAuthRequest, sendRegisterRequest, signOut} from 'store/auth'
 import {changeFilterValue, changeSearchTerm, resetFilter} from 'store/filter'
-import {fetchProducts} from 'store/products'
+import {fetchProducts, fetchCategories, fetchSubcategories} from 'store/products'
 
 class DefaultLayout extends Component {
   static propTypes = {
     children: PropTypes.node,
     cards: PropTypes.array.isRequired,
+    subcategories: PropTypes.array.isRequired,
     filters: PropTypes.object.isRequired,
     isAuthorized: PropTypes.bool.isRequired,
     changeFilterValue: PropTypes.func.isRequired,
     changeSearchTerm: PropTypes.func.isRequired,
     fetchProducts: PropTypes.func.isRequired,
+    fetchCategories: PropTypes.func.isRequired,
+    fetchSubcategories: PropTypes.func.isRequired,
     resetFilter: PropTypes.func.isRequired,
     sendAuthRequest: PropTypes.func.isRequired,
     sendRegisterRequest: PropTypes.func.isRequired,
@@ -28,8 +31,8 @@ class DefaultLayout extends Component {
 
   render() {
     const {
-      children, cards, filters, searchTerm, isAuthorized,
-      changeSearchTerm, changeFilterValue, resetFilter,
+      children, cards, categories, subcategories, filters, searchTerm, isAuthorized,
+      fetchCategories, fetchSubcategories, changeSearchTerm, changeFilterValue, resetFilter,
       sendAuthRequest, sendRegisterRequest, signOut,
     } = this.props
 
@@ -37,12 +40,16 @@ class DefaultLayout extends Component {
       <div style={{display: 'flex', flexDirection: 'column', height: '100%'}}>
         <Header
           cards={cards}
+          categories={categories}
+          subcategories={subcategories}
           filters={filters}
           isAuthorized={isAuthorized}
           searchTerm={searchTerm}
           changeFilterValue={changeFilterValue}
           changeSearchTerm={changeSearchTerm}
           resetFilter={resetFilter}
+          fetchCategories={fetchCategories}
+          fetchSubcategories={fetchSubcategories}
           sendAuthRequest={sendAuthRequest}
           sendRegisterRequest={sendRegisterRequest}
           signOut={signOut}
@@ -59,6 +66,8 @@ const mapDispatchToProps = {
   changeFilterValue,
   changeSearchTerm,
   fetchProducts,
+  fetchCategories,
+  fetchSubcategories,
   resetFilter,
   sendRegisterRequest,
   sendAuthRequest,
@@ -68,6 +77,8 @@ const mapDispatchToProps = {
 const mapStateToProps = (state) => {
   return {
     cards: state.products.products,
+    categories: state.products.categories,
+    subcategories: state.products.subcategories,
     filters: state.filter.filters,
     isAuthorized: state.auth.isAuthorized,
     searchTerm: state.filter.searchTerm,
