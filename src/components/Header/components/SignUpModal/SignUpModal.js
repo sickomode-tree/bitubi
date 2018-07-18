@@ -105,22 +105,27 @@ class SignUpModal extends Component {
             {
               selectedUserType === 'provider' &&
               <Form.Group>
-                <Form.Select name='category' label='Категория'
-                             options={categories.map(category => ({
-                               value: category.id,
-                               text: category.title,
-                             }))}
-                             value={category}
-                             placeholder='Категория' width={8} required onChange={this.handleSelectChange.bind(this)}/>
-                <Form.Select name='subcategory' label='Подкатегория'
-                             options={subcategories.map(subcategory => ({
-                               value: subcategory.id,
-                               text: subcategory.title,
-                               parent: subcategory.parent.id,
-                             })).filter(subcategory => subcategory.parent === category)}
-                             value={subcategory}
-                             placeholder='Подкатегория' width={8} required onChange={this.handleSelectChange.bind(this)}
-                             disabled={_.isNil(category)}/>
+                <Form.Select
+                  name='category' label='Категория' placeholder='Категория'
+                  options={categories.map(category => ({
+                    value: category.id,
+                    text: category.title,
+                  }))}
+                  value={category}
+                  width={8} required
+                  onChange={this.handleSelectChange.bind(this)}
+                />
+                <Form.Select
+                  name='subcategory' label='Подкатегория' placeholder='Подкатегория'
+                  options={subcategories.map(subcategory => ({
+                    value: subcategory.id,
+                    text: subcategory.title,
+                    parent: subcategory.parent.id,
+                  })).filter(subcategory => subcategory.parent === category)}
+                  value={subcategory}
+                  width={8} required disabled={_.isNil(category)}
+                  onChange={this.handleSelectChange.bind(this)}
+                />
                 <input type='hidden' name='subcategory' value={subcategory}/>
               </Form.Group>
             }

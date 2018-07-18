@@ -5,44 +5,32 @@ import {Button, Form, Modal, TextArea} from 'semantic-ui-react'
 class TenderFormModal extends Component {
   static propTypes = {
     trigger: PropTypes.node,
+    categories: PropTypes.array.isRequired,
+    subcategories: PropTypes.array.isRequired,
+    cities: PropTypes.array.isRequired,
+    fetchCities: PropTypes.func.isRequired,
+    fetchCategories: PropTypes.func.isRequired,
+    fetchSubcategories: PropTypes.func.isRequired,
     saveTender: PropTypes.func.isRequired,
   }
 
   state = {
+    city: null,
     category: null,
     subcategory: null,
-    categories: [],
-    subcategories: [],
   }
 
   componentDidMount() {
-    fetch('/test/public/categories')
-      .then(res => res.json())
-      .then(json => {
-        this.setState({
-          categories: json.map(category => ({
-            value: category.id,
-            text: category.title,
-          }))
-        })
-      })
+    const {fetchCategories, fetchSubcategories, fetchCities} = this.props
 
-    fetch('/test/public/subcategories')
-      .then(res => res.json())
-      .then(json => {
-        this.setState({
-          subcategories: json.map(subcategory => ({
-            value: subcategory.id,
-            text: subcategory.title,
-            parent: subcategory.parent.id,
-          }))
-        })
-      })
+    fetchCategories()
+    fetchSubcategories()
+    fetchCities()
   }
 
   render() {
-    const {trigger} = this.props
-    const {categories, category, subcategories, subcategory} = this.state
+    const {trigger, cities, categories, subcategories} = this.props
+    const {city, category, subcategory} = this.state
 
     return (
       <Modal
@@ -59,13 +47,39 @@ class TenderFormModal extends Component {
           >
             <Form.Input name='title' label='Название' placeholder='Название' required/>
             <Form.Input name='amount' label='Количество' placeholder='Количество' type='number' required/>
+            <Form.Select
+              name='city' label='Город'
+              options={cities.map(city => ({
+                value: city.id,
+                text: city.name,
+              }))}
+              value={city}
+              placeholder='Город' required
+              onChange={this.handleSelectChange.bind(this)}
+            />
+            <input type='hidden' name='city' value={city}/>
             <Form.Group>
-              <Form.Select name='category' label='Категория' options={categories} value={category}
-                           placeholder='Категория' width={8} required onChange={this.handleSelectChange.bind(this)}/>
-              <input type='hidden' name='category' value={category}/>
-              <Form.Select name='subcategory' label='Подкатегория' options={subcategories.filter(subcategory => subcategory.parent === category)} value={subcategory}
-                           placeholder='Подкатегория' width={8} required onChange={this.handleSelectChange.bind(this)}
-                           disabled={_.isNil(category)}/>
+              <Form.Select
+                name='category' label='Категория' placeholder='Категория'
+                options={categories.map(category => ({
+                  value: category.id,
+                  text: category.title,
+                }))}
+                value={category}
+                width={8} required
+                onChange={this.handleSelectChange.bind(this)}
+              />
+              <Form.Select
+                name='subcategory' label='Подкатегория' placeholder='Подкатегория'
+                options={subcategories.map(subcategory => ({
+                  value: subcategory.id,
+                  text: subcategory.title,
+                  parent: subcategory.parent.id,
+                })).filter(subcategory => subcategory.parent === category)}
+                value={subcategory}
+                width={8} required disabled={_.isNil(category)}
+                onChange={this.handleSelectChange.bind(this)}
+              />
               <input type='hidden' name='subcategory' value={subcategory}/>
             </Form.Group>
             <Form.Group>

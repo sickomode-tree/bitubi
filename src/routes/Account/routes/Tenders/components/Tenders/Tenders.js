@@ -9,6 +9,9 @@ import TenderFormModal from './components/TenderFormModal/TenderFormModal'
 export default class Tenders extends Component {
   static propTypes = {
     items: PropTypes.array.isRequired,
+    cities: PropTypes.array.isRequired,
+    categories: PropTypes.array.isRequired,
+    subcategories: PropTypes.array.isRequired,
     fetchTenders: PropTypes.func.isRequired,
     saveTender: PropTypes.func.isRequired,
     resetFilter: PropTypes.func.isRequired,
@@ -20,7 +23,7 @@ export default class Tenders extends Component {
   }
 
   render() {
-    const {items, saveTender} = this.props
+    const {cities, categories, subcategories, items, fetchCities, fetchCategories, fetchSubcategories, saveTender} = this.props
     const userType = getUserType()
 
     if (!_.isEmpty(items)) {
@@ -31,6 +34,12 @@ export default class Tenders extends Component {
             {
               userType === customerUserType &&
               <TenderFormModal
+                cities={cities}
+                categories={categories}
+                subcategories={subcategories}
+                fetchCities={fetchCities}
+                fetchCategories={fetchCategories}
+                fetchSubcategories={fetchSubcategories}
                 saveTender={saveTender}
                 trigger={
                   <Card
@@ -65,6 +74,12 @@ export default class Tenders extends Component {
         actions={
           userType === customerUserType &&
           <TenderFormModal
+            cities={cities}
+            categories={categories}
+            subcategories={subcategories}
+            fetchCities={fetchCities}
+            fetchCategories={fetchCategories}
+            fetchSubcategories={fetchSubcategories}
             saveTender={saveTender}
             trigger={
               <Button positive>Добавить тендер</Button>
