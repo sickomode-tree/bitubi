@@ -107,7 +107,6 @@ class SignUpModal extends Component {
               <Form.Group>
                 <Form.Select name='category' label='Категория' options={categories} value={category}
                              placeholder='Категория' width={8} required onChange={this.handleSelectChange.bind(this)}/>
-                <input type='hidden' name='category' value={category}/>
                 <Form.Select name='subcategory' label='Подкатегория'
                              options={subcategories.filter(subcategory => subcategory.parent === category)}
                              value={subcategory}
