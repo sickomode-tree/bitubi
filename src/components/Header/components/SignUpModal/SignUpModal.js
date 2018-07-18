@@ -1,13 +1,15 @@
 import React, {Component} from 'react'
 import PropTypes from 'prop-types'
-import {Button, Form, Item, Menu, Modal} from 'semantic-ui-react'
+import {Button, Form, Menu, Modal} from 'semantic-ui-react'
 
 class SignUpModal extends Component {
   static propTypes = {
     trigger: PropTypes.node,
     categories: PropTypes.array.isRequired,
     subcategories: PropTypes.array.isRequired,
+    cities: PropTypes.array.isRequired,
     handleSignUp: PropTypes.func.isRequired,
+    fetchCities: PropTypes.func.isRequired,
     fetchCategories: PropTypes.func.isRequired,
     fetchSubcategories: PropTypes.func.isRequired,
   }
@@ -15,20 +17,21 @@ class SignUpModal extends Component {
   state = {
     category: null,
     subcategory: null,
+    city: null,
     selectedUserType: 'customer',
   }
 
   componentDidMount() {
-    const {fetchCategories} = this.props
-    const {fetchSubcategories} = this.props
+    const {fetchCategories, fetchSubcategories, fetchCities} = this.props
 
     fetchCategories()
     fetchSubcategories()
+    fetchCities()
   }
 
   render() {
-    const {categories, subcategories, trigger} = this.props
-    const {category, subcategory, selectedUserType} = this.state
+    const {categories, subcategories, cities, trigger} = this.props
+    const {category, subcategory, city, selectedUserType} = this.state
 
     const userTypes = [
       {code: 'customer', name: 'Покупатель'},
@@ -77,7 +80,19 @@ class SignUpModal extends Component {
             <Form.Input name='password' label='Пароль' placeholder='Пароль' type='password' required/>
             {
               selectedUserType === 'provider' &&
-              <Form.Input name='address' label='Адрес' placeholder='Адрес' type='text' required/>
+              <Form.Group>
+                <Form.Select
+                  name='city' label='Город'
+                  options={cities.map(city => ({
+                    value: city.id,
+                    text: city.name,
+                  }))}
+                  value={city}
+                  placeholder='Город' width={8} required onChange={this.handleSelectChange.bind(this)}
+                />
+                <input type='hidden' name='city' value={city}/>
+                <Form.Input name='address' label='Адрес' placeholder='Адрес' type='text' required width={8}/>
+              </Form.Group>
             }
             {
               selectedUserType === 'provider' &&

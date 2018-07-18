@@ -10,6 +10,7 @@ import {changeSearchTerm} from 'store/filter'
 export default class Header extends Component {
   static propTypes = {
     cards: PropTypes.array.isRequired,
+    cities: PropTypes.array.isRequired,
     categories: PropTypes.array.isRequired,
     subcategories: PropTypes.array.isRequired,
     filters: PropTypes.object.isRequired,
@@ -19,6 +20,7 @@ export default class Header extends Component {
     changeSearchTerm: PropTypes.func.isRequired,
     fetchCategories: PropTypes.func.isRequired,
     fetchSubcategories: PropTypes.func.isRequired,
+    fetchCities: PropTypes.func.isRequired,
     resetFilter: PropTypes.func.isRequired,
     sendAuthRequest: PropTypes.func.isRequired,
     sendRegisterRequest: PropTypes.func.isRequired,
@@ -26,8 +28,13 @@ export default class Header extends Component {
   }
 
   render() {
-    const {cards, categories, subcategories, filters, isAuthorized, changeFilterValue, changeSearchTerm, fetchCategories, fetchSubcategories, resetFilter, searchTerm} = this.props
-
+    const {
+      cards, cities, categories, subcategories, filters, isAuthorized,
+      changeFilterValue, changeSearchTerm,
+      fetchCategories, fetchSubcategories, fetchCities,
+      resetFilter, searchTerm
+    } = this.props
+console.log(111, cities)
     return (
       <Menu fixed='top' stackable borderless>
         <Container>
@@ -66,7 +73,13 @@ export default class Header extends Component {
             }
             {
               !isAuthorized &&
-              <Item><SignUpModal categories={categories} subcategories={subcategories} handleSignUp={this.handleSignUp.bind(this)} fetchCategories={fetchCategories} fetchSubcategories={fetchSubcategories}/></Item>
+              <Item>
+                <SignUpModal
+                  cities={cities} categories={categories} subcategories={subcategories}
+                  fetchCities={fetchCities} fetchCategories={fetchCategories} fetchSubcategories={fetchSubcategories}
+                  handleSignUp={this.handleSignUp.bind(this)}
+                />
+              </Item>
             }
             {
               !isAuthorized &&

@@ -11,6 +11,7 @@ export const PRODUCT_SAVE_TO_HISTORY = 'PRODUCT_SAVE_TO_HISTORY'
 export const PRODUCT_SAVE_TO_FAVOURITES = 'PRODUCT_SAVE_TO_FAVOURITES'
 export const CATEGORIES_FETCH_SUCCESS = 'CATEGORIES_FETCH_SUCCESS'
 export const SUBCATEGORIES_FETCH_SUCCESS = 'SUBCATEGORIES_FETCH_SUCCESS'
+export const CITIES_FETCH_SUCCESS = 'CITIES_FETCH_SUCCESS'
 
 // ------------------------------------
 // Actions
@@ -41,6 +42,13 @@ export function onFetchSubcategoriesSuccess(json) {
   return {
     type: SUBCATEGORIES_FETCH_SUCCESS,
     subcategories: json,
+  }
+}
+
+export function onFetchCitiesSuccess(json) {
+  return {
+    type: CITIES_FETCH_SUCCESS,
+    cities: json,
   }
 }
 
@@ -156,6 +164,35 @@ export function fetchSubcategories() {
   };
 }
 
+export function fetchCities() {
+  const url = '/test/public/cities'
+
+  return (dispatch, getState) => {
+    const token = getState().auth.token
+
+    dispatch(onFetchStart(true))
+
+    fetch(url, {
+      headers: {
+        'Content-Type': 'application/x-www-form-urlencoded',
+        'Authorization': `Bearer ${token}`,
+      }
+    })
+      .then(response => {
+        if (!response.ok) {
+          throw Error(response.statusText)
+        }
+
+        dispatch(onFetchStart(false))
+
+        return response;
+      })
+      .then(response => response.json())
+      .then(json => dispatch(onFetchCitiesSuccess(json)))
+      .catch(error => dispatch(onFetchError(true)))
+  };
+}
+
 export function saveToHistory(id) {
   const formData = new FormData()
   const url = '/test/private/user/history'
@@ -232,6 +269,7 @@ export const actions = {
   fetchProducts,
   fetchCategories,
   fetchSubcategories,
+  fetchCities,
   saveToHistory,
   saveToFavourites,
 };
@@ -269,6 +307,10 @@ const ACTION_HANDLERS = {
     ...state,
     subcategories: action.subcategories
   }),
+  [CITIES_FETCH_SUCCESS]: (state, action) => ({
+    ...state,
+    cities: action.cities
+  }),
 };
 
 // ------------------------------------
@@ -278,6 +320,7 @@ const initialState = {
   products: [],
   categories: [],
   subcategories: [],
+  cities: [],
   isLoading: false,
   isErrored: false,
 };
