@@ -1,6 +1,7 @@
 import React, {Component} from 'react'
 import PropTypes from 'prop-types'
 import {Button, Form, Modal, TextArea} from 'semantic-ui-react'
+import {browserHistory} from "react-router";
 
 class TenderFormModal extends Component {
   static propTypes = {
@@ -106,6 +107,7 @@ class TenderFormModal extends Component {
     const form = event.target
 
     saveTender(form)
+    browserHistory.push(window.location.pathname)
   }
 
   handleSelectChange(event, field) {

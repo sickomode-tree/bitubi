@@ -30,6 +30,7 @@ export default class Tenders extends Component {
       return (
         <div style={{flex: 1}}>
           <h2>Тендеры</h2>
+
           <Card.Group itemsPerRow={2}>
             {
               userType === customerUserType &&
@@ -46,7 +47,6 @@ export default class Tenders extends Component {
                     fluid
                     link
                     header='Создать тендер'
-                    style={{flex: '0 1 25%'}}
                   />
                 }
               />
@@ -56,8 +56,8 @@ export default class Tenders extends Component {
                 <Card
                   fluid
                   key={card.id}
-                  header={card.category.title}
-                  meta={card.city}
+                  header={card.title}
+                  meta={card.category + ' ' + card.subcategory}
                   description={card.description}
                 />
               ))
