@@ -28,7 +28,9 @@ export const getObjectValue = (object, path) => {
   let value = object
 
   path.split('.').forEach(key => {
-    value = value[key]
+    if (value) {
+      value = value[key]
+    }
   })
 
   return value
