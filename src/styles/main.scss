@@ -28,3 +28,14 @@ body {
   display: flex;
   flex-direction: column;
 }
+
+.react-datepicker-wrapper {
+  display: flex;
+}
+
+.react-datepicker {
+  &__input-container {
+    display: flex;
+    flex: 1;
+  }
+}

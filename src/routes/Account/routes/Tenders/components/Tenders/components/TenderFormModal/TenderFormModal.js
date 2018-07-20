@@ -1,7 +1,8 @@
 import React, {Component} from 'react'
+import {browserHistory} from 'react-router'
 import PropTypes from 'prop-types'
-import {Button, Form, Modal, TextArea} from 'semantic-ui-react'
-import {browserHistory} from "react-router";
+import {Button, Input, Form, Modal, TextArea} from 'semantic-ui-react'
+import DatePicker from 'react-datepicker'
 
 class TenderFormModal extends Component {
   static propTypes = {
@@ -19,6 +20,7 @@ class TenderFormModal extends Component {
     city: null,
     category: null,
     subcategory: null,
+    endDate: null,
   }
 
   componentDidMount() {
@@ -85,7 +87,17 @@ class TenderFormModal extends Component {
             </Form.Group>
             <Form.Group>
               <Form.Input name='price' label='Ожидаемая цена' placeholder='Ожидаемая цена' width={8} type='number'/>
-              <Form.Input name='endDate' label='Ожидаемая дата' placeholder='Ожидаемая дата' width={8}/>
+              <div className="eight wide field">
+                <label>Ожидаемая дата</label>
+                <DatePicker
+                  customInput={
+                    <Input icon='calendar' fluid>
+                      <input placeholder='Ожидаемая дата' name='endDate'/>
+                    </Input>}
+                  selected={this.state.endDate}
+                  onChange={this.handleDayChange.bind(this)}
+                />
+              </div>
             </Form.Group>
             <Form.Field
               control={TextArea}
@@ -112,6 +124,11 @@ class TenderFormModal extends Component {
 
   handleSelectChange(event, field) {
     this.setState({[field.name]: field.value})
+  }
+
+  handleDayChange(day) {
+    console.log(day)
+    this.setState({ endDate: day });
   }
 }
 
