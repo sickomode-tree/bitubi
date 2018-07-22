@@ -69,8 +69,6 @@ export default class Home extends Component {
       })
     }
 
-    console.log(cards)
-
     return cards;
   }
 

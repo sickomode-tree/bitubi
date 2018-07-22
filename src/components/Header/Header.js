@@ -34,7 +34,7 @@ export default class Header extends Component {
       fetchCategories, fetchSubcategories, fetchCities,
       resetFilter, searchTerm
     } = this.props
-console.log(111, cities)
+
     return (
       <Menu fixed='top' stackable borderless>
         <Container>

@@ -19,7 +19,5 @@ export function getUserType() {
 export function checkAuthorized() {
   const token = getToken()
 
-  console.log('isAuthorized', !_.isNil(token))
-
   return !_.isNil(token)
 }

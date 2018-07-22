@@ -5,6 +5,7 @@ import {Button, Card} from 'semantic-ui-react'
 import {customerUserType, getUserType} from 'utils/auth'
 import EmptyText from 'components/EmptyText/EmptyText'
 import TenderFormModal from './components/TenderFormModal/TenderFormModal'
+import TenderViewModal from './components/TenderViewModal/TenderViewModal'
 
 export default class Tenders extends Component {
   static propTypes = {
@@ -53,12 +54,16 @@ export default class Tenders extends Component {
             }
             {
               items.map(card => (
-                <Card
-                  fluid
+                <TenderViewModal
                   key={card.id}
-                  header={card.title}
-                  meta={card.category + ' ' + card.subcategory}
-                  description={card.description}
+                  tender={card}
+                  trigger={
+                    <Card
+                      fluid
+                      header={card.title}
+                      meta={card.category + ' ' + card.subcategory}
+                    />
+                  }
                 />
               ))
             }

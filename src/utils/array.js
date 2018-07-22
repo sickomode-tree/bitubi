@@ -19,7 +19,6 @@ export const getValues = (array, key) => {
   let values = []
 
   values = _.uniq(array.map(item => getObjectValue(item, key)))
-  console.log(values)
 
   return values
 }

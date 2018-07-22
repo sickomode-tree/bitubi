@@ -91,7 +91,7 @@ class TenderFormModal extends Component {
                 <label>Ожидаемая дата</label>
                 <DatePicker
                   customInput={
-                    <Input icon='calendar' fluid>
+                    <Input fluid>
                       <input placeholder='Ожидаемая дата' name='endDate'/>
                     </Input>}
                   selected={this.state.endDate}
@@ -127,7 +127,6 @@ class TenderFormModal extends Component {
   }
 
   handleDayChange(day) {
-    console.log(day)
     this.setState({ endDate: day });
   }
 }
