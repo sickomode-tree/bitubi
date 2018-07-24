@@ -1,6 +1,7 @@
 import _ from 'lodash'
 import {loadState} from './localStorage'
 
+export const guestUserType = 'guest'
 export const providerUserType = 'provider'
 export const customerUserType = 'customer'
 

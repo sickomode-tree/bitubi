@@ -1,6 +1,7 @@
 import React, {Component} from 'react'
 import PropTypes from 'prop-types'
-import {Button, Icon, Modal} from 'semantic-ui-react'
+import {Button, Modal} from 'semantic-ui-react'
+import {guestUserType, getUserType} from 'utils/auth'
 
 export default class ProductModal extends Component {
   static propTypes = {
@@ -12,6 +13,7 @@ export default class ProductModal extends Component {
 
   render() {
     const {card, trigger, saveToFavourites, saveToHistory} = this.props
+    const isGuest = getUserType() === guestUserType
 
     return (
       <Modal
@@ -19,21 +21,24 @@ export default class ProductModal extends Component {
         size='large'
         className='scrolling'
         style={{height: 'fit-content'}}
-        onOpen={() => saveToHistory(card.id)}
+        onOpen={() => !isGuest && saveToHistory(card.id)}
       >
         <Modal.Header>{card.provider.name}</Modal.Header>
         <Modal.Content>
           <p>{card.provider.city.name}</p>
           <p>{card.description}</p>
         </Modal.Content>
-        <Modal.Actions>
-          <Button
-            basic={!card.favourite} icon={`star${!card.favourite ? ' outline' : ''}`}
-            content={card.favourite ? 'Убрать из закладок' : 'Сохранить'}
-            color={card.favourite ? 'yellow' : 'twitter'}
-            onClick={() => saveToFavourites(card.id)}
-          />
-        </Modal.Actions>
+        {
+          !isGuest &&
+          <Modal.Actions>
+            <Button
+              basic={!card.favourite} icon={`star${!card.favourite ? ' outline' : ''}`}
+              content={card.favourite ? 'Убрать из закладок' : 'Сохранить'}
+              color={card.favourite ? 'yellow' : 'twitter'}
+              onClick={() => saveToFavourites(card.id)}
+            />
+          </Modal.Actions>
+        }
       </Modal>
     )
   }
