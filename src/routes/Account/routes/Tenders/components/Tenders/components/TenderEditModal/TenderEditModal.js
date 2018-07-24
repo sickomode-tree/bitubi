@@ -4,7 +4,7 @@ import PropTypes from 'prop-types'
 import {Button, Input, Form, Modal, TextArea} from 'semantic-ui-react'
 import DatePicker from 'react-datepicker'
 
-class TenderFormModal extends Component {
+class TenderEditModal extends Component {
   static propTypes = {
     trigger: PropTypes.node,
     categories: PropTypes.array.isRequired,
@@ -127,8 +127,8 @@ class TenderFormModal extends Component {
   }
 
   handleDayChange(day) {
-    this.setState({ endDate: day });
+    this.setState({endDate: day});
   }
 }
 
-export default TenderFormModal
+export default TenderEditModal

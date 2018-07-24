@@ -4,8 +4,9 @@ import _ from 'lodash'
 import {Button, Card} from 'semantic-ui-react'
 import {customerUserType, getUserType} from 'utils/auth'
 import EmptyText from 'components/EmptyText/EmptyText'
-import TenderFormModal from './components/TenderFormModal/TenderFormModal'
+import TenderEditModal from './components/TenderEditModal/TenderEditModal'
 import TenderViewModal from './components/TenderViewModal/TenderViewModal'
+import TenderViewCard from './components/TenderViewCard/TenderViewCard'
 
 export default class Tenders extends Component {
   static propTypes = {
@@ -35,7 +36,7 @@ export default class Tenders extends Component {
           <Card.Group itemsPerRow={2}>
             {
               userType === customerUserType &&
-              <TenderFormModal
+              <TenderEditModal
                 cities={cities}
                 categories={categories}
                 subcategories={subcategories}
@@ -58,8 +59,7 @@ export default class Tenders extends Component {
                   key={card.id}
                   tender={card}
                   trigger={
-                    <Card
-                      fluid
+                    <TenderViewCard
                       header={card.title}
                       meta={card.category + ' ' + card.subcategory}
                     />
@@ -78,7 +78,7 @@ export default class Tenders extends Component {
         title='Здесь появятся тендеры'
         actions={
           userType === customerUserType &&
-          <TenderFormModal
+          <TenderEditModal
             cities={cities}
             categories={categories}
             subcategories={subcategories}
