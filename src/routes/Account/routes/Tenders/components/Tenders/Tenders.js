@@ -59,7 +59,8 @@ export default class Tenders extends Component {
                   key={card.id}
                   tender={card}
                   trigger={
-                    <TenderViewCard
+                    <Card
+                      fluid
                       header={card.title}
                       meta={card.category + ' ' + card.subcategory}
                     />
