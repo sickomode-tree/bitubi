@@ -1,6 +1,7 @@
 import React, {Component} from 'react'
 import {browserHistory} from 'react-router'
 import PropTypes from 'prop-types'
+import moment from 'moment'
 import {Button, Input, Form, Modal, TextArea} from 'semantic-ui-react'
 import DatePicker from 'react-datepicker'
 
@@ -90,6 +91,7 @@ class TenderEditModal extends Component {
               <div className="eight wide field">
                 <label>Ожидаемая дата</label>
                 <DatePicker
+                  minDate={moment()}
                   locale='ru-ru'
                   customInput={
                     <Input fluid>
