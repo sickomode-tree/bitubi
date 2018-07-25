@@ -1,6 +1,7 @@
 import React, {Component} from 'react'
 import {browserHistory} from 'react-router'
 import PropTypes from 'prop-types'
+import _ from 'lodash'
 import moment from 'moment'
 import {Button, Input, Form, Modal, TextArea} from 'semantic-ui-react'
 import DatePicker from 'react-datepicker'
@@ -18,8 +19,9 @@ class TenderEditModal extends Component {
   }
 
   state = {
-    city: null,
+    selectedCity: null,
     category: null,
+    selectedDistrict: null,
     subcategory: null,
     expectedDate: null,
   }
@@ -34,14 +36,14 @@ class TenderEditModal extends Component {
 
   render() {
     const {trigger, cities, categories, subcategories} = this.props
-    const {city, category, subcategory} = this.state
+    const {selectedCity, category, selectedDistrict, subcategory} = this.state
+    const districts = selectedCity ? cities.find(city => city.id === selectedCity).districts : []
 
     return (
       <Modal
         trigger={trigger || <Button basic color='green'>Создать тендер</Button>}
         size='tiny'
         className='scrolling'
-        style={{height: 'fit-content'}}
       >
         <Modal.Header>Создать тендер</Modal.Header>
         <Modal.Content>
@@ -51,17 +53,31 @@ class TenderEditModal extends Component {
           >
             <Form.Input name='title' label='Название' placeholder='Название' required/>
             <Form.Input name='amount' label='Количество' placeholder='Количество' type='number' required/>
-            <Form.Select
-              name='city' label='Город'
-              options={cities.map(city => ({
-                value: city.id,
-                text: city.name,
-              }))}
-              value={city}
-              placeholder='Город' required
-              onChange={this.handleSelectChange.bind(this)}
-            />
-            <input type='hidden' name='city' value={city}/>
+            <Form.Group>
+              <Form.Select
+                name='selectedCity' label='Город' placeholder='Город'
+                options={cities.map(city => ({
+                  value: city.id,
+                  text: city.name,
+                }))}
+                value={selectedCity}
+                width={8} required
+                onChange={this.handleSelectChange.bind(this)}
+              />
+              <Form.Select
+                name='selectedDistrict' label='Район' placeholder='Район'
+                options={districts.map(district => ({
+                  value: district.id,
+                  text: district.name,
+                }))}
+                disabled={_.isNil(selectedCity) || _.isEmpty(districts)}
+                value={selectedDistrict}
+                width={8}
+                onChange={this.handleSelectChange.bind(this)}
+              />
+              <input type='hidden' name='city' value={selectedCity}/>
+              <input type='hidden' name='district' value={selectedDistrict}/>
+            </Form.Group>
             <Form.Group>
               <Form.Select
                 name='category' label='Категория' placeholder='Категория'
