@@ -90,6 +90,7 @@ class TenderEditModal extends Component {
               <div className="eight wide field">
                 <label>Ожидаемая дата</label>
                 <DatePicker
+                  locale='ru-ru'
                   customInput={
                     <Input fluid>
                       <input placeholder='Ожидаемая дата' name='endDate'/>

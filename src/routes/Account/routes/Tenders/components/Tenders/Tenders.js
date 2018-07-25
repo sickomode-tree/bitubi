@@ -7,6 +7,7 @@ import EmptyText from 'components/EmptyText/EmptyText'
 import TenderEditModal from './components/TenderEditModal/TenderEditModal'
 import TenderViewModal from './components/TenderViewModal/TenderViewModal'
 import TenderViewCard from './components/TenderViewCard/TenderViewCard'
+import Tag from 'components/Tag/Tag'
 
 export default class Tenders extends Component {
   static propTypes = {
@@ -62,7 +63,12 @@ export default class Tenders extends Component {
                     <Card
                       fluid
                       header={card.title}
-                      meta={card.category + ' ' + card.subcategory}
+                      meta={
+                        <div>
+                          <Tag icon='tags' content={card.category}/>
+                          <Tag icon='tag' content={card.subcategory}/>
+                        </div>
+                      }
                     />
                   }
                 />
