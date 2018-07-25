@@ -1,6 +1,7 @@
 import React, {Component} from 'react'
 import PropTypes from 'prop-types'
 import {Button, Form, Menu, Modal} from 'semantic-ui-react'
+import MaskedInput from 'react-text-mask'
 
 class SignUpModal extends Component {
   static propTypes = {
@@ -19,6 +20,7 @@ class SignUpModal extends Component {
     subcategory: null,
     city: null,
     selectedUserType: 'customer',
+    phoneNumber: '',
   }
 
   componentDidMount() {
@@ -31,7 +33,7 @@ class SignUpModal extends Component {
 
   render() {
     const {categories, subcategories, cities, trigger} = this.props
-    const {category, subcategory, city, selectedUserType} = this.state
+    const {category, subcategory, city, selectedUserType, phoneNumber} = this.state
 
     const userTypes = [
       {code: 'customer', name: 'Покупатель'},
@@ -96,7 +98,19 @@ class SignUpModal extends Component {
             }
             {
               selectedUserType === 'provider' &&
-              <Form.Input name='phoneNumber' label='Телефон' placeholder='Телефон' type='text' required/>
+              <Form.Input
+                label='Телефон'
+                required
+                children={
+                  <MaskedInput
+                    name='phoneNumber'
+                    mask={['(', /[1-9]/, /\d/, /\d/, ')', ' ', /\d/, /\d/, /\d/, '-', /\d/, /\d/, '-', /\d/, /\d/]}
+                    placeholder='(999) 999-99-99'
+                    value={phoneNumber}
+                    onChange={this.handleInputChange.bind(this)}
+                  />
+                }
+              />
             }
             {
               selectedUserType === 'provider' &&
@@ -143,6 +157,11 @@ class SignUpModal extends Component {
   }
 
   handleSelectChange(event, field) {
+    this.setState({[field.name]: field.value})
+  }
+
+  handleInputChange(event) {
+    const field = event.target
     this.setState({[field.name]: field.value})
   }
 
