@@ -20,7 +20,7 @@ class TenderEditModal extends Component {
     city: null,
     category: null,
     subcategory: null,
-    endDate: null,
+    expectedDate: null,
   }
 
   componentDidMount() {
@@ -93,9 +93,9 @@ class TenderEditModal extends Component {
                   locale='ru-ru'
                   customInput={
                     <Input fluid>
-                      <input placeholder='Ожидаемая дата' name='endDate'/>
+                      <input placeholder='Ожидаемая дата' name='expectedDate'/>
                     </Input>}
-                  selected={this.state.endDate}
+                  selected={this.state.expectedDate}
                   onChange={this.handleDayChange.bind(this)}
                 />
               </div>
@@ -128,7 +128,7 @@ class TenderEditModal extends Component {
   }
 
   handleDayChange(day) {
-    this.setState({endDate: day});
+    this.setState({expectedDate: day});
   }
 }
 

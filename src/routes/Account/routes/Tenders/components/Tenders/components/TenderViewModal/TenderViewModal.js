@@ -23,12 +23,12 @@ class TenderViewModal extends Component {
           <Image wrapped size='medium' src='https://cdn.dribbble.com/users/228922/screenshots/3293482/heijmans_2.png'/>
           <Modal.Description style={{width: '100%'}}>
             <p>
-              <Tag icon='tags' content={tender.category}/>
-              <Tag icon='tag' content={tender.subcategory}/>
+              <Tag icon='tags' content={tender.category.title}/>
+              <Tag icon='tag' content={tender.subcategory.title}/>
             </p>
             <IconList
               data={[
-                {icon: 'calendar', header: 'Дата', description: tender.endDate},
+                {icon: 'calendar', header: 'Дата', description: tender.expectedDate},
                 {icon: 'box', header: 'Количество', description: tender.amount},
                 {icon: 'ruble', header: 'Стоимость', description: tender.price},
                 {icon: 'comment', header: 'Комментарий', description: tender.comment},

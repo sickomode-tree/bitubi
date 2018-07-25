@@ -65,8 +65,8 @@ export default class Tenders extends Component {
                       header={card.title}
                       meta={
                         <div>
-                          <Tag icon='tags' content={card.category}/>
-                          <Tag icon='tag' content={card.subcategory}/>
+                          <Tag icon='tags' content={card.category.title}/>
+                          <Tag icon='tag' content={card.subcategory.title}/>
                         </div>
                       }
                     />
