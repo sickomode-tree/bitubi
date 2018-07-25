@@ -31,7 +31,7 @@ export default class Profile extends Component {
 
     switch (user.userType) {
       case providerUserType:
-        title = user.company
+        title = user.providerName
         break;
       case customerUserType:
         title = `${user.firstName} ${user.lastName}`
