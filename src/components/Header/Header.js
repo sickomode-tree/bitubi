@@ -21,6 +21,7 @@ export default class Header extends Component {
     fetchCategories: PropTypes.func.isRequired,
     fetchSubcategories: PropTypes.func.isRequired,
     fetchCities: PropTypes.func.isRequired,
+    fetchProducts: PropTypes.func.isRequired,
     resetFilter: PropTypes.func.isRequired,
     sendAuthRequest: PropTypes.func.isRequired,
     sendRegisterRequest: PropTypes.func.isRequired,
@@ -31,7 +32,7 @@ export default class Header extends Component {
     const {
       cards, cities, categories, subcategories, filters, isAuthorized,
       changeFilterValue, changeSearchTerm,
-      fetchCategories, fetchSubcategories, fetchCities,
+      fetchCategories, fetchSubcategories, fetchCities, fetchProducts,
       resetFilter, searchTerm
     } = this.props
 
@@ -78,6 +79,7 @@ export default class Header extends Component {
                   cities={cities} categories={categories} subcategories={subcategories}
                   fetchCities={fetchCities} fetchCategories={fetchCategories} fetchSubcategories={fetchSubcategories}
                   handleSignUp={this.handleSignUp.bind(this)}
+                  onClose={fetchProducts}
                 />
               </Item>
             }

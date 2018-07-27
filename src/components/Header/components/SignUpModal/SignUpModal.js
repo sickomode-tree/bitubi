@@ -14,6 +14,7 @@ class SignUpModal extends Component {
     fetchCities: PropTypes.func.isRequired,
     fetchCategories: PropTypes.func.isRequired,
     fetchSubcategories: PropTypes.func.isRequired,
+    fetchProducts: PropTypes.func.isRequired,
   }
 
   state = {
@@ -34,7 +35,7 @@ class SignUpModal extends Component {
   }
 
   render() {
-    const {categories, subcategories, cities, trigger} = this.props
+    const {categories, subcategories, cities, trigger, onClose} = this.props
     const {state} = this
     const {category, subcategory, selectedUserType, phoneNumber} = state
     const districts = state.city ? cities.find(city => city.id === state.city).districts : []
@@ -49,6 +50,7 @@ class SignUpModal extends Component {
         trigger={trigger || <Button basic color='green'>Зарегистрироваться</Button>}
         size='tiny'
         dimmer='blurring'
+        onClose={onClose}
       >
         <Modal.Header>Зарегистрироваться</Modal.Header>
         <Modal.Content>

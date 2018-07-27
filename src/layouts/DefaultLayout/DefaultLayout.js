@@ -34,7 +34,8 @@ class DefaultLayout extends Component {
   render() {
     const {
       children, cards, categories, subcategories, cities, filters, searchTerm, isAuthorized,
-      fetchCategories, fetchSubcategories, fetchCities, changeSearchTerm, changeFilterValue, resetFilter,
+      fetchCategories, fetchSubcategories, fetchCities, fetchProducts,
+      changeSearchTerm, changeFilterValue, resetFilter,
       sendAuthRequest, sendRegisterRequest, signOut,
     } = this.props
 
@@ -51,6 +52,7 @@ class DefaultLayout extends Component {
           changeFilterValue={changeFilterValue}
           changeSearchTerm={changeSearchTerm}
           resetFilter={resetFilter}
+          fetchProducts={fetchProducts}
           fetchCategories={fetchCategories}
           fetchCities={fetchCities}
           fetchSubcategories={fetchSubcategories}
