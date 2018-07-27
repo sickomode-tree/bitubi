@@ -36,7 +36,9 @@ export default class ProductModal extends Component {
                 {icon: 'handshake', header: 'Тип деятельности', description: card.provider.actionType},
                 {icon: 'box', header: 'Тип поставки', description: card.deliveryType},
                 {icon: 'info circle', header: 'Описание', description: card.description},
-                {icon: 'map marker alternate', header: 'Адрес', description: 'г. ' + card.provider.city.name + ', ' + card.provider.district + ', ' + card.provider.address},
+                {icon: 'map marker alternate', header: 'Адрес', description:
+                  `г. ${card.provider.city.name}, ${card.provider.district ? card.provider.district.name + ' р-н,' : '' } ${card.provider.address}`
+                },
                 {icon: 'phone', header: 'Телефон', description: card.provider.phoneNumber},
                 {icon: 'world', header: 'Сайт', description: card.provider.url},
                 {icon: 'mail', header: 'Email', description: card.provider.email},

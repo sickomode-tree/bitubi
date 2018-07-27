@@ -21,7 +21,7 @@ export default class Profile extends Component {
     const userInfo = [
       {code: 'login', title: 'Логин'},
       {code: 'city.name', title: 'Город'},
-      {code: 'district', title: 'Район'},
+      {code: 'district.name', title: 'Район'},
       {code: 'address', title: 'Адрес'},
       {code: 'email', title: 'Email'},
       {code: 'phoneNumber', title: 'Телефон'},
@@ -72,7 +72,9 @@ export default class Profile extends Component {
                     !_.isEmpty(user) &&
                     <Table.Row key={info.code}>
                       <Table.Cell>{info.title}</Table.Cell>
-                      <Table.Cell>{getObjectValue(user, info.code)}</Table.Cell>
+                      <Table.Cell>
+                        {getObjectValue(user, info.code)}
+                      </Table.Cell>
                     </Table.Row>
                   ))
                 }

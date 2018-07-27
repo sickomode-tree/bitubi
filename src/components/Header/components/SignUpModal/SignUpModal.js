@@ -2,6 +2,7 @@ import React, {Component} from 'react'
 import PropTypes from 'prop-types'
 import {Button, Form, Menu, Modal} from 'semantic-ui-react'
 import MaskedInput from 'react-text-mask'
+import _ from "lodash";
 
 class SignUpModal extends Component {
   static propTypes = {
@@ -19,6 +20,7 @@ class SignUpModal extends Component {
     category: null,
     subcategory: null,
     city: null,
+    district: null,
     selectedUserType: 'customer',
     phoneNumber: '',
   }
@@ -33,7 +35,9 @@ class SignUpModal extends Component {
 
   render() {
     const {categories, subcategories, cities, trigger} = this.props
-    const {category, subcategory, city, selectedUserType, phoneNumber} = this.state
+    const {state} = this
+    const {category, subcategory, selectedUserType, phoneNumber} = state
+    const districts = state.city ? cities.find(city => city.id === state.city).districts : []
 
     const userTypes = [
       {code: 'customer', name: 'Покупатель'},
@@ -89,13 +93,25 @@ class SignUpModal extends Component {
                     value: city.id,
                     text: city.name,
                   }))}
-                  value={city}
+                  value={state.city}
                   placeholder='Город' width={8} required onChange={this.handleSelectChange.bind(this)}
                 />
-                <input type='hidden' name='city' value={city}/>
-                <Form.Input name='address' label='Адрес' placeholder='Адрес' type='text' required width={8}/>
+                <input type='hidden' name='city' value={state.city}/>
+                <Form.Select
+                  name='district' label='Район' placeholder='Район'
+                  options={districts.map(district => ({
+                    value: district.id,
+                    text: district.name,
+                  }))}
+                  disabled={_.isNil(state.city) || _.isEmpty(districts)}
+                  value={state.district}
+                  width={8}
+                  onChange={this.handleSelectChange.bind(this)}
+                />
+                <input type='hidden' name='district' value={state.district}/>
               </Form.Group>
             }
+            <Form.Input name='address' label='Адрес' placeholder='Адрес' type='text' required/>
             {
               selectedUserType === 'provider' &&
               <Form.Input
