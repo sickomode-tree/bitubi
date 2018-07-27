@@ -1,7 +1,6 @@
 @import 'base';
+@import 'components/components';
 
-// Some best-practice CSS that's useful for most apps
-// Just remove them if they're not what you want
 html {
   box-sizing: border-box;
 }
@@ -16,6 +15,15 @@ body {
 body {
   padding: 90px 0 40px 0;
   background-color: #fafafa;
+
+  a {
+    color: rgba(0, 0, 0, .87);
+
+    &:link,
+    &:hover {
+      color: rgba(0, 0, 0, .87);
+    }
+  }
 }
 
 *,

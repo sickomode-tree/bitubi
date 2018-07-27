@@ -1,5 +1,6 @@
 import React, {Component} from 'react'
 import PropTypes from 'prop-types'
+import moment from 'moment'
 import {Button, Image, Modal} from 'semantic-ui-react'
 import IconList from 'components/IconList/IconList'
 import Tag from 'components/Tag/Tag'
@@ -16,21 +17,22 @@ class TenderViewModal extends Component {
     return (
       <Modal
         trigger={trigger || <Button basic>Открыть тендер</Button>}
+        dimmer='blurring'
         size='large'
       >
         <Modal.Header>{tender.title}</Modal.Header>
         <Modal.Content image>
-          <Image wrapped size='medium' src='https://cdn.dribbble.com/users/228922/screenshots/3293482/heijmans_2.png'/>
           <Modal.Description style={{width: '100%'}}>
-            <p>
-              <Tag icon='tags' content={tender.category.title}/>
-              <Tag icon='tag' content={tender.subcategory.title}/>
-            </p>
+            <Tag icon='tags' content={tender.category.title}/>
+            <Tag icon='tag' content={tender.subcategory.title}/>
+
+            <br/>
+
             <IconList
               data={[
-                {icon: 'calendar', header: 'Дата', description: tender.expectedDate},
-                {icon: 'box', header: 'Количество', description: tender.amount},
-                {icon: 'ruble', header: 'Стоимость', description: tender.price},
+                {icon: 'calendar', header: 'Дата', description: moment(tender.expectedDate).format('DD.MM.YYYY')},
+                {icon: 'box', header: 'Количество, шт', description: +tender.amount},
+                {icon: 'ruble', header: 'Стоимость, руб', description: +tender.price},
                 {icon: 'comment', header: 'Комментарий', description: tender.comment},
               ]}
             />

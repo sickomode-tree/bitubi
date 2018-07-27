@@ -19,7 +19,7 @@ export default class Favourites extends Component {
   }
 
   render() {
-    const {items, saveToFavourites} = this.props
+    const {items, fetchFavourites, saveToFavourites} = this.props
 
     if (!_.isEmpty(items)) {
       return (
@@ -29,8 +29,10 @@ export default class Favourites extends Component {
             {
               items.map(card => (
                 <ProductCard
+                  key={card.id}
                   product={card}
                   style={{height: 150}}
+                  onClose={fetchFavourites}
                   saveToFavourites={saveToFavourites}
                 />
               ))

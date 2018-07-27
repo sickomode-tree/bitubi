@@ -19,7 +19,7 @@ export default class History extends Component {
   }
 
   render() {
-    const {items, saveToFavourites} = this.props
+    const {items, fetchHistory, saveToFavourites} = this.props
 
     if (!_.isEmpty(items)) {
       return (
@@ -32,6 +32,7 @@ export default class History extends Component {
                 <ProductCard
                   product={card}
                   style={{height: 150}}
+                  onClose={fetchHistory}
                   saveToFavourites={saveToFavourites}
                 />
               ))

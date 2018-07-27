@@ -48,8 +48,7 @@ class SignUpModal extends Component {
       <Modal
         trigger={trigger || <Button basic color='green'>Зарегистрироваться</Button>}
         size='tiny'
-        className='scrolling'
-        style={{height: 'fit-content'}}
+        dimmer='blurring'
       >
         <Modal.Header>Зарегистрироваться</Modal.Header>
         <Modal.Content>

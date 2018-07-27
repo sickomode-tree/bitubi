@@ -21,7 +21,7 @@ class TenderEditModal extends Component {
   state = {
     selectedCity: null,
     category: null,
-    selectedDistrict: null,
+    district: null,
     subcategory: null,
     expectedDate: null,
   }
@@ -36,14 +36,15 @@ class TenderEditModal extends Component {
 
   render() {
     const {trigger, cities, categories, subcategories} = this.props
-    const {selectedCity, category, selectedDistrict, subcategory} = this.state
+    const {state} = this
+    const {selectedCity, category, subcategory} = state
     const districts = selectedCity ? cities.find(city => city.id === selectedCity).districts : []
 
     return (
       <Modal
         trigger={trigger || <Button basic color='green'>Создать тендер</Button>}
         size='tiny'
-        className='scrolling'
+        dimmer='blurring'
       >
         <Modal.Header>Создать тендер</Modal.Header>
         <Modal.Content>
@@ -52,7 +53,7 @@ class TenderEditModal extends Component {
             onSubmit={this.handleSubmit.bind(this)}
           >
             <Form.Input name='title' label='Название' placeholder='Название' required/>
-            <Form.Input name='amount' label='Количество' placeholder='Количество' type='number' required/>
+            <Form.Input name='amount' label='Количество, шт' placeholder='Количество' type='number' required/>
             <Form.Group>
               <Form.Select
                 name='selectedCity' label='Город' placeholder='Город'
@@ -65,18 +66,18 @@ class TenderEditModal extends Component {
                 onChange={this.handleSelectChange.bind(this)}
               />
               <Form.Select
-                name='selectedDistrict' label='Район' placeholder='Район'
+                name='district' label='Район' placeholder='Район'
                 options={districts.map(district => ({
                   value: district.id,
                   text: district.name,
                 }))}
                 disabled={_.isNil(selectedCity) || _.isEmpty(districts)}
-                value={selectedDistrict}
+                value={state.district}
                 width={8}
                 onChange={this.handleSelectChange.bind(this)}
               />
               <input type='hidden' name='city' value={selectedCity}/>
-              <input type='hidden' name='district' value={selectedDistrict}/>
+              <input type='hidden' name='district' value={state.district}/>
             </Form.Group>
             <Form.Group>
               <Form.Select
@@ -103,7 +104,7 @@ class TenderEditModal extends Component {
               <input type='hidden' name='subcategory' value={subcategory}/>
             </Form.Group>
             <Form.Group>
-              <Form.Input name='price' label='Ожидаемая цена' placeholder='Ожидаемая цена' width={8} type='number'/>
+              <Form.Input name='price' label='Ожидаемая цена, руб' placeholder='Ожидаемая цена' width={8} type='number'/>
               <div className="eight wide field">
                 <label>Ожидаемая дата</label>
                 <DatePicker

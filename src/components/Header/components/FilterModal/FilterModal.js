@@ -26,8 +26,7 @@ class FilterModal extends Component {
       <Modal
         trigger={trigger || <Button basic>Фильтр</Button>}
         size='tiny'
-        className='scrolling'
-        style={{height: 'fit-content'}}
+        dimmer='blurring'
       >
         <Modal.Header>Фильтр</Modal.Header>
         <Modal.Content>

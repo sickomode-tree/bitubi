@@ -15,8 +15,7 @@ class SignInModal extends Component {
       <Modal
         trigger={trigger || <a className='item'>Войти</a>}
         size='tiny'
-        className='scrolling'
-        style={{height: 'fit-content'}}
+        dimmer='blurring'
       >
         <Modal.Header>Войти в систему</Modal.Header>
         <Modal.Content>

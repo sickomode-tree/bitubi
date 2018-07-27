@@ -1,13 +1,13 @@
 import React, {Component} from 'react'
 import PropTypes from 'prop-types'
 import _ from 'lodash'
-import {Button, Card} from 'semantic-ui-react'
+import {Button, Card, Icon, Header} from 'semantic-ui-react'
 import {customerUserType, getUserType} from 'utils/auth'
 import EmptyText from 'components/EmptyText/EmptyText'
 import TenderEditModal from './components/TenderEditModal/TenderEditModal'
 import TenderViewModal from './components/TenderViewModal/TenderViewModal'
-import TenderViewCard from './components/TenderViewCard/TenderViewCard'
-import Tag from 'components/Tag/Tag'
+import IconList from 'components/IconList/IconList'
+import moment from "moment/moment";
 
 export default class Tenders extends Component {
   static propTypes = {
@@ -49,7 +49,14 @@ export default class Tenders extends Component {
                   <Card
                     fluid
                     link
-                    header='Создать тендер'
+                    color='green'
+                    style={{justifyContent: 'center'}}
+                    content={
+                      <Header as='h2' icon textAlign='center' color='green'>
+                        <Icon name='plus' circular />
+                        <Header.Content>Добавить</Header.Content>
+                      </Header>
+                    }
                   />
                 }
               />
@@ -64,10 +71,11 @@ export default class Tenders extends Component {
                       fluid
                       header={card.title}
                       meta={
-                        <div>
-                          <Tag icon='tags' content={card.category.title}/>
-                          <Tag icon='tag' content={card.subcategory.title}/>
-                        </div>
+                        <IconList data={[
+                          {icon: 'calendar', header: 'Дата', description: moment(card.expectedDate).format('DD.MM.YYYY')},
+                          {icon: 'box', header: 'Количество, шт', description: +card.amount},
+                          {icon: 'ruble', header: 'Стоимость, руб', description: +card.price},
+                        ]}/>
                       }
                     />
                   }
