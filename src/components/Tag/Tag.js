@@ -1,6 +1,6 @@
 import React, {Component} from 'react'
 import PropTypes from 'prop-types'
-import {Label} from 'semantic-ui-react'
+import {Label, Popup} from 'semantic-ui-react'
 
 export default class Tag extends Component {
   static propTypes = {
@@ -12,10 +12,15 @@ export default class Tag extends Component {
     const {content, icon} = this.props
 
     return (
-      <Label
-        icon={icon}
+      <Popup
         content={content}
-        style={{maxWidth: 220, whiteSpace: 'nowrap', textOverflow: 'ellipsis', overflow: 'hidden'}}
+        trigger={
+          <Label
+            icon={icon}
+            content={content}
+            style={{maxWidth: 220, whiteSpace: 'nowrap', textOverflow: 'ellipsis', overflow: 'hidden'}}
+          />
+        }
       />
     )
   }

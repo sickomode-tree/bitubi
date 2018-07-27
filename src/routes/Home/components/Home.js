@@ -1,9 +1,9 @@
 import React, {Component} from 'react'
 import PropTypes from 'prop-types'
 import _ from 'lodash'
-import {Card, Icon} from 'semantic-ui-react'
+import {Card} from 'semantic-ui-react'
 import CardGrid from 'components/CardGrid/CardGrid'
-import ProductModal from 'components/ProductModal/ProductModal'
+import ProductCard from 'components/ProductCard/ProductCard'
 import EmptyText from 'components/EmptyText/EmptyText'
 import {getObjectValue} from 'utils/array'
 
@@ -100,49 +100,28 @@ export default class Home extends Component {
   }
 
   getCardComponent(card) {
-    const {filter} = this.props
+    const {filter, saveToFavourites, saveToHistory} = this.props
 
     if (_.isEmpty(filter.filters) && _.isEmpty(filter.searchTerm)) {
-      return this.getSubcategoryCardComponent.call(this, card)
+      return (
+        <Card
+          link={true}
+          onClick={() => this.props.changeFilterValue('subcategory.title', card.subcategory.title)}
+          style={{flex: '0 1 25%'}}
+        >
+          <Card.Content style={{display: 'flex', justifyContent: 'center', alignItems: 'center', textAlign: 'center'}}>
+            <Card.Header>{card.subcategory.title}</Card.Header>
+          </Card.Content>
+        </Card>
+      )
     }
 
-    return this.getProductCardComponent.call(this, card)
-  }
-
-  getSubcategoryCardComponent(card) {
     return (
-      <Card
-        link={true}
-        onClick={() => this.props.changeFilterValue('subcategory.title', card.subcategory.title)}
-        style={{flex: '0 1 25%'}}
-      >
-        <Card.Content style={{display: 'flex', justifyContent: 'center', alignItems: 'center', textAlign: 'center'}}>
-          <Card.Header>{card.subcategory.title}</Card.Header>
-        </Card.Content>
-      </Card>
-    )
-  }
-
-  getProductCardComponent(card) {
-    const {saveToFavourites, saveToHistory} = this.props
-
-    return (
-      <ProductModal
-        card={card}
+      <ProductCard
+        product={card}
+        style={{flex: '0 0 25%'}}
         saveToFavourites={saveToFavourites}
         saveToHistory={saveToHistory}
-        trigger={
-          <Card
-            header={card.provider.name}
-            meta={card.provider.city.name}
-            description={card.description}
-            extra={
-              card.favourite && <Icon name='star' color='yellow'/>
-            }
-            style={{flex: '0 1 25%'}}
-            color={card.favourite ? 'yellow' : null}
-          />
-        }
       />
     )
   }

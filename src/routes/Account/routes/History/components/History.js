@@ -2,12 +2,14 @@ import React, {Component} from 'react'
 import PropTypes from 'prop-types'
 import _ from 'lodash'
 import {Card} from 'semantic-ui-react'
+import ProductCard from 'components/ProductCard/ProductCard'
 import EmptyText from 'components/EmptyText/EmptyText'
 
 export default class History extends Component {
   static propTypes = {
     items: PropTypes.array.isRequired,
     fetchHistory: PropTypes.func.isRequired,
+    saveToFavourites: PropTypes.func.isRequired,
     resetFilter: PropTypes.func.isRequired,
   }
 
@@ -17,7 +19,7 @@ export default class History extends Component {
   }
 
   render() {
-    const {items} = this.props
+    const {items, saveToFavourites} = this.props
 
     if (!_.isEmpty(items)) {
       return (
@@ -27,12 +29,10 @@ export default class History extends Component {
           <Card.Group itemsPerRow={2}>
             {
               items.map(card => (
-                <Card
-                  fluid
-                  key={card.id}
-                  header={card.provider.name}
-                  meta={card.provider.city.name}
-                  description={card.description}
+                <ProductCard
+                  product={card}
+                  style={{height: 150}}
+                  saveToFavourites={saveToFavourites}
                 />
               ))
             }
