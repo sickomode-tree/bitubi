@@ -25,7 +25,7 @@ export default class Favourites extends Component {
       return (
         <div style={{flex: 1}}>
           <h2>Закладки</h2>
-          <Card.Group itemsPerRow={2}>
+          <Card.Group itemsPerRow={3}>
             {
               items.map(card => (
                 <ProductCard

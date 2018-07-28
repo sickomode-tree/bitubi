@@ -22,6 +22,7 @@ const mapDispatchToProps = {
 
 const mapStateToProps = (state) => ({
   items : state.history.items,
+  isLoading: state.history.isLoading,
 })
 
 /*  Note: mapStateToProps is where you should use `reselect` to create selectors, ie:

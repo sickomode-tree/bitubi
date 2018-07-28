@@ -8,6 +8,7 @@ import EmptyText from 'components/EmptyText/EmptyText'
 export default class History extends Component {
   static propTypes = {
     items: PropTypes.array.isRequired,
+    isLoading: PropTypes.bool.isRequired,
     fetchHistory: PropTypes.func.isRequired,
     saveToFavourites: PropTypes.func.isRequired,
     resetFilter: PropTypes.func.isRequired,
@@ -19,34 +20,39 @@ export default class History extends Component {
   }
 
   render() {
-    const {items, fetchHistory, saveToFavourites} = this.props
+    const {items, isLoading, fetchHistory, saveToFavourites} = this.props
 
-    if (!_.isEmpty(items)) {
+    if (!isLoading) {
+      if (!_.isEmpty(items)) {
+        return (
+          <div style={{flex: 1}}>
+            <h2>История</h2>
+
+            <Card.Group itemsPerRow={3}>
+              {
+                items.map(card => (
+                  <ProductCard
+                    key={card.id}
+                    product={card}
+                    style={{height: 150}}
+                    onClose={fetchHistory}
+                    saveToFavourites={saveToFavourites}
+                  />
+                ))
+              }
+            </Card.Group>
+          </div>
+        )
+      }
+
       return (
-        <div style={{flex: 1}}>
-          <h2>История</h2>
-
-          <Card.Group itemsPerRow={2}>
-            {
-              items.map(card => (
-                <ProductCard
-                  product={card}
-                  style={{height: 150}}
-                  onClose={fetchHistory}
-                  saveToFavourites={saveToFavourites}
-                />
-              ))
-            }
-          </Card.Group>
-        </div>
+        <EmptyText
+          icon='history'
+          title='Здесь появится история просмотренных карточек'
+        />
       )
     }
 
-    return (
-      <EmptyText
-        icon='history'
-        title='Здесь появится история просмотренных карточек'
-      />
-    )
+    return <div></div>
   }
 }

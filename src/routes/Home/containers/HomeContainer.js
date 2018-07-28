@@ -24,6 +24,7 @@ const mapStateToProps = (state) => {
   return {
     products: state.products.products,
     filter: state.filter,
+    isLoading: state.products.isLoading,
   }
 };
 

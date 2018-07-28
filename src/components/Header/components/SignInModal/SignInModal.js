@@ -1,21 +1,23 @@
-import React, { Component } from 'react'
+import React, {Component} from 'react'
 import PropTypes from 'prop-types'
-import { Button, Form, Modal } from 'semantic-ui-react'
+import {Button, Form, Modal} from 'semantic-ui-react'
 
 class SignInModal extends Component {
   static propTypes = {
     trigger: PropTypes.node,
+    fetchProducts: PropTypes.func.isRequired,
     handleSignIn: PropTypes.func.isRequired,
   }
 
   render() {
-    const {trigger} = this.props
+    const {trigger, fetchProducts} = this.props
 
     return (
       <Modal
         trigger={trigger || <a className='item'>Войти</a>}
         size='tiny'
         dimmer='blurring'
+
       >
         <Modal.Header>Войти в систему</Modal.Header>
         <Modal.Content>
@@ -24,8 +26,8 @@ class SignInModal extends Component {
             onSubmit={this.handleSubmit.bind(this)}
           >
             <Form.Group>
-              <Form.Input name='login' label='Логин' placeholder='Логин' width={8} />
-              <Form.Input name='password' label='Пароль' placeholder='Пароль' width={8} type='password' />
+              <Form.Input name='login' label='Логин' placeholder='Логин' width={8}/>
+              <Form.Input name='password' label='Пароль' placeholder='Пароль' width={8} type='password'/>
             </Form.Group>
           </Form>
         </Modal.Content>
@@ -37,7 +39,7 @@ class SignInModal extends Component {
   }
 
   handleSubmit(event) {
-    const { handleSignIn } = this.props
+    const {handleSignIn} = this.props
     const form = event.target;
 
     handleSignIn(form);

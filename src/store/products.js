@@ -55,7 +55,7 @@ export function onFetchCitiesSuccess(json) {
 export function onFetchError(bool) {
   return {
     type: PRODUCTS_FETCH_ERROR,
-    hasErrored: bool,
+    isErrored: bool,
   }
 }
 
@@ -200,7 +200,7 @@ export function saveToHistory(id) {
   formData.append('id', id)
 
   return (dispatch) => {
-    dispatch(onFetchStart(true))
+    // dispatch(onFetchStart(true))
 
     fetch(url, {
       method: 'POST',
@@ -232,7 +232,7 @@ export function saveToFavourites(id) {
   formData.append('id', id)
 
   return (dispatch) => {
-    dispatch(onFetchStart(true))
+    // dispatch(onFetchStart(true))
 
     fetch(url, {
       method: 'POST',
@@ -280,7 +280,8 @@ export const actions = {
 const ACTION_HANDLERS = {
   [PRODUCTS_FETCH_ERROR]: (state, action) => ({
     ...state,
-    isErrored: action.hasErrored,
+    isErrored: action.isErrored,
+    isLoading: action.isLoading,
   }),
   [PRODUCTS_IS_LOADING]: (state, action) => ({
     ...state,

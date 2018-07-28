@@ -8,9 +8,8 @@ import Tag from 'components/Tag/Tag'
 
 export default class ProductCard extends Component {
   static propTypes = {
-    card: PropTypes.object.isRequired,
+    product: PropTypes.object.isRequired,
     style: PropTypes.object,
-    fetchHistory: PropTypes.func,
     saveToHistory: PropTypes.func,
     saveToFavourites: PropTypes.func,
   }
@@ -20,7 +19,7 @@ export default class ProductCard extends Component {
   }
 
   render() {
-    const {product, style, fetchHistory, saveToHistory, saveToFavourites, onClose} = this.props
+    const {product, style, saveToHistory, onClose} = this.props
     const {favourite} = this.state
 
     const isGuest = getUserType() === guestUserType
@@ -29,7 +28,7 @@ export default class ProductCard extends Component {
       <Modal
         size='large'
         dimmer='blurring'
-        onOpen={() => !isGuest && !_.isNil(saveToHistory) && saveToHistory(product.id)}
+        onOpen={() => !isGuest && !_.isNil(saveToHistory) ? saveToHistory(product.id) : null}
         onClose={!_.isNil(onClose) ? onClose : null}
         trigger={
           <Card
@@ -37,9 +36,9 @@ export default class ProductCard extends Component {
             meta={product.provider.city.name}
             description={product.description}
             extra={
-              favourite && <Icon name='star' color='yellow'/>
+              product.favourite && <Icon name='star' color='yellow'/>
             }
-            style={style || {}} color={favourite ? 'yellow' : null} link
+            style={style || {}} color={product.favourite ? 'yellow' : null} link
           />
         }
       >
@@ -47,10 +46,11 @@ export default class ProductCard extends Component {
         <Modal.Content image>
           <Image wrapped size='medium' src='http://react.semantic-ui.com/images/avatar/large/daniel.jpg'/>
           <Modal.Description style={{width: '100%'}}>
-            <p>
-              <Tag icon='tags' content={product.category.title}/>
-              <Tag icon='tag' content={product.subcategory.title}/>
-            </p>
+            <Tag icon='tags' content={product.category.title}/>
+            <Tag icon='tag' content={product.subcategory.title}/>
+
+            <br/>
+
             <IconList
               data={[
                 {icon: 'handshake', header: 'Тип деятельности', description: product.provider.actionType},
@@ -74,14 +74,19 @@ export default class ProductCard extends Component {
               basic={!favourite} icon={`star${!favourite ? ' outline' : ''}`}
               content={favourite ? 'Убрать из закладок' : 'Сохранить'}
               color={favourite ? 'yellow' : 'twitter'}
-              onClick={() => {
-                this.setState({favourite: !favourite})
-                saveToFavourites(product.id)
-              }}
+              onClick={this.toggleFavouriteState.bind(this)}
             />
           </Modal.Actions>
         }
       </Modal>
     )
+  }
+
+  toggleFavouriteState() {
+    const {product, saveToFavourites} = this.props
+    const {favourite} = this.state
+
+    this.setState({favourite: !favourite})
+    saveToFavourites(product.id)
   }
 }

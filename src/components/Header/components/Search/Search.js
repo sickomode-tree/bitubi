@@ -15,6 +15,7 @@ export default class Search extends Component {
     searchTerm: PropTypes.string.isRequired,
     changeFilterValue: PropTypes.func.isRequired,
     changeSearchTerm: PropTypes.func.isRequired,
+    fetchProducts: PropTypes.func.isRequired,
     handleSignIn: PropTypes.func.isRequired,
     resetFilter: PropTypes.func.isRequired,
   }
@@ -24,7 +25,7 @@ export default class Search extends Component {
   }
 
   render() {
-    const {filters, isAuthorized, searchTerm, handleSignIn} = this.props
+    const {filters, isAuthorized, searchTerm, fetchProducts, handleSignIn} = this.props
     const quickFilters = [
       {title: 'Город', key: 'provider.city.name'},
       {title: 'Категория', key: 'category.title'},
@@ -59,7 +60,7 @@ export default class Search extends Component {
         }
         {
           !isAuthorized &&
-          <SignInModal trigger={<Button icon='filter' basic/>} handleSignIn={handleSignIn}/>
+          <SignInModal trigger={<Button icon='filter' basic/>} handleSignIn={handleSignIn} fetchProducts={fetchProducts}/>
         }
         <Button icon='sync' basic disabled={_.isEmpty(filters) && _.isEmpty(searchTerm)}
                 onClick={this.handleResetFilterButtonClick.bind(this)}/>

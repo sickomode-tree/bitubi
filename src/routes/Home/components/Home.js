@@ -11,6 +11,7 @@ export default class Home extends Component {
   static propTypes = {
     filter: PropTypes.object.isRequired,
     products: PropTypes.array.isRequired,
+    isLoading: PropTypes.bool.isRequired,
     fetchProducts: PropTypes.func.isRequired,
     changeFilterValue: PropTypes.func.isRequired,
     saveToFavourites: PropTypes.func.isRequired,
@@ -22,26 +23,31 @@ export default class Home extends Component {
   }
 
   render() {
-    const {products, filter} = this.props
+    const {products, isLoading, filter} = this.props
     const cards = this.getCards.call(this, products)
     const groupKey = _.isEmpty(filter.filters) && _.isEmpty(filter.searchTerm) ? 'category.title' : 'subcategory.title'
 
-    if (!_.isEmpty(cards)) {
+    if (!isLoading) {
+      if (!_.isEmpty(cards)) {
+        return (
+          <CardGrid
+            cards={cards}
+            getCardComponent={this.getCardComponent.bind(this)}
+            groupKey={groupKey}
+          />
+        )
+      }
+
       return (
-        <CardGrid
-          cards={cards}
-          getCardComponent={this.getCardComponent.bind(this)}
-          groupKey={groupKey}
+        <EmptyText
+          icon='shopping cart'
+          title='Продукты не найдены'
         />
       )
+
     }
 
-    return (
-      <EmptyText
-        icon='shopping cart'
-        title='Продукты не найдены'
-      />
-    )
+    return (<div></div>)
   }
 
   getProductCards(items) {
@@ -78,6 +84,7 @@ export default class Home extends Component {
 
     items.forEach(card => {
       subcategoryMap[card.subcategory.id] = {
+        id: card.id,
         header: card.subcategory.title,
         category: card.category,
         subcategory: card.subcategory,

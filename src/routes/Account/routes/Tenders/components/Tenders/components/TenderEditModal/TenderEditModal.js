@@ -16,6 +16,7 @@ class TenderEditModal extends Component {
     fetchCategories: PropTypes.func.isRequired,
     fetchSubcategories: PropTypes.func.isRequired,
     saveTender: PropTypes.func.isRequired,
+    onClose: PropTypes.func,
   }
 
   state = {
@@ -35,7 +36,7 @@ class TenderEditModal extends Component {
   }
 
   render() {
-    const {trigger, cities, categories, subcategories} = this.props
+    const {trigger, cities, categories, subcategories, onClose} = this.props
     const {state} = this
     const {selectedCity, category, subcategory} = state
     const districts = selectedCity ? cities.find(city => city.id === selectedCity).districts : []
@@ -45,6 +46,7 @@ class TenderEditModal extends Component {
         trigger={trigger || <Button basic color='green'>Создать тендер</Button>}
         size='tiny'
         dimmer='blurring'
+        onClose={!_.isNil(onClose) ? onClose : null}
       >
         <Modal.Header>Создать тендер</Modal.Header>
         <Modal.Content>

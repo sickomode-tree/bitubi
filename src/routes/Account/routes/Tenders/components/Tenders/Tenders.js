@@ -8,6 +8,7 @@ import TenderEditModal from './components/TenderEditModal/TenderEditModal'
 import TenderViewModal from './components/TenderViewModal/TenderViewModal'
 import IconList from 'components/IconList/IconList'
 import moment from "moment/moment";
+import {fetchTenders} from "../../modules/tenders";
 
 export default class Tenders extends Component {
   static propTypes = {
@@ -26,7 +27,7 @@ export default class Tenders extends Component {
   }
 
   render() {
-    const {cities, categories, subcategories, items, fetchCities, fetchCategories, fetchSubcategories, saveTender} = this.props
+    const {cities, categories, subcategories, items, fetchTenders, fetchCities, fetchCategories, fetchSubcategories, saveTender} = this.props
     const userType = getUserType()
 
     if (!_.isEmpty(items)) {
@@ -34,7 +35,7 @@ export default class Tenders extends Component {
         <div style={{flex: 1}}>
           <h2>Тендеры</h2>
 
-          <Card.Group itemsPerRow={2}>
+          <Card.Group itemsPerRow={3}>
             {
               userType === customerUserType &&
               <TenderEditModal
@@ -45,6 +46,7 @@ export default class Tenders extends Component {
                 fetchCategories={fetchCategories}
                 fetchSubcategories={fetchSubcategories}
                 saveTender={saveTender}
+                onClose={fetchTenders}
                 trigger={
                   <Card
                     fluid

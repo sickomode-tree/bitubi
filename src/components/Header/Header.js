@@ -56,6 +56,7 @@ export default class Header extends Component {
               searchTerm={searchTerm}
               changeFilterValue={changeFilterValue}
               changeSearchTerm={changeSearchTerm}
+              fetchProducts={fetchProducts}
               handleSignIn={this.handleSignIn.bind(this)}
               resetFilter={resetFilter}
             />
@@ -77,7 +78,8 @@ export default class Header extends Component {
               <Item>
                 <SignUpModal
                   cities={cities} categories={categories} subcategories={subcategories}
-                  fetchCities={fetchCities} fetchCategories={fetchCategories} fetchSubcategories={fetchSubcategories}
+                  fetchProducts={fetchProducts} fetchCities={fetchCities}
+                  fetchCategories={fetchCategories}fetchSubcategories={fetchSubcategories}
                   handleSignUp={this.handleSignUp.bind(this)}
                   onClose={fetchProducts}
                 />
@@ -85,7 +87,7 @@ export default class Header extends Component {
             }
             {
               !isAuthorized &&
-              <SignInModal handleSignIn={this.handleSignIn.bind(this)}/>
+              <SignInModal fetchProducts={fetchProducts}  handleSignIn={this.handleSignIn.bind(this)}/>
             }
           </Menu.Menu>
         </Container>

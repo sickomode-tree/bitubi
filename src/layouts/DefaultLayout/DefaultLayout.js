@@ -2,7 +2,7 @@ import React, {Component} from 'react'
 import {connect} from 'react-redux'
 import PropTypes from 'prop-types'
 import Header from 'components/Header/Header'
-import {Container} from 'semantic-ui-react'
+import {Container, Dimmer, Loader} from 'semantic-ui-react'
 import {sendAuthRequest, sendRegisterRequest, signOut} from 'store/auth'
 import {changeFilterValue, changeSearchTerm, resetFilter} from 'store/filter'
 import {fetchProducts, fetchCategories, fetchSubcategories, fetchCities} from 'store/products'
@@ -15,6 +15,8 @@ class DefaultLayout extends Component {
     cities: PropTypes.array.isRequired,
     filters: PropTypes.object.isRequired,
     isAuthorized: PropTypes.bool.isRequired,
+    isLoading: PropTypes.bool,
+    isErrored: PropTypes.bool,
     changeFilterValue: PropTypes.func.isRequired,
     changeSearchTerm: PropTypes.func.isRequired,
     fetchProducts: PropTypes.func.isRequired,
@@ -33,7 +35,8 @@ class DefaultLayout extends Component {
 
   render() {
     const {
-      children, cards, categories, subcategories, cities, filters, searchTerm, isAuthorized,
+      children, cards, categories, subcategories, cities, filters, searchTerm,
+      isAuthorized, isLoading, isErrored,
       fetchCategories, fetchSubcategories, fetchCities, fetchProducts,
       changeSearchTerm, changeFilterValue, resetFilter,
       sendAuthRequest, sendRegisterRequest, signOut,
@@ -61,12 +64,29 @@ class DefaultLayout extends Component {
           signOut={signOut}
         />
         <Container style={{display: 'flex', height: '100%'}}>
+          <Dimmer active={isLoading && !isErrored} inverted>
+            <Loader>Загрузка...</Loader>
+          </Dimmer>
           {children}
         </Container>
       </div>
     )
   }
 }
+
+const mapStateToProps = (state) => {
+  return {
+    cards: state.products.products,
+    categories: state.products.categories,
+    subcategories: state.products.subcategories,
+    cities: state.products.cities,
+    filters: state.filter.filters,
+    isAuthorized: state.auth.isAuthorized,
+    searchTerm: state.filter.searchTerm,
+    isLoading: getLoadingState(state),
+    isErrored: state.products.isErrored,
+  }
+};
 
 const mapDispatchToProps = {
   changeFilterValue,
@@ -81,16 +101,10 @@ const mapDispatchToProps = {
   signOut,
 };
 
-const mapStateToProps = (state) => {
-  return {
-    cards: state.products.products,
-    categories: state.products.categories,
-    subcategories: state.products.subcategories,
-    cities: state.products.cities,
-    filters: state.filter.filters,
-    isAuthorized: state.auth.isAuthorized,
-    searchTerm: state.filter.searchTerm,
-  }
-};
+function getLoadingState(obj) {
+  const isLoading = _.some(obj, {isLoading: true})
+
+  return isLoading
+}
 
 export default connect(mapStateToProps, mapDispatchToProps)(DefaultLayout);

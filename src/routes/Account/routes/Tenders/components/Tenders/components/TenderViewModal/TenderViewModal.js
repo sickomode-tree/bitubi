@@ -30,6 +30,8 @@ class TenderViewModal extends Component {
 
             <IconList
               data={[
+                {icon: 'building', header: 'Город', description: tender.city.name},
+                {icon: 'map marker alternate', header: 'Район', description: tender.district.name},
                 {icon: 'calendar', header: 'Дата', description: moment(tender.expectedDate).format('DD.MM.YYYY')},
                 {icon: 'box', header: 'Количество, шт', description: +tender.amount},
                 {icon: 'ruble', header: 'Стоимость, руб', description: +tender.price},
