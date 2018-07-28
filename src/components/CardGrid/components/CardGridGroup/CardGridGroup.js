@@ -30,7 +30,7 @@ export default class CardGridGroup extends Component {
         position: 'relative',
         display: 'flex',
         flexDirection: 'column',
-        justifyContent: cards.length >= cardCount ? 'space-around' : '',
+        justifyContent: cards.length >= cardCount ? 'space-around' : 'flex-start',
         height: '100%',
         padding: '1em',
       }}>

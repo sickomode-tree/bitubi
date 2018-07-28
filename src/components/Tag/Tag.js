@@ -12,15 +12,11 @@ export default class Tag extends Component {
     const {content, icon} = this.props
 
     return (
-      <Popup
+      <Label
+        icon={icon}
+        title={content}
         content={content}
-        trigger={
-          <Label
-            icon={icon}
-            content={content}
-            style={{maxWidth: 220, whiteSpace: 'nowrap', textOverflow: 'ellipsis', overflow: 'hidden'}}
-          />
-        }
+        style={{maxWidth: 220, whiteSpace: 'nowrap', textOverflow: 'ellipsis', overflow: 'hidden'}}
       />
     )
   }

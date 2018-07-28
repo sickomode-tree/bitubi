@@ -11,7 +11,7 @@ export default class Home extends Component {
   static propTypes = {
     filter: PropTypes.object.isRequired,
     products: PropTypes.array.isRequired,
-    isLoading: PropTypes.bool.isRequired,
+    isLoading: PropTypes.bool,
     fetchProducts: PropTypes.func.isRequired,
     changeFilterValue: PropTypes.func.isRequired,
     saveToFavourites: PropTypes.func.isRequired,

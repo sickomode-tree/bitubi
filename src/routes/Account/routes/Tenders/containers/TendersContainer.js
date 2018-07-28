@@ -28,6 +28,7 @@ const mapStateToProps = (state) => ({
   cities: state.products.cities,
   categories: state.products.categories,
   subcategories: state.products.subcategories,
+  isLoading: state.tenders.isLoading,
 })
 
 /*  Note: mapStateToProps is where you should use `reselect` to create selectors, ie:
