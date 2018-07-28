@@ -1,6 +1,6 @@
 import React, {Component} from 'react'
 import PropTypes from 'prop-types'
-import {Label, Popup} from 'semantic-ui-react'
+import {Label} from 'semantic-ui-react'
 
 export default class Tag extends Component {
   static propTypes = {
