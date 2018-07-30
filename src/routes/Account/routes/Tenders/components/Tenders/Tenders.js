@@ -74,7 +74,7 @@ export default class Tenders extends Component {
                       header={card.title}
                       meta={
                         <IconList data={[
-                          {icon: 'calendar', header: 'Дата', description: moment(card.expectedDate).format('DD.MM.YYYY')},
+                          {icon: 'calendar', header: 'Дата создания', description: moment(card.expectedDate).format('DD.MM.YYYY')},
                           {icon: 'box', header: 'Количество, шт', description: +card.amount},
                           {icon: 'ruble', header: 'Стоимость, руб', description: +card.price},
                         ]}/>

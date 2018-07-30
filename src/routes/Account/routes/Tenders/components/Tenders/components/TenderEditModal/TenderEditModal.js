@@ -111,6 +111,7 @@ class TenderEditModal extends Component {
                 <label>Ожидаемая дата</label>
                 <DatePicker
                   minDate={moment()}
+                  maxDate={moment().add(365, 'days')}
                   locale='ru-ru'
                   customInput={
                     <Input fluid>
