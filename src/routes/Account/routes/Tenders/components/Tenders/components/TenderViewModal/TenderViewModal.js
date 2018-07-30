@@ -4,17 +4,17 @@ import moment from 'moment'
 import {Button, Modal} from 'semantic-ui-react'
 import IconList from 'components/IconList/IconList'
 import Tag from 'components/Tag/Tag'
-import {deleteTender} from "../../../../modules/tenders";
 
 class TenderViewModal extends Component {
   static propTypes = {
     trigger: PropTypes.node,
     tender: PropTypes.object.isRequired,
     deleteTender: PropTypes.func.isRequired,
+    disableTender: PropTypes.func.isRequired,
   }
 
   render() {
-    const {tender, trigger, deleteTender} = this.props
+    const {tender, trigger} = this.props
 
     return (
       <Modal
@@ -44,6 +44,11 @@ class TenderViewModal extends Component {
         </Modal.Content>
         <Modal.Actions>
           <Button
+            basic icon='eye slash'
+            content={'Деактивировать'}
+            onClick={this.handleDisableTender.bind(this, tender.id)}
+          />
+          <Button
             basic icon='trash alternate'
             content={'Удалить'}
             color={'red'}
@@ -58,6 +63,12 @@ class TenderViewModal extends Component {
     const {deleteTender} = this.props
 
     deleteTender(id)
+  }
+
+  handleDisableTender(id) {
+    const {disableTender} = this.props
+
+    disableTender(id)
   }
 }
 

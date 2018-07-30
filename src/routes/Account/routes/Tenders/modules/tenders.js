@@ -13,6 +13,9 @@ export const TENDER_SAVE_SUCCESS = 'TENDER_SAVE_SUCCESS'
 export const TENDER_IS_DELETING = 'TENDER_IS_DELETING'
 export const TENDER_DELETE_SUCCESS = 'TENDER_DELETE_SUCCESS'
 
+export const TENDER_IS_DISABLING = 'TENDER_IS_DISABLING'
+export const TENDER_DISABLE_SUCCESS = 'TENDER_DISABLE_SUCCESS'
+
 // ------------------------------------
 // Actions
 // ------------------------------------
@@ -54,6 +57,19 @@ export function onDeleteTenderStart(bool) {
 export function onDeleteTenderSuccess() {
   return {
     type: TENDER_DELETE_SUCCESS,
+  };
+}
+
+export function onDisableTenderStart(bool) {
+  return {
+    type: TENDER_IS_DISABLING,
+    isDisabling: bool,
+  };
+}
+
+export function onDisableTenderSuccess() {
+  return {
+    type: TENDER_DISABLE_SUCCESS,
   };
 }
 
@@ -147,10 +163,43 @@ export function deleteTender(id) {
   };
 }
 
+export function disableTender(id) {
+  const formData = new FormData()
+  const url = '/test/private/user/disableTender'
+
+  formData.append('id', id)
+
+  return (dispatch) => {
+    dispatch(onDisableTenderStart(true))
+
+    fetch(url, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/x-www-form-urlencoded',
+        'Authorization': `Bearer ${getToken()}`
+      },
+      body: new URLSearchParams(formData),
+    })
+      .then(response => {
+        if (!response.ok) {
+          throw Error(response.statusText)
+        }
+
+        dispatch(onDisableTenderStart(false))
+
+        return response
+      })
+      .then(response => response.json())
+      .then(json => dispatch(onDisableTenderSuccess()))
+      .catch(error => dispatch(onFetchError(true)))
+  };
+}
+
 export const actions = {
   fetchTenders,
   saveTender,
   deleteTender,
+  disableTender,
 }
 
 // ------------------------------------
@@ -183,6 +232,7 @@ const initialState = {
   items: [],
   isLoading: false,
   isDeleting: false,
+  isDisabling: false,
   isErrored: false,
 };
 

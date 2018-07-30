@@ -8,7 +8,6 @@ import TenderEditModal from './components/TenderEditModal/TenderEditModal'
 import TenderViewModal from './components/TenderViewModal/TenderViewModal'
 import IconList from 'components/IconList/IconList'
 import moment from 'moment/moment'
-import {deleteTender} from "../../modules/tenders";
 
 export default class Tenders extends Component {
   static propTypes = {
@@ -19,6 +18,7 @@ export default class Tenders extends Component {
     fetchTenders: PropTypes.func.isRequired,
     saveTender: PropTypes.func.isRequired,
     deleteTender: PropTypes.func.isRequired,
+    disableTender: PropTypes.func.isRequired,
     resetFilter: PropTypes.func.isRequired,
   }
 
@@ -28,7 +28,11 @@ export default class Tenders extends Component {
   }
 
   render() {
-    const {cities, categories, subcategories, items, fetchTenders, fetchCities, fetchCategories, fetchSubcategories, saveTender, deleteTender} = this.props
+    const {
+      cities, categories, subcategories, items,
+      fetchTenders, fetchCities, fetchCategories, fetchSubcategories,
+      saveTender, deleteTender, disableTender,
+    } = this.props
     const userType = getUserType()
 
     if (!_.isEmpty(items)) {
@@ -70,6 +74,7 @@ export default class Tenders extends Component {
                   key={card.id}
                   tender={card}
                   deleteTender={deleteTender}
+                  disableTender={disableTender}
                   trigger={
                     <Card
                       fluid
