@@ -7,8 +7,8 @@ import EmptyText from 'components/EmptyText/EmptyText'
 import TenderEditModal from './components/TenderEditModal/TenderEditModal'
 import TenderViewModal from './components/TenderViewModal/TenderViewModal'
 import IconList from 'components/IconList/IconList'
-import moment from "moment/moment";
-import {fetchTenders} from "../../modules/tenders";
+import moment from 'moment/moment'
+import {deleteTender} from "../../modules/tenders";
 
 export default class Tenders extends Component {
   static propTypes = {
@@ -18,6 +18,7 @@ export default class Tenders extends Component {
     subcategories: PropTypes.array.isRequired,
     fetchTenders: PropTypes.func.isRequired,
     saveTender: PropTypes.func.isRequired,
+    deleteTender: PropTypes.func.isRequired,
     resetFilter: PropTypes.func.isRequired,
   }
 
@@ -27,7 +28,7 @@ export default class Tenders extends Component {
   }
 
   render() {
-    const {cities, categories, subcategories, items, fetchTenders, fetchCities, fetchCategories, fetchSubcategories, saveTender} = this.props
+    const {cities, categories, subcategories, items, fetchTenders, fetchCities, fetchCategories, fetchSubcategories, saveTender, deleteTender} = this.props
     const userType = getUserType()
 
     if (!_.isEmpty(items)) {
@@ -55,7 +56,7 @@ export default class Tenders extends Component {
                     style={{justifyContent: 'center'}}
                     content={
                       <Header as='h2' icon textAlign='center' color='green'>
-                        <Icon name='plus' circular />
+                        <Icon name='plus' circular/>
                         <Header.Content>Добавить</Header.Content>
                       </Header>
                     }
@@ -68,13 +69,18 @@ export default class Tenders extends Component {
                 <TenderViewModal
                   key={card.id}
                   tender={card}
+                  deleteTender={deleteTender}
                   trigger={
                     <Card
                       fluid
                       header={card.title}
                       meta={
                         <IconList data={[
-                          {icon: 'calendar', header: 'Дата создания', description: moment(card.expectedDate).format('DD.MM.YYYY')},
+                          {
+                            icon: 'calendar',
+                            header: 'Дата создания',
+                            description: moment(card.expectedDate).format('DD.MM.YYYY')
+                          },
                           {icon: 'box', header: 'Количество, шт', description: +card.amount},
                           {icon: 'ruble', header: 'Стоимость, руб', description: +card.price},
                         ]}/>
