@@ -9,7 +9,9 @@ import ProfileEditModal from './components/ProfileEditModal/ProfileEditModal'
 export default class Profile extends Component {
   static propTypes = {
     user: PropTypes.object.isRequired,
+    cities: PropTypes.array.isRequired,
     fetchUser: PropTypes.func.isRequired,
+    fetchCities: PropTypes.func.isRequired,
     resetFilter: PropTypes.func.isRequired,
   }
 
@@ -19,7 +21,7 @@ export default class Profile extends Component {
   }
 
   render() {
-    const {user} = this.props
+    const {user, cities, fetchCities} = this.props
     const userInfo = [
       {code: 'login', title: 'Логин'},
       {code: 'city.name', title: 'Город'},
@@ -52,9 +54,15 @@ export default class Profile extends Component {
                 <Card.Header></Card.Header>
               </Card.Content>
 
-              <Card.Content extra as='a'>
-                <div><Icon name='cog' size='large'/> Редактировать</div>
-              </Card.Content>
+              <ProfileEditModal
+                cities={cities}
+                fetchCities={fetchCities}
+                trigger={
+                  <Card.Content extra as='a'>
+                    <div><Icon name='cog' size='large'/> Редактировать</div>
+                  </Card.Content>
+                }
+              />
 
               <Card.Content extra>
                 {

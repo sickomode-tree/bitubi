@@ -13,8 +13,6 @@ class SignUpModal extends Component {
     cities: PropTypes.array.isRequired,
     handleSignUp: PropTypes.func.isRequired,
     fetchCities: PropTypes.func.isRequired,
-    fetchCategories: PropTypes.func.isRequired,
-    fetchSubcategories: PropTypes.func.isRequired,
     fetchProducts: PropTypes.func.isRequired,
   }
 
@@ -27,10 +25,8 @@ class SignUpModal extends Component {
   }
 
   componentDidMount() {
-    const {fetchCategories, fetchSubcategories, fetchCities} = this.props
+    const {fetchCities} = this.props
 
-    fetchCategories()
-    fetchSubcategories()
     fetchCities()
   }
 
@@ -72,34 +68,31 @@ class SignUpModal extends Component {
             <Form.Input name='email' label='Email' placeholder='Email' required/>
             <Form.Input name='login' label='Логин' placeholder='Логин' required/>
             <Form.Input name='password' label='Пароль' placeholder='Пароль' type='password' required/>
-            {
-              getUserType() === 'provider' &&
-              <Form.Group>
-                <Form.Select
-                  name='city' label='Город'
-                  options={cities.map(city => ({
-                    value: city.id,
-                    text: city.name,
-                  }))}
-                  value={state.city}
-                  placeholder='Город' width={8} required onChange={this.handleSelectChange.bind(this)}
-                />
-                <input type='hidden' name='city' value={state.city}/>
-                <Form.Select
-                  name='district' label='Район' placeholder='Район'
-                  options={districts.map(district => ({
-                    value: district.id,
-                    text: district.name,
-                  }))}
-                  disabled={_.isNil(state.city) || _.isEmpty(districts)}
-                  value={state.district}
-                  width={8}
-                  onChange={this.handleSelectChange.bind(this)}
-                />
-                <input type='hidden' name='district' value={state.district}/>
-              </Form.Group>
-            }
-            <Form.Input name='address' label='Адрес' placeholder='Адрес' type='text' required/>
+            <Form.Group>
+              <Form.Select
+                name='city' label='Город'
+                options={cities.map(city => ({
+                  value: city.id,
+                  text: city.name,
+                }))}
+                value={state.city}
+                placeholder='Город' width={8} required={getUserType() === 'provider'} onChange={this.handleSelectChange.bind(this)}
+              />
+              <input type='hidden' name='city' value={state.city}/>
+              <Form.Select
+                name='district' label='Район' placeholder='Район'
+                options={districts.map(district => ({
+                  value: district.id,
+                  text: district.name,
+                }))}
+                disabled={_.isNil(state.city) || _.isEmpty(districts)}
+                value={state.district}
+                width={8}
+                onChange={this.handleSelectChange.bind(this)}
+              />
+              <input type='hidden' name='district' value={state.district}/>
+            </Form.Group>
+            <Form.Input name='address' label='Адрес' placeholder='Адрес' type='text' required={getUserType() === 'provider'}/>
             {
               getUserType() === 'provider' &&
               <Form.Input
@@ -116,10 +109,7 @@ class SignUpModal extends Component {
                 }
               />
             }
-            {
-              getUserType() === 'provider' &&
-              <Form.Input name='url' label='Сайт' placeholder='http://example.com' type='text'/>
-            }
+            <Form.Input name='url' label='Сайт' placeholder='http://example.com' type='text'/>
             {
               getUserType() === 'provider' &&
               <Form.Group>
