@@ -31,7 +31,7 @@ export default class Tenders extends Component {
     const {
       cities, categories, subcategories, items,
       fetchTenders, fetchCities, fetchCategories, fetchSubcategories,
-      saveTender, deleteTender, disableTender,
+      saveTender, disableTender,
     } = this.props
     const userType = getUserType()
 
@@ -73,13 +73,20 @@ export default class Tenders extends Component {
                 <TenderViewModal
                   key={card.id}
                   tender={card}
-                  deleteTender={deleteTender}
                   disableTender={disableTender}
+                  cities={cities}
+                  categories={categories}
+                  subcategories={subcategories}
+                  fetchCities={fetchCities}
+                  fetchCategories={fetchCategories}
+                  fetchSubcategories={fetchSubcategories}
+                  saveTender={saveTender}
+                  onClose={fetchTenders}
                   trigger={
                     <Card
                       fluid
                       header={card.title}
-                      meta={
+                      description={
                         <IconList data={[
                           {
                             icon: 'calendar',
@@ -89,6 +96,27 @@ export default class Tenders extends Component {
                           {icon: 'box', header: 'Количество, шт', description: +card.amount},
                           {icon: 'ruble', header: 'Стоимость, руб', description: +card.price},
                         ]}/>
+                      }
+                      extra={
+                        <div>
+                          <Button.Group basic size='small'>
+                            <Button color='red' icon='trash alternate outline' onClick={this.handleDeleteTender.bind(this, card.id)}/>
+                            <TenderEditModal
+                              tender={card}
+                              cities={cities}
+                              categories={categories}
+                              subcategories={subcategories}
+                              fetchCities={fetchCities}
+                              fetchCategories={fetchCategories}
+                              fetchSubcategories={fetchSubcategories}
+                              saveTender={saveTender}
+                              trigger={
+                                <Button color='grey' icon='pencil alternate' onClick={this.handleEditTender.bind(this, card.id)} />
+                              }
+                            />
+                          </Button.Group>{' '}
+                          <Button basic color='blue' content='Завершить' floated='right' onClick={this.handleDisableTender.bind(this, card.id)}/>
+                        </div>
                       }
                     />
                   }
@@ -121,5 +149,29 @@ export default class Tenders extends Component {
         }
       />
     )
+  }
+
+
+  handleDeleteTender(id, event) {
+    const {deleteTender} = this.props
+
+    event.preventDefault()
+    event.stopPropagation()
+
+    deleteTender(id)
+  }
+
+  handleDisableTender(id, event) {
+    const {disableTender} = this.props
+
+    event.preventDefault()
+    event.stopPropagation()
+
+    disableTender(id)
+  }
+
+  handleEditTender(id, event) {
+    event.preventDefault()
+    event.stopPropagation()
   }
 }

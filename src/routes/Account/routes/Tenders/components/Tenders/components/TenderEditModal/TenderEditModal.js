@@ -3,11 +3,14 @@ import {browserHistory} from 'react-router'
 import PropTypes from 'prop-types'
 import _ from 'lodash'
 import moment from 'moment'
-import {Button, Input, Form, Modal, TextArea} from 'semantic-ui-react'
-import DatePicker from 'react-datepicker'
+import {Button, Modal} from 'semantic-ui-react'
+import {getObjectValue} from 'utils/array'
+import {getFormFieldComponent} from 'utils/form'
+import EditForm from 'components/EditForm/EditForm'
 
 class TenderEditModal extends Component {
   static propTypes = {
+    tender: PropTypes.object,
     trigger: PropTypes.node,
     categories: PropTypes.array.isRequired,
     subcategories: PropTypes.array.isRequired,
@@ -20,7 +23,7 @@ class TenderEditModal extends Component {
   }
 
   state = {
-    selectedCity: null,
+    city: null,
     category: null,
     district: null,
     subcategory: null,
@@ -36,10 +39,32 @@ class TenderEditModal extends Component {
   }
 
   render() {
-    const {trigger, cities, categories, subcategories, onClose} = this.props
+    const {tender, trigger, cities, categories, subcategories, onClose} = this.props
     const {state} = this
-    const {selectedCity, category, subcategory} = state
-    const districts = selectedCity ? cities.find(city => city.id === selectedCity).districts : []
+    const cityOptions = cities.map(city => ({value: city.id, text: city.name}))
+    const cityValue = state.city || (tender ? tender.city.id : null)
+    const districts = cityValue ? cities.find(city => city.id === cityValue).districts : []
+    const districtOptions = districts.map(district => ({value: district.id, text: district.name}))
+    const districtValue = state.district || (tender ? tender.district.id : null)
+    const categoryOptions = categories.map(category => ({value: category.id, text: category.title}))
+    const categoryValue = state.category || (tender ? tender.category.id : null)
+    const subcategoryOptions = subcategories.map(subcategory => ({value: subcategory.id, text: subcategory.title, parent: subcategory.parent.id})).filter(subcategory => subcategory.parent === categoryValue)
+    const subcategoryValue = state.subcategory || (tender ? tender.subcategory.id : null)
+    const commentValue = state.comment || (tender ? tender.comment : null)
+    const expectedDateValue = state.expectedDate || (tender ? tender.expectedDate : null)
+    // TODO: move the following config to Tenders and pass it to all modals
+
+    const formFields = [
+      {tag: 'input', type: 'text'  , name: 'title'       , title: 'Название'           , required: true                       , path: 'title' }        ,
+      {tag: 'input', type: 'number', name: 'amount'      , title: 'Количество, шт'     , required: true                       , path: 'amount'}        ,
+      {tag: 'select'               , name: 'city'        , title: 'Город'              , required: true                       , value: cityValue       , options: cityOptions       , onChange: this.handleSelectChange.bind(this)},
+      {tag: 'select'               , name: 'district'    , title: 'Район'              , required: !_.isEmpty(districtOptions), value: districtValue   , options: districtOptions   , onChange: this.handleSelectChange.bind(this) , disabled: _.isEmpty(districtOptions)},
+      {tag: 'select'               , name: 'category'    , title: 'Категория'          , required: true                       , value: categoryValue   , options: categoryOptions   , onChange: this.handleSelectChange.bind(this)},
+      {tag: 'select'               , name: 'subcategory' , title: 'Подкатегория'       , required: true                       , value: subcategoryValue, options: subcategoryOptions, onChange: this.handleSelectChange.bind(this) , disabled: _.isEmpty(subcategoryOptions)},
+      {tag: 'datepicker'           , name: 'expectedDate', title: 'Ожидаемая дата'     , required: true                       , value: expectedDateValue, onChange: this.handleDayChange.bind(this)},
+      {tag: 'input', type: 'number', name: 'price'       , title: 'Ожидаемая цена, руб', required: true                       , path: 'price' }        ,
+      {tag: 'textarea'             , name: 'comment'     , title: 'Комментарий'        , value: commentValue},
+    ]
 
     return (
       <Modal
@@ -50,88 +75,15 @@ class TenderEditModal extends Component {
       >
         <Modal.Header>Создать тендер</Modal.Header>
         <Modal.Content>
-          <Form
+          <EditForm
             id='tenderForm'
+            data={tender}
+            fields={formFields}
             onSubmit={this.handleSubmit.bind(this)}
-          >
-            <Form.Input name='title' label='Название' placeholder='Название' required/>
-            <Form.Input name='amount' label='Количество, шт' placeholder='Количество' type='number' required/>
-            <Form.Group>
-              <Form.Select
-                name='selectedCity' label='Город' placeholder='Город'
-                options={cities.map(city => ({
-                  value: city.id,
-                  text: city.name,
-                }))}
-                value={selectedCity}
-                width={8} required
-                onChange={this.handleSelectChange.bind(this)}
-              />
-              <Form.Select
-                name='district' label='Район' placeholder='Район'
-                options={districts.map(district => ({
-                  value: district.id,
-                  text: district.name,
-                }))}
-                disabled={_.isNil(selectedCity) || _.isEmpty(districts)}
-                value={state.district}
-                width={8}
-                onChange={this.handleSelectChange.bind(this)}
-              />
-              <input type='hidden' name='city' value={selectedCity}/>
-              <input type='hidden' name='district' value={state.district}/>
-            </Form.Group>
-            <Form.Group>
-              <Form.Select
-                name='category' label='Категория' placeholder='Категория'
-                options={categories.map(category => ({
-                  value: category.id,
-                  text: category.title,
-                }))}
-                value={category}
-                width={8} required
-                onChange={this.handleSelectChange.bind(this)}
-              />
-              <Form.Select
-                name='subcategory' label='Подкатегория' placeholder='Подкатегория'
-                options={subcategories.map(subcategory => ({
-                  value: subcategory.id,
-                  text: subcategory.title,
-                  parent: subcategory.parent.id,
-                })).filter(subcategory => subcategory.parent === category)}
-                value={subcategory}
-                width={8} required disabled={_.isNil(category)}
-                onChange={this.handleSelectChange.bind(this)}
-              />
-              <input type='hidden' name='subcategory' value={subcategory}/>
-            </Form.Group>
-            <Form.Group>
-              <Form.Input name='price' label='Ожидаемая цена, руб' placeholder='Ожидаемая цена' width={8} type='number'/>
-              <div className="eight wide field">
-                <label>Ожидаемая дата</label>
-                <DatePicker
-                  minDate={moment()}
-                  maxDate={moment().add(365, 'days')}
-                  locale='ru-ru'
-                  customInput={
-                    <Input fluid>
-                      <input placeholder='Ожидаемая дата' name='expectedDate'/>
-                    </Input>}
-                  selected={this.state.expectedDate}
-                  onChange={this.handleDayChange.bind(this)}
-                />
-              </div>
-            </Form.Group>
-            <Form.Field
-              control={TextArea}
-              name='comment'
-              label='Комментарий'
-              placeholder='Комментарий'
-            />
-          </Form>
+          />
         </Modal.Content>
         <Modal.Actions>
-          <Button positive type='submit' form='tenderForm' icon='checkmark' labelPosition='right' content='Создать'/>
+          <Button positive type='submit' form='tenderForm' content='Создать'/>
         </Modal.Actions>
       </Modal>
     )

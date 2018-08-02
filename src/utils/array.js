@@ -1,4 +1,5 @@
 import _ from 'lodash'
+import {getFormattedValue} from './form'
 
 export const queryArrayByKey = (array, key) => {
   const isArray = _.isArray(array)
@@ -23,7 +24,7 @@ export const getValues = (array, key) => {
   return values
 }
 
-export const getObjectValue = (object, path) => {
+export const getObjectValue = (object, path, type) => {
   let value = object
 
   path.split('.').forEach(key => {
@@ -31,6 +32,10 @@ export const getObjectValue = (object, path) => {
       value = value[key]
     }
   })
+
+  if (!_.isNil(object) && !_.isNil(type)) {
+    value = getFormattedValue(value, type)
+  }
 
   return value
 }
