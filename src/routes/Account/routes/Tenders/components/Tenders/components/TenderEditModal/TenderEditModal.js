@@ -63,6 +63,7 @@ class TenderEditModal extends Component {
       {tag: 'datepicker'           , name: 'expectedDate', title: 'Ожидаемая дата'     , required: true                       , value: expectedDateValue, onChange: this.handleDayChange.bind(this)},
       {tag: 'input', type: 'number', name: 'price'       , title: 'Ожидаемая цена, руб', required: true                       , path: 'price' }        ,
       {tag: 'textarea'             , name: 'comment'     , title: 'Комментарий'        , value: commentValue},
+      {tag: 'input', type: 'hidden', name: 'id'                                                                               , path: 'id' }        ,
     ]
 
     return (
@@ -72,7 +73,6 @@ class TenderEditModal extends Component {
         dimmer='blurring'
         onClose={!_.isNil(onClose) ? onClose : null}
       >
-        <Modal.Header>Создать тендер</Modal.Header>
         <Modal.Content>
           <EditForm
             id='tenderForm'
@@ -82,7 +82,7 @@ class TenderEditModal extends Component {
           />
         </Modal.Content>
         <Modal.Actions>
-          <Button positive type='submit' form='tenderForm' content='Создать'/>
+          <Button positive type='submit' form='tenderForm' content='Сохранить'/>
         </Modal.Actions>
       </Modal>
     )

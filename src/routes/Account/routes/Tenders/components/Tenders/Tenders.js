@@ -17,7 +17,6 @@ export default class Tenders extends Component {
     subcategories: PropTypes.array.isRequired,
     fetchTenders: PropTypes.func.isRequired,
     saveTender: PropTypes.func.isRequired,
-    updateTender: PropTypes.func.isRequired,
     deleteTender: PropTypes.func.isRequired,
     disableTender: PropTypes.func.isRequired,
     resetFilter: PropTypes.func.isRequired,
@@ -32,7 +31,7 @@ export default class Tenders extends Component {
     const {
       cities, categories, subcategories, items,
       fetchTenders, fetchCities, fetchCategories, fetchSubcategories,
-      saveTender, updateTender, disableTender,
+      saveTender, disableTender,
     } = this.props
     const userType = getUserType()
 
@@ -78,6 +77,7 @@ export default class Tenders extends Component {
                   trigger={
                     <Card
                       fluid
+                      color={card.disabled ? 'grey' : null}
                       header={card.title}
                       description={
                         <IconList data={[
@@ -91,6 +91,7 @@ export default class Tenders extends Component {
                         ]}/>
                       }
                       extra={
+                        !card.disabled &&
                         <div>
                           <Button.Group basic size='small'>
                             <Button color='red' icon='trash alternate outline' onClick={this.handleDeleteTender.bind(this, card.id)}/>
@@ -102,7 +103,7 @@ export default class Tenders extends Component {
                               fetchCities={fetchCities}
                               fetchCategories={fetchCategories}
                               fetchSubcategories={fetchSubcategories}
-                              onSubmit={updateTender}
+                              onSubmit={saveTender}
                               onClose={fetchTenders}
                               trigger={
                                 <Button color='grey' icon='pencil alternate' onClick={this.handleEditTender.bind(this, card.id)} />
@@ -148,21 +149,23 @@ export default class Tenders extends Component {
 
 
   handleDeleteTender(id, event) {
-    const {deleteTender} = this.props
+    const {fetchTenders, deleteTender} = this.props
 
     event.preventDefault()
     event.stopPropagation()
 
     deleteTender(id)
+    fetchTenders()
   }
 
   handleDisableTender(id, event) {
-    const {disableTender} = this.props
+    const {fetchTenders, disableTender} = this.props
 
     event.preventDefault()
     event.stopPropagation()
 
     disableTender(id)
+    fetchTenders()
   }
 
   handleEditTender(id, event) {

@@ -110,8 +110,12 @@ class Userpic extends Component {
     return (
       <section>
         <Dropzone
+          multiple={false}
           accept='image/jpeg, image/png'
           style={{width: '100%', border: 'none'}}
+          onDrop={(file) => {
+            fetch()
+          }}
         >
           <Reveal animated='small fade'>
             <Reveal.Content visible>
