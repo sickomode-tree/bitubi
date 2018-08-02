@@ -21,13 +21,11 @@ export default class EditForm extends Component {
         id={id}
         onSubmit={onSubmit}
       >
-        {/*<Form.Group>*/}
-          {
-            fields.map(field => {
-              return getFormFieldComponent(field, data)
-            })
-          }
-        {/*</Form.Group>*/}
+        {
+          fields.map(field => {
+            return getFormFieldComponent(field, data)
+          })
+        }
       </Form>
     )
   }

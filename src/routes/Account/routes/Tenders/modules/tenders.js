@@ -10,6 +10,9 @@ export const TENDERS_FETCH_ERROR = 'TENDERS_FETCH_ERROR'
 
 export const TENDER_SAVE_SUCCESS = 'TENDER_SAVE_SUCCESS'
 
+export const TENDER_IS_UPDATING = 'TENDER_IS_UPDATING'
+export const TENDER_UPDATE_SUCCESS = 'TENDER_UPDATE_SUCCESS'
+
 export const TENDER_IS_DELETING = 'TENDER_IS_DELETING'
 export const TENDER_DELETE_SUCCESS = 'TENDER_DELETE_SUCCESS'
 
@@ -44,6 +47,12 @@ export function onFetchSuccess(json) {
 export function onSaveTenderSuccess() {
   return {
     type: TENDER_SAVE_SUCCESS,
+  };
+}
+
+export function onUpdateTenderSuccess() {
+  return {
+    type: TENDER_UPDATE_SUCCESS,
   };
 }
 
@@ -131,6 +140,36 @@ export function saveTender(form) {
   };
 }
 
+export function updateTender(form) {
+  const formData = new FormData(form)
+  const url = '/test/private/user/updateTender'
+
+  return (dispatch) => {
+    dispatch(onFetchStart(true))
+
+    fetch(url, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/x-www-form-urlencoded',
+        'Authorization': `Bearer ${getToken()}`
+      },
+      body: new URLSearchParams(formData),
+    })
+      .then(response => {
+        if (!response.ok) {
+          throw Error(response.statusText)
+        }
+
+        dispatch(onFetchStart(false))
+
+        return response
+      })
+      .then(response => response.json())
+      .then(json => dispatch(onUpdateTenderSuccess()))
+      .catch(error => dispatch(onFetchError(true)))
+  };
+}
+
 export function deleteTender(id) {
   const formData = new FormData()
   const url = '/test/private/user/deleteTender'
@@ -198,6 +237,7 @@ export function disableTender(id) {
 export const actions = {
   fetchTenders,
   saveTender,
+  updateTender,
   deleteTender,
   disableTender,
 }
@@ -218,9 +258,17 @@ const ACTION_HANDLERS = {
     ...state,
     items: action.items,
   }),
+  [TENDER_IS_UPDATING]: (state, action) => ({
+    ...state,
+    isUpdating: action.isUpdating
+  }),
   [TENDER_IS_DELETING]: (state, action) => ({
     ...state,
     isDeleting: action.isDeleting
+  }),
+  [TENDER_IS_DISABLING]: (state, action) => ({
+    ...state,
+    isDisabling: action.isDisabling
   }),
 }
 
@@ -232,6 +280,7 @@ const initialState = {
   items: [],
   isLoading: false,
   isDeleting: false,
+  isUpdating: false,
   isDisabling: false,
   isErrored: false,
 };

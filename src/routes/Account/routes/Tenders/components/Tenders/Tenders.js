@@ -17,6 +17,7 @@ export default class Tenders extends Component {
     subcategories: PropTypes.array.isRequired,
     fetchTenders: PropTypes.func.isRequired,
     saveTender: PropTypes.func.isRequired,
+    updateTender: PropTypes.func.isRequired,
     deleteTender: PropTypes.func.isRequired,
     disableTender: PropTypes.func.isRequired,
     resetFilter: PropTypes.func.isRequired,
@@ -31,7 +32,7 @@ export default class Tenders extends Component {
     const {
       cities, categories, subcategories, items,
       fetchTenders, fetchCities, fetchCategories, fetchSubcategories,
-      saveTender, disableTender,
+      saveTender, updateTender, disableTender,
     } = this.props
     const userType = getUserType()
 
@@ -50,7 +51,7 @@ export default class Tenders extends Component {
                 fetchCities={fetchCities}
                 fetchCategories={fetchCategories}
                 fetchSubcategories={fetchSubcategories}
-                saveTender={saveTender}
+                onSubmit={saveTender}
                 onClose={fetchTenders}
                 trigger={
                   <Card
@@ -73,14 +74,6 @@ export default class Tenders extends Component {
                 <TenderViewModal
                   key={card.id}
                   tender={card}
-                  disableTender={disableTender}
-                  cities={cities}
-                  categories={categories}
-                  subcategories={subcategories}
-                  fetchCities={fetchCities}
-                  fetchCategories={fetchCategories}
-                  fetchSubcategories={fetchSubcategories}
-                  saveTender={saveTender}
                   onClose={fetchTenders}
                   trigger={
                     <Card
@@ -109,7 +102,8 @@ export default class Tenders extends Component {
                               fetchCities={fetchCities}
                               fetchCategories={fetchCategories}
                               fetchSubcategories={fetchSubcategories}
-                              saveTender={saveTender}
+                              onSubmit={updateTender}
+                              onClose={fetchTenders}
                               trigger={
                                 <Button color='grey' icon='pencil alternate' onClick={this.handleEditTender.bind(this, card.id)} />
                               }
@@ -141,7 +135,8 @@ export default class Tenders extends Component {
             fetchCities={fetchCities}
             fetchCategories={fetchCategories}
             fetchSubcategories={fetchSubcategories}
-            saveTender={saveTender}
+            onSubmit={saveTender}
+            onClose={fetchTenders}
             trigger={
               <Button positive>Добавить тендер</Button>
             }

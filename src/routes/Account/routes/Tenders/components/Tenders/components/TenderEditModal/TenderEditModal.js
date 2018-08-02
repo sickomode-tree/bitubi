@@ -2,7 +2,6 @@ import React, {Component} from 'react'
 import {browserHistory} from 'react-router'
 import PropTypes from 'prop-types'
 import _ from 'lodash'
-import moment from 'moment'
 import {Button, Modal} from 'semantic-ui-react'
 import {getObjectValue} from 'utils/array'
 import {getFormFieldComponent} from 'utils/form'
@@ -18,7 +17,7 @@ class TenderEditModal extends Component {
     fetchCities: PropTypes.func.isRequired,
     fetchCategories: PropTypes.func.isRequired,
     fetchSubcategories: PropTypes.func.isRequired,
-    saveTender: PropTypes.func.isRequired,
+    onSubmit: PropTypes.func.isRequired,
     onClose: PropTypes.func,
   }
 
@@ -52,7 +51,7 @@ class TenderEditModal extends Component {
     const subcategoryValue = state.subcategory || (tender ? tender.subcategory.id : null)
     const commentValue = state.comment || (tender ? tender.comment : null)
     const expectedDateValue = state.expectedDate || (tender ? tender.expectedDate : null)
-    // TODO: move the following config to Tenders and pass it to all modals
+    // TODO: move the following config to Tenders and pass it to all modals. then remove this file
 
     const formFields = [
       {tag: 'input', type: 'text'  , name: 'title'       , title: 'Название'           , required: true                       , path: 'title' }        ,
@@ -90,10 +89,10 @@ class TenderEditModal extends Component {
   }
 
   handleSubmit(event) {
-    const {saveTender} = this.props
+    const {onSubmit} = this.props
     const form = event.target
 
-    saveTender(form)
+    onSubmit(form)
     browserHistory.push(window.location.pathname)
   }
 
