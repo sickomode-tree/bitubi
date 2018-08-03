@@ -32,14 +32,22 @@ export default class ProductCard extends Component {
         onClose={!_.isNil(onClose) ? onClose : null}
         trigger={
           <Card
-            header={product.provider.name}
-            meta={product.provider.city.name}
-            description={product.description}
-            extra={
-              product.favourite && <Icon name='star' color='yellow'/>
-            }
-            style={style || {}} color={product.favourite ? 'yellow' : null} link
-          />
+            style={style || {}}
+            link
+          >
+            <Card.Content>
+              <Card.Header>
+                {product.provider.name}
+                {product.favourite &&
+                <i className='right floated bookmark icon red'></i>
+                }
+              </Card.Header>
+              <Card.Meta>{product.provider.city.name}</Card.Meta>
+              <Card.Description>
+                {product.description}
+              </Card.Description>
+            </Card.Content>
+          </Card>
         }
       >
         <Modal.Header>{product.provider.name}</Modal.Header>
@@ -71,9 +79,8 @@ export default class ProductCard extends Component {
           !isGuest &&
           <Modal.Actions>
             <Button
-              basic={!favourite} icon={`star${!favourite ? ' outline' : ''}`}
-              content={favourite ? 'Убрать из закладок' : 'Сохранить'}
-              color={favourite ? 'yellow' : 'twitter'}
+              basic={!favourite} icon={`bookmark${!favourite ? ' outline' : ''}`}
+              content={favourite ? 'Убрать из закладок' : 'Добавить в закладки'}
               onClick={this.toggleFavouriteState.bind(this)}
             />
           </Modal.Actions>
