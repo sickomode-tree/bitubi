@@ -11,9 +11,9 @@ class SignUpModal extends Component {
     categories: PropTypes.array.isRequired,
     subcategories: PropTypes.array.isRequired,
     cities: PropTypes.array.isRequired,
-    handleSignUp: PropTypes.func.isRequired,
     fetchCities: PropTypes.func.isRequired,
-    fetchProducts: PropTypes.func.isRequired,
+    onSubmit: PropTypes.func.isRequired,
+    onClose: PropTypes.func.isRequired,
   }
 
   state = {
@@ -156,10 +156,10 @@ class SignUpModal extends Component {
   }
 
   handleSubmit(event) {
-    const {handleSignUp} = this.props
+    const {onSubmit} = this.props
     const form = event.target;
 
-    handleSignUp(form);
+    onSubmit(form);
   }
 }
 

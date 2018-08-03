@@ -10,6 +10,8 @@ export default class Profile extends Component {
   static propTypes = {
     user: PropTypes.object.isRequired,
     cities: PropTypes.array.isRequired,
+    categories: PropTypes.array.isRequired,
+    subcategories: PropTypes.array.isRequired,
     fetchUser: PropTypes.func.isRequired,
     fetchCities: PropTypes.func.isRequired,
     resetFilter: PropTypes.func.isRequired,
@@ -21,7 +23,7 @@ export default class Profile extends Component {
   }
 
   render() {
-    const {user, cities, fetchCities} = this.props
+    const {user, cities, categories, subcategories, fetchCities, fetchUser} = this.props
     const userInfo = [
       {code: 'login', title: 'Логин'},
       {code: 'city.name', title: 'Город'},
@@ -55,8 +57,12 @@ export default class Profile extends Component {
               </Card.Content>
 
               <ProfileEditModal
-                cities={cities}
+                cities={cities} categories={categories} subcategories={subcategories}
                 fetchCities={fetchCities}
+                onClose={fetchUser}
+                onSubmit={() => {
+                  console.log('submit')
+                }}
                 trigger={
                   <Card.Content extra as='a'>
                     <div><Icon name='cog' size='large'/> Редактировать</div>

@@ -80,8 +80,8 @@ export default class Header extends Component {
                   cities={cities} categories={categories} subcategories={subcategories}
                   fetchProducts={fetchProducts} fetchCities={fetchCities}
                   fetchCategories={fetchCategories}fetchSubcategories={fetchSubcategories}
-                  handleSignUp={this.handleSignUp.bind(this)}
                   onClose={fetchProducts}
+                  onSubmit={this.handleSignUp.bind(this)}
                 />
               </Item>
             }

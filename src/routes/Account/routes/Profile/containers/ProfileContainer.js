@@ -23,6 +23,8 @@ const mapDispatchToProps = {
 const mapStateToProps = (state) => ({
   user: state.profile.user,
   cities: state.products.cities,
+  categories: state.products.categories,
+  subcategories: state.products.subcategories,
 })
 
 /*  Note: mapStateToProps is where you should use `reselect` to create selectors, ie:
