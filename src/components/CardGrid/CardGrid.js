@@ -40,7 +40,7 @@ export default class CardGrid extends Component {
                   style={{position: 'fixed', top: 0, right: 0, bottom: 0, height: '100%', boxShadow: 'none'}}
                   icon='angle right' basic size='large'/>
         }
-        <Grid columns={groupCount} style={{overflow: 'hidden', width: '100%'}}>
+        <Grid columns={groupCount} doubling stackable style={{overflow: 'hidden', width: '100%'}}>
           <Grid.Row>
             {
               groups.map(group => (

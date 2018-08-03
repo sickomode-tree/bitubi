@@ -1,10 +1,22 @@
 .card {
   &.yellow {
-    background-color: rgba(#fbbd08, 0.1) !important;
+    background-color: rgba(#fbbd08, .1) !important;
   }
 
-  &.grey {
-    background-color: rgba(#ccc, 0.1) !important;
-    opacity: .2;
+  &.disabled {
+    background-color: rgba(#ccc, .1) !important;
+
+    &:hover {
+      .content {
+        &.extra {
+          opacity: 1;
+        }
+      }
+    }
+
+    .content {
+      opacity: .5;
+      transition: opacity .3s ease !important;
+    }
   }
 }

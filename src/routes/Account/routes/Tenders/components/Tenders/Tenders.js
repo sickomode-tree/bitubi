@@ -1,7 +1,7 @@
 import React, {Component} from 'react'
 import PropTypes from 'prop-types'
 import _ from 'lodash'
-import {Button, Card, Icon, Header} from 'semantic-ui-react'
+import {Button, Card, Icon, Header, Progress} from 'semantic-ui-react'
 import {customerUserType, getUserType} from 'utils/auth'
 import EmptyText from 'components/EmptyText/EmptyText'
 import TenderEditModal from './components/TenderEditModal/TenderEditModal'
@@ -19,6 +19,7 @@ export default class Tenders extends Component {
     saveTender: PropTypes.func.isRequired,
     deleteTender: PropTypes.func.isRequired,
     disableTender: PropTypes.func.isRequired,
+    enableTender: PropTypes.func.isRequired,
     resetFilter: PropTypes.func.isRequired,
   }
 
@@ -40,7 +41,7 @@ export default class Tenders extends Component {
         <div style={{flex: 1}}>
           <h2>Тендеры</h2>
 
-          <Card.Group itemsPerRow={3}>
+          <Card.Group itemsPerRow={3} doubling stackable>
             {
               userType === customerUserType &&
               <TenderEditModal
@@ -77,24 +78,31 @@ export default class Tenders extends Component {
                   trigger={
                     <Card
                       fluid
-                      color={card.disabled ? 'grey' : null}
-                      header={card.title}
-                      description={
+                      className={card.disabled ? 'disabled' : null}
+                    >
+                      <Card.Content>
+                        <Card.Header>{card.title}</Card.Header>
+                      </Card.Content>
+                      <Card.Content>
                         <IconList data={[
                           {
                             icon: 'calendar',
-                            header: 'Дата создания',
+                            header: 'Ожидаемая дата',
                             description: moment(card.expectedDate).format('DD.MM.YYYY')
                           },
                           {icon: 'box', header: 'Количество, шт', description: +card.amount},
                           {icon: 'ruble', header: 'Стоимость, руб', description: +card.price},
                         ]}/>
-                      }
-                      extra={
-                        !card.disabled &&
-                        <div>
-                          <Button.Group basic size='small'>
-                            <Button color='red' icon='trash alternate outline' onClick={this.handleDeleteTender.bind(this, card.id)}/>
+                      </Card.Content>
+                      <Card.Content extra>
+                        <Button.Group basic size='small'>
+                          <Button
+                            color='red'
+                            icon='trash alternate outline'
+                            onClick={this.handleDeleteTender.bind(this, card.id)}
+                          />
+                          {
+                            !card.disabled &&
                             <TenderEditModal
                               tender={card}
                               cities={cities}
@@ -106,14 +114,37 @@ export default class Tenders extends Component {
                               onSubmit={saveTender}
                               onClose={fetchTenders}
                               trigger={
-                                <Button color='grey' icon='pencil alternate' onClick={this.handleEditTender.bind(this, card.id)} />
+                                <Button
+                                  color='grey'
+                                  icon='pencil alternate'
+                                  onClick={this.handleEditTender.bind(this, card.id)}
+                                />
                               }
                             />
-                          </Button.Group>{' '}
-                          <Button basic color='blue' content='Завершить' floated='right' onClick={this.handleDisableTender.bind(this, card.id)}/>
-                        </div>
-                      }
-                    />
+                          }
+                        </Button.Group>{' '}
+                        {
+                          !card.disabled &&
+                          <Button
+                            basic
+                            color='blue'
+                            content='Завершить'
+                            floated='right'
+                            onClick={this.handleDisableTender.bind(this, card.id)}
+                          />
+                        }
+                        {
+                          card.disabled &&
+                          <Button
+                            basic
+                            content='Восстановить'
+                            floated='right'
+                            onClick={this.handleEnableTender.bind(this, card.id)}
+                          />
+                        }
+                      </Card.Content>
+                      <Progress percent={100 - card.totalDays / card.daysToGo * 100} attached='bottom'/>
+                    </Card>
                   }
                 />
               ))
@@ -165,6 +196,16 @@ export default class Tenders extends Component {
     event.stopPropagation()
 
     disableTender(id)
+    fetchTenders()
+  }
+
+  handleEnableTender(id, event) {
+    const {fetchTenders, enableTender} = this.props
+
+    event.preventDefault()
+    event.stopPropagation()
+
+    enableTender(id)
     fetchTenders()
   }
 

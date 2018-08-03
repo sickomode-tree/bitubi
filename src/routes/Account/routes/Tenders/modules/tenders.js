@@ -16,6 +16,9 @@ export const TENDER_DELETE_SUCCESS = 'TENDER_DELETE_SUCCESS'
 export const TENDER_IS_DISABLING = 'TENDER_IS_DISABLING'
 export const TENDER_DISABLE_SUCCESS = 'TENDER_DISABLE_SUCCESS'
 
+export const TENDER_IS_ENABLING = 'TENDER_IS_ENABLING'
+export const TENDER_ENABLE_SUCCESS = 'TENDER_ENABLE_SUCCESS'
+
 // ------------------------------------
 // Actions
 // ------------------------------------
@@ -76,6 +79,21 @@ export function onDisableTenderSuccess() {
 
   return {
     type: TENDER_DISABLE_SUCCESS,
+  };
+}
+
+export function onEnableTenderStart(bool) {
+  return {
+    type: TENDER_IS_ENABLING,
+    isEnabling: bool,
+  };
+}
+
+export function onEnableTenderSuccess() {
+  fetchTenders()
+
+  return {
+    type: TENDER_ENABLE_SUCCESS,
   };
 }
 
@@ -201,11 +219,44 @@ export function disableTender(id) {
   };
 }
 
+export function enableTender(id) {
+  const formData = new FormData()
+  const url = '/test/private/user/enableTender'
+
+  formData.append('id', id)
+
+  return (dispatch) => {
+    dispatch(onEnableTenderStart(true))
+
+    fetch(url, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/x-www-form-urlencoded',
+        'Authorization': `Bearer ${getToken()}`
+      },
+      body: new URLSearchParams(formData),
+    })
+      .then(response => {
+        if (!response.ok) {
+          throw Error(response.statusText)
+        }
+
+        dispatch(onEnableTenderStart(false))
+
+        return response
+      })
+      .then(response => response.json())
+      .then(json => dispatch(onEnableTenderSuccess()))
+      .catch(error => dispatch(onFetchError(true)))
+  };
+}
+
 export const actions = {
   fetchTenders,
   saveTender,
   deleteTender,
   disableTender,
+  enableTender,
 }
 
 // ------------------------------------
@@ -231,6 +282,10 @@ const ACTION_HANDLERS = {
   [TENDER_IS_DISABLING]: (state, action) => ({
     ...state,
     isDisabling: action.isDisabling
+  }),
+  [TENDER_IS_ENABLING]: (state, action) => ({
+    ...state,
+    isEnabling: action.isEnabling
   }),
 }
 
