@@ -56,12 +56,12 @@ class TenderEditModal extends Component {
     const formFields = [
       {tag: 'input', type: 'text'  , name: 'title'       , title: 'Название'           , required: true                       , path: 'title' }        ,
       {tag: 'input', type: 'number', name: 'amount'      , title: 'Количество, шт'     , required: true                       , path: 'amount'}        ,
-      {tag: 'select'               , name: 'city'        , title: 'Город'              , required: true                       , value: cityValue       , options: cityOptions       , onChange: this.handleSelectChange.bind(this)},
-      {tag: 'select'               , name: 'district'    , title: 'Район'              , required: !_.isEmpty(districtOptions), value: districtValue   , options: districtOptions   , onChange: this.handleSelectChange.bind(this) , disabled: _.isEmpty(districtOptions)},
-      {tag: 'select'               , name: 'category'    , title: 'Категория'          , required: true                       , value: categoryValue   , options: categoryOptions   , onChange: this.handleSelectChange.bind(this)},
-      {tag: 'select'               , name: 'subcategory' , title: 'Подкатегория'       , required: true                       , value: subcategoryValue, options: subcategoryOptions, onChange: this.handleSelectChange.bind(this) , disabled: _.isEmpty(subcategoryOptions)},
-      {tag: 'datepicker'           , name: 'expectedDate', title: 'Ожидаемая дата'     , required: true                       , value: expectedDateValue, onChange: this.handleDayChange.bind(this)},
-      {tag: 'input', type: 'number', name: 'price'       , title: 'Ожидаемая цена, руб', required: true                       , path: 'price' }        ,
+      {tag: 'select'               , name: 'city'        , title: 'Город'              , required: true                       , value: cityValue       , options: cityOptions       , onChange: this.handleSelectChange.bind(this) , width: 8},
+      {tag: 'select'               , name: 'district'    , title: 'Район'              , required: !_.isEmpty(districtOptions), value: districtValue   , options: districtOptions   , onChange: this.handleSelectChange.bind(this) , width: 8 , disabled: _.isEmpty(districtOptions)},
+      {tag: 'select'               , name: 'category'    , title: 'Категория'          , required: true                       , value: categoryValue   , options: categoryOptions   , onChange: this.handleSelectChange.bind(this) , width: 8},
+      {tag: 'select'               , name: 'subcategory' , title: 'Подкатегория'       , required: true                       , value: subcategoryValue, options: subcategoryOptions, onChange: this.handleSelectChange.bind(this) , width: 8 , disabled: _.isEmpty(subcategoryOptions)},
+      {tag: 'datepicker'           , name: 'expectedDate', title: 'Ожидаемая дата'     , required: true                       , value: expectedDateValue                            , onChange: this.handleDayChange.bind(this)    , width: 8},
+      {tag: 'input', type: 'number', name: 'price'       , title: 'Ожидаемая цена, руб', required: true                       , path: 'price'                                                                                      , width: 8},
       {tag: 'textarea'             , name: 'comment'     , title: 'Комментарий'        , value: commentValue},
       {tag: 'input', type: 'hidden', name: 'id'                                                                               , path: 'id' }        ,
     ]

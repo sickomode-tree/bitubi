@@ -1,8 +1,6 @@
 import React, {Component} from 'react'
 import PropTypes from 'prop-types'
-import moment from 'moment'
-import {Button, Input, Form, Modal, TextArea} from 'semantic-ui-react'
-import DatePicker from 'react-datepicker'
+import {Form, Grid} from 'semantic-ui-react'
 import {getFormFieldComponent} from 'utils/form'
 
 export default class EditForm extends Component {
@@ -21,11 +19,15 @@ export default class EditForm extends Component {
         id={id}
         onSubmit={onSubmit}
       >
-        {
-          fields.map(field => {
-            return getFormFieldComponent(field, data)
-          })
-        }
+        <Grid>
+          {
+            fields.map(field => (
+              <Grid.Column width={field.width || 16} key={field.name}>
+                {getFormFieldComponent(field, data)}
+              </Grid.Column>
+            ))
+          }
+        </Grid>
       </Form>
     )
   }
