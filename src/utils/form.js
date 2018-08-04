@@ -3,6 +3,7 @@ import moment from 'moment'
 import {Form, Input, TextArea} from 'semantic-ui-react'
 import {getObjectValue} from './array'
 import DatePicker from 'react-datepicker'
+import MaskedInput from 'react-text-mask'
 
 export const getFormattedValue = (value, type) => {
   let formattedValue
@@ -82,6 +83,39 @@ export const getFormFieldComponent = (config, data) => {
             />
           </div>
         )
+        break
+      case 'input':
+        switch (config.type) {
+          case 'tel':
+            formFieldComponent = (
+              <Form.Input
+                label={config.title}
+                required={config.required}
+                children={
+                  <MaskedInput
+                    name={config.name}
+                    mask={['(', /[1-9]/, /\d/, /\d/, ')', ' ', /\d/, /\d/, /\d/, '-', /\d/, /\d/, '-', /\d/, /\d/]}
+                    placeholder='(999) 999-99-99'
+                    defaultValue={getObjectValue(data, config.path, config.type)}
+                  />
+                }
+              />
+            )
+            break
+          default:
+            formFieldComponent = (
+              <Form.Input
+                key={config.name}
+                type={config.type || 'text'}
+                name={config.name}
+                label={config.title}
+                placeholder={config.title}
+                required={config.required || false}
+                defaultValue={getObjectValue(data, config.path, config.type)}
+                width={config.width || 16}
+              />
+            )
+        }
         break
       default:
         formFieldComponent = (
