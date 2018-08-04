@@ -18,8 +18,7 @@ export default class Tenders extends Component {
     fetchTenders: PropTypes.func.isRequired,
     saveTender: PropTypes.func.isRequired,
     deleteTender: PropTypes.func.isRequired,
-    disableTender: PropTypes.func.isRequired,
-    enableTender: PropTypes.func.isRequired,
+    toggleTender: PropTypes.func.isRequired,
     resetFilter: PropTypes.func.isRequired,
   }
 
@@ -32,7 +31,7 @@ export default class Tenders extends Component {
     const {
       cities, categories, subcategories, items,
       fetchTenders, fetchCities, fetchCategories, fetchSubcategories,
-      saveTender, disableTender,
+      saveTender, toggleTender,
     } = this.props
     const userType = getUserType()
 
@@ -130,7 +129,7 @@ export default class Tenders extends Component {
                             color='blue'
                             content='Завершить'
                             floated='right'
-                            onClick={this.handleDisableTender.bind(this, card.id)}
+                            onClick={this.handleToggleTender.bind(this, card.id)}
                           />
                         }
                         {
@@ -139,7 +138,7 @@ export default class Tenders extends Component {
                             basic
                             content='Восстановить'
                             floated='right'
-                            onClick={this.handleEnableTender.bind(this, card.id)}
+                            onClick={this.handleToggleTender.bind(this, card.id)}
                           />
                         }
                       </Card.Content>
@@ -189,23 +188,13 @@ export default class Tenders extends Component {
     fetchTenders()
   }
 
-  handleDisableTender(id, event) {
-    const {fetchTenders, disableTender} = this.props
+  handleToggleTender(id, event) {
+    const {fetchTenders, toggleTender} = this.props
 
     event.preventDefault()
     event.stopPropagation()
 
-    disableTender(id)
-    fetchTenders()
-  }
-
-  handleEnableTender(id, event) {
-    const {fetchTenders, enableTender} = this.props
-
-    event.preventDefault()
-    event.stopPropagation()
-
-    enableTender(id)
+    toggleTender(id)
     fetchTenders()
   }
 

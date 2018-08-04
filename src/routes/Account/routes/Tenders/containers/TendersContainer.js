@@ -1,5 +1,5 @@
 import {connect} from 'react-redux'
-import {fetchTenders, saveTender, deleteTender, disableTender, enableTender} from '../modules/tenders'
+import {fetchTenders, saveTender, deleteTender, toggleTender} from '../modules/tenders'
 import {resetFilter} from 'store/filter'
 import {fetchCities, fetchCategories, fetchSubcategories} from 'store/products'
 
@@ -21,8 +21,7 @@ const mapDispatchToProps = {
   fetchTenders,
   saveTender,
   deleteTender,
-  disableTender,
-  enableTender,
+  toggleTender,
   resetFilter,
 }
 

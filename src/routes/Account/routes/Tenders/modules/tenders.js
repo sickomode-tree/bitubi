@@ -13,11 +13,8 @@ export const TENDER_SAVE_SUCCESS = 'TENDER_SAVE_SUCCESS'
 export const TENDER_IS_DELETING = 'TENDER_IS_DELETING'
 export const TENDER_DELETE_SUCCESS = 'TENDER_DELETE_SUCCESS'
 
-export const TENDER_IS_DISABLING = 'TENDER_IS_DISABLING'
-export const TENDER_DISABLE_SUCCESS = 'TENDER_DISABLE_SUCCESS'
-
-export const TENDER_IS_ENABLING = 'TENDER_IS_ENABLING'
-export const TENDER_ENABLE_SUCCESS = 'TENDER_ENABLE_SUCCESS'
+export const TENDER_IS_TOGGLING = 'TENDER_IS_TOGGLING'
+export const TENDER_TOGGLE_SUCCESS = 'TENDER_TOGGLE_SUCCESS'
 
 // ------------------------------------
 // Actions
@@ -67,33 +64,18 @@ export function onDeleteTenderSuccess() {
   };
 }
 
-export function onDisableTenderStart(bool) {
+export function onToggleTenderStart(bool) {
   return {
-    type: TENDER_IS_DISABLING,
-    isDisabling: bool,
+    type: TENDER_IS_TOGGLING,
+    isToggling: bool,
   };
 }
 
-export function onDisableTenderSuccess() {
+export function onToggleTenderSuccess() {
   fetchTenders()
 
   return {
-    type: TENDER_DISABLE_SUCCESS,
-  };
-}
-
-export function onEnableTenderStart(bool) {
-  return {
-    type: TENDER_IS_ENABLING,
-    isEnabling: bool,
-  };
-}
-
-export function onEnableTenderSuccess() {
-  fetchTenders()
-
-  return {
-    type: TENDER_ENABLE_SUCCESS,
+    type: TENDER_TOGGLE_SUCCESS,
   };
 }
 
@@ -187,14 +169,14 @@ export function deleteTender(id) {
   };
 }
 
-export function disableTender(id) {
+export function toggleTender(id) {
   const formData = new FormData()
-  const url = '/test/private/user/disableTender'
+  const url = '/test/private/user/toggleActiveTender'
 
   formData.append('id', id)
 
   return (dispatch) => {
-    dispatch(onDisableTenderStart(true))
+    dispatch(onToggleTenderStart(true))
 
     fetch(url, {
       method: 'POST',
@@ -209,44 +191,12 @@ export function disableTender(id) {
           throw Error(response.statusText)
         }
 
-        dispatch(onDisableTenderStart(false))
+        dispatch(onToggleTenderStart(false))
 
         return response
       })
       .then(response => response.json())
-      .then(json => dispatch(onDisableTenderSuccess()))
-      .catch(error => dispatch(onFetchError(true)))
-  };
-}
-
-export function enableTender(id) {
-  const formData = new FormData()
-  const url = '/test/private/user/enableTender'
-
-  formData.append('id', id)
-
-  return (dispatch) => {
-    dispatch(onEnableTenderStart(true))
-
-    fetch(url, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/x-www-form-urlencoded',
-        'Authorization': `Bearer ${getToken()}`
-      },
-      body: new URLSearchParams(formData),
-    })
-      .then(response => {
-        if (!response.ok) {
-          throw Error(response.statusText)
-        }
-
-        dispatch(onEnableTenderStart(false))
-
-        return response
-      })
-      .then(response => response.json())
-      .then(json => dispatch(onEnableTenderSuccess()))
+      .then(json => dispatch(onToggleTenderSuccess()))
       .catch(error => dispatch(onFetchError(true)))
   };
 }
@@ -255,8 +205,7 @@ export const actions = {
   fetchTenders,
   saveTender,
   deleteTender,
-  disableTender,
-  enableTender,
+  toggleTender,
 }
 
 // ------------------------------------
@@ -279,13 +228,9 @@ const ACTION_HANDLERS = {
     ...state,
     isDeleting: action.isDeleting
   }),
-  [TENDER_IS_DISABLING]: (state, action) => ({
+  [TENDER_IS_TOGGLING]: (state, action) => ({
     ...state,
-    isDisabling: action.isDisabling
-  }),
-  [TENDER_IS_ENABLING]: (state, action) => ({
-    ...state,
-    isEnabling: action.isEnabling
+    isToggling: action.isToggling
   }),
 }
 
