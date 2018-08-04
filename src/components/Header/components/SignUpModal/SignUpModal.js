@@ -10,7 +10,6 @@ class SignUpModal extends Component {
     categories: PropTypes.array.isRequired,
     subcategories: PropTypes.array.isRequired,
     cities: PropTypes.array.isRequired,
-    handleSignUp: PropTypes.func.isRequired,
     fetchCities: PropTypes.func.isRequired,
     fetchCategories: PropTypes.func.isRequired,
     fetchSubcategories: PropTypes.func.isRequired,
@@ -18,10 +17,10 @@ class SignUpModal extends Component {
   }
 
   state = {
-    category: null,
-    subcategory: null,
-    city: null,
-    district: null,
+    category: '',
+    subcategory: '',
+    city: '',
+    district: '',
     selectedUserType: 'customer',
     phoneNumber: '',
   }
@@ -183,10 +182,10 @@ class SignUpModal extends Component {
   }
 
   handleSubmit(event) {
-    const {handleSignUp} = this.props
+    const {onSubmit} = this.props
     const form = event.target;
 
-    handleSignUp(form);
+    onSubmit(form);
   }
 }
 

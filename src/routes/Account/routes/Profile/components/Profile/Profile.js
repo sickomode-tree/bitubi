@@ -57,6 +57,7 @@ export default class Profile extends Component {
               </Card.Content>
 
               <ProfileEditModal
+                profile={user}
                 cities={cities} categories={categories} subcategories={subcategories}
                 fetchCities={fetchCities}
                 onClose={fetchUser}

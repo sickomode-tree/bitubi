@@ -1,11 +1,12 @@
 import React, {Component} from 'react'
+import _ from 'lodash'
 import PropTypes from 'prop-types'
 import {Button, Form, Modal} from 'semantic-ui-react'
 import MaskedInput from 'react-text-mask'
-import _ from 'lodash'
+import EditForm from 'components/EditForm/EditForm'
 import {getUserType} from 'utils/auth'
 
-class SignUpModal extends Component {
+class ProfileEditModal extends Component {
   static propTypes = {
     trigger: PropTypes.node,
     categories: PropTypes.array.isRequired,
@@ -17,10 +18,10 @@ class SignUpModal extends Component {
   }
 
   state = {
-    category: null,
-    subcategory: null,
-    city: null,
-    district: null,
+    category: '',
+    subcategory: '',
+    city: '',
+    district: '',
     phoneNumber: '',
   }
 
@@ -31,14 +32,26 @@ class SignUpModal extends Component {
   }
 
   render() {
-    const {categories, subcategories, cities, trigger, onClose} = this.props
+    const {profile, cities, trigger, onClose} = this.props
     const {state} = this
-    const {category, subcategory, selectedUserType, phoneNumber} = state
-    const districts = state.city ? cities.find(city => city.id === state.city).districts : []
+    const {phoneNumber} = state
 
-    const userTypes = [
-      {code: 'customer', name: 'Покупатель'},
-      {code: 'provider', name: 'Поставщик'},
+    const cityOptions = cities.map(city => ({value: city.id, text: city.name}))
+    const cityValue = state.city || (profile && profile.city ? profile.city.id : null)
+    const districts = cityValue ? cities.find(city => city.id === cityValue).districts : []
+    const districtOptions = districts.map(district => ({value: district.id, text: district.name}))
+    const districtValue = state.district || (profile && profile.district ? profile.district.id : null)
+
+    const formFields = [
+      {tag: 'input', type: 'text'    , name: 'firstName'   , title: 'Имя'                , required: true                        , path: 'firstName'      , visible: getUserType() === 'customer'},
+      {tag: 'input', type: 'text'    , name: 'lastName'    , title: 'Фамилия'            , required: true                        , path: 'lastName'       , visible: getUserType() === 'customer'},
+      {tag: 'input', type: 'text'    , name: 'providerName', title: 'Название компании'  , required: true                        , path: 'providerName'   , visible: getUserType() === 'provider'},
+      {tag: 'input', type: 'text'    , name: 'email'       , title: 'Email'              , required: true                        , path: 'email'          },
+      {tag: 'input', type: 'text'    , name: 'login'       , title: 'Логин'              , required: true                        , path: 'login'          },
+      {tag: 'input', type: 'password', name: 'password'    , title: 'Пароль'             , required: true                        , path: 'password'       },
+      {tag: 'select'                 , name: 'city'        , title: 'Город'              , required: getUserType() === 'provider', value: cityValue       , options: cityOptions       , onChange: this.handleSelectChange.bind(this)},
+      {tag: 'select'                 , name: 'district'    , title: 'Район'              , required: !_.isEmpty(districtOptions) , value: districtValue   , options: districtOptions   , onChange: this.handleSelectChange.bind(this) , disabled: _.isEmpty(districtOptions)},
+      {tag: 'input', type: 'hidden'  , name: 'id'                                                                                  , path: 'id' }           ,
     ]
 
     return (
@@ -50,34 +63,18 @@ class SignUpModal extends Component {
       >
         <Modal.Header>Редактировать</Modal.Header>
         <Modal.Content>
-          <Form
+          <EditForm
+            id='profileForm'
+            data={profile}
+            fields={formFields}
+            onSubmit={this.handleSubmit.bind(this)}
+          />
+          {/*<Form
             id='registerForm'
             onSubmit={this.handleSubmit.bind(this)}
           >
-            {
-              getUserType() === 'customer' &&
-              <Form.Group>
-                <Form.Input name='firstName' label='Имя' placeholder='Имя' width={8} required/>
-                <Form.Input name='lastName' label='Фамилия' placeholder='Фамилия' width={8} required/>
-              </Form.Group>
-            }
-            {
-              getUserType() === 'provider' &&
-              <Form.Input name='providerName' label='Название компании' placeholder='Название компании' required/>
-            }
-            <Form.Input name='email' label='Email' placeholder='Email' required/>
-            <Form.Input name='login' label='Логин' placeholder='Логин' required/>
-            <Form.Input name='password' label='Пароль' placeholder='Пароль' type='password' required/>
             <Form.Group>
-              <Form.Select
-                name='city' label='Город'
-                options={cities.map(city => ({
-                  value: city.id,
-                  text: city.name,
-                }))}
-                value={state.city}
-                placeholder='Город' width={8} required={getUserType() === 'provider'} onChange={this.handleSelectChange.bind(this)}
-              />
+
               <input type='hidden' name='city' value={state.city}/>
               <Form.Select
                 name='district' label='Район' placeholder='Район'
@@ -137,7 +134,7 @@ class SignUpModal extends Component {
                 <input type='hidden' name='subcategory' value={subcategory}/>
               </Form.Group>
             }
-          </Form>
+          </Form>*/}
         </Modal.Content>
         <Modal.Actions>
           <Button positive type='submit' form='registerForm' icon='checkmark' labelPosition='right' content='Готово'/>
@@ -163,4 +160,4 @@ class SignUpModal extends Component {
   }
 }
 
-export default SignUpModal
+export default ProfileEditModal

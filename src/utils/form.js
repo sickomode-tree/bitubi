@@ -19,29 +19,15 @@ export const getFormattedValue = (value, type) => {
 }
 
 export const getFormFieldComponent = (config, data) => {
-  let formFieldComponent
+  let formFieldComponent = null
 
-  switch (config.tag) {
-    case 'textarea':
-      formFieldComponent = (
-        <Form.Field
-          key={config.name}
-          control={TextArea}
-          name={config.name}
-          label={config.title}
-          placeholder={config.title}
-          required={config.required || false}
-          disabled={config.disabled || false}
-          defaultValue={config.value || null}
-          width={config.width || 16}
-          autoHeight
-        />
-      )
-      break
-    case 'select':
-      formFieldComponent = (
-        <div key={config.name}>
-          <Form.Select
+  if (_.isNil(config.visible) || config.visible === true) {
+    switch (config.tag) {
+      case 'textarea':
+        formFieldComponent = (
+          <Form.Field
+            key={config.name}
+            control={TextArea}
             name={config.name}
             label={config.title}
             placeholder={config.title}
@@ -49,52 +35,68 @@ export const getFormFieldComponent = (config, data) => {
             disabled={config.disabled || false}
             defaultValue={config.value || null}
             width={config.width || 16}
-            options={config.options}
-            onChange={config.onChange}
+            autoHeight
           />
-          <input
-            type='hidden'
+        )
+        break
+      case 'select':
+        formFieldComponent = (
+          <div key={config.name}>
+            <Form.Select
+              name={config.name}
+              label={config.title}
+              placeholder={config.title}
+              required={config.required || false}
+              disabled={config.disabled || false}
+              defaultValue={config.value || null}
+              width={config.width || 16}
+              options={config.options}
+              onChange={config.onChange}
+            />
+            <input
+              type='hidden'
+              name={config.name}
+              defaultValue={config.value || null}
+            />
+          </div>
+        )
+        break
+      case 'datepicker':
+        formFieldComponent = (
+          <div className='eight wide field' key={config.name}>
+            <label>{config.title}</label>
+            <DatePicker
+              minDate={moment()}
+              maxDate={moment().add(365, 'days')}
+              locale='ru'
+              customInput={
+                <Input fluid>
+                  <input
+                    placeholder={config.title}
+                    name={config.name}
+                  />
+                </Input>
+              }
+              selected={!_.isNil(config.value) ? moment(config.value) : null}
+              onChange={config.onChange}
+            />
+          </div>
+        )
+        break
+      default:
+        formFieldComponent = (
+          <Form.Input
+            key={config.name}
+            type={config.type || 'text'}
             name={config.name}
-            defaultValue={config.value || null}
+            label={config.title}
+            placeholder={config.title}
+            required={config.required || false}
+            defaultValue={getObjectValue(data, config.path, config.type)}
+            width={config.width || 16}
           />
-        </div>
-      )
-      break
-    case 'datepicker':
-      formFieldComponent = (
-        <div className='eight wide field' key={config.name}>
-          <label>{config.title}</label>
-          <DatePicker
-            minDate={moment()}
-            maxDate={moment().add(365, 'days')}
-            locale='ru'
-            customInput={
-              <Input fluid>
-                <input
-                  placeholder={config.title}
-                  name={config.name}
-                />
-              </Input>
-            }
-            selected={!_.isNil(config.value) ? moment(config.value) : null}
-            onChange={config.onChange}
-          />
-        </div>
-      )
-      break
-    default:
-      formFieldComponent = (
-        <Form.Input
-          key={config.name}
-          type={config.type || 'text'}
-          name={config.name}
-          label={config.title}
-          placeholder={config.title}
-          required={config.required || false}
-          defaultValue={getObjectValue(data, config.path, config.type)}
-          width={config.width || 16}
-        />
-      )
+        )
+    }
   }
 
   return formFieldComponent
