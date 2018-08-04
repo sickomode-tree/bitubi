@@ -3,7 +3,6 @@ import PropTypes from 'prop-types'
 import {Card, Dimmer, Grid, Header, Icon, Image, Modal, Reveal, Segment, Table} from 'semantic-ui-react'
 import {customerUserType, providerUserType} from 'utils/auth'
 import {getObjectValue} from 'utils/array'
-import Dropzone from 'react-dropzone'
 import ProfileEditModal from './components/ProfileEditModal/ProfileEditModal'
 
 export default class Profile extends Component {
@@ -51,7 +50,10 @@ export default class Profile extends Component {
         <Grid.Row>
           <Grid.Column width={4}>
             <Card fluid>
-              <Userpic user={user}/>
+              <Image
+                src='https://react.semantic-ui.com/images/avatar/large/matthew.png'
+                label={user.userType && {content: user.userType, icon: 'key', ribbon: true}}
+              />
               <Card.Content>
                 <Card.Header></Card.Header>
               </Card.Content>
@@ -102,48 +104,6 @@ export default class Profile extends Component {
           </Grid.Column>
         </Grid.Row>
       </Grid>
-    )
-  }
-}
-
-class Userpic extends Component {
-  static propTypes = {
-    user: PropTypes.object.isRequired,
-  }
-
-  render() {
-    const {user} = this.props
-
-    return (
-      <section>
-        <Dropzone
-          multiple={false}
-          accept='image/jpeg, image/png'
-          style={{width: '100%', border: 'none'}}
-          onDrop={(file) => {
-            fetch()
-          }}
-        >
-          <Reveal animated='small fade'>
-            <Reveal.Content visible>
-              <Image
-                src='https://react.semantic-ui.com/images/avatar/large/matthew.png'
-                label={user.userType && {content: user.userType, icon: 'key', ribbon: true}}
-              />
-            </Reveal.Content>
-            <Reveal.Content hidden>
-              <Dimmer active onClickOutside={() => {
-                debugger
-              }}>
-                Обновить фотографию
-              </Dimmer>
-              <Image
-                src='https://react.semantic-ui.com/images/avatar/large/matthew.png'
-              />
-            </Reveal.Content>
-          </Reveal>
-        </Dropzone>
-      </section>
     )
   }
 }

@@ -1,0 +1,10 @@
+.form {
+  .grid {
+    .column {
+      &:not(.row) {
+        padding-top: .5em;
+        padding-bottom: .5em;
+      }
+    }
+  }
+}

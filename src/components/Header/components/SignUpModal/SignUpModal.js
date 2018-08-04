@@ -85,7 +85,6 @@ class SignUpModal extends Component {
             <Form.Input name='login' label='Логин' placeholder='Логин' required/>
             <Form.Input name='password' label='Пароль' placeholder='Пароль' type='password' required/>
             {
-              selectedUserType === 'provider' &&
               <Form.Group>
                 <Form.Select
                   name='city' label='Город'
