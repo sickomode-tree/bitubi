@@ -78,7 +78,7 @@ class ProfileEditModal extends Component {
         tag: 'select',
         name: 'city',
         title: 'Город',
-        required: getUserType() === 'provider',
+        required: true,
         value: cityValue,
         options: cityOptions,
         width: 8,
@@ -111,7 +111,7 @@ class ProfileEditModal extends Component {
         required: getUserType() === 'provider',
         path: 'phoneNumber'
       },
-      {tag: 'input', type: 'url', name: 'url', title: 'Сайт', required: getUserType() === 'provider', path: 'url'},
+      {tag: 'input', type: 'url', name: 'url', title: 'Сайт', path: 'url'},
       {tag: 'input', type: 'hidden', name: 'id', path: 'id'},
     ]
 

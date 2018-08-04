@@ -1,16 +1,21 @@
 import React, {Component} from 'react'
 import PropTypes from 'prop-types'
-import {Button, Form, Modal} from 'semantic-ui-react'
+import {Button, Modal} from 'semantic-ui-react'
+import EditForm from 'components/EditForm/EditForm'
+
 
 class SignInModal extends Component {
   static propTypes = {
     trigger: PropTypes.node,
-    fetchProducts: PropTypes.func.isRequired,
     handleSignIn: PropTypes.func.isRequired,
   }
 
   render() {
-    const {trigger, fetchProducts} = this.props
+    const {trigger} = this.props
+    const formFields = [
+      {tag: 'input', type: 'text', name: 'login', title: 'Логин', required: true, path: 'login', width: 8},
+      {tag: 'input', type: 'password', name: 'password', title: 'Пароль', required: true, path: 'password', width: 8},
+    ]
 
     return (
       <Modal
@@ -21,18 +26,14 @@ class SignInModal extends Component {
       >
         <Modal.Header>Войти в систему</Modal.Header>
         <Modal.Content>
-          <Form
-            id='authForm'
+          <EditForm
+            id='signInForm'
+            fields={formFields}
             onSubmit={this.handleSubmit.bind(this)}
-          >
-            <Form.Group>
-              <Form.Input name='login' label='Логин' placeholder='Логин' width={8}/>
-              <Form.Input name='password' label='Пароль' placeholder='Пароль' width={8} type='password'/>
-            </Form.Group>
-          </Form>
+          />
         </Modal.Content>
         <Modal.Actions>
-          <Button positive type='submit' form='authForm' icon='checkmark' labelPosition='right' content='Войти'/>
+          <Button positive type='submit' form='signInForm' icon='checkmark' labelPosition='left' content='Войти'/>
         </Modal.Actions>
       </Modal>
     )

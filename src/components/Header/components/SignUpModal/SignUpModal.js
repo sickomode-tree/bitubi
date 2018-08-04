@@ -1,8 +1,9 @@
 import React, {Component} from 'react'
+import _ from 'lodash'
 import PropTypes from 'prop-types'
-import {Button, Form, Menu, Modal} from 'semantic-ui-react'
-import MaskedInput from 'react-text-mask'
-import _ from "lodash";
+import {Button, Modal} from 'semantic-ui-react'
+import EditForm from 'components/EditForm/EditForm'
+import {getUserType} from 'utils/auth'
 
 class SignUpModal extends Component {
   static propTypes = {
@@ -21,7 +22,7 @@ class SignUpModal extends Component {
     subcategory: '',
     city: '',
     district: '',
-    selectedUserType: 'customer',
+    userType: 'customer',
     phoneNumber: '',
   }
 
@@ -36,12 +37,87 @@ class SignUpModal extends Component {
   render() {
     const {categories, subcategories, cities, trigger, onClose} = this.props
     const {state} = this
-    const {category, subcategory, selectedUserType, phoneNumber} = state
-    const districts = state.city ? cities.find(city => city.id === state.city).districts : []
 
-    const userTypes = [
-      {code: 'customer', name: 'Покупатель'},
-      {code: 'provider', name: 'Поставщик'},
+
+    const cityOptions = cities.map(city => ({value: city.id, text: city.name}))
+    const cityValue = state.city
+    const districts = cityValue ? cities.find(city => city.id === cityValue).districts : []
+    const districtOptions = districts.map(district => ({value: district.id, text: district.name}))
+    const districtValue = state.district
+
+    const formFields = [
+      {tag: 'menu', name: 'userType', options: [{code: 'customer', name: 'Покупатель'}, {code: 'provider', name: 'Поставщик'}], selected: state.userType, onClick: this.handleUserTypeSelectChange.bind(this)},
+      {tag: 'input', type: 'text', name: 'login', title: 'Логин', required: true, width: 8},
+      {tag: 'input', type: 'password', name: 'password', title: 'Пароль', required: true, width: 8},
+      {
+        tag: 'input',
+        type: 'text',
+        name: 'firstName',
+        title: 'Имя',
+        required: true,
+        path: 'firstName',
+        visible: state.userType === 'customer',
+        width: 8
+      },
+      {
+        tag: 'input',
+        type: 'text',
+        name: 'lastName',
+        title: 'Фамилия',
+        required: true,
+        path: 'lastName',
+        visible: state.userType === 'customer',
+        width: 8,
+      },
+      {
+        tag: 'input',
+        type: 'text',
+        name: 'providerName',
+        title: 'Название компании',
+        required: true,
+        path: 'providerName',
+        visible: state.userType === 'provider'
+      },
+      {tag: 'input', type: 'text', name: 'email', title: 'Email', required: true, path: 'email', width: 8},
+      {
+        tag: 'input',
+        type: 'tel',
+        name: 'phoneNumber',
+        title: 'Телефон',
+        required: state.userType === 'provider',
+        path: 'phoneNumber',
+        width: 8,
+      },
+      {
+        tag: 'select',
+        name: 'city',
+        title: 'Город',
+        required: true,
+        value: cityValue,
+        options: cityOptions,
+        width: 8,
+        onChange: this.handleSelectChange.bind(this),
+      },
+      {
+        tag: 'select',
+        name: 'district',
+        title: 'Район',
+        required: !_.isEmpty(districtOptions),
+        value: districtValue,
+        options: districtOptions,
+        width: 8,
+        onChange: this.handleSelectChange.bind(this),
+        disabled: _.isEmpty(districtOptions)
+      },
+      {
+        tag: 'input',
+        type: 'text',
+        name: 'address',
+        title: 'Адрес',
+        required: state.userType === 'provider',
+        path: 'address'
+      },
+      {tag: 'input', type: 'hidden', name: 'id', path: 'id'},
     ]
 
     return (
@@ -53,130 +129,24 @@ class SignUpModal extends Component {
       >
         <Modal.Header>Зарегистрироваться</Modal.Header>
         <Modal.Content>
-          <Form
-            id='registerForm'
+          <EditForm
+            id='singUpForm'
+            fields={formFields}
             onSubmit={this.handleSubmit.bind(this)}
-          >
-            <Menu fluid size='tiny' widths={userTypes.length}>
-              {
-                userTypes.map(userType => (
-                  <Menu.Item
-                    key={userType.code}
-                    name={userType.name}
-                    active={selectedUserType === userType.code}
-                    onClick={this.handleUserTypeSelectChange.bind(this, userType.code)}
-                  />
-                ))
-              }
-              <input type='hidden' name='userType' value={selectedUserType}/>
-            </Menu>
-            {
-              selectedUserType === 'customer' &&
-              <Form.Group>
-                <Form.Input name='firstName' label='Имя' placeholder='Имя' width={8} required/>
-                <Form.Input name='lastName' label='Фамилия' placeholder='Фамилия' width={8} required/>
-              </Form.Group>
-            }
-            {
-              selectedUserType === 'provider' &&
-              <Form.Input name='providerName' label='Название компании' placeholder='Название компании' required/>
-            }
-            <Form.Input name='email' label='Email' placeholder='Email' required/>
-            <Form.Input name='login' label='Логин' placeholder='Логин' required/>
-            <Form.Input name='password' label='Пароль' placeholder='Пароль' type='password' required/>
-            {
-              <Form.Group>
-                <Form.Select
-                  name='city' label='Город'
-                  options={cities.map(city => ({
-                    value: city.id,
-                    text: city.name,
-                  }))}
-                  value={state.city}
-                  placeholder='Город' width={8} required onChange={this.handleSelectChange.bind(this)}
-                />
-                <input type='hidden' name='city' value={state.city}/>
-                <Form.Select
-                  name='district' label='Район' placeholder='Район'
-                  options={districts.map(district => ({
-                    value: district.id,
-                    text: district.name,
-                  }))}
-                  disabled={_.isNil(state.city) || _.isEmpty(districts)}
-                  value={state.district}
-                  width={8}
-                  onChange={this.handleSelectChange.bind(this)}
-                />
-                <input type='hidden' name='district' value={state.district}/>
-              </Form.Group>
-            }
-            <Form.Input name='address' label='Адрес' placeholder='Адрес' type='text' required/>
-            {
-              selectedUserType === 'provider' &&
-              <Form.Input
-                label='Телефон'
-                required
-                children={
-                  <MaskedInput
-                    name='phoneNumber'
-                    mask={['(', /[1-9]/, /\d/, /\d/, ')', ' ', /\d/, /\d/, /\d/, '-', /\d/, /\d/, '-', /\d/, /\d/]}
-                    placeholder='(999) 999-99-99'
-                    value={phoneNumber}
-                    onChange={this.handleInputChange.bind(this)}
-                  />
-                }
-              />
-            }
-            {
-              selectedUserType === 'provider' &&
-              <Form.Input name='url' label='Сайт' placeholder='http://example.com' type='text'/>
-            }
-            {
-              selectedUserType === 'provider' &&
-              <Form.Group>
-                <Form.Select
-                  name='category' label='Категория' placeholder='Категория'
-                  options={categories.map(category => ({
-                    value: category.id,
-                    text: category.title,
-                  }))}
-                  value={category}
-                  width={8} required
-                  onChange={this.handleSelectChange.bind(this)}
-                />
-                <Form.Select
-                  name='subcategory' label='Подкатегория' placeholder='Подкатегория'
-                  options={subcategories.map(subcategory => ({
-                    value: subcategory.id,
-                    text: subcategory.title,
-                    parent: subcategory.parent.id,
-                  })).filter(subcategory => subcategory.parent === category)}
-                  value={subcategory}
-                  width={8} required disabled={_.isNil(category)}
-                  onChange={this.handleSelectChange.bind(this)}
-                />
-                <input type='hidden' name='subcategory' value={subcategory}/>
-              </Form.Group>
-            }
-          </Form>
+          />
         </Modal.Content>
         <Modal.Actions>
-          <Button positive type='submit' form='registerForm' icon='checkmark' labelPosition='right' content='Далее'/>
+          <Button positive type='submit' form='singUpForm' icon='checkmark' labelPosition='right' content='Далее'/>
         </Modal.Actions>
       </Modal>
     )
   }
 
-  handleUserTypeSelectChange(userType) {
-    this.setState({selectedUserType: userType})
+  handleUserTypeSelectChange(event, menuItem) {
+    this.setState({userType: menuItem.value})
   }
 
   handleSelectChange(event, field) {
-    this.setState({[field.name]: field.value})
-  }
-
-  handleInputChange(event) {
-    const field = event.target
     this.setState({[field.name]: field.value})
   }
 

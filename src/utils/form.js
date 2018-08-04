@@ -1,6 +1,6 @@
 import React from 'react'
 import moment from 'moment'
-import {Form, Input, TextArea} from 'semantic-ui-react'
+import {Form, Input, Menu, TextArea} from 'semantic-ui-react'
 import {getObjectValue} from './array'
 import DatePicker from 'react-datepicker'
 import MaskedInput from 'react-text-mask'
@@ -106,10 +106,31 @@ export const getFormFieldComponent = (config, data) => {
               label={config.title}
               placeholder={config.title}
               required={config.required || false}
-              defaultValue={getObjectValue(data, config.path, config.type)}
+              defaultValue={config.path ? getObjectValue(data, config.path, config.type) : ''}
             />
           )
       }
+      break
+    case 'menu':
+      formFieldComponent = (
+        <Menu fluid size='tiny' widths={config.options.length}>
+          {
+            config.options.map(option => (
+              <Menu.Item
+                key={option.code}
+                value={option.code}
+                name={option.name}
+                active={config.selected === option.code}
+                onClick={config.onClick}
+              />
+            ))
+          }
+          <input
+            type='hidden'
+            name={config.name}
+            defaultValue={config.selected}/>
+        </Menu>
+      )
       break
     default:
       formFieldComponent = (
@@ -119,7 +140,7 @@ export const getFormFieldComponent = (config, data) => {
           label={config.title}
           placeholder={config.title}
           required={config.required || false}
-          defaultValue={getObjectValue(data, config.path, config.type)}
+          defaultValue={config.path ? getObjectValue(data, config.path, config.type) : ''}
         />
       )
   }
