@@ -1,4 +1,5 @@
 import {getToken} from 'utils/auth'
+import {getUserType} from "../../../../../utils/auth";
 
 // ------------------------------------
 // Constants
@@ -80,7 +81,11 @@ export function onToggleTenderSuccess() {
 }
 
 export function fetchTenders() {
-  const url = '/test/private/user/tenders'
+  const urlByUserTypeMap = {
+    customer: '/test/private/user/tenders',
+    provider: '/test/private/tenders',
+  }
+  const url = urlByUserTypeMap[getUserType()]
 
   return (dispatch, getState) => {
     const token = getState().auth.token
