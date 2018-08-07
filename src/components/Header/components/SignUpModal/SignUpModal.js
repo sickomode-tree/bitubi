@@ -27,15 +27,14 @@ class SignUpModal extends Component {
   }
 
   componentDidMount() {
-    const {fetchCategories, fetchSubcategories, fetchCities} = this.props
+    const {fetchCategories, fetchCities} = this.props
 
     fetchCategories()
-    fetchSubcategories()
     fetchCities()
   }
 
   render() {
-    const {categories, subcategories, cities, trigger, onClose} = this.props
+    const {categories, cities, trigger, onClose} = this.props
     const {state} = this
 
 
@@ -44,6 +43,11 @@ class SignUpModal extends Component {
     const districts = cityValue ? cities.find(city => city.id === cityValue).districts : []
     const districtOptions = districts.map(district => ({value: district.id, text: district.name}))
     const districtValue = state.district
+    const categoryOptions = categories.map(category=> ({value: category.id, text: category.title}))
+    const categoryValue = state.category
+    const subcategories = categoryValue ? categories.find(category => category.id === categoryValue).children : []
+    const subcategoryOptions = subcategories.map(subcategory => ({value: subcategory.id, text: subcategory.title}))
+    const subcategoryValue = state.subcategory
 
     const formFields = [
       {tag: 'menu', name: 'userType', options: [{code: 'customer', name: 'Покупатель'}, {code: 'provider', name: 'Поставщик'}], selected: state.userType, onClick: this.handleUserTypeSelectChange.bind(this)},
@@ -117,7 +121,37 @@ class SignUpModal extends Component {
         required: state.userType === 'provider',
         path: 'address'
       },
-      {tag: 'input', type: 'hidden', name: 'id', path: 'id'},
+      {
+        tag: 'select',
+        name: 'category',
+        title: 'Категория',
+        required: true,
+        value: categoryValue,
+        options: categoryOptions,
+        width: 7,
+        onChange: this.handleSelectChange.bind(this),
+        visible: state.userType === 'provider',
+      },
+      {
+        tag: 'select',
+        name: 'subcategory',
+        title: 'Подкатегория',
+        required: true,
+        value: subcategoryValue,
+        options: subcategoryOptions,
+        width: 7,
+        onChange: this.handleSelectChange.bind(this),
+        disabled: _.isEmpty(subcategoryOptions),
+        visible: state.userType === 'provider',
+      },
+      {
+        tag: 'button',
+        icon: 'plus',
+        width: 2,
+        onClick: this.handleAddCategoryClick.bind(this),
+        disabled: false,
+        visible: state.userType === 'provider',
+      },
     ]
 
     return (
@@ -142,8 +176,12 @@ class SignUpModal extends Component {
     )
   }
 
-  handleUserTypeSelectChange(event, menuItem) {
-    this.setState({userType: menuItem.value})
+  handleUserTypeSelectChange(event, target) {
+    this.setState({userType: target.value})
+  }
+
+  handleAddCategoryClick(event, target) {
+    debugger;
   }
 
   handleSelectChange(event, field) {

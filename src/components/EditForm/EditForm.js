@@ -21,9 +21,9 @@ export default class EditForm extends Component {
       >
         <Grid stackable>
           {
-            fields.map(field => (
+            fields.map((field, index) => (
               _.isNil(field.visible) || field.visible === true) && (
-                <Grid.Column width={field.width || 16} key={field.name}>
+                <Grid.Column width={field.width || 16} style={{display: field.type === 'hidden' ? 'none' : 'inherit'}} key={index}>
                   {getFormFieldComponent(field, data)}
                 </Grid.Column>
               )

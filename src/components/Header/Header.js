@@ -4,7 +4,7 @@ import PropTypes from 'prop-types'
 import {Container, Dropdown, Image, Item, Menu} from 'semantic-ui-react'
 import Search from './components/Search/Search'
 import SignInModal from './components/SignInModal/SignInModal'
-import SignUpModal from './components/SignUpModal/SignUpModal'
+import SignUpModal2 from './components/SignUpModal2/SignUpModal2'
 import {changeSearchTerm} from 'store/filter'
 
 export default class Header extends Component {
@@ -76,7 +76,7 @@ export default class Header extends Component {
             {
               !isAuthorized &&
               <Item>
-                <SignUpModal
+                <SignUpModal2
                   cities={cities} categories={categories} subcategories={subcategories}
                   fetchProducts={fetchProducts} fetchCities={fetchCities}
                   fetchCategories={fetchCategories}fetchSubcategories={fetchSubcategories}

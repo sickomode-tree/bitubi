@@ -1,6 +1,6 @@
 import React from 'react'
 import moment from 'moment'
-import {Form, Input, Menu, TextArea} from 'semantic-ui-react'
+import {Button, Form, Input, Menu, TextArea} from 'semantic-ui-react'
 import {getObjectValue} from './array'
 import DatePicker from 'react-datepicker'
 import MaskedInput from 'react-text-mask'
@@ -33,13 +33,14 @@ export const getFormFieldComponent = (config, data) => {
           required={config.required || false}
           disabled={config.disabled || false}
           defaultValue={config.value || null}
+          width={16}
           autoHeight
         />
       )
       break
     case 'select':
       formFieldComponent = (
-        <div>
+        <div style={{width: '100%'}}>
           <input
             type='hidden'
             name={config.name}
@@ -50,8 +51,9 @@ export const getFormFieldComponent = (config, data) => {
             label={config.title}
             placeholder={config.title}
             required={config.required || false}
-            disabled={config.disabled || false}
+            disabled={config.disabled || _.isEmpty(config.options) || false}
             defaultValue={config.value || null}
+            multiple={config.multiple || false}
             options={config.options}
             onChange={config.onChange}
           />
@@ -60,7 +62,7 @@ export const getFormFieldComponent = (config, data) => {
       break
     case 'datepicker':
       formFieldComponent = (
-        <Form.Field required={config.required}>
+        <Form.Field required={config.required} width={16}>
           <label>{config.title}</label>
           <DatePicker
             minDate={moment()}
@@ -86,13 +88,14 @@ export const getFormFieldComponent = (config, data) => {
           formFieldComponent = (
             <Form.Input
               label={config.title}
+              width={16}
               required={config.required}
               children={
                 <MaskedInput
                   name={config.name}
                   mask={['(', /[1-9]/, /\d/, /\d/, ')', ' ', /\d/, /\d/, /\d/, '-', /\d/, /\d/, '-', /\d/, /\d/]}
                   placeholder='(999) 999-99-99'
-                  defaultValue={getObjectValue(data, config.path, config.type)}
+                  defaultValue={config.value || (config.path ? getObjectValue(data, config.path, config.type) : '')}
                 />
               }
             />
@@ -104,12 +107,23 @@ export const getFormFieldComponent = (config, data) => {
               type={config.type || 'text'}
               name={config.name}
               label={config.title}
+              width={16}
               placeholder={config.title}
               required={config.required || false}
-              defaultValue={config.path ? getObjectValue(data, config.path, config.type) : ''}
+              defaultValue={config.value || (config.path ? getObjectValue(data, config.path, config.type) : '')}
             />
           )
       }
+      break
+    case 'button':
+      formFieldComponent = (
+        <Button
+          icon={config.icon}
+          style={{position: 'absolute', bottom: 9}}
+          onClick={config.onClick}
+          formNoValidate
+        />
+      )
       break
     case 'menu':
       formFieldComponent = (
