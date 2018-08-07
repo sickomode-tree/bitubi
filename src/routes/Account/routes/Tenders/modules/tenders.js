@@ -1,5 +1,6 @@
 import {getToken} from 'utils/auth'
 import {getUserType} from "../../../../../utils/auth";
+import {PRODUCT_SAVE_TO_FAVOURITES} from "../../../../../store/products";
 
 // ------------------------------------
 // Constants
@@ -16,6 +17,8 @@ export const TENDER_DELETE_SUCCESS = 'TENDER_DELETE_SUCCESS'
 
 export const TENDER_IS_TOGGLING = 'TENDER_IS_TOGGLING'
 export const TENDER_TOGGLE_SUCCESS = 'TENDER_TOGGLE_SUCCESS'
+
+export const TENDER_SAVE_TO_FAVOURITES = 'TENDER_SAVE_TO_FAVOURITES'
 
 // ------------------------------------
 // Actions
@@ -78,6 +81,13 @@ export function onToggleTenderSuccess() {
   return {
     type: TENDER_TOGGLE_SUCCESS,
   };
+}
+
+export function onsaveTenderToFavouritesSuccess(id) {
+  return {
+    type: TENDER_SAVE_TO_FAVOURITES,
+    id: id,
+  }
 }
 
 export function fetchTenders() {
@@ -206,11 +216,44 @@ export function toggleTender(id) {
   };
 }
 
+export function saveTenderToFavourites(id) {
+  const formData = new FormData()
+  const url = '/test/private/user/favourites'
+
+  formData.append('id', id)
+
+  return (dispatch) => {
+    // dispatch(onFetchStart(true))
+
+    fetch(url, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/x-www-form-urlencoded',
+        'Authorization': `Bearer ${getToken()}`
+      },
+      body: new URLSearchParams(formData),
+    })
+      .then(response => {
+        if (!response.ok) {
+          throw Error(response.statusText)
+        }
+
+        dispatch(onFetchStart(false))
+
+        return response
+      })
+      .then(response => response.json())
+      .then(json => dispatch(onsaveTenderToFavouritesSuccess(id)))
+      .catch(error => dispatch(onFetchError(true)))
+  };
+}
+
 export const actions = {
   fetchTenders,
   saveTender,
   deleteTender,
   toggleTender,
+  saveTenderToFavourites,
 }
 
 // ------------------------------------

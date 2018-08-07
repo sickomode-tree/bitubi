@@ -4,6 +4,8 @@ import _ from 'lodash'
 import {Card} from 'semantic-ui-react'
 import EmptyText from 'components/EmptyText/EmptyText'
 import ProductCard from 'components/ProductCard/ProductCard'
+import TenderCard from 'components/TenderCard/TenderCard'
+import {isCustomer, isProvider} from 'utils/auth'
 
 export default class Favourites extends Component {
   static propTypes = {
@@ -27,11 +29,23 @@ export default class Favourites extends Component {
           <h2>Закладки</h2>
           <Card.Group itemsPerRow={3}>
             {
+              isCustomer &&
               items.map(card => (
                 <ProductCard
                   key={card.id}
                   product={card}
                   style={{height: 150}}
+                  onClose={fetchFavourites}
+                  saveToFavourites={saveToFavourites}
+                />
+              ))
+            }
+            {
+              isProvider &&
+              items.map(card => (
+                <TenderCard
+                  key={card.id}
+                  tender={card}
                   onClose={fetchFavourites}
                   saveToFavourites={saveToFavourites}
                 />

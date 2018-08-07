@@ -22,3 +22,9 @@ export function checkAuthorized() {
 
   return !_.isNil(token)
 }
+
+export const isCustomer = getUserType() === customerUserType
+
+export const isProvider = getUserType() === providerUserType
+
+export const isGuest = getUserType() === guestUserType

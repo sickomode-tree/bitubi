@@ -1,17 +1,18 @@
 import React, {Component} from 'react'
 import PropTypes from 'prop-types'
-import moment from 'moment'
-import {Button, Modal} from 'semantic-ui-react'
+import _ from 'lodash'
+import {Button, Card, Icon, Image, Modal, Progress} from 'semantic-ui-react'
 import IconList from 'components/IconList/IconList'
 import Tag from 'components/Tag/Tag'
-import {isProvider} from 'utils/auth'
+import moment from 'moment/moment'
+import {isCustomer, isProvider} from 'utils/auth'
 
-class TenderViewModal extends Component {
+export default class TenderCard extends Component {
   static propTypes = {
-    trigger: PropTypes.node,
     tender: PropTypes.object.isRequired,
-    saveToFavourites: PropTypes.func.isRequired,
-    onOpen: PropTypes.func.isRequired,
+    style: PropTypes.object,
+    saveToHistory: PropTypes.func,
+    saveToFavourites: PropTypes.func,
   }
 
   state = {
@@ -19,18 +20,42 @@ class TenderViewModal extends Component {
   }
 
   render() {
-    const {tender, trigger, onOpen} = this.props
+    const {tender, style, saveToHistory, onClose} = this.props
     const {favourite} = this.state
 
     return (
       <Modal
-        trigger={trigger || <Button basic>Открыть тендер</Button>}
-        dimmer='blurring'
         size='large'
-        onOpen={onOpen}
+        dimmer='blurring'
+        onOpen={() => (isProvider && !_.isNil(saveToHistory)) ? saveToHistory(tender.id) : null}
+        onClose={!_.isNil(onClose) ? onClose : null}
+        trigger={
+          <Card
+            fluid
+            className={tender.disabled ? 'disabled' : null}
+            style={style || {}}
+          >
+            <Card.Content>
+              <Card.Header>{tender.title}</Card.Header>
+            </Card.Content>
+            <Card.Content>
+              <IconList data={[
+                {
+                  icon: 'calendar',
+                  header: 'Ожидаемая дата',
+                  description: moment(tender.expectedDate).format('DD.MM.YYYY')
+                },
+                {icon: 'box', header: 'Количество, шт', description: +tender.amount},
+                {icon: 'ruble', header: 'Стоимость, руб', description: +tender.price},
+              ]}/>
+            </Card.Content>
+            <Progress percent={100 - tender.totalDays / tender.daysToGo * 100} attached='bottom'/>
+          </Card>
+        }
       >
         <Modal.Header>{tender.title}</Modal.Header>
         <Modal.Content image>
+          <Image wrapped size='medium' src='http://react.semantic-ui.com/images/avatar/large/daniel.jpg'/>
           <Modal.Description style={{width: '100%'}}>
             <Tag icon='tags' content={tender.category.title}/>
             <Tag icon='tag' content={tender.subcategory.title}/>
@@ -71,5 +96,3 @@ class TenderViewModal extends Component {
     saveToFavourites(tender.id)
   }
 }
-
-export default TenderViewModal

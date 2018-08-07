@@ -2,7 +2,7 @@ import React, {Component} from 'react'
 import PropTypes from 'prop-types'
 import _ from 'lodash'
 import {Button, Card, Icon, Image, Modal} from 'semantic-ui-react'
-import {guestUserType, getUserType} from 'utils/auth'
+import {isCustomer} from 'utils/auth'
 import IconList from 'components/IconList/IconList'
 import Tag from 'components/Tag/Tag'
 
@@ -22,13 +22,11 @@ export default class ProductCard extends Component {
     const {product, style, saveToHistory, onClose} = this.props
     const {favourite} = this.state
 
-    const isGuest = getUserType() === guestUserType
-
     return (
       <Modal
         size='large'
         dimmer='blurring'
-        onOpen={() => !isGuest && !_.isNil(saveToHistory) ? saveToHistory(product.id) : null}
+        onOpen={() => isCustomer && !_.isNil(saveToHistory) ? saveToHistory(product.id) : null}
         onClose={!_.isNil(onClose) ? onClose : null}
         trigger={
           <Card
@@ -76,7 +74,7 @@ export default class ProductCard extends Component {
           </Modal.Description>
         </Modal.Content>
         {
-          !isGuest &&
+          isCustomer &&
           <Modal.Actions>
             <Button
               basic={!favourite} icon={`bookmark${!favourite ? ' outline' : ''}`}

@@ -4,6 +4,8 @@ import _ from 'lodash'
 import {Card} from 'semantic-ui-react'
 import ProductCard from 'components/ProductCard/ProductCard'
 import EmptyText from 'components/EmptyText/EmptyText'
+import TenderCard from 'components/TenderCard/TenderCard'
+import {isCustomer, isProvider} from 'utils/auth'
 
 export default class History extends Component {
   static propTypes = {
@@ -30,11 +32,23 @@ export default class History extends Component {
 
             <Card.Group itemsPerRow={3}>
               {
+                isCustomer &&
                 items.map(card => (
                   <ProductCard
                     key={card.id}
                     product={card}
                     style={{height: 150}}
+                    onClose={fetchHistory}
+                    saveToFavourites={saveToFavourites}
+                  />
+                ))
+              }
+              {
+                isProvider &&
+                items.map(card => (
+                  <TenderCard
+                    key={card.id}
+                    tender={card}
                     onClose={fetchHistory}
                     saveToFavourites={saveToFavourites}
                   />

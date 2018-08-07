@@ -1,13 +1,13 @@
 import React, {Component} from 'react'
 import PropTypes from 'prop-types'
+import moment from 'moment/moment'
 import _ from 'lodash'
 import {Button, Card, Icon, Header, Progress} from 'semantic-ui-react'
-import {customerUserType, getUserType} from 'utils/auth'
+import {customerUserType, getUserType, isProvider} from 'utils/auth'
 import EmptyText from 'components/EmptyText/EmptyText'
 import TenderEditModal from './components/TenderEditModal/TenderEditModal'
 import TenderViewModal from './components/TenderViewModal/TenderViewModal'
 import IconList from 'components/IconList/IconList'
-import moment from 'moment/moment'
 
 export default class Tenders extends Component {
   static propTypes = {
@@ -17,6 +17,8 @@ export default class Tenders extends Component {
     subcategories: PropTypes.array.isRequired,
     fetchTenders: PropTypes.func.isRequired,
     saveTender: PropTypes.func.isRequired,
+    saveToFavourites: PropTypes.func.isRequired,
+    saveToHistory: PropTypes.func.isRequired,
     deleteTender: PropTypes.func.isRequired,
     toggleTender: PropTypes.func.isRequired,
     resetFilter: PropTypes.func.isRequired,
@@ -31,7 +33,7 @@ export default class Tenders extends Component {
     const {
       cities, categories, subcategories, items,
       fetchTenders, fetchCities, fetchCategories, fetchSubcategories,
-      saveTender, toggleTender,
+      saveTender, toggleTender, saveToFavourites, saveToHistory,
     } = this.props
     const userType = getUserType()
 
@@ -73,6 +75,8 @@ export default class Tenders extends Component {
                 <TenderViewModal
                   key={card.id}
                   tender={card}
+                  saveToFavourites={saveToFavourites}
+                  onOpen={() => (isProvider && !_.isNil(saveToHistory)) ? saveToHistory(card.id) : null}
                   onClose={fetchTenders}
                   trigger={
                     <Card
@@ -93,55 +97,58 @@ export default class Tenders extends Component {
                           {icon: 'ruble', header: 'Стоимость, руб', description: +card.price},
                         ]}/>
                       </Card.Content>
-                      <Card.Content extra>
-                        <Button.Group basic size='small'>
-                          <Button
-                            color='red'
-                            icon='trash alternate outline'
-                            onClick={this.handleDeleteTender.bind(this, card.id)}
-                          />
+                      {
+                        userType === 'customer' &&
+                        <Card.Content extra>
+                          <Button.Group basic size='small'>
+                            <Button
+                              color='red'
+                              icon='trash alternate outline'
+                              onClick={this.handleDeleteTender.bind(this, card.id)}
+                            />
+                            {
+                              !card.disabled &&
+                              <TenderEditModal
+                                tender={card}
+                                cities={cities}
+                                categories={categories}
+                                subcategories={subcategories}
+                                fetchCities={fetchCities}
+                                fetchCategories={fetchCategories}
+                                fetchSubcategories={fetchSubcategories}
+                                onSubmit={saveTender}
+                                onClose={fetchTenders}
+                                trigger={
+                                  <Button
+                                    color='grey'
+                                    icon='pencil alternate'
+                                    onClick={this.handleEditTender.bind(this, card.id)}
+                                  />
+                                }
+                              />
+                            }
+                          </Button.Group>{' '}
                           {
                             !card.disabled &&
-                            <TenderEditModal
-                              tender={card}
-                              cities={cities}
-                              categories={categories}
-                              subcategories={subcategories}
-                              fetchCities={fetchCities}
-                              fetchCategories={fetchCategories}
-                              fetchSubcategories={fetchSubcategories}
-                              onSubmit={saveTender}
-                              onClose={fetchTenders}
-                              trigger={
-                                <Button
-                                  color='grey'
-                                  icon='pencil alternate'
-                                  onClick={this.handleEditTender.bind(this, card.id)}
-                                />
-                              }
+                            <Button
+                              basic
+                              color='blue'
+                              content='Завершить'
+                              floated='right'
+                              onClick={this.handleToggleTender.bind(this, card.id)}
                             />
                           }
-                        </Button.Group>{' '}
-                        {
-                          !card.disabled &&
-                          <Button
-                            basic
-                            color='blue'
-                            content='Завершить'
-                            floated='right'
-                            onClick={this.handleToggleTender.bind(this, card.id)}
-                          />
-                        }
-                        {
-                          card.disabled &&
-                          <Button
-                            basic
-                            content='Восстановить'
-                            floated='right'
-                            onClick={this.handleToggleTender.bind(this, card.id)}
-                          />
-                        }
-                      </Card.Content>
+                          {
+                            card.disabled &&
+                            <Button
+                              basic
+                              content='Восстановить'
+                              floated='right'
+                              onClick={this.handleToggleTender.bind(this, card.id)}
+                            />
+                          }
+                        </Card.Content>
+                      }
                       <Progress percent={100 - card.totalDays / card.daysToGo * 100} attached='bottom'/>
                     </Card>
                   }
