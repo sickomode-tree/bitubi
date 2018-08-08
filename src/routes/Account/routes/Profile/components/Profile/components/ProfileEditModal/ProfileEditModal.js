@@ -43,7 +43,7 @@ class ProfileEditModal extends Component {
 
     const formFields = [
       {tag: 'input', type: 'text', name: 'login', title: 'Логин', required: true, path: 'login', width: 8},
-      {tag: 'input', type: 'password', name: 'password', title: 'Пароль', required: true, path: 'password', width: 8},
+      {tag: 'input', type: 'password', name: 'password', title: 'Пароль', path: 'password', width: 8},
       {
         tag: 'input',
         type: 'text',
@@ -168,7 +168,7 @@ class ProfileEditModal extends Component {
           </Grid>
         </Modal.Content>
         <Modal.Actions>
-          <Button positive type='submit' form='registerForm' icon='checkmark' labelPosition='right' content='Готово'/>
+          <Button positive type='submit' form='profileForm' icon='checkmark' labelPosition='left' content='Готово'/>
         </Modal.Actions>
       </Modal>
     )

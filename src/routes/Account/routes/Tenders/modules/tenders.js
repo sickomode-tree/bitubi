@@ -1,6 +1,4 @@
-import {getToken} from 'utils/auth'
-import {getUserType} from "../../../../../utils/auth";
-import {PRODUCT_SAVE_TO_FAVOURITES} from "../../../../../store/products";
+import {getToken, getUserType} from 'utils/auth'
 
 // ------------------------------------
 // Constants

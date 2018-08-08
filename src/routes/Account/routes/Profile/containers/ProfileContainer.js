@@ -1,5 +1,5 @@
 import {connect} from 'react-redux'
-import {fetchUser} from '../modules/profile'
+import {fetchUser, updateUser} from '../modules/profile'
 import {resetFilter} from 'store/filter'
 import {fetchCities} from 'store/products'
 
@@ -16,6 +16,7 @@ import Profile from '../components/Profile/Profile'
 
 const mapDispatchToProps = {
   fetchUser,
+  updateUser,
   fetchCities,
   resetFilter,
 }
