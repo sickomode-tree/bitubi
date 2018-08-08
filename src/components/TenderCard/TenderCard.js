@@ -36,7 +36,12 @@ export default class TenderCard extends Component {
             style={style || {}}
           >
             <Card.Content>
-              <Card.Header>{tender.title}</Card.Header>
+              <Card.Header>
+                {tender.title}
+                {tender.favourite &&
+                  <i className='right floated bookmark icon red'></i>
+                }
+              </Card.Header>
             </Card.Content>
             <Card.Content>
               <IconList data={[

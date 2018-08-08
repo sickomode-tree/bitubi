@@ -13,12 +13,7 @@ body {
 }
 
 body {
-  padding: 90px 0 40px 0;
   background-color: #fafafa;
-
-  &.dimmable {
-    padding: 0;
-  }
 
   a {
     color: rgba(0, 0, 0, .87);
@@ -40,6 +35,7 @@ body {
   height: 100vh;
   display: flex;
   flex-direction: column;
+  padding: 90px 0 40px 0;
 }
 
 .react-datepicker-wrapper {
