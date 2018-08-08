@@ -73,7 +73,7 @@ export function fetchUser() {
 
 export function updateUser(form) {
   const formData = new FormData(form)
-  const url = '/test/private/editUser'
+  const url = '/test/private/user/edit'
 
   return (dispatch) => {
     dispatch(onFetchStart(true))
