@@ -42,8 +42,7 @@ class ProfileEditModal extends Component {
     const districtValue = state.district || (profile && profile.district ? profile.district.id : null)
 
     const formFields = [
-      {tag: 'input', type: 'text', name: 'login', title: 'Логин', required: true, path: 'login', width: 8},
-      {tag: 'input', type: 'password', name: 'password', title: 'Пароль', path: 'password', width: 8},
+      {tag: 'input', type: 'text', name: 'login', title: 'Логин', required: true, path: 'login', width: 16},
       {
         tag: 'input',
         type: 'text',
