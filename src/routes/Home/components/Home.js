@@ -107,13 +107,13 @@ export default class Home extends Component {
   }
 
   getCardComponent(card) {
-    const {filter, saveToFavourites, saveToHistory} = this.props
+    const {filter, saveToFavourites, saveToHistory, changeFilterValue} = this.props
 
     if (_.isEmpty(filter.filters) && _.isEmpty(filter.searchTerm)) {
       return (
         <Card
           link={true}
-          onClick={() => this.props.changeFilterValue('subcategory.title', card.subcategory.title)}
+          onClick={() => changeFilterValue('subcategory.title', card.subcategory.title)}
           style={{flex: '0 1 25%'}}
         >
           <Card.Content style={{display: 'flex', justifyContent: 'center', alignItems: 'center', textAlign: 'center'}}>

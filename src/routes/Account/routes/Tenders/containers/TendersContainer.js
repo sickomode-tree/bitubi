@@ -1,6 +1,6 @@
 import {connect} from 'react-redux'
 import {fetchTenders, saveTender, deleteTender, toggleTender} from '../modules/tenders'
-import {resetFilter} from 'store/filter'
+import {changeFilterValue, resetFilter} from 'store/filter'
 import {fetchCities, fetchCategories, fetchSubcategories, saveToFavourites, saveToHistory} from 'store/products'
 
 /*  This is a container component. Notice it does not contain any JSX,
@@ -24,11 +24,13 @@ const mapDispatchToProps = {
   saveToHistory,
   deleteTender,
   toggleTender,
+  changeFilterValue,
   resetFilter,
 }
 
 const mapStateToProps = (state) => ({
   items: state.tenders.items,
+  filter: state.filter,
   cities: state.products.cities,
   categories: state.products.categories,
   subcategories: state.products.subcategories,
