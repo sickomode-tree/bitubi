@@ -101,7 +101,26 @@ export function fetchProducts() {
         return response;
       })
       .then(response => response.json())
-      .then(json => dispatch(onFetchSuccess(json)))
+      .then(json => {
+        let cards = []
+
+
+        json.forEach(product => {
+          product.categoryObjects.forEach(categoryObject => {
+            let category = categoryObject.parent
+
+            categoryObject.children.forEach(subcategory => {
+              let card = _.clone(product, true)
+              card.category = category
+              card.subcategory = subcategory
+              // delete card.categoryObjects
+              cards.push(card)
+            })
+          })
+        })
+
+        return dispatch(onFetchSuccess(cards))
+      })
       .catch(error => dispatch(onFetchError(true)))
   };
 }

@@ -49,11 +49,11 @@ export default class CardGridGroup extends Component {
           />
         }
         {
-          cards.map(card => {
+          cards.map((card, index) => {
             let CardComponent = () => getCardComponent(card)
 
             return (
-              <CardComponent key={card.id}/>
+              <CardComponent key={index}/>
             )
           })
         }

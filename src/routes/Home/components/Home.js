@@ -96,13 +96,13 @@ export default class Home extends Component {
     return subcategories;
   }
 
-  getCards(items) {
+  getCards(products) {
     const {filter} = this.props;
 
     if (_.isEmpty(filter.filters) && _.isEmpty(filter.searchTerm)) {
-      return this.getSubcategoryCards.call(this, items)
+      return this.getSubcategoryCards.call(this, products)
     } else {
-      return this.getProductCards.call(this, items)
+      return this.getProductCards.call(this, products)
     }
   }
 

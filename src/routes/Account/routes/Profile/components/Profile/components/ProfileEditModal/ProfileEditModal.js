@@ -23,6 +23,7 @@ class ProfileEditModal extends Component {
     city: '',
     district: '',
     phoneNumber: '',
+    userpic: '',
   }
 
   componentDidMount() {
@@ -113,6 +114,7 @@ class ProfileEditModal extends Component {
       {tag: 'input', type: 'url', name: 'url', title: 'Сайт', path: 'url'},
       {tag: 'input', type: 'hidden', name: 'id', path: 'id'},
     ]
+    const defaultUserpicUrl = 'https://react.semantic-ui.com/images/avatar/large/matthew.png'
 
     return (
       <Modal
@@ -129,15 +131,25 @@ class ProfileEditModal extends Component {
                 multiple={false}
                 accept='image/jpeg, image/png'
                 style={{width: '100%', border: 'none'}}
-                onDrop={(file) => {
+                onDrop={acceptedFiles => {
+                acceptedFiles.forEach(file => {
+                  const reader = new FileReader()
 
-                }}
+                  reader.onload = () => {
+                    const fileAsBinaryString = reader.result
+                    this.setState({userpic: fileAsBinaryString})
+                  };
+                  reader.onabort = () => console.log('file reading was aborted');
+                  reader.onerror = () => console.log('file reading has failed');
+
+                  reader.readAsBinaryString(file);
+                })}}
               >
                 <Reveal animated='small fade'>
                   <Reveal.Content visible>
                     <Image
                       wrapped fluid
-                      src='https://react.semantic-ui.com/images/avatar/large/matthew.png'
+                      src={state.userpic ? 'data:image/jpeg;base64,' + btoa(state.userpic) : defaultUserpicUrl}
                     />
                   </Reveal.Content>
                   <Reveal.Content hidden>
@@ -148,7 +160,7 @@ class ProfileEditModal extends Component {
                     </Dimmer>
                     <Image
                       wrapped fluid
-                      src='https://react.semantic-ui.com/images/avatar/large/matthew.png'
+                      src={state.userpic ? 'data:image/jpeg;base64,' + btoa(state.userpic) : defaultUserpicUrl}
                     />
                   </Reveal.Content>
                 </Reveal>
