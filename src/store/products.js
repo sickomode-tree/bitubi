@@ -104,7 +104,6 @@ export function fetchProducts() {
       .then(json => {
         let cards = []
 
-
         json.forEach(product => {
           product.categoryObjects.forEach(categoryObject => {
             let category = categoryObject.parent

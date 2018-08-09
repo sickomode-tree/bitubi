@@ -53,7 +53,29 @@ export function fetchHistory() {
         return response;
       })
       .then(response => response.json())
-      .then(json => dispatch(onFetchSuccess(json)))
+      .then(json => {
+        let cards = []
+
+        json.forEach(item => {
+          if (!_.isNil(item.categoryObjects)) {
+            item.categoryObjects.forEach(categoryObject => {
+              let category = categoryObject.parent
+
+              categoryObject.children.forEach(subcategory => {
+                let card = _.clone(item, true)
+                card.category = category
+                card.subcategory = subcategory
+                // delete card.categoryObjects
+                cards.push(card)
+              })
+            })
+          } else {
+            cards.push(item)
+          }
+        })
+
+        return dispatch(onFetchSuccess(cards))
+      })
       .catch(error => dispatch(onFetchError(true)))
   };
 }
