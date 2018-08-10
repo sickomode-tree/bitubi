@@ -57,15 +57,15 @@ export function fetchFavourites() {
         let cards = []
 
         json.forEach(item => {
-          if (!_.isNil(item.categoryObjects)) {
-            item.categoryObjects.forEach(categoryObject => {
-              let category = categoryObject.parent
+          if (!_.isNil(item.categories)) {
+            item.categories.forEach(categoryConfig => {
+              let category = categoryConfig.parent
 
-              categoryObject.children.forEach(subcategory => {
+              categoryConfig.children.forEach(subcategory => {
                 let card = _.clone(item, true)
                 card.category = category
                 card.subcategory = subcategory
-                // delete card.categoryObjects
+                // delete card.categories
                 cards.push(card)
               })
             })

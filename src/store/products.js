@@ -4,73 +4,48 @@ import {checkAuthorized, getToken} from 'utils/auth'
 // Constants
 // ------------------------------------
 
-export const PRODUCTS_FETCH_ERROR = 'PRODUCTS_FETCH_ERROR'
-export const PRODUCTS_FETCH_SUCCESS = 'PRODUCTS_FETCH_SUCCESS'
-export const PRODUCTS_IS_LOADING = 'PRODUCTS_IS_LOADING'
+export const FETCH_PRODUCTS_REQUEST = 'FETCH_PRODUCTS_REQUEST'
+export const FETCH_PRODUCTS_SUCCESS = 'FETCH_PRODUCTS_SUCCESS'
+export const FETCH_PRODUCTS_FAILURE = 'FETCH_PRODUCTS_FAILURE'
+
 export const PRODUCT_SAVE_TO_HISTORY = 'PRODUCT_SAVE_TO_HISTORY'
 export const PRODUCT_SAVE_TO_FAVOURITES = 'PRODUCT_SAVE_TO_FAVOURITES'
-export const CATEGORIES_FETCH_SUCCESS = 'CATEGORIES_FETCH_SUCCESS'
-export const SUBCATEGORIES_FETCH_SUCCESS = 'SUBCATEGORIES_FETCH_SUCCESS'
-export const CITIES_FETCH_SUCCESS = 'CITIES_FETCH_SUCCESS'
+
+export const FETCH_CATEGORIES_REQUEST = 'FETCH_CATEGORIES_REQUEST'
+export const FETCH_CATEGORIES_SUCCESS = 'FETCH_CATEGORIES_SUCCESS'
+export const FETCH_CATEGORIES_FAILURE = 'FETCH_CATEGORIES_FAILURE'
+
+export const FETCH_SUBCATEGORIES_REQUEST = 'FETCH_SUBCATEGORIES_REQUEST'
+export const FETCH_SUBCATEGORIES_SUCCESS = 'FETCH_SUBCATEGORIES_SUCCESS'
+export const FETCH_SUBCATEGORIES_FAILURE = 'FETCH_SUBCATEGORIES_FAILURE'
+
+export const FETCH_CITIES_REQUEST = 'FETCH_CITIES_REQUEST'
+export const FETCH_CITIES_SUCCESS = 'FETCH_CITIES_SUCCESS'
+export const FETCH_CITIES_FAILURE = 'FETCH_CITIES_FAILURE'
 
 // ------------------------------------
 // Actions
 // ------------------------------------
 
-export function onFetchStart(bool) {
-  return {
-    type: PRODUCTS_IS_LOADING,
-    isLoading: bool,
-  }
-}
+export const onFetchProductsRequest = bool => ({type: FETCH_PRODUCTS_REQUEST, isLoading: bool})
+export const onFetchProductsSuccess = json => ({type: FETCH_PRODUCTS_SUCCESS, products: json})
+export const onFetchProductsFailure = bool => ({type: FETCH_PRODUCTS_FAILURE, isErrored: bool})
 
-export function onFetchSuccess(json) {
-  return {
-    type: PRODUCTS_FETCH_SUCCESS,
-    products: json,
-  }
-}
+export const onFetchCategoriesRequest = bool => ({type: FETCH_CATEGORIES_REQUEST, isLoading: bool})
+export const onFetchCategoriesSuccess = json => ({type: FETCH_CATEGORIES_SUCCESS, categories: json})
+export const onFetchCategoriesFailure = bool => ({type: FETCH_CATEGORIES_FAILURE, isErrored: bool})
 
-export function onFetchCategoriesSuccess(json) {
-  return {
-    type: CATEGORIES_FETCH_SUCCESS,
-    categories: json,
-  }
-}
+export const onFetchSubcategoriesRequest = bool => ({type: FETCH_SUBCATEGORIES_REQUEST, isLoading: bool})
+export const onFetchSubcategoriesSuccess = json => ({type: FETCH_SUBCATEGORIES_SUCCESS, subcategories: json})
+export const onFetchSubcategoriesFailure = bool => ({type: FETCH_SUBCATEGORIES_FAILURE, isErrored: bool})
 
-export function onFetchSubcategoriesSuccess(json) {
-  return {
-    type: SUBCATEGORIES_FETCH_SUCCESS,
-    subcategories: json,
-  }
-}
+export const onFetchCitiesRequest = bool => ({type: FETCH_CITIES_REQUEST, isLoading: bool})
+export const onFetchCitiesSuccess = json => ({type: FETCH_CITIES_SUCCESS, cities: json})
+export const onFetchCitiesFailure = bool => ({type: FETCH_CITIES_FAILURE, isErrored: bool})
 
-export function onFetchCitiesSuccess(json) {
-  return {
-    type: CITIES_FETCH_SUCCESS,
-    cities: json,
-  }
-}
+export const onSaveToHistorySuccess = () => ({type: PRODUCT_SAVE_TO_HISTORY})
 
-export function onFetchError(bool) {
-  return {
-    type: PRODUCTS_FETCH_ERROR,
-    isErrored: bool,
-  }
-}
-
-export function onSaveToHistorySuccess() {
-  return {
-    type: PRODUCT_SAVE_TO_HISTORY,
-  }
-}
-
-export function onSaveToFavouritesSuccess(id) {
-  return {
-    type: PRODUCT_SAVE_TO_FAVOURITES,
-    id: id,
-  }
-}
+export const onSaveToFavouritesSuccess = id => ({type: PRODUCT_SAVE_TO_FAVOURITES, id: id})
 
 /*  This is a thunk, meaning it is a function that immediately
     returns a function for lazy evaluation. */
@@ -83,7 +58,7 @@ export function fetchProducts() {
   return (dispatch, getState) => {
     const token = getState().auth.token
 
-    dispatch(onFetchStart(true))
+    dispatch(onFetchProductsRequest(true))
 
     fetch(url, {
       headers: {
@@ -96,7 +71,7 @@ export function fetchProducts() {
           throw Error(response.statusText)
         }
 
-        dispatch(onFetchStart(false))
+        dispatch(onFetchProductsRequest(false))
 
         return response;
       })
@@ -105,22 +80,22 @@ export function fetchProducts() {
         let cards = []
 
         json.forEach(product => {
-          product.categoryObjects.forEach(categoryObject => {
-            let category = categoryObject.parent
+          product.categories.forEach(categoryConfig => {
+            let category = categoryConfig.parent
 
-            categoryObject.children.forEach(subcategory => {
+            categoryConfig.children.forEach(subcategory => {
               let card = _.clone(product, true)
               card.category = category
               card.subcategory = subcategory
-              // delete card.categoryObjects
+              // delete card.categories
               cards.push(card)
             })
           })
         })
 
-        return dispatch(onFetchSuccess(cards))
+        return dispatch(onFetchProductsSuccess(cards))
       })
-      .catch(error => dispatch(onFetchError(true)))
+      .catch(error => dispatch(onFetchProductsFailure(true)))
   };
 }
 
@@ -130,7 +105,7 @@ export function fetchCategories() {
   return (dispatch, getState) => {
     const token = getState().auth.token
 
-    dispatch(onFetchStart(true))
+    dispatch(onFetchCategoriesRequest(true))
 
     fetch(url, {
       headers: {
@@ -143,13 +118,13 @@ export function fetchCategories() {
           throw Error(response.statusText)
         }
 
-        dispatch(onFetchStart(false))
+        dispatch(onFetchCategoriesRequest(false))
 
         return response;
       })
       .then(response => response.json())
       .then(json => dispatch(onFetchCategoriesSuccess(json)))
-      .catch(error => dispatch(onFetchError(true)))
+      .catch(error => dispatch(onFetchCategoriesFailure(true)))
   };
 }
 
@@ -159,7 +134,7 @@ export function fetchSubcategories() {
   return (dispatch, getState) => {
     const token = getState().auth.token
 
-    dispatch(onFetchStart(true))
+    dispatch(onFetchSubcategoriesRequest(true))
 
     fetch(url, {
       headers: {
@@ -172,13 +147,13 @@ export function fetchSubcategories() {
           throw Error(response.statusText)
         }
 
-        dispatch(onFetchStart(false))
+        dispatch(onFetchSubcategoriesRequest(false))
 
         return response;
       })
       .then(response => response.json())
       .then(json => dispatch(onFetchSubcategoriesSuccess(json)))
-      .catch(error => dispatch(onFetchError(true)))
+      .catch(error => dispatch(onFetchSubcategoriesFailure(true)))
   };
 }
 
@@ -188,7 +163,7 @@ export function fetchCities() {
   return (dispatch, getState) => {
     const token = getState().auth.token
 
-    dispatch(onFetchStart(true))
+    dispatch(onFetchCitiesRequest(true))
 
     fetch(url, {
       headers: {
@@ -201,13 +176,13 @@ export function fetchCities() {
           throw Error(response.statusText)
         }
 
-        dispatch(onFetchStart(false))
+        dispatch(onFetchCitiesRequest(false))
 
         return response;
       })
       .then(response => response.json())
       .then(json => dispatch(onFetchCitiesSuccess(json)))
-      .catch(error => dispatch(onFetchError(true)))
+      .catch(error => dispatch(onFetchCitiesFailure(true)))
   };
 }
 
@@ -218,7 +193,7 @@ export function saveToHistory(id) {
   formData.append('id', id)
 
   return (dispatch) => {
-    // dispatch(onFetchStart(true))
+    // dispatch(onFetchProductsRequest(true))
 
     fetch(url, {
       method: 'POST',
@@ -233,13 +208,13 @@ export function saveToHistory(id) {
           throw Error(response.statusText)
         }
 
-        dispatch(onFetchStart(false))
+        dispatch(onFetchProductsRequest(false))
 
         return response
       })
       .then(response => response.json())
       .then(json => dispatch(onSaveToHistorySuccess()))
-      .catch(error => dispatch(onFetchError(true)))
+      .catch(error => dispatch(onFetchProductsFailure(true)))
   };
 }
 
@@ -250,7 +225,7 @@ export function saveToFavourites(id) {
   formData.append('id', id)
 
   return (dispatch) => {
-    // dispatch(onFetchStart(true))
+    // dispatch(onFetchProductsRequest(true))
 
     fetch(url, {
       method: 'POST',
@@ -265,20 +240,20 @@ export function saveToFavourites(id) {
           throw Error(response.statusText)
         }
 
-        dispatch(onFetchStart(false))
+        dispatch(onFetchProductsRequest(false))
 
         return response
       })
       .then(response => response.json())
       .then(json => dispatch(onSaveToFavouritesSuccess(id)))
-      .catch(error => dispatch(onFetchError(true)))
+      .catch(error => dispatch(onFetchProductsFailure(true)))
   };
 }
 
 export function errorAfterFiveSeconds() {
   return (dispatch) => {
     setTimeout(() => {
-      dispatch(onFetchError(true))
+      dispatch(onFetchProductsFailure(true))
     }, 5000);
   };
 }
@@ -296,16 +271,16 @@ export const actions = {
 // Action Handlers
 // ------------------------------------
 const ACTION_HANDLERS = {
-  [PRODUCTS_FETCH_ERROR]: (state, action) => ({
+  [FETCH_PRODUCTS_FAILURE]: (state, action) => ({
     ...state,
     isErrored: action.isErrored,
     isLoading: false,
   }),
-  [PRODUCTS_IS_LOADING]: (state, action) => ({
+  [FETCH_PRODUCTS_REQUEST]: (state, action) => ({
     ...state,
     isLoading: action.isLoading
   }),
-  [PRODUCTS_FETCH_SUCCESS]: (state, action) => ({
+  [FETCH_PRODUCTS_SUCCESS]: (state, action) => ({
     ...state,
     products: action.products
   }),
@@ -318,15 +293,15 @@ const ACTION_HANDLERS = {
       return product
     })
   }),
-  [CATEGORIES_FETCH_SUCCESS]: (state, action) => ({
+  [FETCH_CATEGORIES_SUCCESS]: (state, action) => ({
     ...state,
     categories: action.categories
   }),
-  [SUBCATEGORIES_FETCH_SUCCESS]: (state, action) => ({
+  [FETCH_SUBCATEGORIES_SUCCESS]: (state, action) => ({
     ...state,
     subcategories: action.subcategories
   }),
-  [CITIES_FETCH_SUCCESS]: (state, action) => ({
+  [FETCH_CITIES_SUCCESS]: (state, action) => ({
     ...state,
     cities: action.cities
   }),

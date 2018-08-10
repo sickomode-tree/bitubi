@@ -138,14 +138,16 @@ class ProfileEditModal extends Component {
 
                   reader.onload = () => {
                     const fileAsBinaryString = reader.result
+                    const formData = new FormData();
+
+                    formData.append('file', new Blob(['Hello World!\n']));
                     this.setState({userpic: fileAsBinaryString})
                     fetch('/test/private/uploadFile', {
                       method: 'POST',
                       headers: {
-                        'Content-Type': 'multipart/form-data; boundary="boundary"',
                         'Authorization': `Bearer ${getToken()}`
                       },
-                      body: file,
+                      body: formData,
                     })
                       .then(
                         response => response.json() // if the response is a JSON object
