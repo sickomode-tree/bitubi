@@ -140,7 +140,7 @@ class ProfileEditModal extends Component {
                     const fileAsBinaryString = reader.result
                     const formData = new FormData();
 
-                    formData.append('file', new Blob(['Hello World!\n']));
+                    formData.append('file', file);
                     this.setState({userpic: fileAsBinaryString})
                     fetch('/test/private/uploadFile', {
                       method: 'POST',
