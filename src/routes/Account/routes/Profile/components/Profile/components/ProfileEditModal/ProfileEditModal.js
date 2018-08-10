@@ -139,10 +139,10 @@ class ProfileEditModal extends Component {
                   reader.onload = () => {
                     const fileAsBinaryString = reader.result
                     this.setState({userpic: fileAsBinaryString})
-                    fetch('/private/uploadFile', {
+                    fetch('/test/private/uploadFile', {
                       method: 'POST',
                       headers: {
-                        'Content-Type': 'multipart/form-data',
+                        'Content-Type': 'multipart/form-data; boundary="boundary"',
                         'Authorization': `Bearer ${getToken()}`
                       },
                       body: file,
