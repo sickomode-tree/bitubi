@@ -4,7 +4,8 @@ import PropTypes from 'prop-types'
 import {Button, Dimmer, Grid, Image, Modal, Reveal} from 'semantic-ui-react'
 import Dropzone from 'react-dropzone'
 import EditForm from 'components/EditForm/EditForm'
-import {getUserType} from 'utils/auth'
+import {getToken, getUserType} from 'utils/auth'
+
 
 class ProfileEditModal extends Component {
   static propTypes = {
@@ -138,9 +139,24 @@ class ProfileEditModal extends Component {
                   reader.onload = () => {
                     const fileAsBinaryString = reader.result
                     this.setState({userpic: fileAsBinaryString})
-                  };
-                  reader.onabort = () => console.log('file reading was aborted');
-                  reader.onerror = () => console.log('file reading has failed');
+                    fetch('/private/uploadFile', {
+                      method: 'POST',
+                      headers: {
+                        'Content-Type': 'multipart/form-data',
+                        'Authorization': `Bearer ${getToken()}`
+                      },
+                      body: file,
+                    })
+                      .then(
+                        response => response.json() // if the response is a JSON object
+                      ).then(
+                      success => console.log(success) // Handle the success response object
+                      ).catch(
+                        error => console.log(error) // Handle the error response object
+                      )
+                  }
+                  reader.onabort = () => console.log('file reading was aborted')
+                  reader.onerror = () => console.log('file reading has failed')
 
                   reader.readAsBinaryString(file);
                 })}}
