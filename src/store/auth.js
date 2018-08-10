@@ -4,9 +4,9 @@ import _ from 'lodash'
 // Constants
 // ------------------------------------
 
-export const AUTH_REQUEST_SENT = 'AUTH_REQUEST_SENT';
-export const AUTH_REQUEST_SUCCESS = 'AUTH_REQUEST_SUCCESS';
-export const AUTH_REQUEST_ERROR = 'AUTH_REQUEST_ERROR';
+export const SIGN_IN_REQUEST = 'SIGN_IN_REQUEST';
+export const SIGN_IN_SUCCESS = 'SIGN_IN_SUCCESS';
+export const SIGN_IN_FAILURE = 'SIGN_IN_FAILURE';
 export const SIGN_OUT = 'SIGN_OUT';
 
 const defaultUserType = 'guest'
@@ -17,7 +17,7 @@ const defaultUserType = 'guest'
 
 export function onAuthRequestSent(bool) {
   return {
-    type: AUTH_REQUEST_SENT,
+    type: SIGN_IN_REQUEST,
     isLoading: bool
   };
 }
@@ -28,7 +28,7 @@ export function onAuthRequestSuccess(json) {
 
   if (!_.isNil(token)) {
     return {
-      type: AUTH_REQUEST_SUCCESS,
+      type: SIGN_IN_SUCCESS,
       token: token,
       userType: userType,
     };
@@ -37,7 +37,7 @@ export function onAuthRequestSuccess(json) {
 
 export function onAuthRequestError(bool) {
   return {
-    type: AUTH_REQUEST_ERROR,
+    type: SIGN_IN_FAILURE,
     hasErrored: bool
   };
 }
@@ -132,15 +132,19 @@ export const actions = {
 // Action Handlers
 // ------------------------------------
 const ACTION_HANDLERS = {
-  [AUTH_REQUEST_ERROR]: (state, action) => ({
+  [SIGN_IN_FAILURE]: (state, action) => ({
     ...state,
     isErrored: action.hasErrored,
+    token: null,
+    userType: defaultUserType,
+    isAuthorized: false,
+    isLoading: false
   }),
-  [AUTH_REQUEST_SENT]: (state, action) => ({
+  [SIGN_IN_REQUEST]: (state, action) => ({
     ...state,
     isLoading: action.isLoading
   }),
-  [AUTH_REQUEST_SUCCESS]: (state, action) => ({
+  [SIGN_IN_SUCCESS]: (state, action) => ({
     ...state,
     isAuthorized: true,
     token: action.token,

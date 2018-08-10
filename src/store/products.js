@@ -299,7 +299,7 @@ const ACTION_HANDLERS = {
   [PRODUCTS_FETCH_ERROR]: (state, action) => ({
     ...state,
     isErrored: action.isErrored,
-    isLoading: action.isLoading,
+    isLoading: false,
   }),
   [PRODUCTS_IS_LOADING]: (state, action) => ({
     ...state,

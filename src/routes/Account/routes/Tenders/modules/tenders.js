@@ -93,7 +93,8 @@ export function fetchTenders() {
     customer: '/test/private/user/tenders',
     provider: '/test/private/tenders',
   }
-  const url = urlByUserTypeMap[getUserType()]
+  const userType = getUserType()
+  const url = urlByUserTypeMap[userType]
 
   return (dispatch, getState) => {
     const token = getState().auth.token
@@ -261,6 +262,7 @@ const ACTION_HANDLERS = {
   [TENDERS_FETCH_ERROR]: (state, action) => ({
     ...state,
     isErrored: action.hasErrored,
+    isLoading: false,
   }),
   [TENDERS_IS_FETCHING]: (state, action) => ({
     ...state,
@@ -269,6 +271,7 @@ const ACTION_HANDLERS = {
   [TENDERS_FETCH_SUCCESS]: (state, action) => ({
     ...state,
     items: action.items,
+    isLoading: false,
   }),
   [TENDER_IS_DELETING]: (state, action) => ({
     ...state,
