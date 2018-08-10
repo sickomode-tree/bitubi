@@ -61,10 +61,10 @@ export default class SignUpModal2 extends Component {
     fetchCities()
   }
 
-
   render() {
     const {cities, categories, trigger, onClose, onSubmit} = this.props
     const {state} = this
+    const userType = state.activeTab === 0 ? 'customer' : 'provider'
     const cityOptions = cities.map(city => ({value: city.id, text: city.name}))
     const cityValue = state.city
     const districts = cityValue ? cities.find(city => city.id === cityValue).districts : []
@@ -80,27 +80,6 @@ export default class SignUpModal2 extends Component {
     const subcategory1Options = subcategories1.map(subcategory => ({value: subcategory.id, text: subcategory.title}))
     const subcategory2Options = subcategories2.map(subcategory => ({value: subcategory.id, text: subcategory.title}))
     const subcategory3Options = subcategories3.map(subcategory => ({value: subcategory.id, text: subcategory.title}))
-
-    // const categoryFields = state.categories.map((categoryId, index) => {
-    //   subcategoryId = state.subCategories[index]
-    //   subcategories = categories.find(category => category.id === categoryId)
-    //
-    //   if (subcategories !== undefined) {
-    //     subcategoryOptions = subcategories.children.map(subcategory => ({value: subcategory.id, text: subcategory.title}))
-    //   } else {
-    //     subcategoryOptions = []
-    //   }
-    //
-    //   return [
-    //     {tag: 'select', name: 'category_' + index, title: 'Категория', required: true, value: categoryId, options: categoryOptions, width: 7, onChange: this.handleSelectChange.bind(this), visible: state.activeTab === 1},
-    //     {tag: 'select', name: 'subcategory_' + index, title: 'Подкатегория', required: true, value: subcategoryId, options: subcategoryOptions, width: 7, multiple: true, onChange: this.handleSelectChange.bind(this), visible: state.activeTab === 1},
-    //     {tag: 'button', icon: 'plus', width: 2, visible: state.activeTab === 1, onClick: () => {
-    //
-    //     this.setState({
-    //
-    //     })
-    //   }},
-    // ]})[0]
 
     let fields = [
       {tag: 'input', name: 'login', title: 'Логин', required: true, width: 8},
@@ -120,7 +99,7 @@ export default class SignUpModal2 extends Component {
       {tag: 'select', name: 'subcategory_2', title: 'Подкатегории', required: true, value: state.subcategory_2, options: subcategory2Options, width: 8, multiple: true, onChange: this.handleSelectChange.bind(this), visible: state.activeTab === 1},
       {tag: 'select', name: 'category_3', title: 'Категория', required: true, value: state.category_3, options: categoryOptions, width: 8, onChange: this.handleSelectChange.bind(this), visible: state.activeTab === 1},
       {tag: 'select', name: 'subcategory_3', title: 'Подкатегории', required: true, value: state.subcategory_3, options: subcategory3Options, width: 8, multiple: true, onChange: this.handleSelectChange.bind(this), visible: state.activeTab === 1},
-      {tag: 'input', type: 'hidden', name: 'userType', value: this.props.userType}
+      {tag: 'input', type: 'hidden', name: 'userType', value: userType}
     ]
 
     const panes = [
