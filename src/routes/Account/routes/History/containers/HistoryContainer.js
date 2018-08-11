@@ -1,7 +1,7 @@
-import { connect } from 'react-redux'
-import { fetchHistory } from '../modules/history'
-import { resetFilter } from 'store/filter'
-import { saveToFavourites } from 'store/products'
+import {connect} from 'react-redux'
+import {resetFilter} from 'store/filter'
+import {fetchHistory} from 'store/history'
+import {saveToFavourites} from 'store/favourites'
 
 /*  This is a container component. Notice it does not contain any JSX,
     nor does it import React. This component is **only** responsible for
@@ -21,7 +21,7 @@ const mapDispatchToProps = {
 }
 
 const mapStateToProps = (state) => ({
-  items : state.history.items,
+  items: state.history.items,
   isLoading: state.history.isLoading,
 })
 

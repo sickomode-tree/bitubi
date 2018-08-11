@@ -8,9 +8,6 @@ export const FETCH_PRODUCTS_REQUEST = 'FETCH_PRODUCTS_REQUEST'
 export const FETCH_PRODUCTS_SUCCESS = 'FETCH_PRODUCTS_SUCCESS'
 export const FETCH_PRODUCTS_FAILURE = 'FETCH_PRODUCTS_FAILURE'
 
-export const PRODUCT_SAVE_TO_HISTORY = 'PRODUCT_SAVE_TO_HISTORY'
-export const PRODUCT_SAVE_TO_FAVOURITES = 'PRODUCT_SAVE_TO_FAVOURITES'
-
 export const FETCH_CATEGORIES_REQUEST = 'FETCH_CATEGORIES_REQUEST'
 export const FETCH_CATEGORIES_SUCCESS = 'FETCH_CATEGORIES_SUCCESS'
 export const FETCH_CATEGORIES_FAILURE = 'FETCH_CATEGORIES_FAILURE'
@@ -42,10 +39,6 @@ export const onFetchSubcategoriesFailure = bool => ({type: FETCH_SUBCATEGORIES_F
 export const onFetchCitiesRequest = bool => ({type: FETCH_CITIES_REQUEST, isLoading: bool})
 export const onFetchCitiesSuccess = json => ({type: FETCH_CITIES_SUCCESS, cities: json})
 export const onFetchCitiesFailure = bool => ({type: FETCH_CITIES_FAILURE, isErrored: bool})
-
-export const onSaveToHistorySuccess = () => ({type: PRODUCT_SAVE_TO_HISTORY})
-
-export const onSaveToFavouritesSuccess = id => ({type: PRODUCT_SAVE_TO_FAVOURITES, id: id})
 
 /*  This is a thunk, meaning it is a function that immediately
     returns a function for lazy evaluation. */
@@ -186,85 +179,11 @@ export function fetchCities() {
   };
 }
 
-export function saveToHistory(id) {
-  const formData = new FormData()
-  const url = '/test/private/user/history'
-
-  formData.append('id', id)
-
-  return (dispatch) => {
-    // dispatch(onFetchProductsRequest(true))
-
-    fetch(url, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/x-www-form-urlencoded',
-        'Authorization': `Bearer ${getToken()}`
-      },
-      body: new URLSearchParams(formData),
-    })
-      .then(response => {
-        if (!response.ok) {
-          throw Error(response.statusText)
-        }
-
-        dispatch(onFetchProductsRequest(false))
-
-        return response
-      })
-      .then(response => response.json())
-      .then(json => dispatch(onSaveToHistorySuccess()))
-      .catch(error => dispatch(onFetchProductsFailure(true)))
-  };
-}
-
-export function saveToFavourites(id) {
-  const formData = new FormData()
-  const url = '/test/private/user/favourites'
-
-  formData.append('id', id)
-
-  return (dispatch) => {
-    // dispatch(onFetchProductsRequest(true))
-
-    fetch(url, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/x-www-form-urlencoded',
-        'Authorization': `Bearer ${getToken()}`
-      },
-      body: new URLSearchParams(formData),
-    })
-      .then(response => {
-        if (!response.ok) {
-          throw Error(response.statusText)
-        }
-
-        dispatch(onFetchProductsRequest(false))
-
-        return response
-      })
-      .then(response => response.json())
-      .then(json => dispatch(onSaveToFavouritesSuccess(id)))
-      .catch(error => dispatch(onFetchProductsFailure(true)))
-  };
-}
-
-export function errorAfterFiveSeconds() {
-  return (dispatch) => {
-    setTimeout(() => {
-      dispatch(onFetchProductsFailure(true))
-    }, 5000);
-  };
-}
-
 export const actions = {
   fetchProducts,
   fetchCategories,
   fetchSubcategories,
   fetchCities,
-  saveToHistory,
-  saveToFavourites,
 };
 
 // ------------------------------------
@@ -283,15 +202,6 @@ const ACTION_HANDLERS = {
   [FETCH_PRODUCTS_SUCCESS]: (state, action) => ({
     ...state,
     products: action.products
-  }),
-  [PRODUCT_SAVE_TO_FAVOURITES]: (state, action) => ({
-    ...state,
-    products: state.products.map(product => {
-      if (product.id === action.id) {
-        product.favourite = !product.favourite
-      }
-      return product
-    })
   }),
   [FETCH_CATEGORIES_SUCCESS]: (state, action) => ({
     ...state,

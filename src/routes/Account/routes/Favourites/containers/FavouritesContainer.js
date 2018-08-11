@@ -1,7 +1,6 @@
 import {connect} from 'react-redux'
-import {fetchFavourites} from '../modules/favourites'
 import {resetFilter} from 'store/filter'
-import {saveToFavourites} from 'store/products'
+import {fetchFavourites, saveToFavourites} from 'store/favourites'
 
 /*  This is a container component. Notice it does not contain any JSX,
     nor does it import React. This component is **only** responsible for

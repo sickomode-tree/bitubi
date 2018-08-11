@@ -6,13 +6,23 @@ export const providerUserType = 'provider'
 export const customerUserType = 'customer'
 
 export function getToken() {
-  const { token } = loadState().auth
+  const state = loadState()
+  let token = null
+
+  if (!_.isNil(state)) {
+    token = state.auth.token
+  }
 
   return token
 }
 
 export function getUserType() {
-  const { userType } = loadState().auth
+  const state = loadState()
+  let userType = null
+
+  if (!_.isNil(state)) {
+    userType = state.auth.userType
+  }
 
   return userType
 }

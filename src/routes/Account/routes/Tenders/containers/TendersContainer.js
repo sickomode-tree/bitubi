@@ -1,7 +1,9 @@
 import {connect} from 'react-redux'
 import {fetchTenders, saveTender, deleteTender, toggleTender} from '../modules/tenders'
 import {changeFilterValue, resetFilter} from 'store/filter'
-import {fetchCities, fetchCategories, fetchSubcategories, saveToFavourites, saveToHistory} from 'store/products'
+import {saveToHistory} from 'store/history'
+import {saveToFavourites} from 'store/favourites'
+import {fetchCities, fetchCategories, fetchSubcategories} from 'store/products'
 
 /*  This is a container component. Notice it does not contain any JSX,
     nor does it import React. This component is **only** responsible for

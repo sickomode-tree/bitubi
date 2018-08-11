@@ -1,24 +1,24 @@
-import { injectReducer } from 'store/reducers'
+import {injectReducer} from 'store/reducers'
 
 export default (store) => ({
-  path : 'history',
+  path: 'history',
   /*  Async getComponent is only invoked when route matches   */
-  getComponent (nextState, cb) {
+  getComponent(nextState, cb) {
     /*  Webpack - use 'require.ensure' to create a split point
         and embed an async module loader (jsonp) when bundling   */
     require.ensure([], (require) => {
       /*  Webpack - use require callback to define
           dependencies for bundling   */
       const Profile = require('./containers/HistoryContainer').default
-      const reducer = require('./modules/history').default
+      const reducer = require('store/history').default
 
       /*  Add the reducer to the store on key 'counter'  */
-      injectReducer(store, { key: 'history', reducer })
+      injectReducer(store, {key: 'history', reducer})
 
       /*  Return getComponent   */
       cb(null, Profile)
 
-    /* Webpack named bundle   */
+      /* Webpack named bundle   */
     }, 'history')
   }
 })
