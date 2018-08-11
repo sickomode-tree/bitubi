@@ -1,29 +1,27 @@
 import React, {Component} from 'react'
-import _ from 'lodash'
 import PropTypes from 'prop-types'
-import {Button, Modal} from 'semantic-ui-react'
-import EditForm from 'components/EditForm/EditForm'
-import {getUserType} from 'utils/auth'
+import _ from 'lodash'
+import {Button, Modal, Tab} from 'semantic-ui-react'
+import {getFormFieldComponent} from 'utils/form'
+import SignUpForm from './components/SignUpForm/SignUpForm'
 
-class SignUpModal extends Component {
+export default class SignUpModal extends Component {
   static propTypes = {
-    trigger: PropTypes.node,
-    categories: PropTypes.array.isRequired,
-    subcategories: PropTypes.array.isRequired,
     cities: PropTypes.array.isRequired,
-    fetchCities: PropTypes.func.isRequired,
-    fetchCategories: PropTypes.func.isRequired,
-    fetchSubcategories: PropTypes.func.isRequired,
-    fetchProducts: PropTypes.func.isRequired,
+    onSubmit: PropTypes.func.isRequired,
   }
 
   state = {
-    category: '',
-    subcategory: '',
+    activeTab: 0,
     city: '',
     district: '',
-    userType: 'customer',
     phoneNumber: '',
+    category_1: '',
+    category_2: '',
+    category_3: '',
+    subcategory_1: '',
+    subcategory_2: '',
+    subcategory_3: '',
   }
 
   componentDidMount() {
@@ -34,125 +32,51 @@ class SignUpModal extends Component {
   }
 
   render() {
-    const {categories, cities, trigger, onClose} = this.props
+    const {cities, categories, trigger, onClose, onSubmit} = this.props
     const {state} = this
-
-
+    const userType = state.activeTab === 0 ? 'customer' : 'provider'
     const cityOptions = cities.map(city => ({value: city.id, text: city.name}))
     const cityValue = state.city
     const districts = cityValue ? cities.find(city => city.id === cityValue).districts : []
     const districtOptions = districts.map(district => ({value: district.id, text: district.name}))
     const districtValue = state.district
     const categoryOptions = categories.map(category=> ({value: category.id, text: category.title}))
-    const categoryValue = state.category
-    const subcategories = categoryValue ? categories.find(category => category.id === categoryValue).children : []
-    const subcategoryOptions = subcategories.map(subcategory => ({value: subcategory.id, text: subcategory.title}))
-    const subcategoryValue = state.subcategory
+    const category1Value = state.category_1
+    const category2Value = state.category_2
+    const category3Value = state.category_3
+    const subcategories1 = category1Value ? categories.find(category => category.id === category1Value).children : []
+    const subcategories2 = category2Value ? categories.find(category => category.id === category2Value).children : []
+    const subcategories3 = category3Value ? categories.find(category => category.id === category3Value).children : []
+    const subcategory1Options = subcategories1.map(subcategory => ({value: subcategory.id, text: subcategory.title}))
+    const subcategory2Options = subcategories2.map(subcategory => ({value: subcategory.id, text: subcategory.title}))
+    const subcategory3Options = subcategories3.map(subcategory => ({value: subcategory.id, text: subcategory.title}))
 
-    const formFields = [
-      {tag: 'menu', name: 'userType', options: [{code: 'customer', name: 'Покупатель'}, {code: 'provider', name: 'Поставщик'}], selected: state.userType, onClick: this.handleUserTypeSelectChange.bind(this)},
-      {tag: 'input', type: 'text', name: 'login', title: 'Логин', required: true, width: 8},
+    let fields = [
+      {tag: 'input', name: 'login', title: 'Логин', required: true, width: 8},
       {tag: 'input', type: 'password', name: 'password', title: 'Пароль', required: true, width: 8},
-      {
-        tag: 'input',
-        type: 'text',
-        name: 'firstName',
-        title: 'Имя',
-        required: true,
-        path: 'firstName',
-        visible: state.userType === 'customer',
-        width: 8
-      },
-      {
-        tag: 'input',
-        type: 'text',
-        name: 'lastName',
-        title: 'Фамилия',
-        required: true,
-        path: 'lastName',
-        visible: state.userType === 'customer',
-        width: 8,
-      },
-      {
-        tag: 'input',
-        type: 'text',
-        name: 'providerName',
-        title: 'Название компании',
-        required: true,
-        path: 'providerName',
-        visible: state.userType === 'provider'
-      },
-      {tag: 'input', type: 'text', name: 'email', title: 'Email', required: true, path: 'email', width: 8},
-      {
-        tag: 'input',
-        type: 'tel',
-        name: 'phoneNumber',
-        title: 'Телефон',
-        required: state.userType === 'provider',
-        path: 'phoneNumber',
-        width: 8,
-      },
-      {
-        tag: 'select',
-        name: 'city',
-        title: 'Город',
-        required: true,
-        value: cityValue,
-        options: cityOptions,
-        width: 8,
-        onChange: this.handleSelectChange.bind(this),
-      },
-      {
-        tag: 'select',
-        name: 'district',
-        title: 'Район',
-        required: !_.isEmpty(districtOptions),
-        value: districtValue,
-        options: districtOptions,
-        width: 8,
-        onChange: this.handleSelectChange.bind(this),
-        disabled: _.isEmpty(districtOptions)
-      },
-      {
-        tag: 'input',
-        type: 'text',
-        name: 'address',
-        title: 'Адрес',
-        required: state.userType === 'provider',
-        path: 'address'
-      },
-      {
-        tag: 'select',
-        name: 'category',
-        title: 'Категория',
-        required: true,
-        value: categoryValue,
-        options: categoryOptions,
-        width: 7,
-        onChange: this.handleSelectChange.bind(this),
-        visible: state.userType === 'provider',
-      },
-      {
-        tag: 'select',
-        name: 'subcategory',
-        title: 'Подкатегория',
-        required: true,
-        value: subcategoryValue,
-        options: subcategoryOptions,
-        width: 7,
-        onChange: this.handleSelectChange.bind(this),
-        disabled: _.isEmpty(subcategoryOptions),
-        visible: state.userType === 'provider',
-      },
-      {
-        tag: 'button',
-        icon: 'plus',
-        width: 2,
-        onClick: this.handleAddCategoryClick.bind(this),
-        disabled: false,
-        visible: state.userType === 'provider',
-      },
+      {tag: 'input', name: 'firstName', title: 'Имя', required: true, visible: state.activeTab === 0, width: 8},
+      {tag: 'input', name: 'lastName', title: 'Фамилия', required: true, visible: state.activeTab === 0, width: 8},
+      {tag: 'input', name: 'providerName', title: 'Название компании', required: true, visible: state.activeTab === 1},
+      {tag: 'input', type: 'text', name: 'email', title: 'Email', required: true, width: 8},
+      {tag: 'input', type: 'tel', name: 'phoneNumber', title: 'Телефон', value: state.phoneNumber, required: state.activeTab === 1, width: 8},
+      {tag: 'select', name: 'city', title: 'Город', required: true, value: cityValue, options: cityOptions, width: 8, onChange: this.handleSelectChange.bind(this)},
+      {tag: 'select', name: 'district', title: 'Район', required: !_.isEmpty(districtOptions), value: districtValue, options: districtOptions, width: 8, onChange: this.handleSelectChange.bind(this), disabled: _.isEmpty(districtOptions)},
+      {tag: 'input', type: 'text', name: 'address', title: 'Адрес', required: state.activeTab === 1},
+      {tag: 'select', name: 'category_1', title: 'Категория', required: true, value: state.category_1, options: categoryOptions, width: 8, onChange: this.handleSelectChange.bind(this), visible: state.activeTab === 1},
+      {tag: 'select', name: 'subcategory_1', title: 'Подкатегории', required: true, value: state.subcategory_1, options: subcategory1Options, width: 8, multiple: true, onChange: this.handleSelectChange.bind(this), visible: state.activeTab === 1},
+      {tag: 'select', name: 'category_2', title: 'Категория', required: true, value: state.category_2, options: categoryOptions, width: 8, onChange: this.handleSelectChange.bind(this), visible: state.activeTab === 1},
+      {tag: 'select', name: 'subcategory_2', title: 'Подкатегории', required: true, value: state.subcategory_2, options: subcategory2Options, width: 8, multiple: true, onChange: this.handleSelectChange.bind(this), visible: state.activeTab === 1},
+      {tag: 'select', name: 'category_3', title: 'Категория', required: true, value: state.category_3, options: categoryOptions, width: 8, onChange: this.handleSelectChange.bind(this), visible: state.activeTab === 1},
+      {tag: 'select', name: 'subcategory_3', title: 'Подкатегории', required: true, value: state.subcategory_3, options: subcategory3Options, width: 8, multiple: true, onChange: this.handleSelectChange.bind(this), visible: state.activeTab === 1},
+      {tag: 'input', type: 'hidden', name: 'userType', value: userType}
     ]
+
+    const panes = [
+      {menuItem: 'Покупатель', render: () => <Tab.Pane attached={false} basic><SignUpForm fields={fields} onSubmit={onSubmit}/></Tab.Pane>},
+      {menuItem: 'Поставщик', render: () => <Tab.Pane attached={false} basic><SignUpForm fields={fields} onSubmit={onSubmit}/></Tab.Pane>},
+    ]
+
+    console.log(this.state)
 
     return (
       <Modal
@@ -163,37 +87,25 @@ class SignUpModal extends Component {
       >
         <Modal.Header>Зарегистрироваться</Modal.Header>
         <Modal.Content>
-          <EditForm
-            id='singUpForm'
-            fields={formFields}
-            onSubmit={this.handleSubmit.bind(this)}
+          <Tab
+            menu={{attached: false, fluid: true, size: 'tiny', widths: 2}}
+            panes={panes}
+            activeIndex={state.activeTab}
+            onTabChange={this.handleTabChange.bind(this)}
           />
         </Modal.Content>
         <Modal.Actions>
-          <Button positive type='submit' form='singUpForm' icon='checkmark' labelPosition='right' content='Далее'/>
+          <Button positive type='submit' form='signUpForm' icon='checkmark' labelPosition='left' content='Далее'/>
         </Modal.Actions>
       </Modal>
     )
   }
 
-  handleUserTypeSelectChange(event, target) {
-    this.setState({userType: target.value})
-  }
-
-  handleAddCategoryClick(event, target) {
-    debugger;
+  handleTabChange(event, {activeIndex}) {
+    this.setState({activeTab: activeIndex})
   }
 
   handleSelectChange(event, field) {
     this.setState({[field.name]: field.value})
   }
-
-  handleSubmit(event) {
-    const {onSubmit} = this.props
-    const form = event.target;
-
-    onSubmit(form);
-  }
 }
-
-export default SignUpModal
