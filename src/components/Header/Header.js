@@ -44,6 +44,7 @@ export default class Header extends Component {
               <Link to='/account/tenders' className='item' activeClassName='active' onClick={resetFilter}>Тендеры</Link>
               <Link to='/account/favourites' className='item' activeClassName='active' onClick={resetFilter}>Закладки</Link>
               <Link to='/account/history' className='item' activeClassName='active' onClick={resetFilter}>История</Link>
+              <Link to='/account/monitor' className='item' activeClassName='active' onClick={resetFilter}>Монитор</Link>
             </Menu.Menu>
           }
           <Menu.Item style={{flex: 1}}>

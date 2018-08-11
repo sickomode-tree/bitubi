@@ -12,15 +12,20 @@ export default class ProductCard extends Component {
     style: PropTypes.object,
     saveToHistory: PropTypes.func,
     saveToFavourites: PropTypes.func,
+    acceptProduct: PropTypes.func,
+    declineProduct: PropTypes.func,
+    verifyProduct: PropTypes.func,
   }
 
   state = {
     favourite: this.props.product.favourite || false,
+    verified: this.props.product.verified || false,
+    verifying: this.props.product.verifying || false,
   }
 
   render() {
     const {product, style, saveToHistory, onClose} = this.props
-    const {favourite} = this.state
+    const {favourite, verifying} = this.state
 
     return (
       <Modal
@@ -82,6 +87,34 @@ export default class ProductCard extends Component {
             />
           </Modal.Actions>
         }
+        {
+          isCustomer &&
+          <Modal.Actions>
+            <Button
+              basic={!verifying} icon={!verifying ? 'play' : 'pause'}
+              content={!verifying ? 'Приступить' : 'Остановить'}
+              onClick={this.toggleVerificationState.bind(this)}
+            />
+            {
+              verifying &&
+              <Button
+                icon='ban'
+                color='red'
+                content='Отклонить'
+                onClick={this.decline.bind(this)}
+              />
+            }
+            {
+              verifying &&
+              <Button
+                icon='check'
+                color='green'
+                content='Одобрить'
+                onClick={this.accept.bind(this)}
+              />
+            }
+          </Modal.Actions>
+        }
       </Modal>
     )
   }
@@ -92,5 +125,29 @@ export default class ProductCard extends Component {
 
     this.setState({favourite: !favourite})
     saveToFavourites(product.id)
+  }
+
+  toggleVerificationState() {
+    const {product, verifyProduct} = this.props
+    const {verifying} = this.state
+
+    this.setState({verifying: !verifying})
+    verifyProduct(product.id, verifying)
+  }
+
+  accept() {
+    const {product, acceptProduct} = this.props
+    const {verified} = this.state
+
+    this.setState({verified: verified})
+    acceptProduct(product.id)
+  }
+
+  decline() {
+    const {product, declineProduct} = this.props
+    const {verified} = this.state
+
+    this.setState({verified: verified})
+    declineProduct(product.id)
   }
 }

@@ -18,6 +18,7 @@ export const DELETE_TENDER_FAILURE = 'DELETE_TENDER_FAILURE'
 
 export const TOGGLE_TENDER_REQUEST = 'TOGGLE_TENDER_REQUEST'
 export const TOGGLE_TENDER_SUCCESS = 'TOGGLE_TENDER_SUCCESS'
+export const TOGGLE_TENDER_FAILURE = 'TOGGLE_TENDER_FAILURE'
 
 // ------------------------------------
 // Actions
@@ -37,6 +38,7 @@ export const onDeleteTenderFailure = bool => ({type: DELETE_TENDER_FAILURE, isEr
 
 export const onToggleTenderRequest = bool => ({type: TOGGLE_TENDER_REQUEST, isToggling: bool})
 export const onToggleTenderSuccess = ()   => ({type: TOGGLE_TENDER_SUCCESS})
+export const onToggleTenderFailure = ()   => ({type: TOGGLE_TENDER_FAILURE, isErrored: bool})
 
 // ------------------------------------
 // Thunks
@@ -166,7 +168,7 @@ export function toggleTender(id) {
       })
       .then(response => response.json())
       .then(json => dispatch(onToggleTenderSuccess()))
-      .catch(error => dispatch(onFetchTendersFailure(true)))
+      .catch(error => dispatch(onToggleTenderFailure(true)))
   };
 }
 
@@ -224,6 +226,15 @@ const ACTION_HANDLERS = {
   [TOGGLE_TENDER_REQUEST]: (state, action) => ({
     ...state,
     isToggling: action.isToggling
+  }),
+  [TOGGLE_TENDER_SUCCESS]: (state, action) => ({
+    ...state,
+    isToggling: false,
+  }),
+  [TOGGLE_TENDER_FAILURE]: (state, action) => ({
+    ...state,
+    isToggling: false,
+    isErrored: action.isErrored,
   }),
 }
 

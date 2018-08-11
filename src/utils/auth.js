@@ -2,8 +2,9 @@ import _ from 'lodash'
 import {loadState} from './localStorage'
 
 export const guestUserType = 'guest'
-export const providerUserType = 'provider'
 export const customerUserType = 'customer'
+export const providerUserType = 'provider'
+export const moderatorUserType = 'moderator'
 
 export function getToken() {
   const state = loadState()
@@ -36,5 +37,7 @@ export function checkAuthorized() {
 export const isCustomer = getUserType() === customerUserType
 
 export const isProvider = getUserType() === providerUserType
+
+export const isModerator = getUserType() === moderatorUserType
 
 export const isGuest = getUserType() === guestUserType
