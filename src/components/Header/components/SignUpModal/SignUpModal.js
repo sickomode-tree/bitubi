@@ -76,8 +76,6 @@ export default class SignUpModal extends Component {
       {menuItem: 'Поставщик', render: () => <Tab.Pane attached={false} basic><SignUpForm fields={fields} onSubmit={onSubmit}/></Tab.Pane>},
     ]
 
-    console.log(this.state)
-
     return (
       <Modal
         trigger={trigger || <Button basic color='green'>Зарегистрироваться</Button>}

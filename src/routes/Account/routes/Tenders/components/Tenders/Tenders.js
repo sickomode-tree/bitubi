@@ -16,7 +16,8 @@ export default class Tenders extends Component {
     items: PropTypes.array.isRequired,
     cities: PropTypes.array.isRequired,
     categories: PropTypes.array.isRequired,
-    subcategories: PropTypes.array.isRequired,
+    fetchCategories: PropTypes.func.isRequired,
+    fetchCities: PropTypes.func.isRequired,
     fetchTenders: PropTypes.func.isRequired,
     saveTender: PropTypes.func.isRequired,
     saveToFavourites: PropTypes.func.isRequired,
@@ -34,9 +35,9 @@ export default class Tenders extends Component {
 
   render() {
     const {
-      cities, categories, subcategories, items, filter,
-      fetchTenders, fetchCities, fetchCategories, fetchSubcategories,
-      saveTender, toggleTender, saveToFavourites, saveToHistory,
+      cities, categories, items, filter,
+      fetchTenders, fetchCities, fetchCategories,
+      saveTender, saveToFavourites, saveToHistory,
     } = this.props
     const cards = this.getCards.call(this, items)
     const groupKey = _.isEmpty(filter.filters) && _.isEmpty(filter.searchTerm) ? 'category.title' : 'subcategory.title'
@@ -51,10 +52,8 @@ export default class Tenders extends Component {
               <TenderEditModal
                 cities={cities}
                 categories={categories}
-                subcategories={subcategories}
                 fetchCities={fetchCities}
                 fetchCategories={fetchCategories}
-                fetchSubcategories={fetchSubcategories}
                 onSubmit={saveTender}
                 onClose={fetchTenders}
                 trigger={
@@ -114,10 +113,8 @@ export default class Tenders extends Component {
                                   tender={card}
                                   cities={cities}
                                   categories={categories}
-                                  subcategories={subcategories}
                                   fetchCities={fetchCities}
                                   fetchCategories={fetchCategories}
-                                  fetchSubcategories={fetchSubcategories}
                                   onSubmit={saveTender}
                                   onClose={fetchTenders}
                                   trigger={
@@ -180,10 +177,8 @@ export default class Tenders extends Component {
           <TenderEditModal
             cities={cities}
             categories={categories}
-            subcategories={subcategories}
             fetchCities={fetchCities}
             fetchCategories={fetchCategories}
-            fetchSubcategories={fetchSubcategories}
             onSubmit={saveTender}
             onClose={fetchTenders}
             trigger={

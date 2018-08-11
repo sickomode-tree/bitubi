@@ -3,7 +3,8 @@ import {fetchTenders, saveTender, deleteTender, toggleTender} from '../modules/t
 import {changeFilterValue, resetFilter} from 'store/filter'
 import {saveToHistory} from 'store/history'
 import {saveToFavourites} from 'store/favourites'
-import {fetchCities, fetchCategories, fetchSubcategories} from 'store/products'
+import {fetchCities} from 'store/cities'
+import {fetchCategories} from 'store/categories'
 
 /*  This is a container component. Notice it does not contain any JSX,
     nor does it import React. This component is **only** responsible for
@@ -19,7 +20,6 @@ import Tenders from '../components/Tenders/Tenders'
 const mapDispatchToProps = {
   fetchCities,
   fetchCategories,
-  fetchSubcategories,
   fetchTenders,
   saveTender,
   saveToFavourites,
@@ -33,9 +33,8 @@ const mapDispatchToProps = {
 const mapStateToProps = (state) => ({
   items: state.tenders.items,
   filter: state.filter,
-  cities: state.products.cities,
-  categories: state.products.categories,
-  subcategories: state.products.subcategories,
+  cities: state.cities.cities,
+  categories: state.categories.categories,
   isLoading: state.tenders.isLoading,
 })
 

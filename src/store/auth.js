@@ -50,7 +50,7 @@ export function onSignOut() {
 
 /*  This is a thunk, meaning it is a function that immediately
     returns a function for lazy evaluation. */
-export function sendAuthRequest(form) {
+export function sendSingInRequest(form) {
   const formData = new FormData(form);
   const url = '/test/auth/signin';
 
@@ -79,7 +79,7 @@ export function sendAuthRequest(form) {
   };
 }
 
-export function sendRegisterRequest(form) {
+export function sendSingUpRequest(form) {
   const formData = new FormData(form);
   const url = '/test/auth/signup';
 
@@ -123,8 +123,8 @@ export function errorAfterFiveSeconds() {
 }
 
 export const actions = {
-  sendAuthRequest,
-  sendRegisterRequest,
+  sendSingInRequest,
+  sendSingUpRequest,
   signOut,
 };
 

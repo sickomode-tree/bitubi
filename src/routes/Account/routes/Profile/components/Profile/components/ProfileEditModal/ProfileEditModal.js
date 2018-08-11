@@ -10,8 +10,6 @@ import {getToken, getUserType} from 'utils/auth'
 class ProfileEditModal extends Component {
   static propTypes = {
     trigger: PropTypes.node,
-    categories: PropTypes.array.isRequired,
-    subcategories: PropTypes.array.isRequired,
     cities: PropTypes.array.isRequired,
     fetchCities: PropTypes.func.isRequired,
     onSubmit: PropTypes.func.isRequired,
@@ -19,8 +17,6 @@ class ProfileEditModal extends Component {
   }
 
   state = {
-    category: '',
-    subcategory: '',
     city: '',
     district: '',
     phoneNumber: '',

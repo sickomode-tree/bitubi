@@ -4,89 +4,43 @@ import {getToken, getUserType} from 'utils/auth'
 // Constants
 // ------------------------------------
 
-export const TENDERS_IS_FETCHING = 'TENDERS_IS_FETCHING'
-export const TENDERS_FETCH_SUCCESS = 'TENDERS_FETCH_SUCCESS'
-export const TENDERS_FETCH_ERROR = 'TENDERS_FETCH_ERROR'
+export const FETCH_TENDERS_REQUEST = 'FETCH_TENDERS_REQUEST'
+export const FETCH_TENDERS_SUCCESS = 'FETCH_TENDERS_SUCCESS'
+export const FETCH_TENDERS_FAILURE = 'FETCH_TENDERS_FAILURE'
 
-export const TENDER_SAVE_SUCCESS = 'TENDER_SAVE_SUCCESS'
+export const SAVE_TENDER_REQUEST = 'SAVE_TENDER_REQUEST'
+export const SAVE_TENDER_SUCCESS = 'SAVE_TENDER_SUCCESS'
+export const SAVE_TENDER_FAILURE = 'SAVE_TENDER_FAILURE'
 
-export const TENDER_IS_DELETING = 'TENDER_IS_DELETING'
-export const TENDER_DELETE_SUCCESS = 'TENDER_DELETE_SUCCESS'
+export const DELETE_TENDER_REQUEST = 'DELETE_TENDER_REQUEST'
+export const DELETE_TENDER_SUCCESS = 'DELETE_TENDER_SUCCESS'
+export const DELETE_TENDER_FAILURE = 'DELETE_TENDER_FAILURE'
 
-export const TENDER_IS_TOGGLING = 'TENDER_IS_TOGGLING'
-export const TENDER_TOGGLE_SUCCESS = 'TENDER_TOGGLE_SUCCESS'
-
-export const TENDER_SAVE_TO_FAVOURITES = 'TENDER_SAVE_TO_FAVOURITES'
+export const TOGGLE_TENDER_REQUEST = 'TOGGLE_TENDER_REQUEST'
+export const TOGGLE_TENDER_SUCCESS = 'TOGGLE_TENDER_SUCCESS'
 
 // ------------------------------------
 // Actions
 // ------------------------------------
 
-export function onFetchStart(bool) {
-  return {
-    type: TENDERS_IS_FETCHING,
-    isLoading: bool,
-  };
-}
+export const onFetchTendersRequest = bool => ({type: FETCH_TENDERS_REQUEST, isLoading: bool})
+export const onFetchTendersSuccess = json => ({type: FETCH_TENDERS_SUCCESS, items: json})
+export const onFetchTendersFailure = bool => ({type: FETCH_TENDERS_FAILURE, isErrored: bool})
 
-export function onFetchError(bool) {
-  return {
-    type: TENDERS_FETCH_ERROR,
-    hasErrored: bool,
-  };
-}
+export const onSaveTenderRequest   = bool => ({type: SAVE_TENDER_REQUEST, isSaving: bool})
+export const onSaveTenderSuccess   = ()   => ({type: SAVE_TENDER_SUCCESS})
+export const onSaveTenderFailure   = bool => ({type: SAVE_TENDER_FAILURE, isErrored: bool})
 
-export function onFetchSuccess(json) {
-  return {
-    type: TENDERS_FETCH_SUCCESS,
-    items: json,
-  };
-}
+export const onDeleteTenderRequest = bool => ({type: DELETE_TENDER_REQUEST, isDeleting: bool})
+export const onDeleteTenderSuccess = ()   => ({type: DELETE_TENDER_SUCCESS})
+export const onDeleteTenderFailure = bool => ({type: DELETE_TENDER_FAILURE, isErrored: bool})
 
-export function onSaveTenderSuccess() {
-  fetchTenders()
+export const onToggleTenderRequest = bool => ({type: TOGGLE_TENDER_REQUEST, isToggling: bool})
+export const onToggleTenderSuccess = ()   => ({type: TOGGLE_TENDER_SUCCESS})
 
-  return {
-    type: TENDER_SAVE_SUCCESS,
-  };
-}
-
-export function onDeleteTenderStart(bool) {
-  return {
-    type: TENDER_IS_DELETING,
-    isDeleting: bool,
-  };
-}
-
-export function onDeleteTenderSuccess() {
-  fetchTenders()
-
-  return {
-    type: TENDER_DELETE_SUCCESS,
-  };
-}
-
-export function onToggleTenderStart(bool) {
-  return {
-    type: TENDER_IS_TOGGLING,
-    isToggling: bool,
-  };
-}
-
-export function onToggleTenderSuccess() {
-  fetchTenders()
-
-  return {
-    type: TENDER_TOGGLE_SUCCESS,
-  };
-}
-
-export function onsaveTenderToFavouritesSuccess(id) {
-  return {
-    type: TENDER_SAVE_TO_FAVOURITES,
-    id: id,
-  }
-}
+// ------------------------------------
+// Thunks
+// ------------------------------------
 
 export function fetchTenders() {
   const urlByUserTypeMap = {
@@ -95,11 +49,12 @@ export function fetchTenders() {
   }
   const userType = getUserType()
   const url = urlByUserTypeMap[userType]
+  let token
 
   return (dispatch, getState) => {
-    const token = getState().auth.token
+    token = getState().auth.token
 
-    dispatch(onFetchStart(true));
+    dispatch(onFetchTendersRequest(true));
     fetch(url, {
       headers: {
         'Content-Type': 'application/x-www-form-urlencoded',
@@ -111,13 +66,13 @@ export function fetchTenders() {
           throw Error(response.statusText)
         }
 
-        dispatch(onFetchStart(false))
+        dispatch(onFetchTendersRequest(false))
 
         return response;
       })
       .then(response => response.json())
-      .then(json => dispatch(onFetchSuccess(json)))
-      .catch(error => dispatch(onFetchError(true)))
+      .then(json => dispatch(onFetchTendersSuccess(json)))
+      .catch(error => dispatch(onFetchTendersFailure(true)))
   };
 }
 
@@ -126,7 +81,7 @@ export function saveTender(form) {
   const url = '/test/private/user/tenders'
 
   return (dispatch) => {
-    dispatch(onFetchStart(true))
+    dispatch(onSaveTenderRequest(true))
 
     fetch(url, {
       method: 'POST',
@@ -141,13 +96,13 @@ export function saveTender(form) {
           throw Error(response.statusText)
         }
 
-        dispatch(onFetchStart(false))
+        dispatch(onSaveTenderRequest(false))
 
         return response
       })
       .then(response => response.json())
       .then(json => dispatch(onSaveTenderSuccess()))
-      .catch(error => dispatch(onFetchError(true)))
+      .catch(error => dispatch(onSaveTenderFailure(true)))
   };
 }
 
@@ -158,7 +113,7 @@ export function deleteTender(id) {
   formData.append('id', id)
 
   return (dispatch) => {
-    dispatch(onDeleteTenderStart(true))
+    dispatch(onDeleteTenderRequest(true))
 
     fetch(url, {
       method: 'POST',
@@ -173,13 +128,13 @@ export function deleteTender(id) {
           throw Error(response.statusText)
         }
 
-        dispatch(onDeleteTenderStart(false))
+        dispatch(onDeleteTenderRequest(false))
 
         return response
       })
       .then(response => response.json())
       .then(json => dispatch(onDeleteTenderSuccess()))
-      .catch(error => dispatch(onFetchError(true)))
+      .catch(error => dispatch(onDeleteTenderFailure(true)))
   };
 }
 
@@ -190,7 +145,7 @@ export function toggleTender(id) {
   formData.append('id', id)
 
   return (dispatch) => {
-    dispatch(onToggleTenderStart(true))
+    dispatch(onToggleTenderRequest(true))
 
     fetch(url, {
       method: 'POST',
@@ -205,45 +160,13 @@ export function toggleTender(id) {
           throw Error(response.statusText)
         }
 
-        dispatch(onToggleTenderStart(false))
+        dispatch(onToggleTenderRequest(false))
 
         return response
       })
       .then(response => response.json())
       .then(json => dispatch(onToggleTenderSuccess()))
-      .catch(error => dispatch(onFetchError(true)))
-  };
-}
-
-export function saveTenderToFavourites(id) {
-  const formData = new FormData()
-  const url = '/test/private/user/favourites'
-
-  formData.append('id', id)
-
-  return (dispatch) => {
-    // dispatch(onFetchStart(true))
-
-    fetch(url, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/x-www-form-urlencoded',
-        'Authorization': `Bearer ${getToken()}`
-      },
-      body: new URLSearchParams(formData),
-    })
-      .then(response => {
-        if (!response.ok) {
-          throw Error(response.statusText)
-        }
-
-        dispatch(onFetchStart(false))
-
-        return response
-      })
-      .then(response => response.json())
-      .then(json => dispatch(onsaveTenderToFavouritesSuccess(id)))
-      .catch(error => dispatch(onFetchError(true)))
+      .catch(error => dispatch(onFetchTendersFailure(true)))
   };
 }
 
@@ -252,32 +175,53 @@ export const actions = {
   saveTender,
   deleteTender,
   toggleTender,
-  saveTenderToFavourites,
 }
 
 // ------------------------------------
 // Action Handlers
 // ------------------------------------
 const ACTION_HANDLERS = {
-  [TENDERS_FETCH_ERROR]: (state, action) => ({
-    ...state,
-    isErrored: action.hasErrored,
-    isLoading: false,
-  }),
-  [TENDERS_IS_FETCHING]: (state, action) => ({
+  [FETCH_TENDERS_REQUEST]: (state, action) => ({
     ...state,
     isLoading: action.isLoading
   }),
-  [TENDERS_FETCH_SUCCESS]: (state, action) => ({
+  [FETCH_TENDERS_SUCCESS]: (state, action) => ({
     ...state,
-    items: action.items,
     isLoading: false,
+    items: action.items,
   }),
-  [TENDER_IS_DELETING]: (state, action) => ({
+  [FETCH_TENDERS_FAILURE]: (state, action) => ({
+    ...state,
+    isLoading: false,
+    isErrored: action.isErrored,
+  }),
+  [SAVE_TENDER_REQUEST]: (state, action) => ({
+    ...state,
+    isSaving: action.isSaving
+  }),
+  [SAVE_TENDER_SUCCESS]: (state, action) => ({
+    ...state,
+    isSaving: false,
+  }),
+  [SAVE_TENDER_FAILURE]: (state, action) => ({
+    ...state,
+    isSaving: false,
+    isErrored: action.isErrored,
+  }),
+  [DELETE_TENDER_REQUEST]: (state, action) => ({
     ...state,
     isDeleting: action.isDeleting
   }),
-  [TENDER_IS_TOGGLING]: (state, action) => ({
+  [SAVE_TENDER_SUCCESS]: (state, action) => ({
+    ...state,
+    isDeleting: false,
+  }),
+  [DELETE_TENDER_FAILURE]: (state, action) => ({
+    ...state,
+    isDeleting: false,
+    isErrored: action.isErrored,
+  }),
+  [TOGGLE_TENDER_REQUEST]: (state, action) => ({
     ...state,
     isToggling: action.isToggling
   }),
@@ -290,8 +234,9 @@ const ACTION_HANDLERS = {
 const initialState = {
   items: [],
   isLoading: false,
+  isSaving: false,
   isDeleting: false,
-  isDisabling: false,
+  isToggling: false,
   isErrored: false,
 };
 

@@ -1,15 +1,15 @@
 import React from 'react'
-import { connect } from 'react-redux';
+import {connect} from 'react-redux';
 import PropTypes from 'prop-types'
 import Header from 'components/Header/Header'
-import { Container, Segment } from 'semantic-ui-react'
-import { sendAuthRequest, signOut } from 'store/auth';
+import {Container, Segment} from 'semantic-ui-react'
+import {sendSingInRequest, signOut} from 'store/auth';
 
-const DefaultLayout = ({ children, isAuthorized, sendAuthRequest, signOut }) => (
-  <div style={{ display: 'flex', flexDirection: 'column' }}>
+const DefaultLayout = ({children, isAuthorized, sendSingInRequest, signOut}) => (
+  <div style={{display: 'flex', flexDirection: 'column'}}>
     <Header
       isAuthorized={isAuthorized}
-      sendAuthRequest={sendAuthRequest}
+      sendSingInRequest={sendSingInRequest}
       signOut={signOut}
     />
     <Container style={{display: 'flex'}}>
@@ -21,12 +21,12 @@ const DefaultLayout = ({ children, isAuthorized, sendAuthRequest, signOut }) => 
 DefaultLayout.propTypes = {
   children: PropTypes.node,
   isAuthorized: PropTypes.bool.isRequired,
-  sendAuthRequest: PropTypes.func.isRequired,
+  sendSingInRequest: PropTypes.func.isRequired,
   signOut: PropTypes.func.isRequired,
 }
 
 const mapDispatchToProps = {
-  sendAuthRequest,
+  sendSingInRequest,
   signOut,
 };
 

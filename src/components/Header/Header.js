@@ -12,27 +12,25 @@ export default class Header extends Component {
     cards: PropTypes.array.isRequired,
     cities: PropTypes.array.isRequired,
     categories: PropTypes.array.isRequired,
-    subcategories: PropTypes.array.isRequired,
     filters: PropTypes.object.isRequired,
     isAuthorized: PropTypes.bool.isRequired,
     searchTerm: PropTypes.string.isRequired,
     changeFilterValue: PropTypes.func.isRequired,
     changeSearchTerm: PropTypes.func.isRequired,
     fetchCategories: PropTypes.func.isRequired,
-    fetchSubcategories: PropTypes.func.isRequired,
     fetchCities: PropTypes.func.isRequired,
     fetchProducts: PropTypes.func.isRequired,
     resetFilter: PropTypes.func.isRequired,
-    sendAuthRequest: PropTypes.func.isRequired,
-    sendRegisterRequest: PropTypes.func.isRequired,
+    sendSingInRequest: PropTypes.func.isRequired,
+    sendSingUpRequest: PropTypes.func.isRequired,
     signOut: PropTypes.func.isRequired
   }
 
   render() {
     const {
-      cards, cities, categories, subcategories, filters, isAuthorized,
+      cards, cities, categories, filters, isAuthorized,
       changeFilterValue, changeSearchTerm,
-      fetchCategories, fetchSubcategories, fetchCities, fetchProducts,
+      fetchCategories, fetchCities, fetchProducts,
       resetFilter, searchTerm
     } = this.props
 
@@ -77,11 +75,9 @@ export default class Header extends Component {
               !isAuthorized &&
               <Item>
                 <SignUpModal
-                  cities={cities} categories={categories} subcategories={subcategories}
-                  fetchProducts={fetchProducts} fetchCities={fetchCities}
-                  fetchCategories={fetchCategories}fetchSubcategories={fetchSubcategories}
-                  onClose={fetchProducts}
-                  onSubmit={this.handleSignUp.bind(this)}
+                  cities={cities} categories={categories}
+                  fetchProducts={fetchProducts} fetchCategories={fetchCategories} fetchCities={fetchCities}
+                  onClose={fetchProducts} onSubmit={this.handleSignUp.bind(this)}
                 />
               </Item>
             }
@@ -96,12 +92,12 @@ export default class Header extends Component {
   }
 
   handleSignUp(form) {
-    this.props.sendRegisterRequest(form);
+    this.props.sendSingUpRequest(form);
     browserHistory.push('/')
   }
 
   handleSignIn(form) {
-    this.props.sendAuthRequest(form);
+    this.props.sendSingInRequest(form);
     browserHistory.push('/')
   }
 

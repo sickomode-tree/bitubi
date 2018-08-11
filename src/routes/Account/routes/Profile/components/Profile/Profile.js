@@ -9,8 +9,6 @@ export default class Profile extends Component {
   static propTypes = {
     user: PropTypes.object.isRequired,
     cities: PropTypes.array.isRequired,
-    categories: PropTypes.array.isRequired,
-    subcategories: PropTypes.array.isRequired,
     fetchUser: PropTypes.func.isRequired,
     updateUser: PropTypes.func.isRequired,
     fetchCities: PropTypes.func.isRequired,
@@ -23,7 +21,7 @@ export default class Profile extends Component {
   }
 
   render() {
-    const {user, cities, categories, subcategories, fetchCities, fetchUser, updateUser} = this.props
+    const {user, cities, fetchCities, fetchUser, updateUser} = this.props
     const userInfo = [
       {code: 'login', title: 'Логин'},
       {code: 'city.name', title: 'Город'},
@@ -61,7 +59,7 @@ export default class Profile extends Component {
 
               <ProfileEditModal
                 profile={user}
-                cities={cities} categories={categories} subcategories={subcategories}
+                cities={cities}
                 fetchCities={fetchCities}
                 onClose={fetchUser}
                 onSubmit={updateUser}

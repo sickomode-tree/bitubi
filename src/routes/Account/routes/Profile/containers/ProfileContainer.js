@@ -1,7 +1,7 @@
 import {connect} from 'react-redux'
 import {fetchUser, updateUser} from '../modules/profile'
 import {resetFilter} from 'store/filter'
-import {fetchCities} from 'store/products'
+import {fetchCities} from 'store/cities'
 
 /*  This is a container component. Notice it does not contain any JSX,
     nor does it import React. This component is **only** responsible for
@@ -23,9 +23,7 @@ const mapDispatchToProps = {
 
 const mapStateToProps = (state) => ({
   user: state.profile.user,
-  cities: state.products.cities,
-  categories: state.products.categories,
-  subcategories: state.products.subcategories,
+  cities: state.cities.cities,
 })
 
 /*  Note: mapStateToProps is where you should use `reselect` to create selectors, ie:

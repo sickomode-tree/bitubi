@@ -12,11 +12,9 @@ class TenderEditModal extends Component {
     tender: PropTypes.object,
     trigger: PropTypes.node,
     categories: PropTypes.array.isRequired,
-    subcategories: PropTypes.array.isRequired,
     cities: PropTypes.array.isRequired,
     fetchCities: PropTypes.func.isRequired,
     fetchCategories: PropTypes.func.isRequired,
-    fetchSubcategories: PropTypes.func.isRequired,
     onSubmit: PropTypes.func.isRequired,
     onClose: PropTypes.func,
   }
@@ -30,15 +28,14 @@ class TenderEditModal extends Component {
   }
 
   componentDidMount() {
-    const {fetchCategories, fetchSubcategories, fetchCities} = this.props
+    const {fetchCategories, fetchCities} = this.props
 
     fetchCategories()
-    fetchSubcategories()
     fetchCities()
   }
 
   render() {
-    const {tender, trigger, cities, categories, subcategories, onClose} = this.props
+    const {tender, trigger, cities, categories, onClose} = this.props
     const {state} = this
     const cityOptions = cities.map(city => ({value: city.id, text: city.name}))
     const cityValue = state.city || (tender ? tender.city.id : null)
@@ -47,7 +44,8 @@ class TenderEditModal extends Component {
     const districtValue = state.district || (tender ? tender.district.id : null)
     const categoryOptions = categories.map(category => ({value: category.id, text: category.title}))
     const categoryValue = state.category || (tender ? tender.category.id : null)
-    const subcategoryOptions = subcategories.map(subcategory => ({value: subcategory.id, text: subcategory.title, parent: subcategory.parent.id})).filter(subcategory => subcategory.parent === categoryValue)
+    const subcategories = categoryValue ? categories.find(category => category.id === categoryValue).children : []
+    const subcategoryOptions = subcategories.map(subcategory => ({value: subcategory.id, text: subcategory.title}))
     const subcategoryValue = state.subcategory || (tender ? tender.subcategory.id : null)
     const commentValue = state.comment || (tender ? tender.comment : null)
     const expectedDateValue = state.expectedDate || (tender ? tender.expectedDate : null)
