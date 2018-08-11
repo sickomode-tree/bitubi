@@ -62,10 +62,9 @@ export default class TenderCard extends Component {
         <Modal.Content image>
           <Image wrapped size='medium' src='http://react.semantic-ui.com/images/avatar/large/daniel.jpg'/>
           <Modal.Description style={{width: '100%'}}>
-            <Tag icon='tags' content={tender.category.title}/>
-            <Tag icon='tag' content={tender.subcategory.title}/>
-
-            <br/>
+            {tender.category && <Tag icon='tags' content={tender.category.title}/>}
+            {tender.subcategory && <Tag icon='tag' content={tender.subcategory.title}/>}
+            {tender.subcategory && <br/>}
 
             <IconList
               data={[

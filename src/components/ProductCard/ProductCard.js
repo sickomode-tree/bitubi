@@ -52,10 +52,9 @@ export default class ProductCard extends Component {
         <Modal.Content image>
           <Image wrapped size='medium' src='http://react.semantic-ui.com/images/avatar/large/daniel.jpg'/>
           <Modal.Description style={{width: '100%'}}>
-            <Tag icon='tags' content={product.category.title}/>
-            <Tag icon='tag' content={product.subcategory.title}/>
-
-            <br/>
+            {product.category && <Tag icon='tags' content={product.category.title}/>}
+            {product.subcategory && <Tag icon='tag' content={product.subcategory.title}/>}
+            {product.subcategory && <br/>}
 
             <IconList
               data={[
