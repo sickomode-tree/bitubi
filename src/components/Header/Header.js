@@ -94,12 +94,10 @@ export default class Header extends Component {
 
   handleSignUp(form) {
     this.props.sendSingUpRequest(form);
-    browserHistory.push('/')
   }
 
   handleSignIn(form) {
     this.props.sendSingInRequest(form);
-    browserHistory.push('/')
   }
 
   handleSignOut() {

@@ -1,4 +1,6 @@
+import {browserHistory} from 'react-router'
 import _ from 'lodash'
+import {onShowNotification, showNotification} from './notifications'
 
 // ------------------------------------
 // Constants
@@ -7,6 +9,9 @@ import _ from 'lodash'
 export const SIGN_IN_REQUEST = 'SIGN_IN_REQUEST';
 export const SIGN_IN_SUCCESS = 'SIGN_IN_SUCCESS';
 export const SIGN_IN_FAILURE = 'SIGN_IN_FAILURE';
+export const SIGN_UP_REQUEST = 'SIGN_UP_REQUEST';
+export const SIGN_UP_SUCCESS = 'SIGN_UP_SUCCESS';
+export const SIGN_UP_FAILURE = 'SIGN_UP_FAILURE';
 export const SIGN_OUT = 'SIGN_OUT';
 
 const defaultUserType = 'guest'
@@ -15,16 +20,34 @@ const defaultUserType = 'guest'
 // Actions
 // ------------------------------------
 
-export function onAuthRequestSent(bool) {
-  return {
-    type: SIGN_IN_REQUEST,
-    isLoading: bool
-  };
-}
-
-export function onAuthRequestSuccess(json) {
+export const onSignUpRequest = bool => ({type: SIGN_UP_REQUEST, isLoading: bool})
+export const onSignUpSuccess = json => {
   const token = json.accessToken
   const userType = json.userType || defaultUserType
+
+  browserHistory.push('/')
+
+  if (!_.isNil(token)) {
+    return {
+      type: SIGN_UP_SUCCESS,
+      token: token,
+      userType: userType,
+    };
+  }
+}
+export const onSignUpFailure = bool => {
+  return {
+    type: SIGN_UP_FAILURE,
+    isErrored: bool,
+  }
+}
+
+export const onSignInRequest = bool => ({type: SIGN_IN_REQUEST, isLoading: bool})
+export const onSignInSuccess = json => {
+  const token = json.accessToken
+  const userType = json.userType || defaultUserType
+
+  browserHistory.push('/')
 
   if (!_.isNil(token)) {
     return {
@@ -35,27 +58,25 @@ export function onAuthRequestSuccess(json) {
   }
 }
 
-export function onAuthRequestError(bool) {
+export const onSignInFailure = bool => {
   return {
     type: SIGN_IN_FAILURE,
-    hasErrored: bool
-  };
+    isErrored: bool,
+  }
 }
 
-export function onSignOut() {
-  return {
-    type: SIGN_OUT,
-  };
-}
+export const onSignOut = () => ({type: SIGN_OUT})
 
-/*  This is a thunk, meaning it is a function that immediately
-    returns a function for lazy evaluation. */
+// ------------------------------------
+// Thunks
+// ------------------------------------
+
 export function sendSingInRequest(form) {
   const formData = new FormData(form);
   const url = '/test/auth/signin';
 
   return (dispatch) => {
-    dispatch(onAuthRequestSent(true));
+    dispatch(onSignInRequest(true));
 
     fetch(url, {
       method: 'POST',
@@ -69,13 +90,16 @@ export function sendSingInRequest(form) {
           throw Error(response.statusText);
         }
 
-        dispatch(onAuthRequestSent(false));
+        dispatch(onSignInRequest(false));
 
         return response;
       })
       .then(response => response.json())
-      .then(json => dispatch(onAuthRequestSuccess(json)))
-      .catch(error => dispatch(onAuthRequestError(true)))
+      .then(json => dispatch(onSignInSuccess(json)))
+      .catch(error => {
+        dispatch(onSignInFailure(true))
+        showNotification({text: '123'})
+      })
   };
 }
 
@@ -84,7 +108,7 @@ export function sendSingUpRequest(form) {
   const url = '/test/auth/signup';
 
   return (dispatch) => {
-    dispatch(onAuthRequestSent(true));
+    dispatch(onSignUpRequest(true));
 
     fetch(url, {
       method: 'POST',
@@ -98,13 +122,13 @@ export function sendSingUpRequest(form) {
           throw Error(response.statusText);
         }
 
-        dispatch(onAuthRequestSent(false));
+        dispatch(onSignUpRequest(false));
 
         return response;
       })
       .then(response => response.json())
-      .then(json => dispatch(onAuthRequestSuccess(json)))
-      .catch(error => dispatch(onAuthRequestError(true)))
+      .then(json => dispatch(onSignUpSuccess(json)))
+      .catch(error => dispatch(onSignUpFailure(true)))
   };
 }
 
@@ -132,13 +156,24 @@ export const actions = {
 // Action Handlers
 // ------------------------------------
 const ACTION_HANDLERS = {
-  [SIGN_IN_FAILURE]: (state, action) => ({
+  [SIGN_UP_REQUEST]: (state, action) => ({
     ...state,
-    isErrored: action.hasErrored,
-    token: null,
-    userType: defaultUserType,
+    isLoading: action.isLoading
+  }),
+  [SIGN_UP_SUCCESS]: (state, action) => ({
+    ...state,
+    isLoading: false,
+    isAuthorized: true,
+    token: action.token,
+    userType: action.userType,
+  }),
+  [SIGN_UP_FAILURE]: (state, action) => ({
+    ...state,
+    isLoading: false,
     isAuthorized: false,
-    isLoading: false
+    isErrored: action.isErrored,
+    userType: defaultUserType,
+    token: null,
   }),
   [SIGN_IN_REQUEST]: (state, action) => ({
     ...state,
@@ -146,15 +181,25 @@ const ACTION_HANDLERS = {
   }),
   [SIGN_IN_SUCCESS]: (state, action) => ({
     ...state,
+    isLoading: false,
     isAuthorized: true,
     token: action.token,
     userType: action.userType,
   }),
+  [SIGN_IN_FAILURE]: (state, action) => ({
+    ...state,
+    isLoading: false,
+    isAuthorized: false,
+    isErrored: action.isErrored,
+    userType: defaultUserType,
+    token: null,
+  }),
   [SIGN_OUT]: (state, action) => ({
     ...state,
+    isLoading: false,
     isAuthorized: false,
-    token: null,
     userType: defaultUserType,
+    token: null,
   }),
 };
 

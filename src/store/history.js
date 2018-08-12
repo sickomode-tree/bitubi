@@ -1,6 +1,7 @@
 // ------------------------------------
 // Constants
 // ------------------------------------
+
 export const FETCH_HISTORY_REQUEST = 'FETCH_HISTORY_REQUEST'
 export const FETCH_HISTORY_SUCCESS = 'FETCH_HISTORY_SUCCESS'
 export const FETCH_HISTORY_FAILURE = 'FETCH_HISTORY_FAILURE'
@@ -92,6 +93,7 @@ export const actions = {
 // ------------------------------------
 // Action Handlers
 // ------------------------------------
+
 const ACTION_HANDLERS = {
   [FETCH_HISTORY_REQUEST]: (state, action) => ({
     ...state,

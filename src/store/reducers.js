@@ -5,6 +5,7 @@ import citiesReducer from './cities'
 import filterReducer from './filter'
 import locationReducer from './location'
 import productsReducer from './products'
+import notificationsReducer from './notifications'
 
 export const makeRootReducer = (asyncReducers) => {
   return combineReducers({
@@ -14,6 +15,7 @@ export const makeRootReducer = (asyncReducers) => {
     filter: filterReducer,
     location: locationReducer,
     products: productsReducer,
+    notifications: notificationsReducer,
     ...asyncReducers
   })
 }

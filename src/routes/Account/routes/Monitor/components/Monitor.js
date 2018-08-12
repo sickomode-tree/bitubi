@@ -13,8 +13,8 @@ export default class Monitor extends Component {
     products: PropTypes.array.isRequired,
     isLoading: PropTypes.bool.isRequired,
     fetchProducts: PropTypes.func.isRequired,
-    acceptProduct: PropTypes.func.isRequired,
-    declineProduct: PropTypes.func.isRequired,
+    verifyingProduct: PropTypes.func.isRequired,
+    verifiedProduct: PropTypes.func.isRequired,
   }
 
   componentDidMount() {
@@ -22,7 +22,7 @@ export default class Monitor extends Component {
   }
 
   render() {
-    const {products, isLoading, fetchProducts, acceptProduct, declineProduct, verifyProduct} = this.props
+    const {products, isLoading} = this.props
 
     if (!isLoading) {
       if (!_.isEmpty(products)) {
@@ -48,7 +48,7 @@ export default class Monitor extends Component {
   }
 
   getCardComponent(card) {
-    const {acceptProduct, declineProduct, verifyProduct, fetchProducts} = this.props
+    const {verifiedProduct, verifyingProduct, fetchProducts} = this.props
 
     if (isProvider) {
       return (
@@ -65,9 +65,8 @@ export default class Monitor extends Component {
         key={card.id + Math.random()}
         product={card}
         style={{height: 150}}
-        acceptProduct={acceptProduct}
-        declineProduct={declineProduct}
-        verifyProduct={verifyProduct}
+        verifyingProduct={verifyingProduct}
+        verifiedProduct={verifiedProduct}
         onClose={fetchProducts}
       />
     )
