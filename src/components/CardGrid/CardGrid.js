@@ -9,16 +9,18 @@ export default class CardGrid extends Component {
     cards: PropTypes.array.isRequired,
     getCardComponent: PropTypes.func.isRequired,
     groupKey: PropTypes.string.isRequired,
+    groupCount: PropTypes.number,
   }
 
   state = {
     groups: this.getGroups.call(this, this.props.cards, this.props.groupKey),
-    groupCount: 3,
+    groupCount: this.props.groupCount || 3,
   }
 
   componentWillReceiveProps(nextProps) {
     this.setState({
       groups: this.getGroups.call(this, nextProps.cards, nextProps.groupKey),
+      groupCount: nextProps.groupCount || 3,
     })
   }
 

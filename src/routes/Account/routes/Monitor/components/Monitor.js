@@ -6,6 +6,7 @@ import ProductCard from 'components/ProductCard/ProductCard'
 import EmptyText from 'components/EmptyText/EmptyText'
 import TenderCard from 'components/TenderCard/TenderCard'
 import {isCustomer, isProvider} from 'utils/auth'
+import CardGrid from 'components/CardGrid/CardGrid'
 
 export default class Monitor extends Component {
   static propTypes = {
@@ -14,12 +15,10 @@ export default class Monitor extends Component {
     fetchProducts: PropTypes.func.isRequired,
     acceptProduct: PropTypes.func.isRequired,
     declineProduct: PropTypes.func.isRequired,
-    resetFilter: PropTypes.func.isRequired,
   }
 
   componentDidMount() {
     this.props.fetchProducts()
-    // this.props.resetFilter()
   }
 
   render() {
@@ -28,36 +27,12 @@ export default class Monitor extends Component {
     if (!isLoading) {
       if (!_.isEmpty(products)) {
         return (
-          <div style={{flex: 1}}>
-            <h2>Монитор</h2>
-
-            <Card.Group itemsPerRow={3}>
-              {
-                isCustomer &&
-                products.map(card => (
-                  <ProductCard
-                    key={card.id + Math.random()}
-                    product={card}
-                    style={{height: 150}}
-                    acceptProduct={acceptProduct}
-                    declineProduct={declineProduct}
-                    verifyProduct={verifyProduct}
-                    onClose={fetchProducts}
-                  />
-                ))
-              }
-              {
-                isProvider &&
-                products.map(card => (
-                  <TenderCard
-                    key={card.id}
-                    tender={card}
-                    onClose={fetchProducts}
-                  />
-                ))
-              }
-            </Card.Group>
-          </div>
+            <CardGrid
+              cards={products}
+              getCardComponent={this.getCardComponent.bind(this)}
+              groupKey='favourite'
+              groupCount={2}
+            />
         )
       }
 
@@ -70,5 +45,31 @@ export default class Monitor extends Component {
     }
 
     return <div></div>
+  }
+
+  getCardComponent(card) {
+    const {acceptProduct, declineProduct, verifyProduct, fetchProducts} = this.props
+
+    if (isProvider) {
+      return (
+        <TenderCard
+          key={card.id}
+          tender={card}
+          onClose={fetchProducts}
+        />
+      )
+    }
+
+    return (
+      <ProductCard
+        key={card.id + Math.random()}
+        product={card}
+        style={{height: 150}}
+        acceptProduct={acceptProduct}
+        declineProduct={declineProduct}
+        verifyProduct={verifyProduct}
+        onClose={fetchProducts}
+      />
+    )
   }
 }

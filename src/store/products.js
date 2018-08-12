@@ -82,6 +82,7 @@ export function fetchProducts() {
               let card = _.clone(product, true)
               card.category = category
               card.subcategory = subcategory
+              card.verifying = true
               // delete card.categories
               cards.push(card)
             })

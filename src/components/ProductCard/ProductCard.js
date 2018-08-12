@@ -36,6 +36,7 @@ export default class ProductCard extends Component {
         trigger={
           <Card
             style={style || {}}
+            className={product.verifying ? 'disabled' : null}
             link
           >
             <Card.Content>
@@ -43,6 +44,9 @@ export default class ProductCard extends Component {
                 {product.provider.name}
                 {product.favourite &&
                 <i className='right floated bookmark icon red'></i>
+                }
+                {product.verifying &&
+                <i className='right floated eye icon'></i>
                 }
               </Card.Header>
               <Card.Meta>{product.provider.city.name}</Card.Meta>

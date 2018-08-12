@@ -1,5 +1,4 @@
 import {connect} from 'react-redux'
-import {resetFilter} from 'store/filter'
 import {fetchProducts, acceptProduct, declineProduct, verifyProduct} from 'store/products'
 
 /*  This is a container component. Notice it does not contain any JSX,
@@ -18,7 +17,6 @@ const mapDispatchToProps = {
   acceptProduct,
   declineProduct,
   verifyProduct,
-  resetFilter,
 }
 
 const mapStateToProps = (state) => ({
