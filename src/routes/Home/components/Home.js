@@ -55,7 +55,7 @@ export default class Home extends Component {
     let cards = items;
 
     // filter by search value
-    cards = cards.filter(card => card.provider.name.toLowerCase().indexOf(filter.searchTerm.toLowerCase()) >= 0)
+    cards = cards.filter(card => card.providerName.toLowerCase().indexOf(filter.searchTerm.toLowerCase()) >= 0)
 
     if (!_.isEmpty(filter.filters)) {
       let isFilterTrue = false

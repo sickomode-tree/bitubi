@@ -15,10 +15,10 @@ class FilterModal extends Component {
     const {filters, trigger, getOptions, handleFilterChange, handleResetFilterButtonClick} = this.props
 
     const filterTypes = [
-      {title: 'Город', key: 'provider.city.name'},
+      {title: 'Город', key: 'city.name'},
       {title: 'Категория', key: 'category.title'},
       {title: 'Подкатегория', key: 'subcategory.title'},
-      {title: 'Тип деятельности', key: 'provider.actionType'},
+      {title: 'Тип деятельности', key: 'actionType'},
       {title: 'Поставляемое количество', key: 'deliveryType'},
     ]
 

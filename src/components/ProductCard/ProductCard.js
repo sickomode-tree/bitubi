@@ -40,7 +40,7 @@ export default class ProductCard extends Component {
           >
             <Card.Content>
               <Card.Header>
-                {product.provider.name}
+                {product.providerName}
                 {product.favourite &&
                 <i className='right floated bookmark icon red'></i>
                 }
@@ -48,7 +48,7 @@ export default class ProductCard extends Component {
                 <i className='right floated eye icon'></i>
                 }
               </Card.Header>
-              <Card.Meta>{product.provider.city.name}</Card.Meta>
+              <Card.Meta>{product.city.name}</Card.Meta>
               <Card.Description>
                 {product.description}
               </Card.Description>
@@ -56,7 +56,7 @@ export default class ProductCard extends Component {
           </Card>
         }
       >
-        <Modal.Header>{product.provider.name}</Modal.Header>
+        <Modal.Header>{product.providerName}</Modal.Header>
         <Modal.Content image>
           <Image wrapped size='medium' src='http://react.semantic-ui.com/images/avatar/large/daniel.jpg'/>
           <Modal.Description style={{width: '100%'}}>
@@ -66,15 +66,15 @@ export default class ProductCard extends Component {
 
             <IconList
               data={[
-                {icon: 'handshake', header: 'Тип деятельности', description: product.provider.actionType},
+                {icon: 'handshake', header: 'Тип деятельности', description: product.actionType},
                 {icon: 'box', header: 'Тип поставки', description: product.deliveryType},
                 {
                   icon: 'map marker alternate', header: 'Адрес', description:
-                    `г. ${product.provider.city.name}, ${product.provider.district ? product.provider.district.name + ' р-н,' : '' } ${product.provider.address}`
+                    `г. ${product.city.name}, ${product.district ? product.district.name + ' р-н,' : '' } ${product.address}`
                 },
-                {icon: 'phone', header: 'Телефон', description: product.provider.phoneNumber},
-                {icon: 'world', header: 'Сайт', description: product.provider.url},
-                {icon: 'mail', header: 'Email', description: product.provider.email},
+                {icon: 'phone', header: 'Телефон', description: product.phoneNumber},
+                {icon: 'world', header: 'Сайт', description: product.url},
+                {icon: 'mail', header: 'Email', description: product.email},
                 {icon: 'info circle', header: 'Описание', description: product.description},
               ]}
             />
