@@ -2,7 +2,7 @@ import React, {Component} from 'react'
 import PropTypes from 'prop-types'
 import _ from 'lodash'
 import {Button, Card, Icon, Image, Modal} from 'semantic-ui-react'
-import {isCustomer} from 'utils/auth'
+import {isCustomer, isModerator} from 'utils/auth'
 import IconList from 'components/IconList/IconList'
 import Tag from 'components/Tag/Tag'
 
@@ -91,7 +91,7 @@ export default class ProductCard extends Component {
           </Modal.Actions>
         }
         {
-          isCustomer &&
+          isModerator &&
           <Modal.Actions>
             <Button
               basic={!verifying} icon={!verifying ? 'play' : 'pause'}

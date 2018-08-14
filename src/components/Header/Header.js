@@ -6,6 +6,7 @@ import Search from './components/Search/Search'
 import SignInModal from './components/SignInModal/SignInModal'
 import SignUpModal from './components/SignUpModal/SignUpModal'
 import {changeSearchTerm} from 'store/filter'
+import {isCustomer, isProvider, isModerator} from 'utils/auth'
 
 export default class Header extends Component {
   static propTypes = {
@@ -40,11 +41,27 @@ export default class Header extends Component {
           {
             isAuthorized &&
             <Menu.Menu position='left'>
-              <IndexLink to='/' className='item' activeClassName='active' onClick={resetFilter}>Главная</IndexLink>
-              <Link to='/account/tenders' className='item' activeClassName='active' onClick={resetFilter}>Тендеры</Link>
-              <Link to='/account/favourites' className='item' activeClassName='active' onClick={resetFilter}>Закладки</Link>
-              <Link to='/account/history' className='item' activeClassName='active' onClick={resetFilter}>История</Link>
-              <Link to='/account/monitor' className='item' activeClassName='active' onClick={resetFilter}>Монитор</Link>
+              {
+                (isProvider || isCustomer) &&
+                <IndexLink to='/' className='item' activeClassName='active' onClick={resetFilter}>Главная</IndexLink>
+              }
+              {
+                (isProvider || isCustomer) &&
+                <Link to='/account/tenders' className='item' activeClassName='active' onClick={resetFilter}>Тендеры</Link>
+              }
+              {
+                (isProvider || isCustomer) &&
+                <Link to='/account/favourites' className='item' activeClassName='active' onClick={resetFilter}>Закладки</Link>
+              }
+              {
+                (isProvider || isCustomer) &&
+                <Link to='/account/history' className='item' activeClassName='active'
+                      onClick={resetFilter}>История</Link>
+              }
+              {
+                isModerator &&
+                <Link to='/account/monitor' className='item' activeClassName='active'  onClick={resetFilter}>Монитор</Link>
+              }
             </Menu.Menu>
           }
           <Menu.Item style={{flex: 1}}>

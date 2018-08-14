@@ -88,7 +88,7 @@ export function fetchProducts() {
 
 export function verifyingProduct(id, verifying) {
   const formData = new FormData()
-  const url = '/test/private/user/products/verifying'
+  const url = '/test/private/verifying'
   let token = null
 
   formData.append('id', id)
@@ -124,7 +124,7 @@ export function verifyingProduct(id, verifying) {
 
 export function verifiedProduct(id, verified) {
   const formData = new FormData()
-  const url = '/test/private/user/products/verified'
+  const url = '/test/private/verify'
   let token = null
 
   formData.append('id', id)

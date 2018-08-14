@@ -22,17 +22,25 @@ export default class Monitor extends Component {
   }
 
   render() {
-    const {products, isLoading} = this.props
+    const {products, verifiedProduct, verifyingProduct, fetchProducts, isLoading} = this.props
 
     if (!isLoading) {
       if (!_.isEmpty(products)) {
         return (
-            <CardGrid
-              cards={products}
-              getCardComponent={this.getCardComponent.bind(this)}
-              groupKey='favourite'
-              groupCount={2}
-            />
+            <Card.Group>
+              {
+                products.map((product, index) => (
+                  <ProductCard
+                    key={product.id + '_' + index}
+                    product={product}
+                    style={{height: 150}}
+                    verifyingProduct={verifyingProduct}
+                    verifiedProduct={verifiedProduct}
+                    onClose={fetchProducts}
+                  />
+                ))
+              }
+            </Card.Group>
         )
       }
 
