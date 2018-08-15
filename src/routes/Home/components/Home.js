@@ -6,6 +6,7 @@ import CardGrid from 'components/CardGrid/CardGrid'
 import ProductCard from 'components/ProductCard/ProductCard'
 import EmptyText from 'components/EmptyText/EmptyText'
 import {getObjectValue} from 'utils/array'
+import {isModerator} from 'utils/auth'
 
 export default class Home extends Component {
   static propTypes = {
@@ -23,19 +24,38 @@ export default class Home extends Component {
   }
 
   render() {
-    const {products, isLoading, filter} = this.props
+    const {products, isLoading, filter, fetchProducts, verifyingProduct, verifiedProduct} = this.props
     const cards = this.getCards.call(this, products)
     const groupKey = _.isEmpty(filter.filters) && _.isEmpty(filter.searchTerm) ? 'category.title' : 'subcategory.title'
 
     if (!isLoading) {
       if (!_.isEmpty(cards)) {
-        return (
-          <CardGrid
-            cards={cards}
-            getCardComponent={this.getCardComponent.bind(this)}
-            groupKey={groupKey}
-          />
-        )
+        if (isModerator) {
+          return (
+            <Card.Group>
+              {
+                products.map((product, index) => (
+                  <ProductCard
+                    key={product.id + '_' + index}
+                    product={product}
+                    style={{height: 150}}
+                    verifyingProduct={verifyingProduct}
+                    verifiedProduct={verifiedProduct}
+                    onClose={fetchProducts}
+                  />
+                ))
+              }
+            </Card.Group>
+          )
+        } else {
+          return (
+            <CardGrid
+              cards={cards}
+              getCardComponent={this.getCardComponent.bind(this)}
+              groupKey={groupKey}
+            />
+          )
+        }
       }
 
       return (
@@ -99,7 +119,7 @@ export default class Home extends Component {
   getCards(products) {
     const {filter} = this.props;
 
-    if (_.isEmpty(filter.filters) && _.isEmpty(filter.searchTerm)) {
+    if (_.isEmpty(filter.filters) && _.isEmpty(filter.searchTerm) && !isModerator) {
       return this.getSubcategoryCards.call(this, products)
     } else {
       return this.getProductCards.call(this, products)
@@ -107,7 +127,7 @@ export default class Home extends Component {
   }
 
   getCardComponent(card) {
-    const {filter, saveToFavourites, saveToHistory, changeFilterValue} = this.props
+    const {filter, saveToFavourites, saveToHistory, changeFilterValue, verifyingProduct, verifiedProduct} = this.props
 
     if (_.isEmpty(filter.filters) && _.isEmpty(filter.searchTerm)) {
       return (
@@ -129,6 +149,8 @@ export default class Home extends Component {
         style={{flex: '0 0 25%'}}
         saveToFavourites={saveToFavourites}
         saveToHistory={saveToHistory}
+        verifyingProduct={verifyingProduct}
+        verifiedProduct={verifiedProduct}
       />
     )
   }

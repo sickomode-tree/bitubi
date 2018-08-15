@@ -1,4 +1,4 @@
-import {checkAuthorized, getToken} from 'utils/auth'
+import {checkAuthorized, getToken, isModerator} from 'utils/auth'
 
 // ------------------------------------
 // Constants
@@ -66,19 +66,23 @@ export function fetchProducts() {
       .then(json => {
         let cards = []
 
-        json.forEach(product => {
-          product.categories.forEach(categoryConfig => {
-            let category = categoryConfig.parent
+        if (!isModerator) {
+          json.forEach(product => {
+            product.categories.forEach(categoryConfig => {
+              let category = categoryConfig.parent
 
-            categoryConfig.children.forEach(subcategory => {
-              let card = _.clone(product, true)
-              card.category = category
-              card.subcategory = subcategory
-              // delete card.categories
-              cards.push(card)
+              categoryConfig.children.forEach(subcategory => {
+                let card = _.clone(product, true)
+                card.category = category
+                card.subcategory = subcategory
+                // delete card.categories
+                cards.push(card)
+              })
             })
           })
-        })
+        } else {
+          cards = json
+        }
 
         return dispatch(onFetchProductsSuccess(cards))
       })

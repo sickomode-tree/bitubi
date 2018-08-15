@@ -48,6 +48,7 @@ export function fetchTenders() {
   const urlByUserTypeMap = {
     customer: '/test/private/user/tenders',
     provider: '/test/private/tenders',
+    moderator: '/test/private/tenders',
   }
   const userType = getUserType()
   const url = urlByUserTypeMap[userType]

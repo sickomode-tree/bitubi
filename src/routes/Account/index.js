@@ -4,7 +4,6 @@ import FavouritesRoute from './routes/Favourites/index'
 import HistoryRoute from './routes/History/index'
 import ProfileRoute from './routes/Profile/index'
 import TendersRoute from './routes/Tenders/index'
-import MonitorRoute from './routes/Monitor/index'
 
 export default (store) => ({
   path: 'account',
@@ -14,6 +13,5 @@ export default (store) => ({
     HistoryRoute(store),
     FavouritesRoute(store),
     TendersRoute(store),
-    MonitorRoute(store),
   ],
 })

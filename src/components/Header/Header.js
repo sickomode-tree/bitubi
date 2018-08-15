@@ -41,14 +41,8 @@ export default class Header extends Component {
           {
             isAuthorized &&
             <Menu.Menu position='left'>
-              {
-                (isProvider || isCustomer) &&
-                <IndexLink to='/' className='item' activeClassName='active' onClick={resetFilter}>Главная</IndexLink>
-              }
-              {
-                (isProvider || isCustomer) &&
-                <Link to='/account/tenders' className='item' activeClassName='active' onClick={resetFilter}>Тендеры</Link>
-              }
+              <IndexLink to='/' className='item' activeClassName='active' onClick={resetFilter}>Главная</IndexLink>
+              <Link to='/account/tenders' className='item' activeClassName='active' onClick={resetFilter}>Тендеры</Link>
               {
                 (isProvider || isCustomer) &&
                 <Link to='/account/favourites' className='item' activeClassName='active' onClick={resetFilter}>Закладки</Link>
@@ -58,25 +52,24 @@ export default class Header extends Component {
                 <Link to='/account/history' className='item' activeClassName='active'
                       onClick={resetFilter}>История</Link>
               }
-              {
-                isModerator &&
-                <Link to='/account/monitor' className='item' activeClassName='active'  onClick={resetFilter}>Монитор</Link>
-              }
             </Menu.Menu>
           }
-          <Menu.Item style={{flex: 1}}>
-            <Search
-              cards={cards}
-              filters={filters}
-              isAuthorized={isAuthorized}
-              searchTerm={searchTerm}
-              changeFilterValue={changeFilterValue}
-              changeSearchTerm={changeSearchTerm}
-              fetchProducts={fetchProducts}
-              handleSignIn={this.handleSignIn.bind(this)}
-              resetFilter={resetFilter}
-            />
-          </Menu.Item>
+          {
+            !isModerator &&
+            <Menu.Item style={{flex: 1}}>
+              <Search
+                cards={cards}
+                filters={filters}
+                isAuthorized={isAuthorized}
+                searchTerm={searchTerm}
+                changeFilterValue={changeFilterValue}
+                changeSearchTerm={changeSearchTerm}
+                fetchProducts={fetchProducts}
+                handleSignIn={this.handleSignIn.bind(this)}
+                resetFilter={resetFilter}
+              />
+            </Menu.Item>
+          }
           <Menu.Menu position='right'>
             {
               isAuthorized &&
@@ -84,7 +77,7 @@ export default class Header extends Component {
                 <Image src='https://react.semantic-ui.com/images/avatar/large/matthew.png' avatar/>
               }>
                 <Dropdown.Menu>
-                  <Link to='/account/profile' className='item' activeClassName='active'>Личный кабинет</Link>
+                  {!isModerator && <Link to='/account/profile' className='item' activeClassName='active'>Личный кабинет</Link>}
                   <a className='item' onClick={this.handleSignOut.bind(this)}>Выйти</a>
                 </Dropdown.Menu>
               </Dropdown>
