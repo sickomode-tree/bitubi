@@ -210,9 +210,9 @@ class ProfileEditModal extends Component {
 
   handleSubmit(event) {
     const {onSubmit} = this.props
-    const form = event.target;
+    const form = event.target
 
-    onSubmit(form);
+    onSubmit(form)
   }
 }
 

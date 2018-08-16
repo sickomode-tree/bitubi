@@ -124,7 +124,7 @@ export function deleteTender(id) {
   return (dispatch) => {
     dispatch(onDeleteTenderRequest(true))
 
-    fetch(url, {
+    return fetch(url, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/x-www-form-urlencoded',
@@ -143,7 +143,10 @@ export function deleteTender(id) {
       })
       .then(response => response.json())
       .then(json => dispatch(onDeleteTenderSuccess()))
-      .catch(error => dispatch(onDeleteTenderFailure(true)))
+      .catch(error => {
+        console.error(error)
+        dispatch(onDeleteTenderFailure(true))
+      })
   };
 }
 
@@ -156,7 +159,7 @@ export function toggleTender(id) {
   return (dispatch) => {
     dispatch(onToggleTenderRequest(true))
 
-    fetch(url, {
+    return fetch(url, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/x-www-form-urlencoded',

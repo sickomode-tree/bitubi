@@ -13,6 +13,7 @@ export default class TenderCard extends Component {
     style: PropTypes.object,
     saveToHistory: PropTypes.func,
     saveToFavourites: PropTypes.func,
+    onClose: PropTypes.func,
   }
 
   state = {
@@ -93,7 +94,7 @@ export default class TenderCard extends Component {
   }
 
   toggleFavouriteState() {
-    const {tender, saveToFavourites} = this.props
+    const {tender, saveToFavourites, fetchTenders} = this.props
     const {favourite} = this.state
 
     this.setState({favourite: !favourite})

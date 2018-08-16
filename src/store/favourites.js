@@ -64,7 +64,7 @@ export function saveToFavourites(id) {
 
     token = getState().auth.token
 
-    fetch(url, {
+    return fetch(url, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/x-www-form-urlencoded',
@@ -81,7 +81,10 @@ export function saveToFavourites(id) {
       })
       .then(response => response.json())
       .then(json => dispatch(onSaveToFavouritesSuccess()))
-      .catch(error => dispatch(onSaveToFavouritesFailure(true)))
+      .catch(error => {
+        console.error(error)
+        dispatch(onSaveToFavouritesFailure(true))
+      })
   };
 }
 

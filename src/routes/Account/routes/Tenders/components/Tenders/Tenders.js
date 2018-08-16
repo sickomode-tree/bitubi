@@ -200,7 +200,7 @@ export default class Tenders extends Component {
     event.stopPropagation()
 
     deleteTender(id)
-    fetchTenders()
+      .then(() => fetchTenders())
   }
 
   handleToggleTender(id, event) {
@@ -210,7 +210,7 @@ export default class Tenders extends Component {
     event.stopPropagation()
 
     toggleTender(id)
-    fetchTenders()
+      .then(() => fetchTenders())
   }
 
   handleEditTender(id, event) {
@@ -275,7 +275,7 @@ export default class Tenders extends Component {
   }
 
   getCardComponent(tender) {
-    const {filter, saveToFavourites, saveToHistory, changeFilterValue} = this.props
+    const {filter, fetchTenders, saveToFavourites, saveToHistory, changeFilterValue} = this.props
 
     if (_.isEmpty(filter.filters) && _.isEmpty(filter.searchTerm)) {
       return (
@@ -297,6 +297,7 @@ export default class Tenders extends Component {
         style={{flex: '0 0 25%'}}
         saveToFavourites={saveToFavourites}
         saveToHistory={saveToHistory}
+        onClose={fetchTenders}
       />
     )
   }
