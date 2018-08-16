@@ -108,7 +108,10 @@ export function saveTender(form) {
       })
       .then(response => response.json())
       .then(json => dispatch(onSaveTenderSuccess()))
-      .catch(error => dispatch(onSaveTenderFailure(true)))
+      .catch(error => {
+        console.error(error)
+        return dispatch(onSaveTenderFailure(true))
+      })
   };
 }
 

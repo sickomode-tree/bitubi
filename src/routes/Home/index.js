@@ -1,3 +1,5 @@
+import {Authorization} from 'components/Authorization/Authorization'
+import {customerUserType, providerUserType, guestUserType, moderatorUserType} from 'utils/auth'
 import {injectReducer} from 'store/reducers'
 
 export default (store) => ({
@@ -16,7 +18,7 @@ export default (store) => ({
       // injectReducer(store, { key: 'home', homeReducer })
 
       /*  Return getComponent   */
-      cb(null, Home)
+      cb(null, Authorization(Home, [customerUserType, providerUserType, moderatorUserType, guestUserType]))
 
       /* Webpack named bundle   */
     }, 'home')

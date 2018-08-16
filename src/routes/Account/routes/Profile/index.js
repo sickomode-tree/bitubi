@@ -1,9 +1,11 @@
-import { injectReducer } from 'store/reducers'
+import {Authorization} from 'components/Authorization/Authorization'
+import {customerUserType, providerUserType} from 'utils/auth'
+import {injectReducer} from 'store/reducers'
 
 export default (store) => ({
-  path : 'profile',
+  path: 'profile',
   /*  Async getComponent is only invoked when route matches   */
-  getComponent (nextState, cb) {
+  getComponent(nextState, cb) {
     /*  Webpack - use 'require.ensure' to create a split point
         and embed an async module loader (jsonp) when bundling   */
     require.ensure([], (require) => {
@@ -13,12 +15,12 @@ export default (store) => ({
       const reducer = require('./modules/profile').default
 
       /*  Add the reducer to the store on key 'counter'  */
-      injectReducer(store, { key: 'profile', reducer })
+      injectReducer(store, {key: 'profile', reducer})
 
       /*  Return getComponent   */
-      cb(null, Profile)
+      cb(null, Authorization(Profile, [customerUserType, providerUserType]))
 
-    /* Webpack named bundle   */
+      /* Webpack named bundle   */
     }, 'profile')
   }
 })

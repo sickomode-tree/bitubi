@@ -1,4 +1,6 @@
 import {injectReducer} from 'store/reducers'
+import {Authorization} from 'components/Authorization/Authorization'
+import {customerUserType, providerUserType} from 'utils/auth'
 
 export default (store) => ({
   path: 'favourites',
@@ -9,14 +11,14 @@ export default (store) => ({
     require.ensure([], (require) => {
       /*  Webpack - use require callback to define
           dependencies for bundling   */
-      const Profile = require('./containers/FavouritesContainer').default
+      const Favourites = require('./containers/FavouritesContainer').default
       const reducer = require('store/favourites').default
 
       /*  Add the reducer to the store on key 'counter'  */
       injectReducer(store, {key: 'favourites', reducer})
 
       /*  Return getComponent   */
-      cb(null, Profile)
+      cb(null, Authorization(Favourites, [customerUserType, providerUserType]))
 
       /* Webpack named bundle   */
     }, 'favourites')

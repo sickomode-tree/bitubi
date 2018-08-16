@@ -1,3 +1,5 @@
+import {Authorization} from 'components/Authorization/Authorization'
+import {customerUserType, providerUserType} from 'utils/auth'
 import {injectReducer} from 'store/reducers'
 
 export default (store) => ({
@@ -9,14 +11,14 @@ export default (store) => ({
     require.ensure([], (require) => {
       /*  Webpack - use require callback to define
           dependencies for bundling   */
-      const Profile = require('./containers/HistoryContainer').default
+      const History = require('./containers/HistoryContainer').default
       const reducer = require('store/history').default
 
       /*  Add the reducer to the store on key 'counter'  */
       injectReducer(store, {key: 'history', reducer})
 
       /*  Return getComponent   */
-      cb(null, Profile)
+      cb(null, Authorization(History, [customerUserType, providerUserType]))
 
       /* Webpack named bundle   */
     }, 'history')
