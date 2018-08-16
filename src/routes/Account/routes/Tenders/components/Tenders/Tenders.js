@@ -29,8 +29,9 @@ export default class Tenders extends Component {
   }
 
   componentDidMount() {
+    this.props.fetchCategories()
+    this.props.fetchCities()
     this.props.fetchTenders()
-    this.props.resetFilter()
   }
 
   render() {
@@ -108,6 +109,7 @@ export default class Tenders extends Component {
                                 onClick={this.handleDeleteTender.bind(this, card.id)}
                               />
                               {
+                                // TODO: исправить ошибку
                                 !card.disabled &&
                                 <TenderEditModal
                                   tender={card}

@@ -40,7 +40,10 @@ export function fetchCategories() {
       })
       .then(response => response.json())
       .then(json => dispatch(onFetchCategoriesSuccess(json)))
-      .catch(error => dispatch(onFetchCategoriesFailure(true)))
+      .catch(error => {
+        console.error(error)
+        return dispatch(onFetchCategoriesFailure(true))
+      })
   };
 }
 

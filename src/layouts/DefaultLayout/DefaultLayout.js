@@ -64,7 +64,7 @@ class DefaultLayout extends Component {
           signOut={signOut}
         />
         <Container style={{display: 'flex', height: '100%'}}>
-          <Dimmer active={isLoading && !isErrored} inverted>
+          <Dimmer active={isLoading} inverted>
             <Loader>Загрузка...</Loader>
           </Dimmer>
           <section
@@ -91,7 +91,6 @@ const mapStateToProps = (state) => {
     isAuthorized: state.auth.isAuthorized,
     searchTerm: state.filter.searchTerm,
     isLoading: getLoadingState(state),
-    isErrored: state.products.isErrored,
   }
 };
 

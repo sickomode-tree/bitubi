@@ -75,7 +75,10 @@ export function fetchTenders() {
       })
       .then(response => response.json())
       .then(json => dispatch(onFetchTendersSuccess(json)))
-      .catch(error => dispatch(onFetchTendersFailure(true)))
+      .catch(error => {
+        console.error(error)
+        return dispatch(onFetchTendersFailure(true))
+      })
   };
 }
 

@@ -43,7 +43,10 @@ export function fetchCities() {
       })
       .then(response => response.json())
       .then(json => dispatch(onFetchCitiesSuccess(json)))
-      .catch(error => dispatch(onFetchCitiesFailure(true)))
+      .catch(error => {
+        console.error(error)
+        return dispatch(onFetchCitiesFailure(true))
+      })
   };
 }
 

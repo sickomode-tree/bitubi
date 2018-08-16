@@ -44,7 +44,8 @@ class TenderEditModal extends Component {
     const districtValue = state.district || (tender ? tender.district.id : null)
     const categoryOptions = categories.map(category => ({value: category.id, text: category.title}))
     const categoryValue = state.category || (tender ? tender.category.id : null)
-    const subcategories = categoryValue ? categories.find(category => category.id === categoryValue).children : []
+    const category = categories.find(category => category.id === categoryValue)
+    const subcategories = (categoryValue && category) ? category.children : []
     const subcategoryOptions = subcategories.map(subcategory => ({value: subcategory.id, text: subcategory.title}))
     const subcategoryValue = state.subcategory || (tender ? tender.subcategory.id : null)
     const commentValue = state.comment || (tender ? tender.comment : null)
