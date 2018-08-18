@@ -79,7 +79,7 @@ export function fetchTenders() {
         console.error(error)
         return dispatch(onFetchTendersFailure(true))
       })
-  };
+  }
 }
 
 export function saveTender(form) {

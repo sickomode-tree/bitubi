@@ -1,11 +1,11 @@
 import {combineReducers} from 'redux'
+import {reducer as notificationsReducer} from 'react-notification-system-redux';
 import authReducer from './auth'
 import categoriesReducer from './categories'
 import citiesReducer from './cities'
 import filterReducer from './filter'
 import locationReducer from './location'
 import productsReducer from './products'
-import notificationsReducer from './notifications'
 
 export const makeRootReducer = (asyncReducers) => {
   return combineReducers({

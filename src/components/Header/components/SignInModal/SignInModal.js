@@ -22,7 +22,7 @@ class SignInModal extends Component {
         trigger={trigger || <a className='item'>Войти</a>}
         size='tiny'
         dimmer='blurring'
-
+        mountNode={document.getElementById('root')}
       >
         <Modal.Header>Войти в систему</Modal.Header>
         <Modal.Content>

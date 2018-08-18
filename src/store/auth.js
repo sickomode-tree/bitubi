@@ -1,6 +1,6 @@
 import {browserHistory} from 'react-router'
 import _ from 'lodash'
-import {onShowNotification, showNotification} from './notifications'
+import Notifications from 'react-notification-system-redux';
 
 // ------------------------------------
 // Constants
@@ -35,12 +35,7 @@ export const onSignUpSuccess = json => {
     };
   }
 }
-export const onSignUpFailure = bool => {
-  return {
-    type: SIGN_UP_FAILURE,
-    isErrored: bool,
-  }
-}
+export const onSignUpFailure = bool => ({type: SIGN_UP_FAILURE, isErrored: bool})
 
 export const onSignInRequest = bool => ({type: SIGN_IN_REQUEST, isLoading: bool})
 export const onSignInSuccess = json => {
@@ -54,16 +49,10 @@ export const onSignInSuccess = json => {
       type: SIGN_IN_SUCCESS,
       token: token,
       userType: userType,
-    };
+    }
   }
 }
-
-export const onSignInFailure = bool => {
-  return {
-    type: SIGN_IN_FAILURE,
-    isErrored: bool,
-  }
-}
+export const onSignInFailure = bool => ({type: SIGN_IN_FAILURE, isErrored: bool})
 
 export const onSignOut = () => ({type: SIGN_OUT})
 
@@ -75,7 +64,7 @@ export function sendSingInRequest(form) {
   const formData = new FormData(form);
   const url = '/test/auth/signin';
 
-  return (dispatch) => {
+  return (dispatch, getState) => {
     dispatch(onSignInRequest(true));
 
     fetch(url, {
@@ -97,8 +86,13 @@ export function sendSingInRequest(form) {
       .then(response => response.json())
       .then(json => dispatch(onSignInSuccess(json)))
       .catch(error => {
+        dispatch(Notifications.error({
+          title: 'Не удалось войти в систему',
+          message: 'Пожалуйста, попробуйте еще раз.',
+          position: 'bl',
+        }));
+        console.error(error)
         dispatch(onSignInFailure(true))
-        showNotification({text: '123'})
       })
   };
 }
@@ -119,7 +113,12 @@ export function sendSingUpRequest(form) {
     })
       .then(response => {
         if (!response.ok) {
-          throw Error(response.statusText);
+          dispatch(Notifications.error({
+            title: 'Не удалось зарегистрироваться',
+            message: 'Пожалуйста, попробуйте еще раз.',
+            position: 'bl',
+          }))
+          throw Error(response.statusText)
         }
 
         dispatch(onSignUpRequest(false));
@@ -128,7 +127,15 @@ export function sendSingUpRequest(form) {
       })
       .then(response => response.json())
       .then(json => dispatch(onSignUpSuccess(json)))
-      .catch(error => dispatch(onSignUpFailure(true)))
+      .catch(error => {
+        dispatch(Notifications.error({
+          title: 'Не удалось зарегистрироваться',
+          message: 'Пожалуйста, попробуйте еще раз.',
+          position: 'bl',
+        }))
+        console.error(error)
+        dispatch(onSignUpFailure(true))
+      })
   };
 }
 

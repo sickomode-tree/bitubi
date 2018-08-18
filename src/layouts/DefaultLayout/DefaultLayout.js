@@ -1,9 +1,9 @@
 import React, {Component} from 'react'
 import {connect} from 'react-redux'
 import PropTypes from 'prop-types'
+import Notifications from 'react-notification-system-redux';
 import Header from 'components/Header/Header'
-import Notification from 'components/Notification/Notification'
-import {Container, Dimmer, Loader} from 'semantic-ui-react'
+import {Container, Dimmer, Loader, Portal} from 'semantic-ui-react'
 import {fetchCities} from 'store/cities'
 import {fetchCategories} from 'store/categories'
 import {sendSingInRequest, sendSingUpRequest, signOut} from 'store/auth'
@@ -64,17 +64,15 @@ class DefaultLayout extends Component {
           signOut={signOut}
         />
         <Container style={{display: 'flex', height: '100%'}}>
+          {children}
           <Dimmer active={isLoading} inverted>
             <Loader>Загрузка...</Loader>
           </Dimmer>
-          <section
-            style={{position: 'fixed', zIndex: 1, bottom: 20, left: 20, width: 300}}
-          >
-            {notifications.map(notification => (
-              <Notification {...notification}/>
-            ))}
-          </section>
-          {children}
+          <Portal open>
+            <Notifications
+              notifications={notifications}
+            />
+          </Portal>
         </Container>
       </div>
     )
@@ -87,7 +85,7 @@ const mapStateToProps = (state) => {
     categories: state.categories.categories,
     cities: state.cities.cities,
     filters: state.filter.filters,
-    notifications: state.notifications.items,
+    notifications: state.notifications,
     isAuthorized: state.auth.isAuthorized,
     searchTerm: state.filter.searchTerm,
     isLoading: getLoadingState(state),
