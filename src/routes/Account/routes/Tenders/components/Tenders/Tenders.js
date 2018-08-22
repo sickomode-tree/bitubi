@@ -9,7 +9,8 @@ import TenderViewModal from './components/TenderViewModal/TenderViewModal'
 import IconList from 'components/IconList/IconList'
 import CardGrid from 'components/CardGrid/CardGrid'
 import TenderCard from 'components/TenderCard/TenderCard'
-import {isProvider, isCustomer} from 'utils/auth'
+import {isProvider, isCustomer, isModerator} from 'utils/auth'
+import {verifyingTender} from "../../modules/tenders";
 
 export default class Tenders extends Component {
   static propTypes = {
@@ -24,6 +25,8 @@ export default class Tenders extends Component {
     saveToHistory: PropTypes.func.isRequired,
     deleteTender: PropTypes.func.isRequired,
     toggleTender: PropTypes.func.isRequired,
+    verifyingTender: PropTypes.func,
+    verifiedTender: PropTypes.func,
     changeFilterValue: PropTypes.func.isRequired,
     resetFilter: PropTypes.func.isRequired,
   }
@@ -39,6 +42,7 @@ export default class Tenders extends Component {
       cities, categories, items, filter,
       fetchTenders, fetchCities, fetchCategories,
       saveTender, saveToFavourites, saveToHistory,
+      verifyingTender, verifiedTender,
     } = this.props
     const cards = this.getCards.call(this, items)
     const groupKey = _.isEmpty(filter.filters) && _.isEmpty(filter.searchTerm) ? 'category.title' : 'subcategory.title'
@@ -86,7 +90,12 @@ export default class Tenders extends Component {
                         className={card.disabled ? 'disabled' : null}
                       >
                         <Card.Content>
-                          <Card.Header>{card.title}</Card.Header>
+                          <Card.Header>
+                            {card.title}
+                            {card.verified === false &&
+                            <i className='right floated ban icon red'></i>
+                            }
+                          </Card.Header>
                         </Card.Content>
                         <Card.Content>
                           <IconList data={[
@@ -166,6 +175,23 @@ export default class Tenders extends Component {
             getCardComponent={this.getCardComponent.bind(this)}
             groupKey={groupKey}
           />
+        )
+      } else if (isModerator) {
+        return (
+          <Card.Group>
+            {
+              cards.map((card, index) => (
+                <TenderCard
+                  key={index}
+                  tender={card}
+                  style={{height: 150}}
+                  verifyingTender={verifyingTender}
+                  verifiedTender={verifiedTender}
+                  onClose={fetchTenders}
+                />
+              ))
+            }
+          </Card.Group>
         )
       }
     }
@@ -267,7 +293,7 @@ export default class Tenders extends Component {
   getCards(items) {
     const {filter} = this.props;
 
-    if (_.isEmpty(filter.filters) && _.isEmpty(filter.searchTerm)) {
+    if (_.isEmpty(filter.filters) && _.isEmpty(filter.searchTerm) && !isModerator) {
       return this.getSubcategoryCards.call(this, items)
     } else {
       return this.getTenderCards.call(this, items)

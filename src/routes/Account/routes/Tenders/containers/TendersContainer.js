@@ -1,5 +1,5 @@
 import {connect} from 'react-redux'
-import {fetchTenders, saveTender, deleteTender, toggleTender} from '../modules/tenders'
+import {fetchTenders, saveTender, deleteTender, toggleTender, verifyingTender, verifiedTender} from '../modules/tenders'
 import {changeFilterValue, resetFilter} from 'store/filter'
 import {saveToHistory} from 'store/history'
 import {saveToFavourites} from 'store/favourites'
@@ -26,6 +26,8 @@ const mapDispatchToProps = {
   saveToHistory,
   deleteTender,
   toggleTender,
+  verifyingTender,
+  verifiedTender,
   changeFilterValue,
   resetFilter,
 }

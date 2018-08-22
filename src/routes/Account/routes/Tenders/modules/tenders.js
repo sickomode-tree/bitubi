@@ -1,4 +1,16 @@
 import {getToken, getUserType} from 'utils/auth'
+import {
+  onVerifiedProductFailure,
+  onVerifiedProductRequest,
+  onVerifiedProductSuccess,
+  onVerifyingProductFailure,
+  onVerifyingProductRequest,
+  onVerifyingProductSuccess,
+  VERIFIED_PRODUCT_FAILURE,
+  VERIFIED_PRODUCT_REQUEST, VERIFIED_PRODUCT_SUCCESS,
+  verifiedProduct, VERIFYING_PRODUCT_FAILURE, VERIFYING_PRODUCT_REQUEST, VERIFYING_PRODUCT_SUCCESS,
+  verifyingProduct
+} from "../../../../../store/products";
 
 // ------------------------------------
 // Constants
@@ -20,6 +32,14 @@ export const TOGGLE_TENDER_REQUEST = 'TOGGLE_TENDER_REQUEST'
 export const TOGGLE_TENDER_SUCCESS = 'TOGGLE_TENDER_SUCCESS'
 export const TOGGLE_TENDER_FAILURE = 'TOGGLE_TENDER_FAILURE'
 
+export const VERIFYING_TENDER_REQUEST = 'VERIFYING_TENDER_REQUEST'
+export const VERIFYING_TENDER_SUCCESS = 'VERIFYING_TENDER_SUCCESS'
+export const VERIFYING_TENDER_FAILURE = 'VERIFYING_TENDER_FAILURE'
+
+export const VERIFIED_TENDER_REQUEST = 'VERIFIED_TENDER_REQUEST'
+export const VERIFIED_TENDER_SUCCESS = 'VERIFIED_TENDER_SUCCESS'
+export const VERIFIED_TENDER_FAILURE = 'VERIFIED_TENDER_FAILURE'
+
 // ------------------------------------
 // Actions
 // ------------------------------------
@@ -40,6 +60,13 @@ export const onToggleTenderRequest = bool => ({type: TOGGLE_TENDER_REQUEST, isTo
 export const onToggleTenderSuccess = ()   => ({type: TOGGLE_TENDER_SUCCESS})
 export const onToggleTenderFailure = ()   => ({type: TOGGLE_TENDER_FAILURE, isErrored: bool})
 
+export const onVerifyingTenderRequest = bool => ({type: VERIFYING_TENDER_REQUEST, isVerifying: bool})
+export const onVerifyingTenderSuccess = ()   => ({type: VERIFYING_TENDER_SUCCESS})
+export const onVerifyingTenderFailure = bool => ({type: VERIFYING_TENDER_FAILURE, isErrored: bool})
+
+export const onVerifiedTenderRequest = bool => ({type: VERIFIED_TENDER_REQUEST, isVerified: bool})
+export const onVerifiedTenderSuccess = ()   => ({type: VERIFIED_TENDER_SUCCESS})
+export const onVerifiedTenderFailure = bool => ({type: VERIFIED_TENDER_FAILURE, isErrored: bool})
 // ------------------------------------
 // Thunks
 // ------------------------------------
@@ -182,11 +209,85 @@ export function toggleTender(id) {
   };
 }
 
+export function verifyingTender(id, verifying) {
+  const formData = new FormData()
+  const url = '/test/private/verifying'
+  let token = null
+
+  formData.append('id', id)
+  formData.append('verifying', verifying)
+
+  return (dispatch, getState) => {
+    dispatch(onVerifyingTenderRequest(true))
+
+    token = getState().auth.token
+
+    fetch(url, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/x-www-form-urlencoded',
+        'Authorization': `Bearer ${token}`
+      },
+      body: new URLSearchParams(formData),
+    })
+      .then(response => {
+        if (!response.ok) {
+          throw Error(response.statusText)
+        }
+
+        dispatch(onVerifyingTenderRequest(false))
+
+        return response
+      })
+      .then(response => response.json())
+      .then(json => dispatch(onVerifyingTenderSuccess()))
+      .catch(error => dispatch(onVerifyingTenderFailure(true)))
+  };
+}
+
+export function verifiedTender(id, verified) {
+  const formData = new FormData()
+  const url = '/test/private/verify'
+  let token = null
+
+  formData.append('id', id)
+  formData.append('verified', verified)
+
+  return (dispatch, getState) => {
+    dispatch(onVerifiedTenderRequest(true))
+
+    token = getState().auth.token
+
+    fetch(url, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/x-www-form-urlencoded',
+        'Authorization': `Bearer ${token}`
+      },
+      body: new URLSearchParams(formData),
+    })
+      .then(response => {
+        if (!response.ok) {
+          throw Error(response.statusText)
+        }
+
+        dispatch(onVerifiedTenderRequest(false))
+
+        return response
+      })
+      .then(response => response.json())
+      .then(json => dispatch(onVerifiedTenderSuccess()))
+      .catch(error => dispatch(onVerifiedTenderFailure(true)))
+  };
+}
+
 export const actions = {
   fetchTenders,
   saveTender,
   deleteTender,
   toggleTender,
+  verifiedTender,
+  verifyingTender,
 }
 
 // ------------------------------------
@@ -246,6 +347,32 @@ const ACTION_HANDLERS = {
     isToggling: false,
     isErrored: action.isErrored,
   }),
+  [VERIFYING_TENDER_REQUEST]: (state, action) => ({
+    ...state,
+    isVerifying: action.isVerifying,
+  }),
+  [VERIFYING_TENDER_SUCCESS]: (state, action) => ({
+    ...state,
+    isVerifying: false,
+  }),
+  [VERIFYING_TENDER_FAILURE]: (state, action) => ({
+    ...state,
+    isVerifying: false,
+    isErrored: action.isErrored,
+  }),
+  [VERIFIED_TENDER_REQUEST]: (state, action) => ({
+    ...state,
+    isVerified: action.isVerified,
+  }),
+  [VERIFIED_TENDER_SUCCESS]: (state, action) => ({
+    ...state,
+    isVerified: false,
+  }),
+  [VERIFIED_TENDER_FAILURE]: (state, action) => ({
+    ...state,
+    isVerified: false,
+    isErrored: action.isErrored,
+  }),
 }
 
 // ------------------------------------
@@ -258,6 +385,8 @@ const initialState = {
   isSaving: false,
   isDeleting: false,
   isToggling: false,
+  isVerifying: false,
+  isVerified: false,
   isErrored: false,
 };
 

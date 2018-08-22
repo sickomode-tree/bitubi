@@ -5,7 +5,7 @@ import {Button, Card, Icon, Image, Modal, Progress} from 'semantic-ui-react'
 import IconList from 'components/IconList/IconList'
 import Tag from 'components/Tag/Tag'
 import moment from 'moment/moment'
-import {isCustomer, isProvider} from 'utils/auth'
+import {isCustomer, isProvider, isModerator} from 'utils/auth'
 
 export default class TenderCard extends Component {
   static propTypes = {
@@ -13,16 +13,20 @@ export default class TenderCard extends Component {
     style: PropTypes.object,
     saveToHistory: PropTypes.func,
     saveToFavourites: PropTypes.func,
+    verifyingTender: PropTypes.func,
+    verifiedTender: PropTypes.func,
     onClose: PropTypes.func,
   }
 
   state = {
     favourite: this.props.tender.favourite || false,
+    verified: this.props.tender.verified || null,
+    verifying: this.props.tender.verifying || null,
   }
 
   render() {
     const {tender, style, saveToHistory, onClose} = this.props
-    const {favourite} = this.state
+    const {favourite, verifying} = this.state
 
     return (
       <Modal
@@ -33,13 +37,16 @@ export default class TenderCard extends Component {
         trigger={
           <Card
             fluid
-            className={tender.disabled ? 'disabled' : null}
+            className={tender.disabled || tender.verifying ? 'disabled' : null}
             style={style || {}}
           >
             <Card.Content>
               <Card.Header>
                 {tender.title}
                 {tender.favourite &&
+                  <i className='right floated bookmark icon red'></i>
+                }
+                {tender.verified === false &&
                   <i className='right floated bookmark icon red'></i>
                 }
               </Card.Header>
@@ -89,6 +96,34 @@ export default class TenderCard extends Component {
             />
           </Modal.Actions>
         }
+        {
+          isModerator &&
+          <Modal.Actions>
+            <Button
+              basic={!verifying} icon={!verifying ? 'play' : 'pause'}
+              content={!verifying ? 'Приступить' : 'Остановить'}
+              onClick={this.toggleVerifyingState.bind(this)}
+            />
+            {
+              verifying &&
+              <Button
+                icon='ban'
+                color='red'
+                content='Отклонить'
+                onClick={this.toggleVerifiedState.bind(this, false)}
+              />
+            }
+            {
+              verifying &&
+              <Button
+                icon='check'
+                color='green'
+                content='Одобрить'
+                onClick={this.toggleVerifiedState.bind(this, true)}
+              />
+            }
+          </Modal.Actions>
+        }
       </Modal>
     )
   }
@@ -99,5 +134,20 @@ export default class TenderCard extends Component {
 
     this.setState({favourite: !favourite})
     saveToFavourites(tender.id)
+  }
+
+  toggleVerifyingState() {
+    const {tender, verifyingTender} = this.props
+    const {verifying} = this.state
+
+    verifyingTender(tender.id, !verifying)
+    this.setState({verifying: !verifying})
+  }
+
+  toggleVerifiedState(verified) {
+    const {tender, verifiedTender} = this.props
+
+    this.setState({verifying: !verified})
+    verifiedTender(tender.id, verified)
   }
 }
