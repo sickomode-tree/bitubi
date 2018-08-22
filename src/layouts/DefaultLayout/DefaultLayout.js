@@ -9,6 +9,7 @@ import {fetchCategories} from 'store/categories'
 import {sendSingInRequest, sendSingUpRequest, signOut} from 'store/auth'
 import {changeFilterValue, changeSearchTerm, resetFilter} from 'store/filter'
 import {fetchProducts} from 'store/products'
+import {fetchUser} from 'store/user'
 
 class DefaultLayout extends Component {
   static propTypes = {
@@ -16,6 +17,7 @@ class DefaultLayout extends Component {
     cards: PropTypes.array.isRequired,
     cities: PropTypes.array.isRequired,
     notifications: PropTypes.array.isRequired,
+    user: PropTypes.object.isRequired,
     filters: PropTypes.object.isRequired,
     isAuthorized: PropTypes.bool.isRequired,
     isLoading: PropTypes.bool,
@@ -33,11 +35,12 @@ class DefaultLayout extends Component {
 
   componentDidMount() {
     this.props.fetchProducts()
+    this.props.fetchUser()
   }
 
   render() {
     const {
-      children, cards, categories, cities, filters, searchTerm, notifications,
+      children, cards, categories, cities, filters, searchTerm, notifications, user,
       isAuthorized, isLoading, isErrored,
       fetchCategories, fetchCities, fetchProducts,
       changeSearchTerm, changeFilterValue, resetFilter,
@@ -47,6 +50,7 @@ class DefaultLayout extends Component {
     return (
       <div style={{display: 'flex', flexDirection: 'column', height: '100%'}}>
         <Header
+          user={user}
           cards={cards}
           categories={categories}
           cities={cities}
@@ -81,6 +85,7 @@ class DefaultLayout extends Component {
 
 const mapStateToProps = (state) => {
   return {
+    user: state.user.user,
     cards: state.products.products,
     categories: state.categories.categories,
     cities: state.cities.cities,
@@ -98,6 +103,7 @@ const mapDispatchToProps = {
   fetchProducts,
   fetchCategories,
   fetchCities,
+  fetchUser,
   resetFilter,
   sendSingUpRequest,
   sendSingInRequest,

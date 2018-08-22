@@ -10,6 +10,7 @@ import {isCustomer, isProvider, isModerator} from 'utils/auth'
 
 export default class Header extends Component {
   static propTypes = {
+    user: PropTypes.object.isRequired,
     cards: PropTypes.array.isRequired,
     cities: PropTypes.array.isRequired,
     categories: PropTypes.array.isRequired,
@@ -29,7 +30,7 @@ export default class Header extends Component {
 
   render() {
     const {
-      cards, cities, categories, filters, isAuthorized,
+      cards, cities, categories, filters, user, isAuthorized,
       changeFilterValue, changeSearchTerm,
       fetchCategories, fetchCities, fetchProducts,
       resetFilter, searchTerm
@@ -74,7 +75,7 @@ export default class Header extends Component {
             {
               isAuthorized &&
               <Dropdown item trigger={
-                <Image src='https://react.semantic-ui.com/images/avatar/large/matthew.png' avatar/>
+                <Image src={user.photo ? user.photo.absolutePath : 'https://app.extremereach.com/Content/Images/source_placeholder_user_thirty.png'} avatar/>
               }>
                 <Dropdown.Menu>
                   {!isModerator && <Link to='/account/profile' className='item' activeClassName='active'>Личный кабинет</Link>}

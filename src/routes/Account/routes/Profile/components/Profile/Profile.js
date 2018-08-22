@@ -50,7 +50,7 @@ export default class Profile extends Component {
           <Grid.Column width={4}>
             <Card fluid>
               <Image
-                src='https://react.semantic-ui.com/images/avatar/large/matthew.png'
+                src={user.photo ? user.photo.absolutePath : 'https://app.extremereach.com/Content/Images/source_placeholder_user_thirty.png'}
                 label={user.userType && {content: user.userType, icon: 'key', ribbon: true}}
               />
               <Card.Content>
@@ -58,7 +58,7 @@ export default class Profile extends Component {
               </Card.Content>
 
               <ProfileEditModal
-                profile={user}
+                user={user}
                 cities={cities}
                 fetchCities={fetchCities}
                 onClose={fetchUser}

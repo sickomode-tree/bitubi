@@ -1,5 +1,5 @@
 import {connect} from 'react-redux'
-import {fetchUser, updateUser} from '../modules/profile'
+import {fetchUser, updateUser} from 'store/user'
 import {resetFilter} from 'store/filter'
 import {fetchCities} from 'store/cities'
 
@@ -22,7 +22,7 @@ const mapDispatchToProps = {
 }
 
 const mapStateToProps = (state) => ({
-  user: state.profile.user,
+  user: state.user.user,
   cities: state.cities.cities,
 })
 

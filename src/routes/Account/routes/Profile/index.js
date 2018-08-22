@@ -12,10 +12,10 @@ export default (store) => ({
       /*  Webpack - use require callback to define
           dependencies for bundling   */
       const Profile = require('./containers/ProfileContainer').default
-      const reducer = require('./modules/profile').default
+      const reducer = require('store/user').default
 
       /*  Add the reducer to the store on key 'counter'  */
-      injectReducer(store, {key: 'profile', reducer})
+      injectReducer(store, {key: 'user', reducer})
 
       /*  Return getComponent   */
       cb(null, Authorization(Profile, [customerUserType, providerUserType]))

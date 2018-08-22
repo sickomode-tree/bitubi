@@ -4,52 +4,33 @@ import {getToken} from 'utils/auth'
 // Constants
 // ------------------------------------
 
-export const USER_IS_LOADING = 'USER_IS_LOADING'
-export const USER_FETCH_SUCCESS = 'USER_FETCH_SUCCESS'
-export const USER_FETCH_ERROR = 'USER_FETCH_ERROR'
+export const FETCH_USER_REQUEST = 'FETCH_USER_REQUEST'
+export const FETCH_USER_SUCCESS = 'FETCH_USER_SUCCESS'
+export const FETCH_USER_FAILURE = 'FETCH_USER_FAILURE'
 
-export const USER_UPDATE_SUCCESS = 'USER_UPDATE_SUCCESS'
+export const UPDATE_USER_REQUEST = 'UPDATE_USER_REQUEST'
+export const UPDATE_USER_SUCCESS = 'UPDATE_USER_SUCCESS'
+export const UPDATE_USER_FAILURE = 'UPDATE_USER_FAILURE'
 
 // ------------------------------------
 // Actions
 // ------------------------------------
 
-export function onFetchStart(bool) {
-  return {
-    type: USER_IS_LOADING,
-    isLoading: bool
-  };
-}
+export const onFetchUserRequest = bool => ({type: FETCH_USER_REQUEST, isLoading: bool})
+export const onFetchUserSuccess = json => ({type: FETCH_USER_SUCCESS, user: json})
+export const onFetchUserFailure = bool => ({type: FETCH_USER_FAILURE, isErrored: bool})
 
-export function onFetchSuccess(json) {
-  return {
-    type: USER_FETCH_SUCCESS,
-    user: json,
-  };
-}
+export const onUpdateUserRequest = bool => ({type: UPDATE_USER_REQUEST, isLoading: bool})
+export const onUpdateUserSuccess = ()   => ({type: UPDATE_USER_SUCCESS})
+export const onUpdateUserFailure = bool => ({type: UPDATE_USER_FAILURE, isErrored: bool})
 
-export function onFetchError(bool) {
-  return {
-    type: USER_FETCH_ERROR,
-    hasErrored: bool
-  };
-}
-
-export function onUpdateUserSuccess() {
-  fetchUser()
-
-  return {
-    type: USER_UPDATE_SUCCESS,
-  };
-}
-
-export function fetchUser() {
+export const fetchUser = () => {
   const url = '/test/private/user';
 
   return (dispatch, getState) => {
     const token = getState().auth.token;
 
-    dispatch(onFetchStart(true));
+    dispatch(onFetchUserRequest(true));
     fetch(url, {
       headers: {
         'Content-Type': 'application/x-www-form-urlencoded',
@@ -61,22 +42,25 @@ export function fetchUser() {
           throw Error(response.statusText);
         }
 
-        dispatch(onFetchStart(false));
+        dispatch(onFetchUserRequest(false));
 
         return response;
       })
       .then(response => response.json())
-      .then(json => dispatch(onFetchSuccess(json)))
-      .catch(error => dispatch(onFetchError(true)))
+      .then(json => dispatch(onFetchUserSuccess(json)))
+      .catch(error => {
+        console.error(error)
+        dispatch(onFetchUserFailure(true))
+      })
   };
 }
 
-export function updateUser(form) {
+export const updateUser = form => {
   const formData = new FormData(form)
   const url = '/test/private/user/edit'
 
   return (dispatch) => {
-    dispatch(onFetchStart(true))
+    dispatch(onUpdateUserRequest(true))
 
     fetch(url, {
       method: 'POST',
@@ -91,13 +75,13 @@ export function updateUser(form) {
           throw Error(response.statusText)
         }
 
-        dispatch(onFetchStart(false))
+        dispatch(onUpdateUserRequest(false))
 
         return response
       })
       .then(response => response.json())
       .then(json => dispatch(onUpdateUserSuccess()))
-      .catch(error => dispatch(onFetchError(true)))
+      .catch(error => dispatch(onUpdateUserFailure(true)))
   };
 }
 
@@ -110,17 +94,25 @@ export const actions = {
 // Action Handlers
 // ------------------------------------
 const ACTION_HANDLERS = {
-  [USER_FETCH_ERROR]: (state, action) => ({
-    ...state,
-    isErrored: action.hasErrored,
-  }),
-  [USER_IS_LOADING]: (state, action) => ({
+  [FETCH_USER_REQUEST]: (state, action) => ({
     ...state,
     isLoading: action.isLoading
   }),
-  [USER_FETCH_SUCCESS]: (state, action) => ({
+  [FETCH_USER_SUCCESS]: (state, action) => ({
     ...state,
     user: action.user,
+  }),
+  [FETCH_USER_FAILURE]: (state, action) => ({
+    ...state,
+    isErrored: action.isErrored,
+  }),
+  [UPDATE_USER_REQUEST]: (state, action) => ({
+    ...state,
+    isLoading: action.isLoading
+  }),
+  [UPDATE_USER_FAILURE]: (state, action) => ({
+    ...state,
+    isErrored: action.isErrored,
   }),
 }
 
@@ -134,7 +126,7 @@ const initialState = {
   isErrored: false,
 };
 
-export default function counterReducer (state = initialState, action) {
+export default function userReducer (state = initialState, action) {
   const handler = ACTION_HANDLERS[action.type]
 
   return handler ? handler(state, action) : state

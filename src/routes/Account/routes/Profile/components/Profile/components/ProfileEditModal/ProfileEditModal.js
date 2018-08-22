@@ -30,14 +30,14 @@ class ProfileEditModal extends Component {
   }
 
   render() {
-    const {profile, cities, trigger, onClose} = this.props
+    const {user, cities, trigger, onClose} = this.props
     const {state} = this
 
     const cityOptions = cities.map(city => ({value: city.id, text: city.name}))
-    const cityValue = state.city || (profile && profile.city ? profile.city.id : null)
+    const cityValue = state.city || (user && user.city ? user.city.id : null)
     const districts = cityValue ? cities.find(city => city.id === cityValue).districts : []
     const districtOptions = districts.map(district => ({value: district.id, text: district.name}))
-    const districtValue = state.district || (profile && profile.district ? profile.district.id : null)
+    const districtValue = state.district || (user && user.district ? user.district.id : null)
 
     const formFields = [
       {tag: 'input', type: 'text', name: 'login', title: 'Логин', required: true, path: 'login', width: 16},
@@ -111,7 +111,7 @@ class ProfileEditModal extends Component {
       {tag: 'input', type: 'url', name: 'url', title: 'Сайт', path: 'url'},
       {tag: 'input', type: 'hidden', name: 'id', path: 'id'},
     ]
-    const defaultUserpicUrl = 'https://react.semantic-ui.com/images/avatar/large/matthew.png'
+    const defaultUserpicUrl = user.photo ? user.photo.absolutePath : 'https://app.extremereach.com/Content/Images/source_placeholder_user_thirty.png'
 
     return (
       <Modal
@@ -160,7 +160,7 @@ class ProfileEditModal extends Component {
                 })}}
               >
                 <Reveal animated='small fade'>
-                  <Reveal.Content visible>
+                  <Reveal.Content visible style={{width: '100%'}}>
                     <Image
                       wrapped fluid
                       src={state.userpic ? 'data:image/jpeg;base64,' + btoa(state.userpic) : defaultUserpicUrl}
@@ -184,7 +184,7 @@ class ProfileEditModal extends Component {
               <Modal.Description>
                 <EditForm
                   id='profileForm'
-                  data={profile}
+                  data={user}
                   fields={formFields}
                   onSubmit={this.handleSubmit.bind(this)}
                 />
