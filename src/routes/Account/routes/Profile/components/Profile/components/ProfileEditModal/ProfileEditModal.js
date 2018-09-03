@@ -136,11 +136,9 @@ class ProfileEditModal extends Component {
 
                     reader.onload = () => {
                       const fileAsBinaryString = reader.result
-                      const formData = new FormData()
 
-                      formData.append('file', file)
                       this.setState({ userpic: fileAsBinaryString })
-                      updateUserpic(fileAsBinaryString)
+                      updateUserpic(file)
                     }
                     reader.onabort = () => console.log('file reading was aborted')
                     reader.onerror = () => console.log('file reading has failed')

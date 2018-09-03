@@ -13,6 +13,10 @@ export const UPDATE_USER_REQUEST = 'UPDATE_USER_REQUEST'
 export const UPDATE_USER_SUCCESS = 'UPDATE_USER_SUCCESS'
 export const UPDATE_USER_FAILURE = 'UPDATE_USER_FAILURE'
 
+export const UPDATE_USERPIC_REQUEST = 'UPDATE_USERPIC_REQUEST'
+export const UPDATE_USERPIC_SUCCESS = 'UPDATE_USERPIC_SUCCESS'
+export const UPDATE_USERPIC_FAILURE = 'UPDATE_USERPIC_FAILURE'
+
 // ------------------------------------
 // Actions
 // ------------------------------------
@@ -21,9 +25,9 @@ export const onFetchUserRequest = bool => ({ type: FETCH_USER_REQUEST, isLoading
 export const onFetchUserSuccess = json => ({ type: FETCH_USER_SUCCESS, user: json })
 export const onFetchUserFailure = bool => ({ type: FETCH_USER_FAILURE, isErrored: bool })
 
-export const onUpdateUserRequest = bool => ({ type: UPDATE_USER_REQUEST, isLoading: bool })
+export const onUpdateUserRequest = () => ({ type: UPDATE_USER_REQUEST })
 export const onUpdateUserSuccess = () => ({ type: UPDATE_USER_SUCCESS })
-export const onUpdateUserFailure = bool => ({ type: UPDATE_USER_FAILURE, isErrored: bool })
+export const onUpdateUserFailure = () => ({ type: UPDATE_USER_FAILURE })
 
 export const onUpdateUserpicRequest = () => ({ type: UPDATE_USERPIC_REQUEST })
 export const onUpdateUserpicSuccess = () => ({ type: UPDATE_USERPIC_SUCCESS })
@@ -97,7 +101,7 @@ export const updateUserpic = file => {
   formData.append('file', file)
 
   return (dispatch) => {
-    dispatch(onUpdateUserRequest(true))
+    dispatch(onUpdateUserpicRequest(true))
 
     fetch(url, {
       method: 'POST',
@@ -111,19 +115,19 @@ export const updateUserpic = file => {
           throw Error(response.statusText)
         }
 
-        dispatch(onUpdateUserRequest(false))
+        dispatch(onUpdateUserpicRequest(false))
 
         return response
       })
       .then(response => response.json())
-      .then(json => dispatch(onUpdateUserSuccess()))
+      .then(json => dispatch(onUpdateUserpicSuccess()))
       .catch(error => {
         dispatch(Notifications.error({
-          title: 'Не удалось войти в систему',
+          title: 'Не удалось загрузить фотографию.',
           message: 'Пожалуйста, попробуйте еще раз.',
           position: 'bl',
         }))
-        dispatch(onUpdateUserFailure(true))
+        dispatch(onUpdateUserpicFailure(true))
       })
   }
 }
