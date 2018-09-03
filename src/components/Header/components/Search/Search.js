@@ -1,11 +1,11 @@
-import React, {Component} from 'react'
-import {browserHistory} from 'react-router'
+import React, { Component } from 'react'
+import { browserHistory } from 'react-router'
 import PropTypes from 'prop-types'
-import {Button, Icon, Input, Dropdown, Label} from 'semantic-ui-react'
-import {getValues} from 'utils/array'
+import { Button, Icon, Input, Dropdown, Label } from 'semantic-ui-react'
+import { getValues } from 'utils/array'
 import SignInModal from '../SignInModal/SignInModal'
 import FilterModal from '../FilterModal/FilterModal'
-import _ from "lodash";
+import _ from 'lodash'
 
 export default class Search extends Component {
   static propTypes = {
@@ -24,11 +24,11 @@ export default class Search extends Component {
     searchTerm: '',
   }
 
-  render() {
-    const {filters, isAuthorized, searchTerm, fetchProducts, handleSignIn} = this.props
+  render () {
+    const { filters, isAuthorized, searchTerm, fetchProducts, handleSignIn } = this.props
     const quickFilters = [
-      {title: 'Город', key: 'city.name'},
-      {title: 'Категория', key: 'category.title'},
+      { title: 'Город', key: 'city.name' },
+      { title: 'Категория', key: 'category.title' },
     ]
 
     return (
@@ -40,18 +40,18 @@ export default class Search extends Component {
         {
           quickFilters.map(quickFilter => (
             <Dropdown key={quickFilter.key} name={quickFilter.key} placeholder={quickFilter.title}
-                      options={this.getOptions.call(this, quickFilter.key)} value={filters[quickFilter.key] || null}
-                      search={true} selection={true} noResultsMessage='Нет результатов.'
-                      selectOnBlur={false} selectOnNavigation={false} wrapSelection={false}
-                      style={{width: 100, whiteSpace: 'nowrap'}}
-                      onChange={(event, data) => this.handleFilterChange.call(this, event, data)}
+              options={this.getOptions.call(this, quickFilter.key)} value={filters[quickFilter.key] || null}
+              search selection noResultsMessage='Нет результатов.'
+              selectOnBlur={false} selectOnNavigation={false} wrapSelection={false}
+              style={{ width: 100, whiteSpace: 'nowrap' }}
+              onChange={(event, data) => this.handleFilterChange.call(this, event, data)}
             />
           ))
         }
         {
           isAuthorized &&
           <FilterModal
-            trigger={<Button icon basic><Icon name='filter' color={_.isEmpty(filters) ? 'grey' : 'green'}/></Button>}
+            trigger={<Button icon basic><Icon name='filter' color={_.isEmpty(filters) ? 'grey' : 'green'} /></Button>}
             filters={filters}
             getOptions={this.getOptions.bind(this)}
             handleFilterChange={this.handleFilterChange.bind(this)}
@@ -60,16 +60,16 @@ export default class Search extends Component {
         }
         {
           !isAuthorized &&
-          <SignInModal trigger={<Button icon='filter' basic/>} handleSignIn={handleSignIn} fetchProducts={fetchProducts}/>
+          <SignInModal trigger={<Button icon='filter' basic />} handleSignIn={handleSignIn} fetchProducts={fetchProducts} />
         }
         <Button icon='sync' basic disabled={_.isEmpty(filters) && _.isEmpty(searchTerm)}
-                onClick={this.handleResetFilterButtonClick.bind(this)}/>
+          onClick={this.handleResetFilterButtonClick.bind(this)} />
       </Input>
     )
   }
 
-  getOptions(key) {
-    const {cards} = this.props
+  getOptions (key) {
+    const { cards } = this.props
 
     const values = getValues(cards, key)
 
@@ -82,34 +82,33 @@ export default class Search extends Component {
     return options
   }
 
-  handleSearchInputChange(event) {
+  handleSearchInputChange (event) {
     this.setState({
       searchTerm: event.target.value,
-    });
+    })
   }
 
-  handleFilterChange(event, data) {
+  handleFilterChange (event, data) {
     const filter = data.name,
-      value = data.value;
+      value = data.value
 
     this.props.changeFilterValue(filter, value)
     browserHistory.push('/')
   }
 
-  handleSearchInputKeyPress(event) {
+  handleSearchInputKeyPress (event) {
     if (event.key === 'Enter') {
-      this.props.changeSearchTerm(this.state.searchTerm);
+      this.props.changeSearchTerm(this.state.searchTerm)
       browserHistory.push('/')
     }
   }
 
-  handleResetFilterButtonClick() {
+  handleResetFilterButtonClick () {
     this.props.resetFilter()
     browserHistory.push('/')
   }
 
-  handleSearchButtonClick() {
-    this.props.searchChangeValue(this.state.searchValue);
+  handleSearchButtonClick () {
+    this.props.searchChangeValue(this.state.searchValue)
   }
 }
-

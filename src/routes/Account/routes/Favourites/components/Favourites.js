@@ -1,11 +1,11 @@
-import React, {Component} from 'react'
+import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import _ from 'lodash'
-import {Card} from 'semantic-ui-react'
+import { Card } from 'semantic-ui-react'
 import EmptyText from 'components/EmptyText/EmptyText'
 import ProductCard from 'components/ProductCard/ProductCard'
 import TenderCard from 'components/TenderCard/TenderCard'
-import {isCustomer, isProvider} from 'utils/auth'
+import { isCustomer, isProvider } from 'utils/auth'
 
 export default class Favourites extends Component {
   static propTypes = {
@@ -15,17 +15,17 @@ export default class Favourites extends Component {
     resetFilter: PropTypes.func.isRequired,
   }
 
-  componentDidMount() {
+  componentDidMount () {
     this.props.fetchFavourites()
     this.props.resetFilter()
   }
 
-  render() {
-    const {items, fetchFavourites, saveToFavourites} = this.props
+  render () {
+    const { items, fetchFavourites, saveToFavourites } = this.props
 
     if (!_.isEmpty(items)) {
       return (
-        <div style={{flex: 1}}>
+        <div style={{ flex: 1 }}>
           <h2>Закладки</h2>
           <Card.Group itemsPerRow={3}>
             {
@@ -34,7 +34,7 @@ export default class Favourites extends Component {
                 <ProductCard
                   key={card.id}
                   product={card}
-                  style={{height: 150}}
+                  style={{ height: 150 }}
                   onClose={fetchFavourites}
                   saveToFavourites={saveToFavourites}
                 />

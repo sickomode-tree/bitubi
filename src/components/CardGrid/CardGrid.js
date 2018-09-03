@@ -1,7 +1,7 @@
-import React, {Component} from "react";
-import PropTypes from "prop-types";
+import React, { Component } from 'react'
+import PropTypes from 'prop-types'
 import _ from 'lodash'
-import {Button, Grid, Segment} from 'semantic-ui-react'
+import { Button, Grid, Segment } from 'semantic-ui-react'
 import CardGridGroup from './components/CardGridGroup/CardGridGroup'
 
 export default class CardGrid extends Component {
@@ -17,36 +17,36 @@ export default class CardGrid extends Component {
     groupCount: this.props.groupCount || 3,
   }
 
-  componentWillReceiveProps(nextProps) {
+  componentWillReceiveProps (nextProps) {
     this.setState({
       groups: this.getGroups.call(this, nextProps.cards, nextProps.groupKey),
       groupCount: nextProps.groupCount || 3,
     })
   }
 
-  render() {
-    const {getCardComponent} = this.props
-    const {groups, groupCount} = this.state
+  render () {
+    const { getCardComponent } = this.props
+    const { groups, groupCount } = this.state
 
     return (
-      <section style={{display: 'flex', width: '100%'}}>
+      <section style={{ display: 'flex', width: '100%' }}>
         {
           groups.length > groupCount &&
           <Button onClick={this.showPreviousCardGroup.bind(this)}
-                  style={{position: 'fixed', top: 0, bottom: 0, left: 0, height: '100%', boxShadow: 'none'}}
-                  icon='angle left' basic size='large'/>
+            style={{ position: 'fixed', top: 0, bottom: 0, left: 0, height: '100%', boxShadow: 'none' }}
+            icon='angle left' basic size='large' />
         }
         {
           groups.length > groupCount &&
           <Button onClick={this.showNextCardGroup.bind(this)}
-                  style={{position: 'fixed', top: 0, right: 0, bottom: 0, height: '100%', boxShadow: 'none'}}
-                  icon='angle right' basic size='large'/>
+            style={{ position: 'fixed', top: 0, right: 0, bottom: 0, height: '100%', boxShadow: 'none' }}
+            icon='angle right' basic size='large' />
         }
-        <Grid columns={groupCount} doubling stackable style={{overflow: 'hidden', width: '100%'}}>
+        <Grid columns={groupCount} doubling stackable style={{ overflow: 'hidden', width: '100%' }}>
           <Grid.Row>
             {
               groups.map(group => (
-                <Grid.Column key={group.title} style={{display: 'flex', flexDirection: 'column', height: '100%'}}>
+                <Grid.Column key={group.title} style={{ display: 'flex', flexDirection: 'column', height: '100%' }}>
                   <Segment
                     basic
                     textAlign='center'
@@ -60,7 +60,7 @@ export default class CardGrid extends Component {
                   >
                     {group.title}
                   </Segment>
-                  <CardGridGroup cards={group.cards} getCardComponent={getCardComponent}/>
+                  <CardGridGroup cards={group.cards} getCardComponent={getCardComponent} />
                 </Grid.Column>
               ))
             }
@@ -70,7 +70,7 @@ export default class CardGrid extends Component {
     )
   }
 
-  getGroups(cards, groupKey) {
+  getGroups (cards, groupKey) {
     let groups = []
     let groupsObj = {}
     let _tmpObj = {}
@@ -86,7 +86,7 @@ export default class CardGrid extends Component {
       groupTitle = _tmpObj
 
       if (!_.isNil(groupTitle)) {
-        if (_.isNil(groupsObj[groupTitle])) groupsObj[groupTitle] = {title: groupTitle, cards: []}
+        if (_.isNil(groupsObj[groupTitle])) groupsObj[groupTitle] = { title: groupTitle, cards: [] }
         groupsObj[groupTitle].cards.push(card)
       }
     })
@@ -96,23 +96,23 @@ export default class CardGrid extends Component {
     return groups
   }
 
-  showPreviousCardGroup() {
-    const {groups} = this.state;
+  showPreviousCardGroup () {
+    const { groups } = this.state
 
-    groups.unshift(groups.pop());
+    groups.unshift(groups.pop())
 
     this.setState({
       groups,
-    });
+    })
   }
 
-  showNextCardGroup() {
-    const {groups} = this.state;
+  showNextCardGroup () {
+    const { groups } = this.state
 
-    groups.push(groups.shift());
+    groups.push(groups.shift())
 
     this.setState({
       groups,
-    });
+    })
   }
 }

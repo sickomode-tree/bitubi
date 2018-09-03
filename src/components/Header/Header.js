@@ -1,12 +1,12 @@
-import React, {Component} from 'react'
-import {browserHistory, IndexLink, Link} from 'react-router'
+import React, { Component } from 'react'
+import { browserHistory, IndexLink, Link } from 'react-router'
 import PropTypes from 'prop-types'
-import {Container, Dropdown, Image, Item, Menu} from 'semantic-ui-react'
+import { Container, Dropdown, Image, Item, Menu } from 'semantic-ui-react'
 import Search from './components/Search/Search'
 import SignInModal from './components/SignInModal/SignInModal'
 import SignUpModal from './components/SignUpModal/SignUpModal'
-import {changeSearchTerm} from 'store/filter'
-import {isCustomer, isProvider, isModerator} from 'utils/auth'
+import { changeSearchTerm } from 'store/filter'
+import { isCustomer, isProvider, isModerator } from 'utils/auth'
 
 export default class Header extends Component {
   static propTypes = {
@@ -28,7 +28,7 @@ export default class Header extends Component {
     signOut: PropTypes.func.isRequired
   }
 
-  render() {
+  render () {
     const {
       cards, cities, categories, filters, user, isAuthorized,
       changeFilterValue, changeSearchTerm,
@@ -51,13 +51,13 @@ export default class Header extends Component {
               {
                 (isProvider || isCustomer) &&
                 <Link to='/account/history' className='item' activeClassName='active'
-                      onClick={resetFilter}>История</Link>
+                  onClick={resetFilter}>История</Link>
               }
             </Menu.Menu>
           }
           {
             !isModerator &&
-            <Menu.Item style={{flex: 1}}>
+            <Menu.Item style={{ flex: 1 }}>
               <Search
                 cards={cards}
                 filters={filters}
@@ -75,7 +75,7 @@ export default class Header extends Component {
             {
               isAuthorized &&
               <Dropdown item trigger={
-                <Image src={user.photo ? user.photo.absolutePath : 'https://app.extremereach.com/Content/Images/source_placeholder_user_thirty.png'} avatar/>
+                <Image src={user.photo && '/test/images/' + user.photo.original} avatar />
               }>
                 <Dropdown.Menu>
                   {!isModerator && <Link to='/account/profile' className='item' activeClassName='active'>Личный кабинет</Link>}
@@ -95,7 +95,7 @@ export default class Header extends Component {
             }
             {
               !isAuthorized &&
-              <SignInModal fetchProducts={fetchProducts}  handleSignIn={this.handleSignIn.bind(this)}/>
+              <SignInModal fetchProducts={fetchProducts} handleSignIn={this.handleSignIn.bind(this)} />
             }
           </Menu.Menu>
         </Container>
@@ -103,15 +103,15 @@ export default class Header extends Component {
     )
   }
 
-  handleSignUp(form) {
-    this.props.sendSingUpRequest(form);
+  handleSignUp (form) {
+    this.props.sendSingUpRequest(form)
   }
 
-  handleSignIn(form) {
-    this.props.sendSingInRequest(form);
+  handleSignIn (form) {
+    this.props.sendSingInRequest(form)
   }
 
-  handleSignOut() {
+  handleSignOut () {
     this.props.signOut()
     this.props.resetFilter()
     browserHistory.push('/')

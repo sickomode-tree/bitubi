@@ -1,7 +1,7 @@
-import {connect} from 'react-redux'
-import {resetFilter} from 'store/filter'
-import {fetchHistory} from 'store/history'
-import {saveToFavourites} from 'store/favourites'
+import { connect } from 'react-redux'
+import { resetFilter } from 'store/filter'
+import { fetchHistory } from 'store/history'
+import { saveToFavourites } from 'store/favourites'
 
 /*  This is a container component. Notice it does not contain any JSX,
     nor does it import React. This component is **only** responsible for

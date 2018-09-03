@@ -10,15 +10,15 @@ export const FETCH_CITIES_FAILURE = 'FETCH_CITIES_FAILURE'
 // Actions
 // ------------------------------------
 
-export const onFetchCitiesRequest = bool => ({type: FETCH_CITIES_REQUEST, isLoading: bool})
-export const onFetchCitiesSuccess = json => ({type: FETCH_CITIES_SUCCESS, cities: json})
-export const onFetchCitiesFailure = bool => ({type: FETCH_CITIES_FAILURE, isErrored: bool})
+export const onFetchCitiesRequest = bool => ({ type: FETCH_CITIES_REQUEST, isLoading: bool })
+export const onFetchCitiesSuccess = json => ({ type: FETCH_CITIES_SUCCESS, cities: json })
+export const onFetchCitiesFailure = bool => ({ type: FETCH_CITIES_FAILURE, isErrored: bool })
 
 // ------------------------------------
 // Thunks
 // ------------------------------------
 
-export function fetchCities() {
+export function fetchCities () {
   const url = '/test/public/cities'
 
   return (dispatch, getState) => {
@@ -39,7 +39,7 @@ export function fetchCities() {
 
         dispatch(onFetchCitiesRequest(false))
 
-        return response;
+        return response
       })
       .then(response => response.json())
       .then(json => dispatch(onFetchCitiesSuccess(json)))
@@ -47,12 +47,12 @@ export function fetchCities() {
         console.error(error)
         return dispatch(onFetchCitiesFailure(true))
       })
-  };
+  }
 }
 
 export const actions = {
   fetchCities,
-};
+}
 
 // ------------------------------------
 // Action Handlers
@@ -73,7 +73,7 @@ const ACTION_HANDLERS = {
     isLoading: false,
     isErrored: action.isErrored,
   }),
-};
+}
 
 // ------------------------------------
 // Reducer
@@ -83,10 +83,10 @@ const initialState = {
   cities: [],
   isLoading: false,
   isErrored: false,
-};
+}
 
-export default function citiesReducer(state = initialState, action) {
-  const handler = ACTION_HANDLERS[action.type];
+export default function citiesReducer (state = initialState, action) {
+  const handler = ACTION_HANDLERS[action.type]
 
   return handler ? handler(state, action) : state
 }

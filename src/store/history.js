@@ -14,20 +14,20 @@ export const SAVE_TO_HISTORY_FAILURE = 'SAVE_TO_HISTORY_FAILURE'
 // Actions
 // ------------------------------------
 
-export const onFetchHistoryRequest = bool => ({type: FETCH_HISTORY_REQUEST, isLoading: bool})
-export const onFetchHistorySuccess = json => ({type: FETCH_HISTORY_SUCCESS, items: json})
-export const onFetchHistoryFailure = bool => ({type: FETCH_HISTORY_FAILURE, isErrored: bool})
+export const onFetchHistoryRequest = bool => ({ type: FETCH_HISTORY_REQUEST, isLoading: bool })
+export const onFetchHistorySuccess = json => ({ type: FETCH_HISTORY_SUCCESS, items: json })
+export const onFetchHistoryFailure = bool => ({ type: FETCH_HISTORY_FAILURE, isErrored: bool })
 
-export const onSaveToHistoryRequest = () => ({type: SAVE_TO_HISTORY_REQUEST})
-export const onSaveToHistorySuccess = () => ({type: SAVE_TO_HISTORY_SUCCESS})
-export const onSaveToHistoryFailure = bool => ({type: SAVE_TO_HISTORY_FAILURE, isErrored: bool})
+export const onSaveToHistoryRequest = () => ({ type: SAVE_TO_HISTORY_REQUEST })
+export const onSaveToHistorySuccess = () => ({ type: SAVE_TO_HISTORY_SUCCESS })
+export const onSaveToHistoryFailure = bool => ({ type: SAVE_TO_HISTORY_FAILURE, isErrored: bool })
 
-export function fetchHistory() {
+export function fetchHistory () {
   const url = '/test/private/user/history'
   let token = null
 
   return (dispatch, getState) => {
-    dispatch(onFetchHistoryRequest(true));
+    dispatch(onFetchHistoryRequest(true))
 
     token = getState().auth.token
 
@@ -44,15 +44,15 @@ export function fetchHistory() {
 
         dispatch(onFetchHistoryRequest(false))
 
-        return response;
+        return response
       })
       .then(response => response.json())
       .then(json => dispatch(onFetchHistorySuccess(json)))
       .catch(error => dispatch(onFetchHistoryFailure(true)))
-  };
+  }
 }
 
-export function saveToHistory(id) {
+export function saveToHistory (id) {
   const url = '/test/private/user/history'
   const formData = new FormData()
   let token = null
@@ -82,7 +82,7 @@ export function saveToHistory(id) {
       .then(response => response.json())
       .then(json => dispatch(onSaveToHistorySuccess()))
       .catch(error => dispatch(onSaveToHistoryFailure(true)))
-  };
+  }
 }
 
 export const actions = {
@@ -123,7 +123,7 @@ const initialState = {
   items: [],
   isLoading: false,
   isErrored: false,
-};
+}
 
 export default function historyReducer (state = initialState, action) {
   const handler = ACTION_HANDLERS[action.type]

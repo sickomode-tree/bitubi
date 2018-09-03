@@ -1,12 +1,12 @@
-import React, {Component} from 'react'
+import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import _ from 'lodash'
-import {Card} from 'semantic-ui-react'
+import { Card } from 'semantic-ui-react'
 import CardGrid from 'components/CardGrid/CardGrid'
 import ProductCard from 'components/ProductCard/ProductCard'
 import EmptyText from 'components/EmptyText/EmptyText'
-import {getObjectValue} from 'utils/array'
-import {isModerator} from 'utils/auth'
+import { getObjectValue } from 'utils/array'
+import { isModerator } from 'utils/auth'
 
 export default class Home extends Component {
   static propTypes = {
@@ -19,12 +19,12 @@ export default class Home extends Component {
     saveToHistory: PropTypes.func.isRequired,
   }
 
-  componentDidMount() {
+  componentDidMount () {
     this.props.fetchProducts()
   }
 
-  render() {
-    const {products, isLoading, filter, fetchProducts, verifyingProduct, verifiedProduct} = this.props
+  render () {
+    const { products, isLoading, filter, fetchProducts, verifyingProduct, verifiedProduct } = this.props
     const cards = this.getCards.call(this, products)
     const groupKey = _.isEmpty(filter.filters) && _.isEmpty(filter.searchTerm) ? 'category.title' : 'subcategory.title'
 
@@ -38,7 +38,7 @@ export default class Home extends Component {
                   <ProductCard
                     key={product.id + '_' + index}
                     product={product}
-                    style={{height: 150}}
+                    style={{ height: 150 }}
                     verifyingProduct={verifyingProduct}
                     verifiedProduct={verifiedProduct}
                     onClose={fetchProducts}
@@ -64,15 +64,14 @@ export default class Home extends Component {
           title='Продукты не найдены'
         />
       )
-
     }
 
-    return (<div></div>)
+    return (<div />)
   }
 
-  getProductCards(items) {
-    const {filter} = this.props;
-    let cards = items;
+  getProductCards (items) {
+    const { filter } = this.props
+    let cards = items
 
     // filter by search value
     cards = cards.filter(card => card.providerName.toLowerCase().indexOf(filter.searchTerm.toLowerCase()) >= 0)
@@ -95,10 +94,10 @@ export default class Home extends Component {
       })
     }
 
-    return cards;
+    return cards
   }
 
-  getSubcategoryCards(items) {
+  getSubcategoryCards (items) {
     let subcategoryMap = {}
     let subcategories = []
 
@@ -113,11 +112,11 @@ export default class Home extends Component {
 
     subcategories = _.map(subcategoryMap, subcategory => subcategory)
 
-    return subcategories;
+    return subcategories
   }
 
-  getCards(products) {
-    const {filter} = this.props;
+  getCards (products) {
+    const { filter } = this.props
 
     if (_.isEmpty(filter.filters) && _.isEmpty(filter.searchTerm) && !isModerator) {
       return this.getSubcategoryCards.call(this, products)
@@ -126,17 +125,17 @@ export default class Home extends Component {
     }
   }
 
-  getCardComponent(card) {
-    const {filter, saveToFavourites, saveToHistory, changeFilterValue, verifyingProduct, verifiedProduct} = this.props
+  getCardComponent (card) {
+    const { filter, saveToFavourites, saveToHistory, changeFilterValue, verifyingProduct, verifiedProduct } = this.props
 
     if (_.isEmpty(filter.filters) && _.isEmpty(filter.searchTerm)) {
       return (
         <Card
-          link={true}
+          link
           onClick={() => changeFilterValue('subcategory.title', card.subcategory.title)}
-          style={{flex: '0 1 25%'}}
+          style={{ flex: '0 1 25%' }}
         >
-          <Card.Content style={{display: 'flex', justifyContent: 'center', alignItems: 'center', textAlign: 'center'}}>
+          <Card.Content style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', textAlign: 'center' }}>
             <Card.Header>{card.subcategory.title}</Card.Header>
           </Card.Content>
         </Card>
@@ -146,7 +145,7 @@ export default class Home extends Component {
     return (
       <ProductCard
         product={card}
-        style={{flex: '0 0 25%'}}
+        style={{ flex: '0 0 25%' }}
         saveToFavourites={saveToFavourites}
         saveToHistory={saveToHistory}
         verifyingProduct={verifyingProduct}

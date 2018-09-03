@@ -1,4 +1,4 @@
-import React, {Component} from 'react'
+import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import EditForm from 'components/EditForm/EditForm'
 
@@ -12,14 +12,14 @@ export default class SignUpForm extends Component {
     fields: this.props.fields,
   }
 
-  componentWillReceiveProps(nextProps) {
+  componentWillReceiveProps (nextProps) {
     this.setState({
       fields: nextProps.fields,
     })
   }
 
-  render() {
-    const {state} = this
+  render () {
+    const { state } = this
 
     return (
       <EditForm
@@ -30,10 +30,10 @@ export default class SignUpForm extends Component {
     )
   }
 
-  handleSubmit(event) {
-    const {onSubmit} = this.props
-    const form = event.target;
+  handleSubmit (event) {
+    const { onSubmit } = this.props
+    const form = event.target
 
-    onSubmit(form);
+    onSubmit(form)
   }
 }

@@ -1,5 +1,5 @@
-import {combineReducers} from 'redux'
-import {reducer as notificationsReducer} from 'react-notification-system-redux';
+import { combineReducers } from 'redux'
+import { reducer as notificationsReducer } from 'react-notification-system-redux'
 import authReducer from './auth'
 import categoriesReducer from './categories'
 import citiesReducer from './cities'
@@ -22,7 +22,7 @@ export const makeRootReducer = (asyncReducers) => {
   })
 }
 
-export const injectReducer = (store, {key, reducer}) => {
+export const injectReducer = (store, { key, reducer }) => {
   if (Object.hasOwnProperty.call(store.asyncReducers, key)) return
 
   store.asyncReducers[key] = reducer

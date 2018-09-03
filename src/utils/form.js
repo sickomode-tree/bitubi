@@ -1,7 +1,7 @@
 import React from 'react'
 import moment from 'moment'
-import {Button, Form, Input, Menu, TextArea} from 'semantic-ui-react'
-import {getObjectValue} from './array'
+import { Button, Form, Input, Menu, TextArea } from 'semantic-ui-react'
+import { getObjectValue } from './array'
 import DatePicker from 'react-datepicker'
 import MaskedInput from 'react-text-mask'
 
@@ -40,7 +40,7 @@ export const getFormFieldComponent = (config, data) => {
       break
     case 'select':
       formFieldComponent = (
-        <div style={{width: '100%'}}>
+        <div style={{ width: '100%' }}>
           <input
             type='hidden'
             name={config.name}
@@ -119,7 +119,7 @@ export const getFormFieldComponent = (config, data) => {
       formFieldComponent = (
         <Button
           icon={config.icon}
-          style={{position: 'absolute', bottom: 9}}
+          style={{ position: 'absolute', bottom: 9 }}
           onClick={config.onClick}
           formNoValidate
         />
@@ -142,7 +142,7 @@ export const getFormFieldComponent = (config, data) => {
           <input
             type='hidden'
             name={config.name}
-            defaultValue={config.selected}/>
+            defaultValue={config.selected} />
         </Menu>
       )
       break

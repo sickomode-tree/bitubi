@@ -1,7 +1,7 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
 import createStore from './store/createStore'
-import {loadState, saveState} from 'utils/localStorage'
+import { loadState, saveState } from 'utils/localStorage'
 import 'react-datepicker/src/stylesheets/datepicker.scss'
 import './styles/main.scss'
 

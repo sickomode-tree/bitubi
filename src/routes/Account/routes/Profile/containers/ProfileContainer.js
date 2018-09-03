@@ -1,7 +1,7 @@
-import {connect} from 'react-redux'
-import {fetchUser, updateUser} from 'store/user'
-import {resetFilter} from 'store/filter'
-import {fetchCities} from 'store/cities'
+import { connect } from 'react-redux'
+import { fetchUser, updateUser, updateUserpic } from 'store/user'
+import { resetFilter } from 'store/filter'
+import { fetchCities } from 'store/cities'
 
 /*  This is a container component. Notice it does not contain any JSX,
     nor does it import React. This component is **only** responsible for
@@ -17,6 +17,7 @@ import Profile from '../components/Profile/Profile'
 const mapDispatchToProps = {
   fetchUser,
   updateUser,
+  updateUserpic,
   fetchCities,
   resetFilter,
 }

@@ -9,4 +9,4 @@ export default (store) => ({
   childRoutes : [
     AccountRoute(store),
   ]
-});
+})

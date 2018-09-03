@@ -1,6 +1,6 @@
-import React, {Component} from 'react'
+import React, { Component } from 'react'
 import PropType from 'prop-types'
-import {Icon, Header} from 'semantic-ui-react'
+import { Icon, Header } from 'semantic-ui-react'
 
 export default class EmptyText extends Component {
   static propTypes = {
@@ -10,14 +10,14 @@ export default class EmptyText extends Component {
     secondaryText: PropType.string,
   }
 
-  render() {
-    const {icon, title, actions} = this.props
+  render () {
+    const { icon, title, actions } = this.props
 
     return (
       <Header as='h2' icon textAlign='center' color='grey'
-              style={{display: 'flex', flexDirection: 'column', justifyContent: 'center', maxWidth: 500}}>
-        <Icon name={icon} size='huge' circular style={{marginBottom: '1.5rem'}}/>
-        <Header.Content style={{marginBottom: '1.5rem'}}>{title}</Header.Content>
+        style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', maxWidth: 500 }}>
+        <Icon name={icon} size='huge' circular style={{ marginBottom: '1.5rem' }} />
+        <Header.Content style={{ marginBottom: '1.5rem' }}>{title}</Header.Content>
         {actions}
       </Header>
     )

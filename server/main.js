@@ -12,7 +12,7 @@ const app = express()
 app.use(compress())
 
 // Enable proxy
-app.use('/test', proxy({target: 'https://localhost:8443', changeOrigin: true, secure: false}));
+app.use('/test', proxy({ target: 'https://localhost:8443', changeOrigin: true, secure: false }))
 
 // ------------------------------------
 // Apply Webpack HMR Middleware

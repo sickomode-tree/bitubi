@@ -1,10 +1,10 @@
-import React, {Component} from 'react'
+import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import moment from 'moment'
-import {Button, Modal} from 'semantic-ui-react'
+import { Button, Modal } from 'semantic-ui-react'
 import IconList from 'components/IconList/IconList'
 import Tag from 'components/Tag/Tag'
-import {isProvider} from 'utils/auth'
+import { isProvider } from 'utils/auth'
 
 class TenderViewModal extends Component {
   static propTypes = {
@@ -18,9 +18,9 @@ class TenderViewModal extends Component {
     favourite: this.props.tender.favourite || false,
   }
 
-  render() {
-    const {tender, trigger, onOpen} = this.props
-    const {favourite} = this.state
+  render () {
+    const { tender, trigger, onOpen } = this.props
+    const { favourite } = this.state
 
     return (
       <Modal
@@ -31,20 +31,20 @@ class TenderViewModal extends Component {
       >
         <Modal.Header>{tender.title}</Modal.Header>
         <Modal.Content image>
-          <Modal.Description style={{width: '100%'}}>
-            <Tag icon='tags' content={tender.category.title}/>
-            <Tag icon='tag' content={tender.subcategory.title}/>
+          <Modal.Description style={{ width: '100%' }}>
+            <Tag icon='tags' content={tender.category.title} />
+            <Tag icon='tag' content={tender.subcategory.title} />
 
-            <br/>
+            <br />
 
             <IconList
               data={[
-                {icon: 'building', header: 'Город', description: tender.city.name},
-                {icon: 'map marker alternate', header: 'Район', description: tender.district ? tender.district.name : '--'},
-                {icon: 'calendar', header: 'Ожидаемая дата', description: moment(tender.expectedDate).format('DD.MM.YYYY')},
-                {icon: 'box', header: 'Количество, шт', description: +tender.amount},
-                {icon: 'ruble', header: 'Стоимость, руб', description: +tender.price},
-                {icon: 'comment', header: 'Комментарий', description: tender.comment},
+                { icon: 'building', header: 'Город', description: tender.city.name },
+                { icon: 'map marker alternate', header: 'Район', description: tender.district ? tender.district.name : '--' },
+                { icon: 'calendar', header: 'Ожидаемая дата', description: moment(tender.expectedDate).format('DD.MM.YYYY') },
+                { icon: 'box', header: 'Количество, шт', description: +tender.amount },
+                { icon: 'ruble', header: 'Стоимость, руб', description: +tender.price },
+                { icon: 'comment', header: 'Комментарий', description: tender.comment },
               ]}
             />
           </Modal.Description>
@@ -63,11 +63,11 @@ class TenderViewModal extends Component {
     )
   }
 
-  toggleFavouriteState() {
-    const {tender, saveToFavourites} = this.props
-    const {favourite} = this.state
+  toggleFavouriteState () {
+    const { tender, saveToFavourites } = this.props
+    const { favourite } = this.state
 
-    this.setState({favourite: !favourite})
+    this.setState({ favourite: !favourite })
     saveToFavourites(tender.id)
   }
 }

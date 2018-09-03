@@ -1,11 +1,11 @@
-import React, {Component} from 'react'
+import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import _ from 'lodash'
-import {Card} from 'semantic-ui-react'
+import { Card } from 'semantic-ui-react'
 import ProductCard from 'components/ProductCard/ProductCard'
 import EmptyText from 'components/EmptyText/EmptyText'
 import TenderCard from 'components/TenderCard/TenderCard'
-import {isCustomer, isProvider} from 'utils/auth'
+import { isCustomer, isProvider } from 'utils/auth'
 
 export default class History extends Component {
   static propTypes = {
@@ -16,18 +16,18 @@ export default class History extends Component {
     resetFilter: PropTypes.func.isRequired,
   }
 
-  componentDidMount() {
+  componentDidMount () {
     this.props.fetchHistory()
     this.props.resetFilter()
   }
 
-  render() {
-    const {items, isLoading, fetchHistory, saveToFavourites} = this.props
+  render () {
+    const { items, isLoading, fetchHistory, saveToFavourites } = this.props
 
     if (!isLoading) {
       if (!_.isEmpty(items)) {
         return (
-          <div style={{flex: 1}}>
+          <div style={{ flex: 1 }}>
             <h2>История</h2>
 
             <Card.Group itemsPerRow={3}>
@@ -37,7 +37,7 @@ export default class History extends Component {
                   <ProductCard
                     key={card.id}
                     product={card}
-                    style={{height: 150}}
+                    style={{ height: 150 }}
                     onClose={fetchHistory}
                     saveToFavourites={saveToFavourites}
                   />
@@ -67,6 +67,6 @@ export default class History extends Component {
       )
     }
 
-    return <div></div>
+    return <div />
   }
 }

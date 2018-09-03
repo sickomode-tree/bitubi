@@ -10,15 +10,15 @@ export const FETCH_CATEGORIES_FAILURE = 'FETCH_CATEGORIES_FAILURE'
 // Actions
 // ------------------------------------
 
-export const onFetchCategoriesRequest = bool => ({type: FETCH_CATEGORIES_REQUEST, isLoading: bool})
-export const onFetchCategoriesSuccess = json => ({type: FETCH_CATEGORIES_SUCCESS, categories: json})
-export const onFetchCategoriesFailure = bool => ({type: FETCH_CATEGORIES_FAILURE, isErrored: bool})
+export const onFetchCategoriesRequest = bool => ({ type: FETCH_CATEGORIES_REQUEST, isLoading: bool })
+export const onFetchCategoriesSuccess = json => ({ type: FETCH_CATEGORIES_SUCCESS, categories: json })
+export const onFetchCategoriesFailure = bool => ({ type: FETCH_CATEGORIES_FAILURE, isErrored: bool })
 
 // ------------------------------------
 // Thunks
 // ------------------------------------
 
-export function fetchCategories() {
+export function fetchCategories () {
   const url = '/test/public/categories'
 
   return (dispatch) => {
@@ -36,7 +36,7 @@ export function fetchCategories() {
 
         dispatch(onFetchCategoriesRequest(false))
 
-        return response;
+        return response
       })
       .then(response => response.json())
       .then(json => dispatch(onFetchCategoriesSuccess(json)))
@@ -44,12 +44,12 @@ export function fetchCategories() {
         console.error(error)
         return dispatch(onFetchCategoriesFailure(true))
       })
-  };
+  }
 }
 
 export const actions = {
   fetchCategories,
-};
+}
 
 // ------------------------------------
 // Action Handlers
@@ -82,8 +82,8 @@ const initialState = {
   isErrored: false,
 }
 
-export default function categoriesReducer(state = initialState, action) {
-  const handler = ACTION_HANDLERS[action.type];
+export default function categoriesReducer (state = initialState, action) {
+  const handler = ACTION_HANDLERS[action.type]
 
   return handler ? handler(state, action) : state
 }

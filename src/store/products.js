@@ -1,4 +1,4 @@
-import {checkAuthorized, getToken, isModerator} from 'utils/auth'
+import { checkAuthorized, getToken, isModerator } from 'utils/auth'
 
 // ------------------------------------
 // Constants
@@ -20,23 +20,23 @@ export const VERIFIED_PRODUCT_FAILURE = 'VERIFIED_PRODUCT_FAILURE'
 // Actions
 // ------------------------------------
 
-export const onFetchProductsRequest = bool => ({type: FETCH_PRODUCTS_REQUEST, isLoading: bool})
-export const onFetchProductsSuccess = json => ({type: FETCH_PRODUCTS_SUCCESS, products: json})
-export const onFetchProductsFailure = bool => ({type: FETCH_PRODUCTS_FAILURE, isErrored: bool})
+export const onFetchProductsRequest = bool => ({ type: FETCH_PRODUCTS_REQUEST, isLoading: bool })
+export const onFetchProductsSuccess = json => ({ type: FETCH_PRODUCTS_SUCCESS, products: json })
+export const onFetchProductsFailure = bool => ({ type: FETCH_PRODUCTS_FAILURE, isErrored: bool })
 
-export const onVerifyingProductRequest = bool => ({type: VERIFYING_PRODUCT_REQUEST, isVerifying: bool})
-export const onVerifyingProductSuccess = ()   => ({type: VERIFYING_PRODUCT_SUCCESS})
-export const onVerifyingProductFailure = bool => ({type: VERIFYING_PRODUCT_FAILURE, isErrored: bool})
+export const onVerifyingProductRequest = bool => ({ type: VERIFYING_PRODUCT_REQUEST, isVerifying: bool })
+export const onVerifyingProductSuccess = () => ({ type: VERIFYING_PRODUCT_SUCCESS })
+export const onVerifyingProductFailure = bool => ({ type: VERIFYING_PRODUCT_FAILURE, isErrored: bool })
 
-export const onVerifiedProductRequest = bool => ({type: VERIFIED_PRODUCT_REQUEST, isVerified: bool})
-export const onVerifiedProductSuccess = ()   => ({type: VERIFIED_PRODUCT_SUCCESS})
-export const onVerifiedProductFailure = bool => ({type: VERIFIED_PRODUCT_FAILURE, isErrored: bool})
+export const onVerifiedProductRequest = bool => ({ type: VERIFIED_PRODUCT_REQUEST, isVerified: bool })
+export const onVerifiedProductSuccess = () => ({ type: VERIFIED_PRODUCT_SUCCESS })
+export const onVerifiedProductFailure = bool => ({ type: VERIFIED_PRODUCT_FAILURE, isErrored: bool })
 
 // ------------------------------------
 // Thunks
 // ------------------------------------
 
-export function fetchProducts() {
+export function fetchProducts () {
   const isAuthorized = checkAuthorized()
   const controller = isAuthorized ? 'private' : 'public'
   const url = `/test/${controller}/products`
@@ -60,7 +60,7 @@ export function fetchProducts() {
 
         dispatch(onFetchProductsRequest(false))
 
-        return response;
+        return response
       })
       .then(response => response.json())
       .then(json => {
@@ -87,10 +87,10 @@ export function fetchProducts() {
         return dispatch(onFetchProductsSuccess(cards))
       })
       .catch(error => dispatch(onFetchProductsFailure(true)))
-  };
+  }
 }
 
-export function verifyingProduct(id, verifying) {
+export function verifyingProduct (id, verifying) {
   const formData = new FormData()
   const url = '/test/private/verifying'
   let token = null
@@ -123,10 +123,10 @@ export function verifyingProduct(id, verifying) {
       .then(response => response.json())
       .then(json => dispatch(onVerifyingProductSuccess()))
       .catch(error => dispatch(onVerifyingProductFailure(true)))
-  };
+  }
 }
 
-export function verifiedProduct(id, verified) {
+export function verifiedProduct (id, verified) {
   const formData = new FormData()
   const url = '/test/private/verify'
   let token = null
@@ -159,7 +159,7 @@ export function verifiedProduct(id, verified) {
       .then(response => response.json())
       .then(json => dispatch(onVerifiedProductSuccess()))
       .catch(error => dispatch(onVerifiedProductFailure(true)))
-  };
+  }
 }
 
 export const actions = {
@@ -227,8 +227,8 @@ const initialState = {
   isErrored: false,
 }
 
-export default function productsReducer(state = initialState, action) {
-  const handler = ACTION_HANDLERS[action.type];
+export default function productsReducer (state = initialState, action) {
+  const handler = ACTION_HANDLERS[action.type]
 
   return handler ? handler(state, action) : state
 }

@@ -1,9 +1,9 @@
-import React, {Component} from 'react'
-import {getUserType} from 'utils/auth'
+import React, { Component } from 'react'
+import { getUserType } from 'utils/auth'
 
 export const Authorization = (WrappedComponent, allowedUserTypes) => {
   return class WithAuthorization extends Component {
-    constructor(props) {
+    constructor (props) {
       super(props)
 
       this.state = {
@@ -11,8 +11,8 @@ export const Authorization = (WrappedComponent, allowedUserTypes) => {
       }
     }
 
-    render() {
-      const {userType} = this.state
+    render () {
+      const { userType } = this.state
       if (allowedUserTypes.includes(userType)) {
         return <WrappedComponent {...this.props} />
       } else {

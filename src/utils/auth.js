@@ -1,12 +1,12 @@
 import _ from 'lodash'
-import {loadState} from './localStorage'
+import { loadState } from './localStorage'
 
 export const guestUserType = 'guest'
 export const customerUserType = 'customer'
 export const providerUserType = 'provider'
 export const moderatorUserType = 'moderator'
 
-export function getToken() {
+export function getToken () {
   const state = loadState()
   let token = null
 
@@ -17,7 +17,7 @@ export function getToken() {
   return token
 }
 
-export function getUserType() {
+export function getUserType () {
   const state = loadState()
   let userType = null
 
@@ -28,7 +28,7 @@ export function getUserType() {
   return userType
 }
 
-export function checkAuthorized() {
+export function checkAuthorized () {
   const token = getToken()
 
   return !_.isNil(token)

@@ -1,4 +1,5 @@
-import {getToken} from 'utils/auth'
+import Notifications from 'react-notification-system-redux'
+import { getToken } from 'utils/auth'
 
 // ------------------------------------
 // Constants
@@ -16,21 +17,25 @@ export const UPDATE_USER_FAILURE = 'UPDATE_USER_FAILURE'
 // Actions
 // ------------------------------------
 
-export const onFetchUserRequest = bool => ({type: FETCH_USER_REQUEST, isLoading: bool})
-export const onFetchUserSuccess = json => ({type: FETCH_USER_SUCCESS, user: json})
-export const onFetchUserFailure = bool => ({type: FETCH_USER_FAILURE, isErrored: bool})
+export const onFetchUserRequest = bool => ({ type: FETCH_USER_REQUEST, isLoading: bool })
+export const onFetchUserSuccess = json => ({ type: FETCH_USER_SUCCESS, user: json })
+export const onFetchUserFailure = bool => ({ type: FETCH_USER_FAILURE, isErrored: bool })
 
-export const onUpdateUserRequest = bool => ({type: UPDATE_USER_REQUEST, isLoading: bool})
-export const onUpdateUserSuccess = ()   => ({type: UPDATE_USER_SUCCESS})
-export const onUpdateUserFailure = bool => ({type: UPDATE_USER_FAILURE, isErrored: bool})
+export const onUpdateUserRequest = bool => ({ type: UPDATE_USER_REQUEST, isLoading: bool })
+export const onUpdateUserSuccess = () => ({ type: UPDATE_USER_SUCCESS })
+export const onUpdateUserFailure = bool => ({ type: UPDATE_USER_FAILURE, isErrored: bool })
+
+export const onUpdateUserpicRequest = () => ({ type: UPDATE_USERPIC_REQUEST })
+export const onUpdateUserpicSuccess = () => ({ type: UPDATE_USERPIC_SUCCESS })
+export const onUpdateUserpicFailure = () => ({ type: UPDATE_USERPIC_FAILURE })
 
 export const fetchUser = () => {
-  const url = '/test/private/user';
+  const url = '/test/private/user'
 
   return (dispatch, getState) => {
-    const token = getState().auth.token;
+    const token = getState().auth.token
 
-    dispatch(onFetchUserRequest(true));
+    dispatch(onFetchUserRequest(true))
     fetch(url, {
       headers: {
         'Content-Type': 'application/x-www-form-urlencoded',
@@ -39,12 +44,12 @@ export const fetchUser = () => {
     })
       .then(response => {
         if (!response.ok) {
-          throw Error(response.statusText);
+          throw Error(response.statusText)
         }
 
-        dispatch(onFetchUserRequest(false));
+        dispatch(onFetchUserRequest(false))
 
-        return response;
+        return response
       })
       .then(response => response.json())
       .then(json => dispatch(onFetchUserSuccess(json)))
@@ -52,7 +57,7 @@ export const fetchUser = () => {
         console.error(error)
         dispatch(onFetchUserFailure(true))
       })
-  };
+  }
 }
 
 export const updateUser = form => {
@@ -82,12 +87,51 @@ export const updateUser = form => {
       .then(response => response.json())
       .then(json => dispatch(onUpdateUserSuccess()))
       .catch(error => dispatch(onUpdateUserFailure(true)))
-  };
+  }
+}
+
+export const updateUserpic = file => {
+  const url = '/test/private/uploadFile'
+  const formData = new FormData()
+
+  formData.append('file', file)
+
+  return (dispatch) => {
+    dispatch(onUpdateUserRequest(true))
+
+    fetch(url, {
+      method: 'POST',
+      headers: {
+        'Authorization': `Bearer ${getToken()}`
+      },
+      body: formData,
+    })
+      .then(response => {
+        if (!response.ok) {
+          throw Error(response.statusText)
+        }
+
+        dispatch(onUpdateUserRequest(false))
+
+        return response
+      })
+      .then(response => response.json())
+      .then(json => dispatch(onUpdateUserSuccess()))
+      .catch(error => {
+        dispatch(Notifications.error({
+          title: 'Не удалось войти в систему',
+          message: 'Пожалуйста, попробуйте еще раз.',
+          position: 'bl',
+        }))
+        dispatch(onUpdateUserFailure(true))
+      })
+  }
 }
 
 export const actions = {
   fetchUser,
   updateUser,
+  updateUserpic,
 }
 
 // ------------------------------------
@@ -124,7 +168,7 @@ const initialState = {
   user: {},
   isLoading: false,
   isErrored: false,
-};
+}
 
 export default function userReducer (state = initialState, action) {
   const handler = ACTION_HANDLERS[action.type]

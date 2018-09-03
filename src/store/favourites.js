@@ -14,20 +14,20 @@ export const SAVE_TO_FAVOURITES_FAILURE = 'SAVE_TO_FAVOURITES_FAILURE'
 // Actions
 // ------------------------------------
 
-export const onFetchFavouritesRequest = bool => ({type: FETCH_FAVOURITES_REQUEST, isLoading: bool})
-export const onFetchFavouritesSuccess = json => ({type: FETCH_FAVOURITES_SUCCESS, items: json})
-export const onFetchFavouritesFailure = bool => ({type: FETCH_FAVOURITES_FAILURE, isErrored: bool})
+export const onFetchFavouritesRequest = bool => ({ type: FETCH_FAVOURITES_REQUEST, isLoading: bool })
+export const onFetchFavouritesSuccess = json => ({ type: FETCH_FAVOURITES_SUCCESS, items: json })
+export const onFetchFavouritesFailure = bool => ({ type: FETCH_FAVOURITES_FAILURE, isErrored: bool })
 
-export const onSaveToFavouritesRequest = () => ({type: SAVE_TO_FAVOURITES_REQUEST})
-export const onSaveToFavouritesSuccess = () => ({type: SAVE_TO_FAVOURITES_SUCCESS})
-export const onSaveToFavouritesFailure = bool => ({type: SAVE_TO_FAVOURITES_FAILURE, isErrored: bool})
+export const onSaveToFavouritesRequest = () => ({ type: SAVE_TO_FAVOURITES_REQUEST })
+export const onSaveToFavouritesSuccess = () => ({ type: SAVE_TO_FAVOURITES_SUCCESS })
+export const onSaveToFavouritesFailure = bool => ({ type: SAVE_TO_FAVOURITES_FAILURE, isErrored: bool })
 
-export function fetchFavourites() {
+export function fetchFavourites () {
   const url = '/test/private/user/favourites'
   let token = null
 
   return (dispatch, getState) => {
-    dispatch(onFetchFavouritesRequest(true));
+    dispatch(onFetchFavouritesRequest(true))
 
     token = getState().auth.token
 
@@ -44,15 +44,15 @@ export function fetchFavourites() {
 
         dispatch(onFetchFavouritesRequest(false))
 
-        return response;
+        return response
       })
       .then(response => response.json())
       .then(json => dispatch(onFetchFavouritesSuccess(json)))
       .catch(error => dispatch(onFetchFavouritesFailure(true)))
-  };
+  }
 }
 
-export function saveToFavourites(id) {
+export function saveToFavourites (id) {
   const formData = new FormData()
   const url = '/test/private/user/favourites'
   let token = null
@@ -85,7 +85,7 @@ export function saveToFavourites(id) {
         console.error(error)
         dispatch(onSaveToFavouritesFailure(true))
       })
-  };
+  }
 }
 
 export const actions = {
@@ -125,7 +125,7 @@ const initialState = {
   items: [],
   isLoading: false,
   isErrored: false,
-};
+}
 
 export default function favouritesReducer (state = initialState, action) {
   const handler = ACTION_HANDLERS[action.type]

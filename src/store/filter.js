@@ -4,22 +4,22 @@ import _ from 'lodash'
 // Constants
 // ------------------------------------
 
-export const CHANGE_SEARCH_TERM = 'CHANGE_SEARCH_TERM';
-export const CHANGE_FILTER_VALUE = 'CHANGE_FILTER_VALUE';
-export const RESET_FILTER = 'RESET_FILTER';
+export const CHANGE_SEARCH_TERM = 'CHANGE_SEARCH_TERM'
+export const CHANGE_FILTER_VALUE = 'CHANGE_FILTER_VALUE'
+export const RESET_FILTER = 'RESET_FILTER'
 
 // ------------------------------------
 // Actions
 // ------------------------------------
 
-export function onSearchTermChange(value) {
+export function onSearchTermChange (value) {
   return {
     type: CHANGE_SEARCH_TERM,
     value: value,
   }
 }
 
-export function onFilterValueChange(filter, value) {
+export function onFilterValueChange (filter, value) {
   return {
     type: CHANGE_FILTER_VALUE,
     filter: filter,
@@ -27,7 +27,7 @@ export function onFilterValueChange(filter, value) {
   }
 }
 
-export function onFilterReset() {
+export function onFilterReset () {
   return {
     type: RESET_FILTER,
   }
@@ -36,19 +36,19 @@ export function onFilterReset() {
 /*  This is a thunk, meaning it is a function that immediately
     returns a function for lazy evaluation. */
 
-export function changeSearchTerm(value) {
+export function changeSearchTerm (value) {
   return (dispatch) => {
     dispatch(onSearchTermChange(value))
   }
 }
 
-export function changeFilterValue(filter, value) {
+export function changeFilterValue (filter, value) {
   return (dispatch) => {
     dispatch(onFilterValueChange(filter, value))
   }
 }
 
-export function resetFilter() {
+export function resetFilter () {
   return (dispatch) => {
     dispatch(onFilterReset())
   }
@@ -80,7 +80,7 @@ const ACTION_HANDLERS = {
     filters: {},
     searchTerm: '',
   }),
-};
+}
 
 // ------------------------------------
 // Reducer
@@ -88,10 +88,10 @@ const ACTION_HANDLERS = {
 const initialState = {
   filters: {},
   searchTerm: '',
-};
+}
 
-export default function filterReducer(state = initialState, action) {
-  const handler = ACTION_HANDLERS[action.type];
+export default function filterReducer (state = initialState, action) {
+  const handler = ACTION_HANDLERS[action.type]
 
   return handler ? handler(state, action) : state
 }

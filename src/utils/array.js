@@ -1,5 +1,5 @@
 import _ from 'lodash'
-import {getFormattedValue} from './form'
+import { getFormattedValue } from './form'
 
 export const queryArrayByKey = (array, key) => {
   const isArray = _.isArray(array)
@@ -10,7 +10,7 @@ export const queryArrayByKey = (array, key) => {
       if (!_.find(items, item[key])) {
         items.push(item[key])
       }
-    });
+    })
   }
 
   return items

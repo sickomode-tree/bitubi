@@ -1,16 +1,16 @@
-import React, {Component} from 'react'
+import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import moment from 'moment/moment'
 import _ from 'lodash'
-import {Button, Card, Icon, Header, Progress} from 'semantic-ui-react'
+import { Button, Card, Icon, Header, Progress } from 'semantic-ui-react'
 import EmptyText from 'components/EmptyText/EmptyText'
 import TenderEditModal from './components/TenderEditModal/TenderEditModal'
 import TenderViewModal from './components/TenderViewModal/TenderViewModal'
 import IconList from 'components/IconList/IconList'
 import CardGrid from 'components/CardGrid/CardGrid'
 import TenderCard from 'components/TenderCard/TenderCard'
-import {isProvider, isCustomer, isModerator} from 'utils/auth'
-import {verifyingTender} from "../../modules/tenders";
+import { isProvider, isCustomer, isModerator } from 'utils/auth'
+import { verifyingTender } from '../../modules/tenders'
 
 export default class Tenders extends Component {
   static propTypes = {
@@ -31,13 +31,13 @@ export default class Tenders extends Component {
     resetFilter: PropTypes.func.isRequired,
   }
 
-  componentDidMount() {
+  componentDidMount () {
     this.props.fetchCategories()
     this.props.fetchCities()
     this.props.fetchTenders()
   }
 
-  render() {
+  render () {
     const {
       cities, categories, items, filter,
       fetchTenders, fetchCities, fetchCategories,
@@ -50,7 +50,7 @@ export default class Tenders extends Component {
     if (!_.isEmpty(items)) {
       if (isCustomer) {
         return (
-          <div style={{flex: 1}}>
+          <div style={{ flex: 1 }}>
             <h2>Тендеры</h2>
 
             <Card.Group itemsPerRow={3} doubling stackable>
@@ -66,10 +66,10 @@ export default class Tenders extends Component {
                     fluid
                     link
                     color='green'
-                    style={{justifyContent: 'center'}}
+                    style={{ justifyContent: 'center' }}
                     content={
                       <Header as='h2' icon textAlign='center' color='green'>
-                        <Icon name='plus' circular/>
+                        <Icon name='plus' circular />
                         <Header.Content>Добавить</Header.Content>
                       </Header>
                     }
@@ -93,7 +93,7 @@ export default class Tenders extends Component {
                           <Card.Header>
                             {card.title}
                             {card.verified === false &&
-                            <i className='right floated ban icon red'></i>
+                            <i className='right floated ban icon red' />
                             }
                           </Card.Header>
                         </Card.Content>
@@ -104,9 +104,9 @@ export default class Tenders extends Component {
                               header: 'Ожидаемая дата',
                               description: moment(card.expectedDate).format('DD.MM.YYYY')
                             },
-                            {icon: 'box', header: 'Количество, шт', description: +card.amount},
-                            {icon: 'ruble', header: 'Стоимость, руб', description: +card.price},
-                          ]}/>
+                            { icon: 'box', header: 'Количество, шт', description: +card.amount },
+                            { icon: 'ruble', header: 'Стоимость, руб', description: +card.price },
+                          ]} />
                         </Card.Content>
                         {
                           isCustomer &&
@@ -159,7 +159,7 @@ export default class Tenders extends Component {
                             }
                           </Card.Content>
                         }
-                        <Progress percent={100 - card.totalDays / card.daysToGo * 100} attached='bottom'/>
+                        <Progress percent={100 - card.totalDays / card.daysToGo * 100} attached='bottom' />
                       </Card>
                     }
                   />
@@ -184,7 +184,7 @@ export default class Tenders extends Component {
                 <TenderCard
                   key={index}
                   tender={card}
-                  style={{height: 150}}
+                  style={{ height: 150 }}
                   verifyingTender={verifyingTender}
                   verifiedTender={verifiedTender}
                   onClose={fetchTenders}
@@ -218,9 +218,8 @@ export default class Tenders extends Component {
     )
   }
 
-
-  handleDeleteTender(id, event) {
-    const {fetchTenders, deleteTender} = this.props
+  handleDeleteTender (id, event) {
+    const { fetchTenders, deleteTender } = this.props
 
     event.preventDefault()
     event.stopPropagation()
@@ -229,8 +228,8 @@ export default class Tenders extends Component {
       .then(() => fetchTenders())
   }
 
-  handleToggleTender(id, event) {
-    const {fetchTenders, toggleTender} = this.props
+  handleToggleTender (id, event) {
+    const { fetchTenders, toggleTender } = this.props
 
     event.preventDefault()
     event.stopPropagation()
@@ -239,14 +238,14 @@ export default class Tenders extends Component {
       .then(() => fetchTenders())
   }
 
-  handleEditTender(id, event) {
+  handleEditTender (id, event) {
     event.preventDefault()
     event.stopPropagation()
   }
 
-  getTenderCards(items) {
-    const {filter} = this.props;
-    let cards = items;
+  getTenderCards (items) {
+    const { filter } = this.props
+    let cards = items
 
     // filter by search value
     cards = cards.filter(card => card.title.toLowerCase().indexOf(filter.searchTerm.toLowerCase()) >= 0)
@@ -269,10 +268,10 @@ export default class Tenders extends Component {
       })
     }
 
-    return cards;
+    return cards
   }
 
-  getSubcategoryCards(items) {
+  getSubcategoryCards (items) {
     let subcategoryMap = {}
     let subcategories = []
 
@@ -287,11 +286,11 @@ export default class Tenders extends Component {
 
     subcategories = _.map(subcategoryMap, subcategory => subcategory)
 
-    return subcategories;
+    return subcategories
   }
 
-  getCards(items) {
-    const {filter} = this.props;
+  getCards (items) {
+    const { filter } = this.props
 
     if (_.isEmpty(filter.filters) && _.isEmpty(filter.searchTerm) && !isModerator) {
       return this.getSubcategoryCards.call(this, items)
@@ -300,17 +299,17 @@ export default class Tenders extends Component {
     }
   }
 
-  getCardComponent(tender) {
-    const {filter, fetchTenders, saveToFavourites, saveToHistory, changeFilterValue} = this.props
+  getCardComponent (tender) {
+    const { filter, fetchTenders, saveToFavourites, saveToHistory, changeFilterValue } = this.props
 
     if (_.isEmpty(filter.filters) && _.isEmpty(filter.searchTerm)) {
       return (
         <Card
-          link={true}
+          link
           onClick={() => changeFilterValue('subcategory.title', tender.subcategory.title)}
-          style={{flex: '0 1 25%'}}
+          style={{ flex: '0 1 25%' }}
         >
-          <Card.Content style={{display: 'flex', justifyContent: 'center', alignItems: 'center', textAlign: 'center'}}>
+          <Card.Content style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', textAlign: 'center' }}>
             <Card.Header>{tender.subcategory.title}</Card.Header>
           </Card.Content>
         </Card>
@@ -320,7 +319,7 @@ export default class Tenders extends Component {
     return (
       <TenderCard
         tender={tender}
-        style={{flex: '0 0 25%'}}
+        style={{ flex: '0 0 25%' }}
         saveToFavourites={saveToFavourites}
         saveToHistory={saveToHistory}
         onClose={fetchTenders}

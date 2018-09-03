@@ -1,17 +1,18 @@
-import React, {Component} from 'react'
+import React, { Component } from 'react'
 import _ from 'lodash'
 import PropTypes from 'prop-types'
-import {Button, Dimmer, Grid, Image, Modal, Reveal} from 'semantic-ui-react'
+import { Button, Dimmer, Grid, Image, Modal, Reveal } from 'semantic-ui-react'
 import Dropzone from 'react-dropzone'
 import EditForm from 'components/EditForm/EditForm'
-import {getToken, getUserType} from 'utils/auth'
-
+import { getUserType } from 'utils/auth'
 
 class ProfileEditModal extends Component {
   static propTypes = {
     trigger: PropTypes.node,
+    user: PropTypes.object.isRequired,
     cities: PropTypes.array.isRequired,
     fetchCities: PropTypes.func.isRequired,
+    updateUserpic: PropTypes.func.isRequired,
     onSubmit: PropTypes.func.isRequired,
     onClose: PropTypes.func.isRequired,
   }
@@ -23,24 +24,24 @@ class ProfileEditModal extends Component {
     userpic: '',
   }
 
-  componentDidMount() {
-    const {fetchCities} = this.props
+  componentDidMount () {
+    const { fetchCities } = this.props
 
     fetchCities()
   }
 
-  render() {
-    const {user, cities, trigger, onClose} = this.props
-    const {state} = this
+  render () {
+    const { user, cities, trigger, updateUserpic, onClose } = this.props
+    const { state } = this
 
-    const cityOptions = cities.map(city => ({value: city.id, text: city.name}))
+    const cityOptions = cities.map(city => ({ value: city.id, text: city.name }))
     const cityValue = state.city || (user && user.city ? user.city.id : null)
     const districts = cityValue ? cities.find(city => city.id === cityValue).districts : []
-    const districtOptions = districts.map(district => ({value: district.id, text: district.name}))
+    const districtOptions = districts.map(district => ({ value: district.id, text: district.name }))
     const districtValue = state.district || (user && user.district ? user.district.id : null)
 
     const formFields = [
-      {tag: 'input', type: 'text', name: 'login', title: 'Логин', required: true, path: 'login', width: 16},
+      { tag: 'input', type: 'text', name: 'login', title: 'Логин', required: true, path: 'login', width: 16 },
       {
         tag: 'input',
         type: 'text',
@@ -70,7 +71,7 @@ class ProfileEditModal extends Component {
         path: 'providerName',
         visible: getUserType() === 'provider'
       },
-      {tag: 'input', type: 'text', name: 'email', title: 'Email', required: true, path: 'email'},
+      { tag: 'input', type: 'text', name: 'email', title: 'Email', required: true, path: 'email' },
       {
         tag: 'select',
         name: 'city',
@@ -108,16 +109,17 @@ class ProfileEditModal extends Component {
         required: getUserType() === 'provider',
         path: 'phoneNumber'
       },
-      {tag: 'input', type: 'url', name: 'url', title: 'Сайт', path: 'url'},
-      {tag: 'input', type: 'hidden', name: 'id', path: 'id'},
+      { tag: 'input', type: 'url', name: 'url', title: 'Сайт', path: 'url' },
+      { tag: 'input', type: 'hidden', name: 'id', path: 'id' },
     ]
-    const defaultUserpicUrl = user.photo ? user.photo.absolutePath : 'https://app.extremereach.com/Content/Images/source_placeholder_user_thirty.png'
+    const userpicUrl = user.photo && '/test/images/' + user.photo.original
 
     return (
       <Modal
         trigger={trigger || <Button basic>Редактировать</Button>}
         size='large'
         dimmer='blurring'
+        mountNode={document.getElementById('root')}
         onClose={onClose}
       >
         <Modal.Header>Редактировать</Modal.Header>
@@ -127,54 +129,42 @@ class ProfileEditModal extends Component {
               <Dropzone
                 multiple={false}
                 accept='image/jpeg, image/png'
-                style={{width: '100%', border: 'none'}}
+                style={{ width: '100%', border: 'none' }}
                 onDrop={acceptedFiles => {
-                acceptedFiles.forEach(file => {
-                  const reader = new FileReader()
+                  acceptedFiles.forEach(file => {
+                    const reader = new FileReader()
 
-                  reader.onload = () => {
-                    const fileAsBinaryString = reader.result
-                    const formData = new FormData();
+                    reader.onload = () => {
+                      const fileAsBinaryString = reader.result
+                      const formData = new FormData()
 
-                    formData.append('file', file);
-                    this.setState({userpic: fileAsBinaryString})
-                    fetch('/test/private/uploadFile', {
-                      method: 'POST',
-                      headers: {
-                        'Authorization': `Bearer ${getToken()}`
-                      },
-                      body: formData,
-                    })
-                      .then(
-                        response => response.json() // if the response is a JSON object
-                      ).then(
-                      success => console.log(success) // Handle the success response object
-                      ).catch(
-                        error => console.log(error) // Handle the error response object
-                      )
-                  }
-                  reader.onabort = () => console.log('file reading was aborted')
-                  reader.onerror = () => console.log('file reading has failed')
+                      formData.append('file', file)
+                      this.setState({ userpic: fileAsBinaryString })
+                      updateUserpic(fileAsBinaryString)
+                    }
+                    reader.onabort = () => console.log('file reading was aborted')
+                    reader.onerror = () => console.log('file reading has failed')
 
-                  reader.readAsBinaryString(file);
-                })}}
+                    reader.readAsBinaryString(file)
+                  })
+                }}
               >
                 <Reveal animated='small fade'>
-                  <Reveal.Content visible style={{width: '100%'}}>
+                  <Reveal.Content visible style={{ width: '100%' }}>
                     <Image
                       wrapped fluid
-                      src={state.userpic ? 'data:image/jpeg;base64,' + btoa(state.userpic) : defaultUserpicUrl}
+                      src={state.userpic ? 'data:image/jpeg;base64,' + btoa(state.userpic) : userpicUrl}
                     />
                   </Reveal.Content>
                   <Reveal.Content hidden>
                     <Dimmer active onClickOutside={() => {
-                      debugger
+
                     }}>
                       Обновить фотографию
                     </Dimmer>
                     <Image
                       wrapped fluid
-                      src={state.userpic ? 'data:image/jpeg;base64,' + btoa(state.userpic) : defaultUserpicUrl}
+                      src={state.userpic ? 'data:image/jpeg;base64,' + btoa(state.userpic) : userpicUrl}
                     />
                   </Reveal.Content>
                 </Reveal>
@@ -193,23 +183,23 @@ class ProfileEditModal extends Component {
           </Grid>
         </Modal.Content>
         <Modal.Actions>
-          <Button positive type='submit' form='profileForm' icon='checkmark' labelPosition='left' content='Готово'/>
+          <Button positive type='submit' form='profileForm' icon='checkmark' labelPosition='left' content='Готово' />
         </Modal.Actions>
       </Modal>
     )
   }
 
-  handleSelectChange(event, field) {
-    this.setState({[field.name]: field.value})
+  handleSelectChange (event, field) {
+    this.setState({ [field.name]: field.value })
   }
 
-  handleInputChange(event) {
+  handleInputChange (event) {
     const field = event.target
-    this.setState({[field.name]: field.value})
+    this.setState({ [field.name]: field.value })
   }
 
-  handleSubmit(event) {
-    const {onSubmit} = this.props
+  handleSubmit (event) {
+    const { onSubmit } = this.props
     const form = event.target
 
     onSubmit(form)

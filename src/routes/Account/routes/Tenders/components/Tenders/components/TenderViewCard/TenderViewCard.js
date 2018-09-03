@@ -1,6 +1,6 @@
-import React, {Component} from 'react'
+import React, { Component } from 'react'
 import PropTypes from 'prop-types'
-import {Card} from 'semantic-ui-react'
+import { Card } from 'semantic-ui-react'
 
 export default class TenderViewCard extends Component {
   static propTypes = {
@@ -8,8 +8,8 @@ export default class TenderViewCard extends Component {
     meta: PropTypes.string.isRequired,
   }
 
-  render() {
-    const {header, meta} = this.props
+  render () {
+    const { header, meta } = this.props
 
     return (
       <Card

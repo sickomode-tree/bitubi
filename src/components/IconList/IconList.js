@@ -1,14 +1,14 @@
-import React, {Component} from 'react'
+import React, { Component } from 'react'
 import PropTypes from 'prop-types'
-import {List} from 'semantic-ui-react'
+import { List } from 'semantic-ui-react'
 
 export default class IconList extends Component {
   static propTypes = {
     data: PropTypes.array.isRequired,
   }
 
-  render() {
-    const {data} = this.props
+  render () {
+    const { data } = this.props
 
     return (
       <List divided relaxed>

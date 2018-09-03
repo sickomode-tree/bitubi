@@ -1,4 +1,4 @@
-import {injectReducer} from 'store/reducers'
+import { injectReducer } from 'store/reducers'
 import Account from './components/Account'
 import FavouritesRoute from './routes/Favourites/index'
 import HistoryRoute from './routes/History/index'

@@ -1,4 +1,4 @@
-import {getToken, getUserType} from 'utils/auth'
+import { getToken, getUserType } from 'utils/auth'
 import {
   onVerifiedProductFailure,
   onVerifiedProductRequest,
@@ -10,7 +10,7 @@ import {
   VERIFIED_PRODUCT_REQUEST, VERIFIED_PRODUCT_SUCCESS,
   verifiedProduct, VERIFYING_PRODUCT_FAILURE, VERIFYING_PRODUCT_REQUEST, VERIFYING_PRODUCT_SUCCESS,
   verifyingProduct
-} from "../../../../../store/products";
+} from '../../../../../store/products'
 
 // ------------------------------------
 // Constants
@@ -44,34 +44,34 @@ export const VERIFIED_TENDER_FAILURE = 'VERIFIED_TENDER_FAILURE'
 // Actions
 // ------------------------------------
 
-export const onFetchTendersRequest = bool => ({type: FETCH_TENDERS_REQUEST, isLoading: bool})
-export const onFetchTendersSuccess = json => ({type: FETCH_TENDERS_SUCCESS, items: json})
-export const onFetchTendersFailure = bool => ({type: FETCH_TENDERS_FAILURE, isErrored: bool})
+export const onFetchTendersRequest = bool => ({ type: FETCH_TENDERS_REQUEST, isLoading: bool })
+export const onFetchTendersSuccess = json => ({ type: FETCH_TENDERS_SUCCESS, items: json })
+export const onFetchTendersFailure = bool => ({ type: FETCH_TENDERS_FAILURE, isErrored: bool })
 
-export const onSaveTenderRequest   = bool => ({type: SAVE_TENDER_REQUEST, isSaving: bool})
-export const onSaveTenderSuccess   = ()   => ({type: SAVE_TENDER_SUCCESS})
-export const onSaveTenderFailure   = bool => ({type: SAVE_TENDER_FAILURE, isErrored: bool})
+export const onSaveTenderRequest = bool => ({ type: SAVE_TENDER_REQUEST, isSaving: bool })
+export const onSaveTenderSuccess = () => ({ type: SAVE_TENDER_SUCCESS })
+export const onSaveTenderFailure = bool => ({ type: SAVE_TENDER_FAILURE, isErrored: bool })
 
-export const onDeleteTenderRequest = bool => ({type: DELETE_TENDER_REQUEST, isDeleting: bool})
-export const onDeleteTenderSuccess = ()   => ({type: DELETE_TENDER_SUCCESS})
-export const onDeleteTenderFailure = bool => ({type: DELETE_TENDER_FAILURE, isErrored: bool})
+export const onDeleteTenderRequest = bool => ({ type: DELETE_TENDER_REQUEST, isDeleting: bool })
+export const onDeleteTenderSuccess = () => ({ type: DELETE_TENDER_SUCCESS })
+export const onDeleteTenderFailure = bool => ({ type: DELETE_TENDER_FAILURE, isErrored: bool })
 
-export const onToggleTenderRequest = bool => ({type: TOGGLE_TENDER_REQUEST, isToggling: bool})
-export const onToggleTenderSuccess = ()   => ({type: TOGGLE_TENDER_SUCCESS})
-export const onToggleTenderFailure = ()   => ({type: TOGGLE_TENDER_FAILURE, isErrored: bool})
+export const onToggleTenderRequest = bool => ({ type: TOGGLE_TENDER_REQUEST, isToggling: bool })
+export const onToggleTenderSuccess = () => ({ type: TOGGLE_TENDER_SUCCESS })
+export const onToggleTenderFailure = () => ({ type: TOGGLE_TENDER_FAILURE, isErrored: bool })
 
-export const onVerifyingTenderRequest = bool => ({type: VERIFYING_TENDER_REQUEST, isVerifying: bool})
-export const onVerifyingTenderSuccess = ()   => ({type: VERIFYING_TENDER_SUCCESS})
-export const onVerifyingTenderFailure = bool => ({type: VERIFYING_TENDER_FAILURE, isErrored: bool})
+export const onVerifyingTenderRequest = bool => ({ type: VERIFYING_TENDER_REQUEST, isVerifying: bool })
+export const onVerifyingTenderSuccess = () => ({ type: VERIFYING_TENDER_SUCCESS })
+export const onVerifyingTenderFailure = bool => ({ type: VERIFYING_TENDER_FAILURE, isErrored: bool })
 
-export const onVerifiedTenderRequest = bool => ({type: VERIFIED_TENDER_REQUEST, isVerified: bool})
-export const onVerifiedTenderSuccess = ()   => ({type: VERIFIED_TENDER_SUCCESS})
-export const onVerifiedTenderFailure = bool => ({type: VERIFIED_TENDER_FAILURE, isErrored: bool})
+export const onVerifiedTenderRequest = bool => ({ type: VERIFIED_TENDER_REQUEST, isVerified: bool })
+export const onVerifiedTenderSuccess = () => ({ type: VERIFIED_TENDER_SUCCESS })
+export const onVerifiedTenderFailure = bool => ({ type: VERIFIED_TENDER_FAILURE, isErrored: bool })
 // ------------------------------------
 // Thunks
 // ------------------------------------
 
-export function fetchTenders() {
+export function fetchTenders () {
   const urlByUserTypeMap = {
     customer: '/test/private/user/tenders',
     provider: '/test/private/tenders',
@@ -84,7 +84,7 @@ export function fetchTenders() {
   return (dispatch, getState) => {
     token = getState().auth.token
 
-    dispatch(onFetchTendersRequest(true));
+    dispatch(onFetchTendersRequest(true))
     fetch(url, {
       headers: {
         'Content-Type': 'application/x-www-form-urlencoded',
@@ -98,7 +98,7 @@ export function fetchTenders() {
 
         dispatch(onFetchTendersRequest(false))
 
-        return response;
+        return response
       })
       .then(response => response.json())
       .then(json => dispatch(onFetchTendersSuccess(json)))
@@ -109,7 +109,7 @@ export function fetchTenders() {
   }
 }
 
-export function saveTender(form) {
+export function saveTender (form) {
   const formData = new FormData(form)
   const url = '/test/private/user/tenders'
 
@@ -139,10 +139,10 @@ export function saveTender(form) {
         console.error(error)
         return dispatch(onSaveTenderFailure(true))
       })
-  };
+  }
 }
 
-export function deleteTender(id) {
+export function deleteTender (id) {
   const formData = new FormData()
   const url = '/test/private/user/deleteTender'
 
@@ -174,10 +174,10 @@ export function deleteTender(id) {
         console.error(error)
         dispatch(onDeleteTenderFailure(true))
       })
-  };
+  }
 }
 
-export function toggleTender(id) {
+export function toggleTender (id) {
   const formData = new FormData()
   const url = '/test/private/user/toggleActiveTender'
 
@@ -206,10 +206,10 @@ export function toggleTender(id) {
       .then(response => response.json())
       .then(json => dispatch(onToggleTenderSuccess()))
       .catch(error => dispatch(onToggleTenderFailure(true)))
-  };
+  }
 }
 
-export function verifyingTender(id, verifying) {
+export function verifyingTender (id, verifying) {
   const formData = new FormData()
   const url = '/test/private/verifying'
   let token = null
@@ -242,10 +242,10 @@ export function verifyingTender(id, verifying) {
       .then(response => response.json())
       .then(json => dispatch(onVerifyingTenderSuccess()))
       .catch(error => dispatch(onVerifyingTenderFailure(true)))
-  };
+  }
 }
 
-export function verifiedTender(id, verified) {
+export function verifiedTender (id, verified) {
   const formData = new FormData()
   const url = '/test/private/verify'
   let token = null
@@ -278,7 +278,7 @@ export function verifiedTender(id, verified) {
       .then(response => response.json())
       .then(json => dispatch(onVerifiedTenderSuccess()))
       .catch(error => dispatch(onVerifiedTenderFailure(true)))
-  };
+  }
 }
 
 export const actions = {
@@ -388,7 +388,7 @@ const initialState = {
   isVerifying: false,
   isVerified: false,
   isErrored: false,
-};
+}
 
 export default function tendersReducer (state = initialState, action) {
   const handler = ACTION_HANDLERS[action.type]

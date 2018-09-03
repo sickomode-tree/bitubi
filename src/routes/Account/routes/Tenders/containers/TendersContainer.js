@@ -1,10 +1,10 @@
-import {connect} from 'react-redux'
-import {fetchTenders, saveTender, deleteTender, toggleTender, verifyingTender, verifiedTender} from '../modules/tenders'
-import {changeFilterValue, resetFilter} from 'store/filter'
-import {saveToHistory} from 'store/history'
-import {saveToFavourites} from 'store/favourites'
-import {fetchCities} from 'store/cities'
-import {fetchCategories} from 'store/categories'
+import { connect } from 'react-redux'
+import { fetchTenders, saveTender, deleteTender, toggleTender, verifyingTender, verifiedTender } from '../modules/tenders'
+import { changeFilterValue, resetFilter } from 'store/filter'
+import { saveToHistory } from 'store/history'
+import { saveToFavourites } from 'store/favourites'
+import { fetchCities } from 'store/cities'
+import { fetchCategories } from 'store/categories'
 
 /*  This is a container component. Notice it does not contain any JSX,
     nor does it import React. This component is **only** responsible for

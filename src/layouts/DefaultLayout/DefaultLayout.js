@@ -1,15 +1,15 @@
-import React, {Component} from 'react'
-import {connect} from 'react-redux'
+import React, { Component } from 'react'
+import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
-import Notifications from 'react-notification-system-redux';
+import Notifications from 'react-notification-system-redux'
 import Header from 'components/Header/Header'
-import {Container, Dimmer, Loader, Portal} from 'semantic-ui-react'
-import {fetchCities} from 'store/cities'
-import {fetchCategories} from 'store/categories'
-import {sendSingInRequest, sendSingUpRequest, signOut} from 'store/auth'
-import {changeFilterValue, changeSearchTerm, resetFilter} from 'store/filter'
-import {fetchProducts} from 'store/products'
-import {fetchUser} from 'store/user'
+import { Container, Dimmer, Loader, Portal } from 'semantic-ui-react'
+import { fetchCities } from 'store/cities'
+import { fetchCategories } from 'store/categories'
+import { sendSingInRequest, sendSingUpRequest, signOut } from 'store/auth'
+import { changeFilterValue, changeSearchTerm, resetFilter } from 'store/filter'
+import { fetchProducts } from 'store/products'
+import { fetchUser } from 'store/user'
 
 class DefaultLayout extends Component {
   static propTypes = {
@@ -33,12 +33,12 @@ class DefaultLayout extends Component {
     signOut: PropTypes.func.isRequired,
   }
 
-  componentDidMount() {
+  componentDidMount () {
     this.props.fetchProducts()
     this.props.fetchUser()
   }
 
-  render() {
+  render () {
     const {
       children, cards, categories, cities, filters, searchTerm, notifications, user,
       isAuthorized, isLoading, isErrored,
@@ -48,7 +48,7 @@ class DefaultLayout extends Component {
     } = this.props
 
     return (
-      <div style={{display: 'flex', flexDirection: 'column', height: '100%'}}>
+      <div style={{ display: 'flex', flexDirection: 'column', height: '100%' }}>
         <Header
           user={user}
           cards={cards}
@@ -67,7 +67,7 @@ class DefaultLayout extends Component {
           sendSingUpRequest={sendSingUpRequest}
           signOut={signOut}
         />
-        <Container style={{display: 'flex', height: '100%'}}>
+        <Container style={{ display: 'flex', height: '100%' }}>
           {children}
           <Dimmer active={isLoading} inverted>
             <Loader>Загрузка...</Loader>
@@ -95,7 +95,7 @@ const mapStateToProps = (state) => {
     searchTerm: state.filter.searchTerm,
     isLoading: getLoadingState(state),
   }
-};
+}
 
 const mapDispatchToProps = {
   changeFilterValue,
@@ -108,12 +108,12 @@ const mapDispatchToProps = {
   sendSingUpRequest,
   sendSingInRequest,
   signOut,
-};
+}
 
-function getLoadingState(obj) {
-  const isLoading = _.some(obj, {isLoading: true})
+function getLoadingState (obj) {
+  const isLoading = _.some(obj, { isLoading: true })
 
   return isLoading
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(DefaultLayout);
+export default connect(mapStateToProps, mapDispatchToProps)(DefaultLayout)

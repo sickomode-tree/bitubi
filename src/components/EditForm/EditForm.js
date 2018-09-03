@@ -1,7 +1,7 @@
-import React, {Component} from 'react'
+import React, { Component } from 'react'
 import PropTypes from 'prop-types'
-import {Form, Grid} from 'semantic-ui-react'
-import {getFormFieldComponent} from 'utils/form'
+import { Form, Grid } from 'semantic-ui-react'
+import { getFormFieldComponent } from 'utils/form'
 
 export default class EditForm extends Component {
   static propTypes = {
@@ -11,8 +11,8 @@ export default class EditForm extends Component {
     onSubmit: PropTypes.func.isRequired,
   }
 
-  render() {
-    const {id, onSubmit, fields, data} = this.props
+  render () {
+    const { id, onSubmit, fields, data } = this.props
 
     return (
       <Form
