@@ -120,8 +120,18 @@ export const updateUserpic = file => {
         return response
       })
       .then(response => response.json())
-      .then(json => dispatch(onUpdateUserpicSuccess()))
+      .then(json => {
+        if (!json.success) {
+          dispatch(Notifications.error({
+            title: 'Не удалось загрузить фотографию.',
+            message: json.message,
+            position: 'bl',
+          }))
+        }
+        dispatch(onUpdateUserpicSuccess())
+      })
       .catch(error => {
+        console.error(error)
         dispatch(Notifications.error({
           title: 'Не удалось загрузить фотографию.',
           message: 'Пожалуйста, попробуйте еще раз.',
