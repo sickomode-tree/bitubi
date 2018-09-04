@@ -86,7 +86,10 @@ export function fetchProducts () {
 
         return dispatch(onFetchProductsSuccess(cards))
       })
-      .catch(error => dispatch(onFetchProductsFailure(true)))
+      .catch(error => {
+        console.error(error)
+        dispatch(onFetchProductsFailure(true))
+      })
   }
 }
 
@@ -122,7 +125,10 @@ export function verifyingProduct (id, verifying) {
       })
       .then(response => response.json())
       .then(json => dispatch(onVerifyingProductSuccess()))
-      .catch(error => dispatch(onVerifyingProductFailure(true)))
+      .catch(error => {
+        console.error(error)
+        dispatch(onVerifyingProductFailure(true))
+      })
   }
 }
 
@@ -158,7 +164,10 @@ export function verifiedProduct (id, verified) {
       })
       .then(response => response.json())
       .then(json => dispatch(onVerifiedProductSuccess()))
-      .catch(error => dispatch(onVerifiedProductFailure(true)))
+      .catch(error => {
+        console.error(error)
+        dispatch(onVerifiedProductFailure(true))
+      })
   }
 }
 

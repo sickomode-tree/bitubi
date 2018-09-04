@@ -36,7 +36,7 @@ class ProfileEditModal extends Component {
 
     const cityOptions = cities.map(city => ({ value: city.id, text: city.name }))
     const cityValue = state.city || (user && user.city ? user.city.id : null)
-    const districts = cityValue ? cities.find(city => city.id === cityValue).districts : []
+    const districts = (cities.length && !_.isNil(cityValue)) ? cities.find(city => city.id === cityValue).districts : []
     const districtOptions = districts.map(district => ({ value: district.id, text: district.name }))
     const districtValue = state.district || (user && user.district ? user.district.id : null)
 

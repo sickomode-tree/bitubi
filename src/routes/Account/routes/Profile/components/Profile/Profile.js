@@ -11,13 +11,14 @@ export default class Profile extends Component {
     cities: PropTypes.array.isRequired,
     fetchUser: PropTypes.func.isRequired,
     updateUser: PropTypes.func.isRequired,
+    updateUserpic: PropTypes.func.isRequired,
     fetchCities: PropTypes.func.isRequired,
     resetFilter: PropTypes.func.isRequired,
   }
 
   componentDidMount () {
-    this.props.fetchUser()
     this.props.resetFilter()
+    this.props.fetchUser()
   }
 
   render () {

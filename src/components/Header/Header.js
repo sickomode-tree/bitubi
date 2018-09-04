@@ -5,7 +5,6 @@ import { Container, Dropdown, Image, Item, Menu } from 'semantic-ui-react'
 import Search from './components/Search/Search'
 import SignInModal from './components/SignInModal/SignInModal'
 import SignUpModal from './components/SignUpModal/SignUpModal'
-import { changeSearchTerm } from 'store/filter'
 import { isCustomer, isProvider, isModerator } from 'utils/auth'
 
 export default class Header extends Component {
@@ -46,12 +45,20 @@ export default class Header extends Component {
               <Link to='/account/tenders' className='item' activeClassName='active' onClick={resetFilter}>Тендеры</Link>
               {
                 (isProvider || isCustomer) &&
-                <Link to='/account/favourites' className='item' activeClassName='active' onClick={resetFilter}>Закладки</Link>
+                <Link to='/account/favourites' className='item' activeClassName='active' onClick={resetFilter}>
+                  Закладки
+                </Link>
               }
               {
                 (isProvider || isCustomer) &&
-                <Link to='/account/history' className='item' activeClassName='active'
-                  onClick={resetFilter}>История</Link>
+                <Link
+                  to='/account/history'
+                  className='item'
+                  activeClassName='active'
+                  onClick={resetFilter}
+                >
+                  История
+                </Link>
               }
             </Menu.Menu>
           }
@@ -75,10 +82,15 @@ export default class Header extends Component {
             {
               isAuthorized &&
               <Dropdown item trigger={
-                <Image src={user.photo && '/test/images/' + user.photo.original} avatar />
+                <Image src={user.photo && '/test/images/' + user.photo.original} avatar/>
               }>
                 <Dropdown.Menu>
-                  {!isModerator && <Link to='/account/profile' className='item' activeClassName='active'>Личный кабинет</Link>}
+                  {
+                    !isModerator &&
+                    <Link to='/account/profile' className='item' activeClassName='active'>
+                      Личный кабинет
+                    </Link>
+                  }
                   <a className='item' onClick={this.handleSignOut.bind(this)}>Выйти</a>
                 </Dropdown.Menu>
               </Dropdown>
@@ -95,7 +107,7 @@ export default class Header extends Component {
             }
             {
               !isAuthorized &&
-              <SignInModal fetchProducts={fetchProducts} handleSignIn={this.handleSignIn.bind(this)} />
+              <SignInModal fetchProducts={fetchProducts} handleSignIn={this.handleSignIn.bind(this)}/>
             }
           </Menu.Menu>
         </Container>

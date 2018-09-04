@@ -16,9 +16,11 @@ class DefaultLayout extends Component {
     children: PropTypes.node,
     cards: PropTypes.array.isRequired,
     cities: PropTypes.array.isRequired,
+    categories: PropTypes.array.isRequired,
     notifications: PropTypes.array.isRequired,
     user: PropTypes.object.isRequired,
     filters: PropTypes.object.isRequired,
+    searchTerm: PropTypes.string.isRequired,
     isAuthorized: PropTypes.bool.isRequired,
     isLoading: PropTypes.bool,
     isErrored: PropTypes.bool,
@@ -28,6 +30,7 @@ class DefaultLayout extends Component {
     fetchCategories: PropTypes.func.isRequired,
     fetchCities: PropTypes.func.isRequired,
     resetFilter: PropTypes.func.isRequired,
+    fetchUser: PropTypes.func.isRequired,
     sendSingInRequest: PropTypes.func.isRequired,
     sendSingUpRequest: PropTypes.func.isRequired,
     signOut: PropTypes.func.isRequired,
@@ -35,7 +38,10 @@ class DefaultLayout extends Component {
 
   componentDidMount () {
     this.props.fetchProducts()
-    this.props.fetchUser()
+
+    if (this.props.isAuthorized) {
+      this.props.fetchUser()
+    }
   }
 
   render () {

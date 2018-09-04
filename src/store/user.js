@@ -88,9 +88,11 @@ export const updateUser = form => {
 
         return response
       })
-      .then(response => response.json())
-      .then(json => dispatch(onUpdateUserSuccess()))
-      .catch(error => dispatch(onUpdateUserFailure(true)))
+      .then(response => dispatch(onUpdateUserSuccess()))
+      .catch(error => {
+        console.error(error)
+        dispatch(onUpdateUserFailure(true))
+      })
   }
 }
 
