@@ -1,6 +1,7 @@
 import { browserHistory } from 'react-router'
 import Notifications from 'react-notification-system-redux'
 import _ from 'lodash'
+import api from 'utils/fetch'
 
 // ------------------------------------
 // Constants
@@ -67,7 +68,7 @@ export function sendSingInRequest (form) {
   return (dispatch, getState) => {
     dispatch(onSignInRequest(true))
 
-    fetch(url, {
+    api(url, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/x-www-form-urlencoded',
@@ -104,7 +105,7 @@ export function sendSingUpRequest (form) {
   return (dispatch) => {
     dispatch(onSignUpRequest(true))
 
-    fetch(url, {
+    api(url, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/x-www-form-urlencoded',

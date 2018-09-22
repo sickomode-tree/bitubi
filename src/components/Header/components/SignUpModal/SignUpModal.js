@@ -39,7 +39,6 @@ export default class SignUpModal extends Component {
   }
 
   render () {
-    const me = this
     const { cities, categories, trigger, onClose, onSubmit } = this.props
     const { state } = this
     const userType = state.activeTab === 0 ? 'customer' : 'provider'
@@ -106,7 +105,8 @@ export default class SignUpModal extends Component {
             clientId='940727300612-ue4jnq0hig8729vmub3toj8mhd4em0cq.apps.googleusercontent.com'
             fetchBasicProfile={true}
             buttonText={<span><i className='google icon' /> Войти с Google</span>}
-            me={me}
+            me={this}
+            scope='openid'
             className='ui icon left button'
             onSuccess={response => {
               const googleProfile = response.profileObj

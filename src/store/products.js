@@ -1,4 +1,5 @@
 import { checkAuthorized, getToken, isModerator } from 'utils/auth'
+import api from 'utils/fetch'
 
 // ------------------------------------
 // Constants
@@ -47,7 +48,7 @@ export function fetchProducts () {
 
     dispatch(onFetchProductsRequest(true))
 
-    fetch(url, {
+    api(url, {
       headers: {
         'Content-Type': 'application/x-www-form-urlencoded',
         'Authorization': `Bearer ${token}`,
@@ -84,7 +85,7 @@ export function fetchProducts () {
           cards = json
         }
 
-        return dispatch(onFetchProductsSuccess(cards))
+      return dispatch(onFetchProductsSuccess(cards))
       })
       .catch(error => {
         console.error(error)
@@ -106,7 +107,7 @@ export function verifyingProduct (id, verifying) {
 
     token = getState().auth.token
 
-    fetch(url, {
+    api(url, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/x-www-form-urlencoded',
@@ -145,7 +146,7 @@ export function verifiedProduct (id, verified) {
 
     token = getState().auth.token
 
-    fetch(url, {
+    api(url, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/x-www-form-urlencoded',

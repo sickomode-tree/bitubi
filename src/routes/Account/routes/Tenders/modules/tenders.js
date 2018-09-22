@@ -85,7 +85,7 @@ export function fetchTenders () {
     token = getState().auth.token
 
     dispatch(onFetchTendersRequest(true))
-    fetch(url, {
+    api(url, {
       headers: {
         'Content-Type': 'application/x-www-form-urlencoded',
         'Authorization': `Bearer ${token}`,
@@ -116,7 +116,7 @@ export function saveTender (form) {
   return (dispatch) => {
     dispatch(onSaveTenderRequest(true))
 
-    fetch(url, {
+    api(url, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/x-www-form-urlencoded',
@@ -151,7 +151,7 @@ export function deleteTender (id) {
   return (dispatch) => {
     dispatch(onDeleteTenderRequest(true))
 
-    return fetch(url, {
+    return api(url, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/x-www-form-urlencoded',
@@ -186,7 +186,7 @@ export function toggleTender (id) {
   return (dispatch) => {
     dispatch(onToggleTenderRequest(true))
 
-    return fetch(url, {
+    return api(url, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/x-www-form-urlencoded',
@@ -222,7 +222,7 @@ export function verifyingTender (id, verifying) {
 
     token = getState().auth.token
 
-    fetch(url, {
+    api(url, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/x-www-form-urlencoded',
@@ -258,7 +258,7 @@ export function verifiedTender (id, verified) {
 
     token = getState().auth.token
 
-    fetch(url, {
+    api(url, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/x-www-form-urlencoded',

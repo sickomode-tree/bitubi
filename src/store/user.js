@@ -1,5 +1,6 @@
 import Notifications from 'react-notification-system-redux'
-import { getToken } from 'utils/auth'
+import {getToken} from 'utils/auth'
+import api from 'utils/fetch'
 
 // ------------------------------------
 // Constants
@@ -21,17 +22,17 @@ export const UPDATE_USERPIC_FAILURE = 'UPDATE_USERPIC_FAILURE'
 // Actions
 // ------------------------------------
 
-export const onFetchUserRequest = bool => ({ type: FETCH_USER_REQUEST, isLoading: bool })
-export const onFetchUserSuccess = json => ({ type: FETCH_USER_SUCCESS, user: json })
-export const onFetchUserFailure = bool => ({ type: FETCH_USER_FAILURE, isErrored: bool })
+export const onFetchUserRequest = bool => ({type: FETCH_USER_REQUEST, isLoading: bool})
+export const onFetchUserSuccess = json => ({type: FETCH_USER_SUCCESS, user: json})
+export const onFetchUserFailure = bool => ({type: FETCH_USER_FAILURE, isErrored: bool})
 
-export const onUpdateUserRequest = () => ({ type: UPDATE_USER_REQUEST })
-export const onUpdateUserSuccess = () => ({ type: UPDATE_USER_SUCCESS })
-export const onUpdateUserFailure = () => ({ type: UPDATE_USER_FAILURE })
+export const onUpdateUserRequest = () => ({type: UPDATE_USER_REQUEST})
+export const onUpdateUserSuccess = () => ({type: UPDATE_USER_SUCCESS})
+export const onUpdateUserFailure = () => ({type: UPDATE_USER_FAILURE})
 
-export const onUpdateUserpicRequest = () => ({ type: UPDATE_USERPIC_REQUEST })
-export const onUpdateUserpicSuccess = () => ({ type: UPDATE_USERPIC_SUCCESS })
-export const onUpdateUserpicFailure = () => ({ type: UPDATE_USERPIC_FAILURE })
+export const onUpdateUserpicRequest = () => ({type: UPDATE_USERPIC_REQUEST})
+export const onUpdateUserpicSuccess = () => ({type: UPDATE_USERPIC_SUCCESS})
+export const onUpdateUserpicFailure = () => ({type: UPDATE_USERPIC_FAILURE})
 
 export const fetchUser = () => {
   const url = '/test/private/user'
@@ -40,7 +41,7 @@ export const fetchUser = () => {
     const token = getState().auth.token
 
     dispatch(onFetchUserRequest(true))
-    fetch(url, {
+    api(url, {
       headers: {
         'Content-Type': 'application/x-www-form-urlencoded',
         'Authorization': `Bearer ${token}`
@@ -71,7 +72,7 @@ export const updateUser = form => {
   return (dispatch) => {
     dispatch(onUpdateUserRequest(true))
 
-    fetch(url, {
+    api(url, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/x-www-form-urlencoded',
@@ -105,7 +106,7 @@ export const updateUserpic = file => {
   return (dispatch) => {
     dispatch(onUpdateUserpicRequest(true))
 
-    fetch(url, {
+    api(url, {
       method: 'POST',
       headers: {
         'Authorization': `Bearer ${getToken()}`
@@ -186,7 +187,7 @@ const initialState = {
   isErrored: false,
 }
 
-export default function userReducer (state = initialState, action) {
+export default function userReducer(state = initialState, action) {
   const handler = ACTION_HANDLERS[action.type]
 
   return handler ? handler(state, action) : state

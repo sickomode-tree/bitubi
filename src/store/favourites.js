@@ -1,3 +1,5 @@
+import api from 'utils/fetch'
+
 // ------------------------------------
 // Constants
 // ------------------------------------
@@ -31,7 +33,7 @@ export function fetchFavourites () {
 
     token = getState().auth.token
 
-    fetch(url, {
+    api(url, {
       headers: {
         'Content-Type': 'application/x-www-form-urlencoded',
         'Authorization': `Bearer ${token}`,
@@ -64,7 +66,7 @@ export function saveToFavourites (id) {
 
     token = getState().auth.token
 
-    return fetch(url, {
+    return api(url, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/x-www-form-urlencoded',

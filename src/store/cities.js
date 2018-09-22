@@ -1,3 +1,5 @@
+import api from 'utils/fetch'
+
 // ------------------------------------
 // Constants
 // ------------------------------------
@@ -26,7 +28,7 @@ export function fetchCities () {
 
     dispatch(onFetchCitiesRequest(true))
 
-    fetch(url, {
+    api(url, {
       headers: {
         'Content-Type': 'application/x-www-form-urlencoded',
         'Authorization': `Bearer ${token}`,

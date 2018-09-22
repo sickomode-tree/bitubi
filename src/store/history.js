@@ -1,3 +1,5 @@
+import api from 'utils/fetch'
+
 // ------------------------------------
 // Constants
 // ------------------------------------
@@ -31,7 +33,7 @@ export function fetchHistory () {
 
     token = getState().auth.token
 
-    fetch(url, {
+    api(url, {
       headers: {
         'Content-Type': 'application/x-www-form-urlencoded',
         'Authorization': `Bearer ${token}`,
@@ -64,7 +66,7 @@ export function saveToHistory (id) {
 
     token = getState().auth.token
 
-    fetch(url, {
+    api(url, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/x-www-form-urlencoded',

@@ -1,3 +1,5 @@
+import api from 'utils/fetch'
+
 // ------------------------------------
 // Constants
 // ------------------------------------
@@ -24,7 +26,7 @@ export function fetchCategories () {
   return (dispatch) => {
     dispatch(onFetchCategoriesRequest(true))
 
-    fetch(url, {
+    api(url, {
       headers: {
         'Content-Type': 'application/x-www-form-urlencoded',
       }
