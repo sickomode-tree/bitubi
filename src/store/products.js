@@ -40,7 +40,7 @@ export const onVerifiedProductFailure = bool => ({ type: VERIFIED_PRODUCT_FAILUR
 export function fetchProducts () {
   const isAuthorized = checkAuthorized()
   const controller = isAuthorized ? 'private' : 'public'
-  const url = `/test/${controller}/products`
+  const url = `/${controller}/products`
   let token = null
 
   return (dispatch, getState) => {
@@ -96,7 +96,7 @@ export function fetchProducts () {
 
 export function verifyingProduct (id, verifying) {
   const formData = new FormData()
-  const url = '/test/private/verifying'
+  const url = '/private/verifying'
   let token = null
 
   formData.append('id', id)
@@ -135,7 +135,7 @@ export function verifyingProduct (id, verifying) {
 
 export function verifiedProduct (id, verified) {
   const formData = new FormData()
-  const url = '/test/private/verify'
+  const url = '/private/verify'
   let token = null
 
   formData.append('id', id)

@@ -51,7 +51,7 @@ export default class Profile extends Component {
           <Grid.Column width={4}>
             <Card fluid>
               <Image
-                src={user.photo && '/test/images/' + user.photo.original}
+                src={user.photo && '/images/' + user.photo.original}
                 label={user.userType && { content: user.userType, icon: 'key', ribbon: true }}
               />
               <Card.Content>

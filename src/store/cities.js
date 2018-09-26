@@ -21,7 +21,7 @@ export const onFetchCitiesFailure = bool => ({ type: FETCH_CITIES_FAILURE, isErr
 // ------------------------------------
 
 export function fetchCities () {
-  const url = '/test/public/cities'
+  const url = '/public/cities'
 
   return (dispatch, getState) => {
     const token = getState().auth.token
