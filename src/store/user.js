@@ -35,7 +35,7 @@ export const onUpdateUserpicSuccess = () => ({type: UPDATE_USERPIC_SUCCESS})
 export const onUpdateUserpicFailure = () => ({type: UPDATE_USERPIC_FAILURE})
 
 export const fetchUser = () => {
-  const url = '/test/private/user'
+  const url = '/private/user'
 
   return (dispatch, getState) => {
     const token = getState().auth.token
@@ -67,7 +67,7 @@ export const fetchUser = () => {
 
 export const updateUser = form => {
   const formData = new FormData(form)
-  const url = '/test/private/user/edit'
+  const url = '/private/user/edit'
 
   return (dispatch) => {
     dispatch(onUpdateUserRequest(true))
@@ -98,7 +98,7 @@ export const updateUser = form => {
 }
 
 export const updateUserpic = file => {
-  const url = '/test/private/uploadFile'
+  const url = '/private/uploadFile'
   const formData = new FormData()
 
   formData.append('file', file)

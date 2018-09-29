@@ -1,5 +1,5 @@
 const API_ROOT_DEV = '/';
-const API_ROOT_PROD = 'https://185.151.244.202:8443';
+const API_ROOT_PROD = 'https://api.bitubi.ru';
 
 export default {
   api: {

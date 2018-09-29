@@ -21,7 +21,7 @@ export const onFetchCategoriesFailure = bool => ({ type: FETCH_CATEGORIES_FAILUR
 // ------------------------------------
 
 export function fetchCategories () {
-  const url = '/test/public/categories'
+  const url = '/public/categories'
 
   return (dispatch) => {
     dispatch(onFetchCategoriesRequest(true))

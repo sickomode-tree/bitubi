@@ -62,9 +62,9 @@ export const onVerifiedTenderFailure = bool => ({ type: VERIFIED_TENDER_FAILURE,
 
 export function fetchTenders () {
   const urlByUserTypeMap = {
-    customer: '/test/private/user/tenders',
-    provider: '/test/private/tenders',
-    moderator: '/test/private/tenders',
+    customer: '/private/user/tenders',
+    provider: '/private/tenders',
+    moderator: '/private/tenders',
   }
   const userType = getUserType()
   const url = urlByUserTypeMap[userType]
@@ -100,7 +100,7 @@ export function fetchTenders () {
 
 export function saveTender (form) {
   const formData = new FormData(form)
-  const url = '/test/private/user/tenders'
+  const url = '/private/user/tenders'
 
   return (dispatch) => {
     dispatch(onSaveTenderRequest(true))
@@ -133,7 +133,7 @@ export function saveTender (form) {
 
 export function deleteTender (id) {
   const formData = new FormData()
-  const url = '/test/private/user/deleteTender'
+  const url = '/private/user/deleteTender'
 
   formData.append('id', id)
 
@@ -168,7 +168,7 @@ export function deleteTender (id) {
 
 export function toggleTender (id) {
   const formData = new FormData()
-  const url = '/test/private/user/toggleActiveTender'
+  const url = '/private/user/toggleActiveTender'
 
   formData.append('id', id)
 
@@ -200,7 +200,7 @@ export function toggleTender (id) {
 
 export function verifyingTender (id, verifying) {
   const formData = new FormData()
-  const url = '/test/private/verifying'
+  const url = '/private/verifying'
   let token = null
 
   formData.append('id', id)
@@ -236,7 +236,7 @@ export function verifyingTender (id, verifying) {
 
 export function verifiedTender (id, verified) {
   const formData = new FormData()
-  const url = '/test/private/verify'
+  const url = '/private/verify'
   let token = null
 
   formData.append('id', id)

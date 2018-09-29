@@ -63,7 +63,7 @@ export const onSignOut = () => ({ type: SIGN_OUT })
 
 export function sendSingInRequest (form) {
   const formData = new FormData(form)
-  const url = '/test/auth/signin'
+  const url = '/auth/signin'
 
   return (dispatch, getState) => {
     dispatch(onSignInRequest(true))
@@ -100,7 +100,7 @@ export function sendSingInRequest (form) {
 
 export function sendSingUpRequest (form) {
   const formData = new FormData(form)
-  const url = '/test/auth/signup'
+  const url = '/auth/signup'
 
   return (dispatch) => {
     dispatch(onSignUpRequest(true))
