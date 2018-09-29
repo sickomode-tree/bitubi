@@ -1,11 +1,11 @@
-import React, { Component } from 'react'
-import { browserHistory, IndexLink, Link } from 'react-router'
+import React, {Component} from 'react'
+import {browserHistory, IndexLink, Link} from 'react-router'
 import PropTypes from 'prop-types'
-import { Container, Dropdown, Image, Item, Menu } from 'semantic-ui-react'
+import {Container, Dropdown, Image, Item, Menu} from 'semantic-ui-react'
 import Search from './components/Search/Search'
 import SignInModal from './components/SignInModal/SignInModal'
 import SignUpModal from './components/SignUpModal/SignUpModal'
-import { isCustomer, isProvider, isModerator } from 'utils/auth'
+import {isCustomer, isProvider, isModerator} from 'utils/auth'
 
 export default class Header extends Component {
   static propTypes = {
@@ -27,7 +27,7 @@ export default class Header extends Component {
     signOut: PropTypes.func.isRequired
   }
 
-  render () {
+  render() {
     const {
       cards, cities, categories, filters, user, isAuthorized,
       changeFilterValue, changeSearchTerm,
@@ -36,7 +36,7 @@ export default class Header extends Component {
     } = this.props
 
     return (
-      <Menu fixed='top' stackable borderless>
+      <Menu fixed='top' secondary stackable borderless>
         <Container>
           {
             isAuthorized &&
@@ -64,7 +64,7 @@ export default class Header extends Component {
           }
           {
             !isModerator &&
-            <Menu.Item style={{ flex: 1 }}>
+            <Menu.Item style={{flex: 1}}>
               <Search
                 cards={cards}
                 filters={filters}
@@ -107,7 +107,9 @@ export default class Header extends Component {
             }
             {
               !isAuthorized &&
-              <SignInModal fetchProducts={fetchProducts} handleSignIn={this.handleSignIn.bind(this)}/>
+              <Item>
+                <SignInModal fetchProducts={fetchProducts} handleSignIn={this.handleSignIn.bind(this)}/>
+              </Item>
             }
           </Menu.Menu>
         </Container>
@@ -115,15 +117,15 @@ export default class Header extends Component {
     )
   }
 
-  handleSignUp (form) {
+  handleSignUp(form) {
     this.props.sendSingUpRequest(form)
   }
 
-  handleSignIn (form) {
+  handleSignIn(form) {
     this.props.sendSingInRequest(form)
   }
 
-  handleSignOut () {
+  handleSignOut() {
     this.props.signOut()
     this.props.resetFilter()
     browserHistory.push('/')

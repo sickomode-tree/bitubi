@@ -53,7 +53,8 @@ class TenderViewModal extends Component {
           isProvider &&
           <Modal.Actions>
             <Button
-              basic={!favourite} icon={`bookmark${!favourite ? ' outline' : ''}`}
+              basic={!favourite}
+              icon={`bookmark${!favourite ? ' outline' : ''}`}
               content={favourite ? 'Убрать из закладок' : 'Добавить в закладки'}
               onClick={this.toggleFavouriteState.bind(this)}
             />

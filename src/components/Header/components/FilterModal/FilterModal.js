@@ -50,7 +50,7 @@ class FilterModal extends Component {
           </Form>
         </Modal.Content>
         <Modal.Actions>
-          <Button basic icon='sync' labelPosition='right' content='Сбросить' onClick={handleResetFilterButtonClick} />
+          <Button color={'red'} circular   content='Сбросить' onClick={handleResetFilterButtonClick} />
         </Modal.Actions>
       </Modal>
     )

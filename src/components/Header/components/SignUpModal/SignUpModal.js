@@ -2,7 +2,6 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import _ from 'lodash'
 import { Button, Modal, Tab } from 'semantic-ui-react'
-import { GoogleLogin } from 'react-google-login'
 import SignUpForm from './components/SignUpForm/SignUpForm'
 
 export default class SignUpModal extends Component {
@@ -85,7 +84,7 @@ export default class SignUpModal extends Component {
 
     return (
       <Modal
-        trigger={trigger || <Button basic color='green'>Зарегистрироваться</Button>}
+        trigger={trigger || <Button circular color='green'>Зарегистрироваться</Button>}
         size='tiny'
         dimmer='blurring'
         mountNode={document.getElementById('root')}
@@ -101,27 +100,7 @@ export default class SignUpModal extends Component {
           />
         </Modal.Content>
         <Modal.Actions>
-          <GoogleLogin
-            clientId='940727300612-ue4jnq0hig8729vmub3toj8mhd4em0cq.apps.googleusercontent.com'
-            fetchBasicProfile={true}
-            buttonText={<span><i className='google icon' /> Войти с Google</span>}
-            me={this}
-            scope='openid'
-            className='ui icon left button'
-            onSuccess={response => {
-              const googleProfile = response.profileObj
-              me.setState({
-                firstName: googleProfile.givenName,
-                lastName: googleProfile.familyName,
-                email: googleProfile.email,
-              })
-            }}
-            onFailure={err => {
-              console.error(err)
-            }}
-          />
-
-          <Button positive type='submit' form='signUpForm' icon='checkmark' labelPosition='left' content='Далее' />
+          <Button circular positive type='submit' form='signUpForm' icon='checkmark' labelPosition='left' content='Далее' />
         </Modal.Actions>
       </Modal>
     )

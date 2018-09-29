@@ -108,7 +108,7 @@ export const getFormFieldComponent = (config, data) => {
               name={config.name}
               label={config.title}
               width={16}
-              placeholder={config.title}
+              placeholder={config.title || config.placeholder}
               required={config.required || false}
               defaultValue={config.value || (config.path ? getObjectValue(data, config.path, config.type) : '')}
             />

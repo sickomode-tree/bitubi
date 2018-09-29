@@ -1,4 +1,5 @@
 @import 'base';
+@import 'semantic/semantic';
 @import 'components/components';
 
 html {
@@ -31,11 +32,21 @@ body {
   box-sizing: inherit;
 }
 
+body.blurring {
+  #root {
+    padding: 0;
+  }
+}
+
 #root {
   height: 100vh;
   display: flex;
   flex-direction: column;
   padding: 90px 0 40px 0;
+
+  &.blurring {
+    padding: 0;
+  }
 }
 
 .react-datepicker-wrapper {

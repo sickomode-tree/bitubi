@@ -1,16 +1,5 @@
 import { getToken, getUserType } from 'utils/auth'
-import {
-  onVerifiedProductFailure,
-  onVerifiedProductRequest,
-  onVerifiedProductSuccess,
-  onVerifyingProductFailure,
-  onVerifyingProductRequest,
-  onVerifyingProductSuccess,
-  VERIFIED_PRODUCT_FAILURE,
-  VERIFIED_PRODUCT_REQUEST, VERIFIED_PRODUCT_SUCCESS,
-  verifiedProduct, VERIFYING_PRODUCT_FAILURE, VERIFYING_PRODUCT_REQUEST, VERIFYING_PRODUCT_SUCCESS,
-  verifyingProduct
-} from '../../../../../store/products'
+import api from 'utils/fetch'
 
 // ------------------------------------
 // Constants

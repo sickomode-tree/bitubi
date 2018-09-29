@@ -132,6 +132,7 @@ export default class Home extends Component {
       return (
         <Card
           link
+          color='green'
           onClick={() => changeFilterValue('subcategory.title', card.subcategory.title)}
           style={{ flex: '0 1 25%' }}
         >

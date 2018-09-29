@@ -16,6 +16,7 @@ export default class Tag extends Component {
         icon={icon}
         title={content}
         content={content}
+        color={'green'}
         style={{ maxWidth: 220, whiteSpace: 'nowrap', textOverflow: 'ellipsis', overflow: 'hidden' }}
       />
     )

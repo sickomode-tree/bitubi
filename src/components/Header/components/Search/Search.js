@@ -51,7 +51,7 @@ export default class Search extends Component {
         {
           isAuthorized &&
           <FilterModal
-            trigger={<Button icon basic><Icon name='filter' color={_.isEmpty(filters) ? 'grey' : 'green'} /></Button>}
+            trigger={<Button icon basic={_.isEmpty(filters) ? true : false} color={'green'}><Icon name='filter' /></Button>}
             filters={filters}
             getOptions={this.getOptions.bind(this)}
             handleFilterChange={this.handleFilterChange.bind(this)}

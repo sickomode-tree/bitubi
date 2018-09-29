@@ -41,7 +41,7 @@ class TenderEditModal extends Component {
     const cityValue = state.city || (tender ? tender.city.id : null)
     const districts = cityValue ? cities.find(city => city.id === cityValue).districts : []
     const districtOptions = districts.map(district => ({ value: district.id, text: district.name }))
-    const districtValue = state.district || (tender ? tender.district.id : null)
+    const districtValue = state.district || (tender && tender.district ? tender.district.id : null)
     const categoryOptions = categories.map(category => ({ value: category.id, text: category.title }))
     const categoryValue = state.category || (tender ? tender.category.id : null)
     const category = categories.find(category => category.id === categoryValue)

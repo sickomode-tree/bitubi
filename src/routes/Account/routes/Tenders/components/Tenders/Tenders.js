@@ -87,6 +87,7 @@ export default class Tenders extends Component {
                     trigger={
                       <Card
                         fluid
+                        color={card.disabled ? null : 'green'}
                         className={card.disabled ? 'disabled' : null}
                       >
                         <Card.Content>
@@ -98,7 +99,7 @@ export default class Tenders extends Component {
                           </Card.Header>
                         </Card.Content>
                         <Card.Content>
-                          <IconList data={[
+                          <IconList color={card.disabled ? 'grey' : 'green'} data={[
                             {
                               icon: 'calendar',
                               header: 'Ожидаемая дата',
@@ -111,9 +112,9 @@ export default class Tenders extends Component {
                         {
                           isCustomer &&
                           <Card.Content extra>
-                            <Button.Group basic size='small'>
-                              <Button
-                                color='red'
+                            <Button.Group circular size='small'>
+                              <Button circular
+                                color={card.disabled ? null : 'green'}
                                 icon='trash alternate outline'
                                 onClick={this.handleDeleteTender.bind(this, card.id)}
                               />
@@ -129,8 +130,8 @@ export default class Tenders extends Component {
                                   onSubmit={saveTender}
                                   onClose={fetchTenders}
                                   trigger={
-                                    <Button
-                                      color='grey'
+                                    <Button circular
+                                      color='green'
                                       icon='pencil alternate'
                                       onClick={this.handleEditTender.bind(this, card.id)}
                                     />
@@ -141,8 +142,8 @@ export default class Tenders extends Component {
                             {
                               !card.disabled &&
                               <Button
-                                basic
-                                color='blue'
+                                color='red'
+                                circular
                                 content='Завершить'
                                 floated='right'
                                 onClick={this.handleToggleTender.bind(this, card.id)}
@@ -151,7 +152,7 @@ export default class Tenders extends Component {
                             {
                               card.disabled &&
                               <Button
-                                basic
+                                color={card.disabled ? null : 'green'}
                                 content='Восстановить'
                                 floated='right'
                                 onClick={this.handleToggleTender.bind(this, card.id)}

@@ -1,8 +1,22 @@
-import React, { Component } from 'react'
+import React, {Component} from 'react'
 import PropTypes from 'prop-types'
-import { Card, Dimmer, Grid, Header, Icon, Image, Modal, Reveal, Segment, Table } from 'semantic-ui-react'
-import { customerUserType, providerUserType } from 'utils/auth'
-import { getObjectValue } from 'utils/array'
+import {
+  Button,
+  Card,
+  Container,
+  Dimmer,
+  Grid,
+  Header,
+  Icon,
+  Image,
+  Message,
+  Modal,
+  Reveal,
+  Segment,
+  Table
+} from 'semantic-ui-react'
+import {customerUserType, providerUserType} from 'utils/auth'
+import {getObjectValue} from 'utils/array'
 import ProfileEditModal from './components/ProfileEditModal/ProfileEditModal'
 
 export default class Profile extends Component {
@@ -16,21 +30,21 @@ export default class Profile extends Component {
     resetFilter: PropTypes.func.isRequired,
   }
 
-  componentDidMount () {
+  componentDidMount() {
     this.props.resetFilter()
     this.props.fetchUser()
   }
 
-  render () {
-    const { user, cities, fetchCities, fetchUser, updateUser, updateUserpic } = this.props
+  render() {
+    const {user, cities, fetchCities, fetchUser, updateUser, updateUserpic} = this.props
     const userInfo = [
-      { code: 'login', title: 'Логин' },
-      { code: 'city.name', title: 'Город' },
-      { code: 'district.name', title: 'Район' },
-      { code: 'address', title: 'Адрес' },
-      { code: 'email', title: 'Email' },
-      { code: 'phoneNumber', title: 'Телефон' },
-      { code: 'url', title: 'Сайт' },
+      {code: 'login', title: 'Логин'},
+      {code: 'city.name', title: 'Город'},
+      {code: 'district.name', title: 'Район'},
+      {code: 'address', title: 'Адрес'},
+      {code: 'email', title: 'Email'},
+      {code: 'phoneNumber', title: 'Телефон'},
+      {code: 'url', title: 'Сайт'},
     ]
     let title
 
@@ -46,18 +60,23 @@ export default class Profile extends Component {
     }
 
     return (
-      <Grid container>
-        <Grid.Row>
-          <Grid.Column width={4}>
-            <Card fluid>
+      <Container>
+        <Segment.Group horizontal>
+          <Segment compact>
+            <Segment vertical style={{border: 0}}>
               <Image
+                circular
                 src={user.photo && '/test/images/' + user.photo.original}
-                label={user.userType && { content: user.userType, icon: 'key', ribbon: true }}
               />
-              <Card.Content>
-                <Card.Header></Card.Header>
-              </Card.Content>
-
+            </Segment>
+            <Message warning={!user.verified} success={user.verified}>
+              {
+                user.verified
+                  ? <div><Icon name='check circle' size='large' color='green'/> Подтвержден</div>
+                  : <div><Icon name='question circle' size='large' color='yellow'/> На рассмотрении</div>
+              }
+            </Message>
+            <Segment vertical>
               <ProfileEditModal
                 user={user}
                 cities={cities}
@@ -67,25 +86,15 @@ export default class Profile extends Component {
                 onSubmit={updateUser}
                 trigger={
                   <Card.Content extra as='a'>
-                    <div><Icon name='cog' size='large' /> Редактировать</div>
+                    <Button content='Редактировать' icon='cog' labelPosition='left' fluid circular positive/>
                   </Card.Content>
                 }
               />
-
-              <Card.Content extra>
-                {
-                  user.verified
-                    ? <div><Icon name='check circle' size='large' color='green' /> Подтвержден</div>
-                    : <div><Icon name='question circle' size='large' color='yellow' /> На рассмотрении</div>
-                }
-              </Card.Content>
-            </Card>
-          </Grid.Column>
-          <Grid.Column width={12}>
-            <Segment>
-              <Header as='h1'>{title}</Header>
             </Segment>
-            <Table>
+          </Segment>
+          <Segment style={{flex: 1}}>
+            <Header as='h1'>{title}</Header>
+            <Table basic='very' celled>
               <Table.Body>
                 {
                   userInfo.map(info => (
@@ -100,9 +109,9 @@ export default class Profile extends Component {
                 }
               </Table.Body>
             </Table>
-          </Grid.Column>
-        </Grid.Row>
-      </Grid>
+          </Segment>
+        </Segment.Group>
+      </Container>
     )
   }
 }

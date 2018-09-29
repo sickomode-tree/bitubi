@@ -1,6 +1,6 @@
-import React, { Component } from 'react'
+import React, {Component} from 'react'
 import PropTypes from 'prop-types'
-import { Button, Card } from 'semantic-ui-react'
+import {Button, Card} from 'semantic-ui-react'
 
 export default class CardGridGroup extends Component {
   static propTypes = {
@@ -12,38 +12,43 @@ export default class CardGridGroup extends Component {
     cards: this.props.cards,
   }
 
-  componentWillReceiveProps (nextProps) {
+  componentWillReceiveProps(nextProps) {
     this.setState({
       cards: nextProps.cards,
       cardCount: 3,
     })
   }
 
-  render () {
-    const { getCardComponent } = this.props
-    const { cards, cardCount } = this.state
+  render() {
+    const {getCardComponent} = this.props
+    const {cards, cardCount} = this.state
 
     return (
-      <Card.Group itemsPerRow={1} style={{
-        overflow: 'hidden',
-        position: 'relative',
-        display: 'flex',
-        flexDirection: 'column',
-        justifyContent: cards.length >= cardCount ? 'space-around' : 'flex-start',
-        height: '100%',
-        padding: '1em',
-      }}>
+      <Card.Group
+        itemsPerRow={1}
+        style={{
+          overflow: 'hidden',
+          position: 'relative',
+          display: 'flex',
+          flexDirection: 'column',
+          justifyContent: cards.length >= cardCount ? 'space-around' : 'flex-start',
+          height: '100%',
+          padding: '1em',
+        }}
+      >
         {
           cards.length > cardCount &&
-          <Button onClick={this.showPreviousCard.bind(this)}
-            style={{ position: 'absolute', top: 0, boxShadow: 'none' }}
+          <Button
+            onClick={this.showPreviousCard.bind(this)}
+            style={{position: 'absolute', top: 0, boxShadow: 'none'}}
             fluid icon='angle up' basic
           />
         }
         {
           cards.length > cardCount &&
-          <Button onClick={this.showNextCard.bind(this)}
-            style={{ position: 'absolute', bottom: 0, boxShadow: 'none' }}
+          <Button
+            onClick={this.showNextCard.bind(this)}
+            style={{position: 'absolute', bottom: 0, boxShadow: 'none'}}
             fluid icon='angle down' basic
           />
         }
@@ -52,7 +57,7 @@ export default class CardGridGroup extends Component {
             let CardComponent = () => getCardComponent(card)
 
             return (
-              <CardComponent key={index} />
+              <CardComponent key={index}/>
             )
           })
         }
@@ -60,8 +65,8 @@ export default class CardGridGroup extends Component {
     )
   }
 
-  showPreviousCard () {
-    const { cards } = this.state
+  showPreviousCard() {
+    const {cards} = this.state
 
     cards.unshift(cards.pop())
 
@@ -70,8 +75,8 @@ export default class CardGridGroup extends Component {
     })
   }
 
-  showNextCard () {
-    const { cards } = this.state
+  showNextCard() {
+    const {cards} = this.state
 
     cards.push(cards.shift())
 
