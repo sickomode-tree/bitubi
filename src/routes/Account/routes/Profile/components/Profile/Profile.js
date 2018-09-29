@@ -62,7 +62,7 @@ export default class Profile extends Component {
     return (
       <Container>
         <Segment.Group horizontal>
-          <Segment compact>
+          <Segment style={{flex: 1}}>
             <Segment vertical style={{border: 0}}>
               <Image
                 circular
@@ -92,7 +92,7 @@ export default class Profile extends Component {
               />
             </Segment>
           </Segment>
-          <Segment style={{flex: 1}}>
+          <Segment>
             <Header as='h1'>{title}</Header>
             <Table basic='very' celled>
               <Table.Body>
