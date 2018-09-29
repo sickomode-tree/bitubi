@@ -18,6 +18,7 @@ import {
 import {customerUserType, providerUserType} from 'utils/auth'
 import {getObjectValue} from 'utils/array'
 import ProfileEditModal from './components/ProfileEditModal/ProfileEditModal'
+import {scope} from 'utils/fetch'
 
 export default class Profile extends Component {
   static propTypes = {
@@ -66,7 +67,7 @@ export default class Profile extends Component {
             <Segment vertical style={{border: 0}}>
               <Image
                 circular
-                src={user.photo && '/test/images/' + user.photo.original}
+                src={user.photo && `${scope}images/` + user.photo.original}
               />
             </Segment>
             <Message warning={!user.verified} success={user.verified}>

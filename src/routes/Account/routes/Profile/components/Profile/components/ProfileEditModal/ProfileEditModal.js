@@ -1,10 +1,11 @@
-import React, { Component } from 'react'
+import React, {Component} from 'react'
 import _ from 'lodash'
 import PropTypes from 'prop-types'
-import { Button, Dimmer, Grid, Image, Modal, Reveal } from 'semantic-ui-react'
+import {Button, Dimmer, Grid, Image, Modal, Reveal} from 'semantic-ui-react'
 import Dropzone from 'react-dropzone'
 import EditForm from 'components/EditForm/EditForm'
-import { getUserType } from 'utils/auth'
+import {getUserType} from 'utils/auth'
+import {scope} from 'utils/fetch'
 
 class ProfileEditModal extends Component {
   static propTypes = {
@@ -24,24 +25,24 @@ class ProfileEditModal extends Component {
     userpic: '',
   }
 
-  componentDidMount () {
-    const { fetchCities } = this.props
+  componentDidMount() {
+    const {fetchCities} = this.props
 
     fetchCities()
   }
 
-  render () {
-    const { user, cities, trigger, updateUserpic, onClose } = this.props
-    const { state } = this
+  render() {
+    const {user, cities, trigger, updateUserpic, onClose} = this.props
+    const {state} = this
 
-    const cityOptions = cities.map(city => ({ value: city.id, text: city.name }))
+    const cityOptions = cities.map(city => ({value: city.id, text: city.name}))
     const cityValue = state.city || (user && user.city ? user.city.id : null)
     const districts = (cities.length && !_.isNil(cityValue)) ? cities.find(city => city.id === cityValue).districts : []
-    const districtOptions = districts.map(district => ({ value: district.id, text: district.name }))
+    const districtOptions = districts.map(district => ({value: district.id, text: district.name}))
     const districtValue = state.district || (user && user.district ? user.district.id : null)
 
     const formFields = [
-      { tag: 'input', type: 'text', name: 'login', title: 'Логин', required: true, path: 'login', width: 16 },
+      {tag: 'input', type: 'text', name: 'login', title: 'Логин', required: true, path: 'login', width: 16},
       {
         tag: 'input',
         type: 'text',
@@ -71,7 +72,7 @@ class ProfileEditModal extends Component {
         path: 'providerName',
         visible: getUserType() === 'provider'
       },
-      { tag: 'input', type: 'text', name: 'email', title: 'Email', required: true, path: 'email' },
+      {tag: 'input', type: 'text', name: 'email', title: 'Email', required: true, path: 'email'},
       {
         tag: 'select',
         name: 'city',
@@ -109,10 +110,10 @@ class ProfileEditModal extends Component {
         required: getUserType() === 'provider',
         path: 'phoneNumber'
       },
-      { tag: 'input', type: 'url', name: 'url', title: 'Сайт', path: 'url' },
-      { tag: 'input', type: 'hidden', name: 'id', path: 'id' },
+      {tag: 'input', type: 'url', name: 'url', title: 'Сайт', path: 'url'},
+      {tag: 'input', type: 'hidden', name: 'id', path: 'id'},
     ]
-    const userpicUrl = user.photo && '/test/images/' + user.photo.original
+    const userpicUrl = user.photo && `{scope}images/` + user.photo.original
 
     return (
       <Modal
@@ -129,7 +130,7 @@ class ProfileEditModal extends Component {
               <Dropzone
                 multiple={false}
                 accept='image/jpeg, image/png'
-                style={{ width: '100%', border: 'none' }}
+                style={{width: '100%', border: 'none'}}
                 onDrop={acceptedFiles => {
                   acceptedFiles.forEach(file => {
                     const reader = new FileReader()
@@ -137,7 +138,7 @@ class ProfileEditModal extends Component {
                     reader.onload = () => {
                       const fileAsBinaryString = reader.result
 
-                      this.setState({ userpic: fileAsBinaryString })
+                      this.setState({userpic: fileAsBinaryString})
                       updateUserpic(file)
                     }
                     reader.onabort = () => console.log('file reading was aborted')
@@ -148,7 +149,7 @@ class ProfileEditModal extends Component {
                 }}
               >
                 <Reveal animated='small fade'>
-                  <Reveal.Content visible style={{ width: '100%' }}>
+                  <Reveal.Content visible style={{width: '100%'}}>
                     <Image
                       wrapped fluid
                       src={state.userpic ? 'data:image/jpeg;base64,' + btoa(state.userpic) : userpicUrl}
@@ -181,23 +182,23 @@ class ProfileEditModal extends Component {
           </Grid>
         </Modal.Content>
         <Modal.Actions>
-          <Button positive type='submit' form='profileForm' icon='checkmark' labelPosition='left' content='Готово' />
+          <Button positive type='submit' form='profileForm' icon='checkmark' labelPosition='left' content='Готово'/>
         </Modal.Actions>
       </Modal>
     )
   }
 
-  handleSelectChange (event, field) {
-    this.setState({ [field.name]: field.value })
+  handleSelectChange(event, field) {
+    this.setState({[field.name]: field.value})
   }
 
-  handleInputChange (event) {
+  handleInputChange(event) {
     const field = event.target
-    this.setState({ [field.name]: field.value })
+    this.setState({[field.name]: field.value})
   }
 
-  handleSubmit (event) {
-    const { onSubmit } = this.props
+  handleSubmit(event) {
+    const {onSubmit} = this.props
     const form = event.target
 
     onSubmit(form)
