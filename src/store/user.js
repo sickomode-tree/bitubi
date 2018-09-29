@@ -1,6 +1,6 @@
 import Notifications from 'react-notification-system-redux'
 import {getToken} from 'utils/auth'
-import api from 'utils/fetch'
+import api, {scope} from 'utils/fetch'
 
 // ------------------------------------
 // Constants
@@ -35,7 +35,7 @@ export const onUpdateUserpicSuccess = () => ({type: UPDATE_USERPIC_SUCCESS})
 export const onUpdateUserpicFailure = () => ({type: UPDATE_USERPIC_FAILURE})
 
 export const fetchUser = () => {
-  const url = '/private/user'
+  const url = `${scope}private/user`
 
   return (dispatch, getState) => {
     const token = getState().auth.token
@@ -67,7 +67,7 @@ export const fetchUser = () => {
 
 export const updateUser = form => {
   const formData = new FormData(form)
-  const url = '/private/user/edit'
+  const url = `${scope}private/user/edit`
 
   return (dispatch) => {
     dispatch(onUpdateUserRequest(true))
@@ -98,7 +98,7 @@ export const updateUser = form => {
 }
 
 export const updateUserpic = file => {
-  const url = '/private/uploadFile'
+  const url = `${scope}private/uploadFile`
   const formData = new FormData()
 
   formData.append('file', file)

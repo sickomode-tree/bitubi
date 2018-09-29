@@ -1,4 +1,4 @@
-import api from 'utils/fetch'
+import api, {scope} from 'utils/fetch'
 
 // ------------------------------------
 // Constants
@@ -25,7 +25,7 @@ export const onSaveToHistorySuccess = () => ({ type: SAVE_TO_HISTORY_SUCCESS })
 export const onSaveToHistoryFailure = bool => ({ type: SAVE_TO_HISTORY_FAILURE, isErrored: bool })
 
 export function fetchHistory () {
-  const url = '/private/user/history'
+  const url = `${scope}private/user/history`
   let token = null
 
   return (dispatch, getState) => {
@@ -55,7 +55,7 @@ export function fetchHistory () {
 }
 
 export function saveToHistory (id) {
-  const url = '/private/user/history'
+  const url = `${scope}private/user/history`
   const formData = new FormData()
   let token = null
 

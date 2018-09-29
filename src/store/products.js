@@ -1,5 +1,5 @@
 import { checkAuthorized, getToken, isModerator } from 'utils/auth'
-import api from 'utils/fetch'
+import api, {scope} from 'utils/fetch'
 
 // ------------------------------------
 // Constants
@@ -40,7 +40,7 @@ export const onVerifiedProductFailure = bool => ({ type: VERIFIED_PRODUCT_FAILUR
 export function fetchProducts () {
   const isAuthorized = checkAuthorized()
   const controller = isAuthorized ? 'private' : 'public'
-  const url = `/${controller}/products`
+  const path = `${scope}${controller}/products`
   let token = null
 
   return (dispatch, getState) => {
@@ -48,7 +48,7 @@ export function fetchProducts () {
 
     dispatch(onFetchProductsRequest(true))
 
-    api(url, {
+    api(path, {
       headers: {
         'Content-Type': 'application/x-www-form-urlencoded',
         'Authorization': `Bearer ${token}`,
@@ -96,7 +96,7 @@ export function fetchProducts () {
 
 export function verifyingProduct (id, verifying) {
   const formData = new FormData()
-  const url = '/private/verifying'
+  const url = `${scope}private/verifying`
   let token = null
 
   formData.append('id', id)
@@ -135,7 +135,7 @@ export function verifyingProduct (id, verifying) {
 
 export function verifiedProduct (id, verified) {
   const formData = new FormData()
-  const url = '/private/verify'
+  const url = `${scope}private/verify`
   let token = null
 
   formData.append('id', id)

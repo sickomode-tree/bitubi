@@ -1,4 +1,4 @@
-import api from 'utils/fetch'
+import api, {scope} from 'utils/fetch'
 
 // ------------------------------------
 // Constants
@@ -25,7 +25,7 @@ export const onSaveToFavouritesSuccess = () => ({ type: SAVE_TO_FAVOURITES_SUCCE
 export const onSaveToFavouritesFailure = bool => ({ type: SAVE_TO_FAVOURITES_FAILURE, isErrored: bool })
 
 export function fetchFavourites () {
-  const url = '/private/user/favourites'
+  const url = `${scope}private/user/favourites`
   let token = null
 
   return (dispatch, getState) => {
@@ -56,7 +56,7 @@ export function fetchFavourites () {
 
 export function saveToFavourites (id) {
   const formData = new FormData()
-  const url = '/private/user/favourites'
+  const url = `${scope}private/user/favourites`
   let token = null
 
   formData.append('id', id)

@@ -82,7 +82,7 @@ export default class Header extends Component {
             {
               isAuthorized &&
               <Dropdown item trigger={
-                <Image src={user.photo && '/images/' + user.photo.original} avatar/>
+                <Image src={user.photo && '/test/images/' + user.photo.original} avatar/>
               }>
                 <Dropdown.Menu>
                   {

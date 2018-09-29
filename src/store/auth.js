@@ -1,7 +1,7 @@
 import { browserHistory } from 'react-router'
 import Notifications from 'react-notification-system-redux'
 import _ from 'lodash'
-import api from 'utils/fetch'
+import api, {scope} from 'utils/fetch'
 
 // ------------------------------------
 // Constants
@@ -63,7 +63,7 @@ export const onSignOut = () => ({ type: SIGN_OUT })
 
 export function sendSingInRequest (form) {
   const formData = new FormData(form)
-  const url = '/auth/signin'
+  const url = `${scope}auth/signin`
 
   return (dispatch, getState) => {
     dispatch(onSignInRequest(true))
@@ -100,7 +100,7 @@ export function sendSingInRequest (form) {
 
 export function sendSingUpRequest (form) {
   const formData = new FormData(form)
-  const url = '/auth/signup'
+  const url = `${scope}auth/signup`
 
   return (dispatch) => {
     dispatch(onSignUpRequest(true))

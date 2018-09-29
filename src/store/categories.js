@@ -1,4 +1,4 @@
-import api from 'utils/fetch'
+import api, {scope} from 'utils/fetch'
 
 // ------------------------------------
 // Constants
@@ -21,7 +21,7 @@ export const onFetchCategoriesFailure = bool => ({ type: FETCH_CATEGORIES_FAILUR
 // ------------------------------------
 
 export function fetchCategories () {
-  const url = '/public/categories'
+  const url = `${scope}public/categories`
 
   return (dispatch) => {
     dispatch(onFetchCategoriesRequest(true))

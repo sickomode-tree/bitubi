@@ -66,8 +66,7 @@ export default class Profile extends Component {
             <Segment vertical style={{border: 0}}>
               <Image
                 circular
-                src={user.photo && '/images/' + user.photo.original}
-                label={user.userType && { content: user.userType, icon: 'key', ribbon: true }}
+                src={user.photo && '/test/images/' + user.photo.original}
               />
             </Segment>
             <Message warning={!user.verified} success={user.verified}>

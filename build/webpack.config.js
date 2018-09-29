@@ -36,7 +36,9 @@ const config = {
   devServer: {
     historyApiFallback: true,
     contentBase: './',
-    proxy: { '/test/': 'https://localhost:8443', secure: false }
+    proxy: [
+      {'/test/': 'https://localhost:8443', secure: false },
+    ]
   },
   externals: project.externals,
   module: {
