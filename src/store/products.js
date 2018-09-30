@@ -48,12 +48,7 @@ export function fetchProducts () {
 
     dispatch(onFetchProductsRequest(true))
 
-    api(path, {
-      headers: {
-        'Content-Type': 'application/x-www-form-urlencoded',
-        'Authorization': `Bearer ${token}`,
-      }
-    })
+    api(path)
       .then(response => {
         if (!response.ok) {
           throw Error(response.statusText)
