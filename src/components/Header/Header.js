@@ -2,6 +2,7 @@ import React, {Component} from 'react'
 import {browserHistory, IndexLink, Link} from 'react-router'
 import PropTypes from 'prop-types'
 import {Container, Dropdown, Image, Item, Menu} from 'semantic-ui-react'
+import Logo from './components/Logo/Logo'
 import Search from './components/Search/Search'
 import SignInModal from './components/SignInModal/SignInModal'
 import SignUpModal from './components/SignUpModal/SignUpModal'
@@ -38,6 +39,7 @@ export default class Header extends Component {
 
     return (
       <Menu fixed='top' secondary stackable borderless>
+        <IndexLink to='/' className='item' onClick={resetFilter}><Logo/></IndexLink>
         <Container>
           {
             isAuthorized &&
@@ -96,24 +98,24 @@ export default class Header extends Component {
                 </Dropdown.Menu>
               </Dropdown>
             }
-            {
-              !isAuthorized &&
-              <Item>
-                <SignUpModal
-                  cities={cities} categories={categories}
-                  fetchProducts={fetchProducts} fetchCategories={fetchCategories} fetchCities={fetchCities}
-                  onClose={fetchProducts} onSubmit={this.handleSignUp.bind(this)}
-                />
-              </Item>
-            }
-            {
-              !isAuthorized &&
-              <Item>
-                <SignInModal fetchProducts={fetchProducts} handleSignIn={this.handleSignIn.bind(this)}/>
-              </Item>
-            }
           </Menu.Menu>
         </Container>
+        {
+          !isAuthorized &&
+          <Item>
+            <SignUpModal
+              cities={cities} categories={categories}
+              fetchProducts={fetchProducts} fetchCategories={fetchCategories} fetchCities={fetchCities}
+              onClose={fetchProducts} onSubmit={this.handleSignUp.bind(this)}
+            />
+          </Item>
+        }
+        {
+          !isAuthorized &&
+          <Item>
+            <SignInModal fetchProducts={fetchProducts} handleSignIn={this.handleSignIn.bind(this)}/>
+          </Item>
+        }
       </Menu>
     )
   }
