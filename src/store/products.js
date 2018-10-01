@@ -65,15 +65,17 @@ export function fetchProducts () {
         if (!isModerator) {
           json.forEach(product => {
             product.categories.forEach(categoryConfig => {
-              let category = categoryConfig.parent
+              if (categoryConfig) {
+                let category = categoryConfig.parent
 
-              categoryConfig.children.forEach(subcategory => {
-                let card = _.clone(product, true)
-                card.category = category
-                card.subcategory = subcategory
-                // delete card.categories
-                cards.push(card)
-              })
+                categoryConfig.children.forEach(subcategory => {
+                  let card = _.clone(product, true)
+                  card.category = category
+                  card.subcategory = subcategory
+                  // delete card.categories
+                  cards.push(card)
+                })
+              }
             })
           })
         } else {
