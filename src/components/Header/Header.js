@@ -1,7 +1,7 @@
 import React, {Component} from 'react'
 import {browserHistory, IndexLink, Link} from 'react-router'
 import PropTypes from 'prop-types'
-import {Container, Dropdown, Image, Item, Menu} from 'semantic-ui-react'
+import {Container, Dropdown, Image, Item, Menu, Responsive} from 'semantic-ui-react'
 import Logo from './components/Logo/Logo'
 import Search from './components/Search/Search'
 import SignInModal from './components/SignInModal/SignInModal'
@@ -38,7 +38,7 @@ export default class Header extends Component {
     } = this.props
 
     return (
-      <Menu fixed='top' secondary stackable borderless>
+      <Menu fixed='top' borderless>
         <IndexLink to='/' className='item' onClick={resetFilter}><Logo/></IndexLink>
         <Container>
           {
@@ -68,7 +68,9 @@ export default class Header extends Component {
           {
             !isModerator &&
             <Menu.Item style={{flex: 1}}>
-              <Search
+              <Responsive
+                {...Responsive.onlyTablet}
+                as={Search}
                 cards={cards}
                 filters={filters}
                 isAuthorized={isAuthorized}

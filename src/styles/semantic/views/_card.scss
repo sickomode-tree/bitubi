@@ -564,14 +564,14 @@ a.ui.card:hover,
 .ui.green.cards > .card,
 .ui.cards > .green.card,
 .ui.green.card {
-  -webkit-box-shadow: 0 1px 3px 0 #21BA45, 0 0 0 1px #21BA45;
-          box-shadow: 0 1px 3px 0 #21BA45, 0 0 0 1px #21BA45;
+  -webkit-box-shadow: 0 1px 3px 0 #21BA45, 0 0 0 1px #21BA45, 0 2px 5px 2px #e0e0e0;
+          box-shadow: 0 1px 3px 0 #21BA45, 0 0 0 1px #21BA45, 0 2px 5px 2px #e0e0e0;
 }
 .ui.green.cards > .card:hover,
 .ui.cards > .green.card:hover,
 .ui.green.card:hover {
-  -webkit-box-shadow: 0 1px 3px 0 #21BA45, 0 0 0 1px #21BA45;
-          box-shadow: 0 1px 3px 0 #21BA45, 0 0 0 1px #21BA45;
+  -webkit-box-shadow: 0 1px 3px 0 #21BA45, 0 0 0 1px #21BA45, 0 5px 5px 2px #e0e0e0;
+          box-shadow: 0 1px 3px 0 #21BA45, 0 0 0 1px #21BA45, 0 5px 5px 2px #e0e0e0;
 }
 
 /* Teal */

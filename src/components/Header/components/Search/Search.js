@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { browserHistory } from 'react-router'
 import PropTypes from 'prop-types'
-import { Button, Icon, Input, Dropdown, Label } from 'semantic-ui-react'
+import { Button, Icon, Input, Dropdown, Label, Responsive } from 'semantic-ui-react'
 import { getValues } from 'utils/array'
 import SignInModal from '../SignInModal/SignInModal'
 import FilterModal from '../FilterModal/FilterModal'
@@ -39,7 +39,8 @@ export default class Search extends Component {
         />
         {
           quickFilters.map(quickFilter => (
-            <Dropdown key={quickFilter.key} name={quickFilter.key} placeholder={quickFilter.title}
+            <Responsive as={Dropdown} {...Responsive.onlyLargeScreen}
+              key={quickFilter.key} name={quickFilter.key} placeholder={quickFilter.title}
               options={this.getOptions.call(this, quickFilter.key)} value={filters[quickFilter.key] || null}
               search selection noResultsMessage='Нет результатов.'
               selectOnBlur={false} selectOnNavigation={false} wrapSelection={false}
@@ -60,9 +61,9 @@ export default class Search extends Component {
         }
         {
           !isAuthorized &&
-          <SignInModal trigger={<Button icon='filter' basic />} handleSignIn={handleSignIn} fetchProducts={fetchProducts} />
+          <SignInModal trigger={<Button color='green' icon='filter' basic />} handleSignIn={handleSignIn} fetchProducts={fetchProducts} />
         }
-        <Button icon='sync' basic disabled={_.isEmpty(filters) && _.isEmpty(searchTerm)}
+        <Button icon='sync' basic color='green' disabled={_.isEmpty(filters) && _.isEmpty(searchTerm)}
           onClick={this.handleResetFilterButtonClick.bind(this)} />
       </Input>
     )

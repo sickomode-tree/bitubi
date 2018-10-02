@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import _ from 'lodash'
-import { Button, Grid, Segment } from 'semantic-ui-react'
+import { Button, Grid, Label, Segment } from 'semantic-ui-react'
 import CardGridGroup from './components/CardGridGroup/CardGridGroup'
 
 export default class CardGrid extends Component {
@@ -47,19 +47,9 @@ export default class CardGrid extends Component {
             {
               groups.map(group => (
                 <Grid.Column key={group.title} style={{ display: 'flex', flexDirection: 'column', height: '100%' }}>
-                  <Segment
-                    basic
-                    textAlign='center'
-                    className='p-2'
-                    style={{
-                      overflow: 'hidden',
-                      whiteSpace: 'nowrap',
-                      textOverflow: 'ellipsis',
-                      cursor: 'default',
-                    }}
-                  >
+                  <Label size='large' circular color='green' style={{overflow: 'hidden', whiteSpace: 'nowrap', textOverflow: 'ellipsis'}}>
                     {group.title}
-                  </Segment>
+                  </Label>
                   <CardGridGroup cards={group.cards} getCardComponent={getCardComponent} />
                 </Grid.Column>
               ))
