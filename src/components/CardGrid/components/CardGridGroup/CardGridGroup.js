@@ -33,14 +33,21 @@ export default class CardGridGroup extends Component {
           flexDirection: 'column',
           justifyContent: cards.length >= cardCount ? 'space-around' : 'flex-start',
           height: '100%',
-          padding: '1em',
+          padding: '3em 1em',
         }}
       >
         {
           cards.length > cardCount &&
           <Button
             onClick={this.showPreviousCard.bind(this)}
-            style={{position: 'absolute', top: 0, boxShadow: 'none'}}
+            style={{
+              position: 'absolute',
+              top: 20,
+              left: '50%',
+              transform: 'translateX(-50%)',
+              margin: 0,
+              boxShadow: 'none',
+            }}
             fluid icon='angle up' basic
           />
         }

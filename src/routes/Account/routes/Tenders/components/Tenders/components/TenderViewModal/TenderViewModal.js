@@ -28,6 +28,7 @@ class TenderViewModal extends Component {
         dimmer='blurring'
         size='large'
         onOpen={onOpen}
+        closeIcon={true}
       >
         <Modal.Header>{tender.title}</Modal.Header>
         <Modal.Content image>

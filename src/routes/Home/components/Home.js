@@ -134,7 +134,6 @@ export default class Home extends Component {
           link
           color='green'
           onClick={() => changeFilterValue('subcategory.title', card.subcategory.title)}
-          style={{ flex: '0 1 25%' }}
         >
           <Card.Content style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', textAlign: 'center' }}>
             <Card.Header>{card.subcategory.title}</Card.Header>

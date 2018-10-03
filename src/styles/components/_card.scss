@@ -16,3 +16,14 @@
     }
   }
 }
+
+.card-grid {
+  .ui.cards {
+    & > .card {
+      flex: 0 1 27%;
+      margin: 15px 15px;
+      max-height: 170px;
+      transform: translateX(-15px);
+    }
+  }
+}

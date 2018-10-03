@@ -425,8 +425,8 @@
 .ui.menu .link.item:hover,
 .ui.menu a.item:hover {
   cursor: pointer;
-  background: $c-primary;
-  color: #fff;
+  background: rgba(0, 0, 0, 0.03);
+  color: rgba(0, 0, 0, 0.95);
 }
 
 /*--------------
@@ -1778,7 +1778,7 @@ Floated Menu / Item
 
 .ui.menu.fixed {
   position: fixed;
-  z-index: 101;
+  z-index: $z-menu;
   margin: 0em;
   width: 100%;
 }

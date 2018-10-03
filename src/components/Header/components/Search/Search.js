@@ -39,7 +39,7 @@ export default class Search extends Component {
         />
         {
           quickFilters.map(quickFilter => (
-            <Responsive as={Dropdown} {...Responsive.onlyLargeScreen}
+            <Responsive as={Dropdown} minWidth={Responsive.onlyLargeScreen.minWidth}
               key={quickFilter.key} name={quickFilter.key} placeholder={quickFilter.title}
               options={this.getOptions.call(this, quickFilter.key)} value={filters[quickFilter.key] || null}
               search selection noResultsMessage='Нет результатов.'

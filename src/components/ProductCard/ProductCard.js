@@ -30,6 +30,7 @@ export default class ProductCard extends Component {
       <Modal
         size='large'
         dimmer='blurring'
+        closeIcon={true}
         onOpen={() => isCustomer && !_.isNil(saveToHistory) ? saveToHistory(product.id) : null}
         onClose={!_.isNil(onClose) ? onClose : null}
         trigger={

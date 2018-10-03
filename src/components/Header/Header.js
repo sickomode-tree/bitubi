@@ -39,8 +39,8 @@ export default class Header extends Component {
 
     return (
       <Menu fixed='top' borderless>
-        <IndexLink to='/' className='item' onClick={resetFilter}><Logo/></IndexLink>
         <Container>
+        <IndexLink to='/' className='item' onClick={resetFilter}><Logo/></IndexLink>
           {
             isAuthorized &&
             <Menu.Menu position='left'>
@@ -69,7 +69,7 @@ export default class Header extends Component {
             !isModerator &&
             <Menu.Item style={{flex: 1}}>
               <Responsive
-                {...Responsive.onlyTablet}
+                minWidth={Responsive.onlyTablet.minWidth}
                 as={Search}
                 cards={cards}
                 filters={filters}
@@ -101,7 +101,6 @@ export default class Header extends Component {
               </Dropdown>
             }
           </Menu.Menu>
-        </Container>
         {
           !isAuthorized &&
           <Item>
@@ -118,6 +117,7 @@ export default class Header extends Component {
             <SignInModal fetchProducts={fetchProducts} handleSignIn={this.handleSignIn.bind(this)}/>
           </Item>
         }
+        </Container>
       </Menu>
     )
   }

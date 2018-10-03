@@ -22,6 +22,7 @@ class SignInModal extends Component {
         trigger={trigger || <Button circular className='basic green'>Войти</Button>}
         size='tiny'
         dimmer='blurring'
+        closeIcon={true}
         mountNode={document.getElementById('root')}
       >
         <Modal.Header>Войти в систему</Modal.Header>

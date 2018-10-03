@@ -27,6 +27,7 @@ class FilterModal extends Component {
         trigger={trigger || <Button basic>Фильтр</Button>}
         size='tiny'
         dimmer='blurring'
+        closeIcon={true}
       >
         <Modal.Header>Фильтр</Modal.Header>
         <Modal.Content>

@@ -120,6 +120,7 @@ class ProfileEditModal extends Component {
         trigger={trigger || <Button basic>Редактировать</Button>}
         size='large'
         dimmer='blurring'
+        closeIcon={true}
         mountNode={document.getElementById('root')}
         onClose={onClose}
       >

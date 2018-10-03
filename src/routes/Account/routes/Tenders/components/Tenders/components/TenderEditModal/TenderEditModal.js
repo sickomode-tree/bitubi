@@ -70,6 +70,7 @@ class TenderEditModal extends Component {
         trigger={trigger || <Button basic color='green'>Создать тендер</Button>}
         size='tiny'
         dimmer='blurring'
+        closeIcon={true}
         onClose={!_.isNil(onClose) ? onClose : null}
       >
         <Modal.Content>

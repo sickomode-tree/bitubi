@@ -32,6 +32,7 @@ export default class TenderCard extends Component {
       <Modal
         size='large'
         dimmer='blurring'
+        closeIcon={true}
         onOpen={() => (isProvider && !_.isNil(saveToHistory)) ? saveToHistory(tender.id) : null}
         onClose={!_.isNil(onClose) ? onClose : null}
         trigger={
