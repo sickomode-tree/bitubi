@@ -1,6 +1,6 @@
-import React, { Component } from 'react'
+import React, {Component} from 'react'
 import PropTypes from 'prop-types'
-import { Button, Dropdown, Form, Modal } from 'semantic-ui-react'
+import {Button, Dropdown, Form, Modal} from 'semantic-ui-react'
 
 class FilterModal extends Component {
   static propTypes = {
@@ -11,15 +11,15 @@ class FilterModal extends Component {
     handleResetFilterButtonClick: PropTypes.func.isRequired,
   }
 
-  render () {
-    const { filters, trigger, getOptions, handleFilterChange, handleResetFilterButtonClick } = this.props
+  render() {
+    const {filters, trigger, getOptions, handleFilterChange, handleResetFilterButtonClick} = this.props
 
     const filterTypes = [
-      { title: 'Город', key: 'city.name' },
-      { title: 'Категория', key: 'category.title' },
-      { title: 'Подкатегория', key: 'subcategory.title' },
-      { title: 'Тип деятельности', key: 'actionType' },
-      { title: 'Поставляемое количество', key: 'deliveryType' },
+      {title: 'Город', key: 'city.name'},
+      {title: 'Категория', key: 'category.title'},
+      {title: 'Подкатегория', key: 'subcategory.title'},
+      {title: 'Тип деятельности', key: 'actionType'},
+      {title: 'Поставляемое количество', key: 'deliveryType'},
     ]
 
     return (
@@ -28,6 +28,7 @@ class FilterModal extends Component {
         size='tiny'
         dimmer='blurring'
         closeIcon={true}
+        mountNode={document.getElementById('root')}
       >
         <Modal.Header>Фильтр</Modal.Header>
         <Modal.Content>
@@ -39,11 +40,11 @@ class FilterModal extends Component {
               filterTypes.map(filter => (
                 <Form.Field key={filter.key}>
                   <Dropdown name={filter.key} placeholder={filter.title}
-                    options={getOptions.call(this, filter.key)} value={filters[filter.key] || null}
-                    search selection noResultsMessage='Нет результатов.'
-                    selectOnBlur={false} selectOnNavigation={false} wrapSelection={false}
-                    style={{ whiteSpace: 'nowrap' }}
-                    onChange={(event, data) => handleFilterChange(event, data)}
+                            options={getOptions.call(this, filter.key)} value={filters[filter.key] || null}
+                            search selection noResultsMessage='Нет результатов.'
+                            selectOnBlur={false} selectOnNavigation={false} wrapSelection={false}
+                            style={{whiteSpace: 'nowrap'}}
+                            onChange={(event, data) => handleFilterChange(event, data)}
                   />
                 </Form.Field>
               ))
@@ -51,18 +52,18 @@ class FilterModal extends Component {
           </Form>
         </Modal.Content>
         <Modal.Actions>
-          <Button color={'red'} circular   content='Сбросить' onClick={handleResetFilterButtonClick} />
+          <Button color={'red'} circular content='Сбросить' onClick={handleResetFilterButtonClick}/>
         </Modal.Actions>
       </Modal>
     )
   }
 
-  handleUserTypeSelectChange (userType) {
-    this.setState({ selectedUserType: userType })
+  handleUserTypeSelectChange(userType) {
+    this.setState({selectedUserType: userType})
   }
 
-  handleSubmit (event) {
-    const { handleSignUp } = this.props
+  handleSubmit(event) {
+    const {handleSignUp} = this.props
     const form = event.target
 
     handleSignUp(form)

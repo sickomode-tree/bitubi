@@ -470,7 +470,17 @@
       border: 1px solid $c-primary;
       border-left: 0;
       border-right: 0;
+    }
 
+    &:last-child::after {
+      content: ' ';
+      display: flex;
+      position: absolute;
+      top: 1px;
+      left: 0px;
+      width: 1px;
+      height: calc(100% - 2px);
+      background: white;
     }
   }
 }

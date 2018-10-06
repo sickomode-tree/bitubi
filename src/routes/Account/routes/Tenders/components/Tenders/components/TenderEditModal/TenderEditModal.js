@@ -72,6 +72,7 @@ class TenderEditModal extends Component {
         dimmer='blurring'
         closeIcon={true}
         onClose={!_.isNil(onClose) ? onClose : null}
+        mountNode={document.getElementById('root')}
       >
         <Modal.Content>
           <EditForm

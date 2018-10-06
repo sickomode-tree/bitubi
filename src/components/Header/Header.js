@@ -38,7 +38,7 @@ export default class Header extends Component {
     } = this.props
 
     return (
-      <Menu fixed='top' borderless>
+      <Menu fixed='top' borderless secondary color={'green'}>
         <Container>
         <IndexLink to='/' className='item' onClick={resetFilter}><Logo/></IndexLink>
           {

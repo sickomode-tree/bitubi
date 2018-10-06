@@ -31,6 +31,7 @@ export default class ProductCard extends Component {
         size='large'
         dimmer='blurring'
         closeIcon={true}
+        mountNode={document.getElementById('root')}
         onOpen={() => isCustomer && !_.isNil(saveToHistory) ? saveToHistory(product.id) : null}
         onClose={!_.isNil(onClose) ? onClose : null}
         trigger={

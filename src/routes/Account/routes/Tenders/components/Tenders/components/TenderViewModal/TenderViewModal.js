@@ -29,6 +29,7 @@ class TenderViewModal extends Component {
         size='large'
         onOpen={onOpen}
         closeIcon={true}
+        mountNode={document.getElementById('root')}
       >
         <Modal.Header>{tender.title}</Modal.Header>
         <Modal.Content image>

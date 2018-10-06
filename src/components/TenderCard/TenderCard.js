@@ -33,6 +33,7 @@ export default class TenderCard extends Component {
         size='large'
         dimmer='blurring'
         closeIcon={true}
+        mountNode={document.getElementById('root')}
         onOpen={() => (isProvider && !_.isNil(saveToHistory)) ? saveToHistory(tender.id) : null}
         onClose={!_.isNil(onClose) ? onClose : null}
         trigger={
