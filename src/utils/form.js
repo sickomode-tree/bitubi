@@ -1,6 +1,6 @@
 import React from 'react'
 import moment from 'moment'
-import {Button, Form, Input, Menu, TextArea} from 'semantic-ui-react'
+import {Button, Checkbox, Form, Input, Menu, TextArea} from 'semantic-ui-react'
 import {getObjectValue} from './array'
 import DatePicker from 'react-datepicker'
 import MaskedInput from 'react-text-mask'
@@ -144,6 +144,16 @@ export const getFormFieldComponent = (config, data) => {
             name={config.name}
             defaultValue={config.selected}/>
         </Menu>
+      )
+      break
+    case 'checkbox':
+      formFieldComponent = (
+        <Form.Checkbox
+          name={config.name}
+          label={config.title}
+          required={config.required || false}
+          defaultValue={config.path ? getObjectValue(data, config.path, config.type) : ''}
+        />
       )
       break
     default:

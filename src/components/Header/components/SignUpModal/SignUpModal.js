@@ -1,7 +1,8 @@
 import React, {Component} from 'react'
+import {Link} from 'react-router'
 import PropTypes from 'prop-types'
 import _ from 'lodash'
-import {Button, Modal, Tab} from 'semantic-ui-react'
+import {Button, Checkbox, Modal, Tab} from 'semantic-ui-react'
 import SignUpForm from './components/SignUpForm/SignUpForm'
 
 export default class SignUpModal extends Component {
@@ -28,6 +29,7 @@ export default class SignUpModal extends Component {
     subcategory_1: '',
     subcategory_2: '',
     subcategory_3: '',
+    agreedToTerms: false,
   }
 
   componentDidMount() {
@@ -182,8 +184,8 @@ export default class SignUpModal extends Component {
         onChange: this.handleSelectChange.bind(this),
         visible: state.activeTab === 1
       },
-      {tag: 'input', type: 'hidden', name: 'userType', value: userType}
-    ]
+      {tag: 'input', type: 'hidden', name: 'userType', value: userType},
+  ]
 
     const panes = [
       {
@@ -215,9 +217,15 @@ export default class SignUpModal extends Component {
           />
         </Modal.Content>
         <Modal.Actions>
+          <Checkbox
+            label={{children: <a href={'/policy'} target={'_blank'} title={'Политика конфиденциальности'}>политику конфиденциальности</a>}}
+            defaultValue={this.state.agreedToTerms}
+            onChange={this.handleCheckboxChange.bind(this)}
+          />
           <Button
             circular
             positive
+            disabled={!this.state.agreedToTerms}
             type='submit'
             form='signUpForm'
             content='Далее'
@@ -233,5 +241,9 @@ export default class SignUpModal extends Component {
 
   handleSelectChange(event, field) {
     this.setState({[field.name]: field.value})
+  }
+
+  handleCheckboxChange(event) {
+    this.setState({agreedToTerms: !this.state.agreedToTerms})
   }
 }
