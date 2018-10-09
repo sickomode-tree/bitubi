@@ -39,9 +39,10 @@ body.blurring {
 }
 
 #root {
-  height: 100vh;
   display: flex;
   flex-direction: column;
+  min-width: 1024px;
+  height: 100vh;
   padding: 90px 0 40px 0;
 
   &.blurring {
