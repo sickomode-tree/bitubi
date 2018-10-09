@@ -218,7 +218,7 @@ export default class SignUpModal extends Component {
         </Modal.Content>
         <Modal.Actions>
           <Checkbox
-            label={{children: <a href={'/policy'} target={'_blank'} title={'Политика конфиденциальности'}>политику конфиденциальности</a>}}
+            label={{children: <a href={'/policy'} target={'_blank'} title={'Политика конфиденциальности'}>Я прочитал/а и принимаю политику конфиденциальности</a>}}
             defaultValue={this.state.agreedToTerms}
             onChange={this.handleCheckboxChange.bind(this)}
           />
