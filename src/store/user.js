@@ -109,7 +109,7 @@ export const updateUserpic = file => {
     api(url, {
       method: 'POST',
       headers: {
-        'Content-Type': 'multipart/form-data',
+        'Content-Type': 'multipart/form-data; boundary=boundary',
         'Authorization': `Bearer ${getToken()}`
       },
       body: formData,

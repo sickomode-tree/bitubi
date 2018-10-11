@@ -22,8 +22,12 @@
     & > .card {
       flex: 0 1 27%;
       margin: 15px 15px;
-      max-height: 170px;
+      max-height: 120px;
       transform: translateX(-15px);
+
+      .content {
+        overflow: hidden;
+      }
     }
   }
 }
