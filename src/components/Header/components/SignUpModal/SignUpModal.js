@@ -18,6 +18,7 @@ export default class SignUpModal extends Component {
   state = {
     activeTab: 0,
     city: '',
+    tariff: 3,
     district: '',
     firstName: '',
     lastName: '',
@@ -52,6 +53,8 @@ export default class SignUpModal extends Component {
     const category1Value = state.category_1
     const category2Value = state.category_2
     const category3Value = state.category_3
+    const tariffOptions = [{value: 1, text: '1 месяц, 3000руб'}, {value: 2, text: '3 месяца, 2600/мес'}, {value: 3, text: '6 месяцев, 2300/мес.'}]
+    const tariffValue = state.tariff
     const subcategories1 = category1Value ? categories.find(category => category.id === category1Value).children : []
     const subcategories2 = category2Value ? categories.find(category => category.id === category2Value).children : []
     const subcategories3 = category3Value ? categories.find(category => category.id === category3Value).children : []
@@ -60,6 +63,16 @@ export default class SignUpModal extends Component {
     const subcategory3Options = subcategories3.map(subcategory => ({value: subcategory.id, text: subcategory.title}))
 
     let fields = [
+      {
+        tag: 'select',
+        name: 'tariff',
+        title: 'Тариф',
+        required: true,
+        value: tariffValue,
+        options: tariffOptions,
+        onChange: this.handleSelectChange.bind(this),
+        visible: state.activeTab === 1,
+      },
       {tag: 'input', name: 'login', title: 'Логин', required: true},
       {tag: 'input', type: 'password', name: 'password', title: 'Пароль', required: true, width: 8},
       {tag: 'input', type: 'password', name: 'passwordConfirm', title: 'Подтвердите пароль', required: true, width: 8},
@@ -81,8 +94,6 @@ export default class SignUpModal extends Component {
         visible: state.activeTab === 0,
         width: 8
       },
-      {tag: 'input', name: 'providerName', title: 'Название компании', required: true, visible: state.activeTab === 1},
-      {tag: 'input', name: 'providerTaxId', title: 'ИНН', required: true, visible: state.activeTab === 1},
       {tag: 'input', name: 'email', title: 'Email', value: state.email, required: true, width: 8},
       {
         tag: 'input',
@@ -115,6 +126,8 @@ export default class SignUpModal extends Component {
         disabled: _.isEmpty(districtOptions)
       },
       {tag: 'input', name: 'address', title: 'Адрес', required: state.activeTab === 1},
+      {tag: 'input', name: 'providerName', title: 'Название компании', required: true, visible: state.activeTab === 1},
+      {tag: 'input', name: 'providerTaxId', title: 'ИНН', required: true, visible: state.activeTab === 1},
       {
         tag: 'select',
         name: 'category_1',
