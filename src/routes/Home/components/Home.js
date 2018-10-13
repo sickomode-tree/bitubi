@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import _ from 'lodash'
-import { Card } from 'semantic-ui-react'
+import Card from 'components/Card/Card'
 import CardGrid from 'components/CardGrid/CardGrid'
 import ProductCard from 'components/ProductCard/ProductCard'
 import EmptyText from 'components/EmptyText/EmptyText'
@@ -131,13 +131,13 @@ export default class Home extends Component {
     if (_.isEmpty(filter.filters) && _.isEmpty(filter.searchTerm)) {
       return (
         <Card
-          link
-          color='green'
+          color={'green'}
+          align={'center'}
           onClick={() => changeFilterValue('subcategory.title', card.subcategory.title)}
         >
-          <Card.Content style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', textAlign: 'center' }}>
-            <Card.Header>{card.subcategory.title}</Card.Header>
-          </Card.Content>
+          <div>
+            <h3>{card.subcategory.title}</h3>
+          </div>
         </Card>
       )
     }
@@ -145,7 +145,6 @@ export default class Home extends Component {
     return (
       <ProductCard
         product={card}
-        style={{ flex: '0 0 25%' }}
         saveToFavourites={saveToFavourites}
         saveToHistory={saveToHistory}
         verifyingProduct={verifyingProduct}

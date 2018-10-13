@@ -1,7 +1,8 @@
 import React, {Component} from 'react'
 import PropTypes from 'prop-types'
 import _ from 'lodash'
-import {Button, Card, Icon, Image, Modal} from 'semantic-ui-react'
+import {Button, Icon, Image, Modal} from 'semantic-ui-react'
+import Card from 'components/Card/Card'
 import {isCustomer, isModerator} from 'utils/auth'
 import IconList from 'components/IconList/IconList'
 import Tag from 'components/Tag/Tag'
@@ -41,21 +42,23 @@ export default class ProductCard extends Component {
             color='green'
             className={product.verifying ? 'disabled' : null}
           >
-            <Card.Content>
-              <Card.Header>
+            <div>
+              <h3>
                 {product.providerName}
-                {product.favourite &&
-                <i className='right floated bookmark icon red'/>
-                }
-                {product.verifying &&
-                <i className='right floated eye icon'/>
-                }
-              </Card.Header>
-              <Card.Meta>{product.city.name}</Card.Meta>
-              <Card.Description>
-                {product.description}
-              </Card.Description>
-            </Card.Content>
+              </h3>
+              {product.favourite &&
+              <i className='right floated bookmark icon red'/>
+              }
+              {product.verifying &&
+              <i className='right floated eye icon'/>
+              }
+            </div>
+            <div>
+              {product.city.name}
+            </div>
+            <div>
+              {product.description}
+            </div>
           </Card>
         }
       >

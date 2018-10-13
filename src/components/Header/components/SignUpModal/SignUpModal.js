@@ -62,7 +62,7 @@ export default class SignUpModal extends Component {
     let fields = [
       {tag: 'input', name: 'login', title: 'Логин', required: true},
       {tag: 'input', type: 'password', name: 'password', title: 'Пароль', required: true, width: 8},
-      {tag: 'input', type: 'passwordConfirm', name: 'password', title: 'Подтвердите пароль', required: true, width: 8},
+      {tag: 'input', type: 'password', name: 'passwordConfirm', title: 'Подтвердите пароль', required: true, width: 8},
       {
         tag: 'input',
         name: 'firstName',

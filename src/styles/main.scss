@@ -4,6 +4,7 @@
 
 html {
   box-sizing: border-box;
+  min-width: 1024px;
   padding: 0;
 }
 
@@ -41,9 +42,8 @@ body.blurring {
 #root {
   display: flex;
   flex-direction: column;
-  min-width: 1024px;
   height: 100vh;
-  padding: 90px 0 40px 0;
+  padding: 70px 0 20px 0;
 
   &.blurring {
     padding: 0;
