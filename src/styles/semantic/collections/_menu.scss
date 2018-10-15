@@ -1817,6 +1817,7 @@ Floated Menu / Item
   z-index: $z-menu;
   margin: 0em;
   width: 100%;
+  min-width: 1024px;
 }
 .ui.menu.fixed,
 .ui.menu.fixed .item:first-child,
