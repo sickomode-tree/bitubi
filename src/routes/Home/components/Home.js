@@ -1,12 +1,12 @@
-import React, { Component } from 'react'
+import React, {Component} from 'react'
 import PropTypes from 'prop-types'
 import _ from 'lodash'
 import Card from 'components/Card/Card'
 import CardGrid from 'components/CardGrid/CardGrid'
 import ProductCard from 'components/ProductCard/ProductCard'
 import EmptyText from 'components/EmptyText/EmptyText'
-import { getObjectValue } from 'utils/array'
-import { isModerator } from 'utils/auth'
+import {getObjectValue} from 'utils/array'
+import {isModerator} from 'utils/auth'
 
 export default class Home extends Component {
   static propTypes = {
@@ -19,12 +19,12 @@ export default class Home extends Component {
     saveToHistory: PropTypes.func.isRequired,
   }
 
-  componentDidMount () {
+  componentDidMount() {
     this.props.fetchProducts()
   }
 
-  render () {
-    const { products, isLoading, filter, fetchProducts, verifyingProduct, verifiedProduct } = this.props
+  render() {
+    const {products, isLoading, filter, fetchProducts, verifyingProduct, verifiedProduct} = this.props
     const cards = this.getCards.call(this, products)
     const groupKey = _.isEmpty(filter.filters) && _.isEmpty(filter.searchTerm) ? 'category.title' : 'subcategory.title'
 
@@ -38,7 +38,7 @@ export default class Home extends Component {
                   <ProductCard
                     key={product.id + '_' + index}
                     product={product}
-                    style={{ height: 150 }}
+                    style={{height: 150}}
                     verifyingProduct={verifyingProduct}
                     verifiedProduct={verifiedProduct}
                     onClose={fetchProducts}
@@ -66,11 +66,11 @@ export default class Home extends Component {
       )
     }
 
-    return (<div />)
+    return (<div/>)
   }
 
-  getProductCards (items) {
-    const { filter } = this.props
+  getProductCards(items) {
+    const {filter} = this.props
     let cards = items
 
     // filter by search value
@@ -97,7 +97,7 @@ export default class Home extends Component {
     return cards
   }
 
-  getSubcategoryCards (items) {
+  getSubcategoryCards(items) {
     let subcategoryMap = {}
     let subcategories = []
 
@@ -115,8 +115,8 @@ export default class Home extends Component {
     return subcategories
   }
 
-  getCards (products) {
-    const { filter } = this.props
+  getCards(products) {
+    const {filter} = this.props
 
     if (_.isEmpty(filter.filters) && _.isEmpty(filter.searchTerm) && !isModerator) {
       return this.getSubcategoryCards.call(this, products)
@@ -125,18 +125,19 @@ export default class Home extends Component {
     }
   }
 
-  getCardComponent (card) {
-    const { filter, saveToFavourites, saveToHistory, changeFilterValue, verifyingProduct, verifiedProduct } = this.props
+  getCardComponent(card) {
+    const {filter, saveToFavourites, saveToHistory, changeFilterValue, verifyingProduct, verifiedProduct} = this.props
 
     if (_.isEmpty(filter.filters) && _.isEmpty(filter.searchTerm)) {
       return (
         <Card
-          color={'green'}
+          inverted
           align={'center'}
           onClick={() => changeFilterValue('subcategory.title', card.subcategory.title)}
+          imagePath={card.subcategory.pic}
         >
           <div>
-            <h3>{card.subcategory.title}</h3>
+            <h3 className={'Card__Heading'}>{card.subcategory.title}</h3>
           </div>
         </Card>
       )

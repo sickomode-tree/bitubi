@@ -37,10 +37,10 @@ export default class ProductCard extends Component {
         onClose={!_.isNil(onClose) ? onClose : null}
         trigger={
           <Card
-            link
+            inverted
             style={style || {}}
-            color='green'
             className={product.verifying ? 'disabled' : null}
+            imagePath={product.subcategory.pic}
           >
             <div>
               <h3>

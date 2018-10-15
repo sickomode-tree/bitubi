@@ -2,6 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import classNames from 'classnames'
 import './Card.scss'
+import {rootUrl} from 'utils/fetch'
 
 const Card = props => (
   <a
@@ -11,10 +12,16 @@ const Card = props => (
       classNames(
         'Card',
         {'Card--green': props.color === 'green'},
-        {'Card--center': props.align === 'center'}
+        {'Card--inverted': props.inverted},
+        {'Card--center': props.align === 'center'},
+        {'Card--link': props.onClick}
       )
     }
   >
+    {
+      props.imagePath &&
+      <img src={rootUrl + props.imagePath} alt={props.title} className={'Card__Image'}/>
+    }
     {props.children}
   </a>
 )
