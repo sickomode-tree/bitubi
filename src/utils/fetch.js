@@ -10,6 +10,7 @@ const api = fetchDefaults(fetch, config.api.rootUrl, {
   }
 })
 
+export const rootUrl = config.api.rootUrl
 export const scope = config.api.scope
 
 export default api
