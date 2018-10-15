@@ -113,7 +113,7 @@ class ProfileEditModal extends Component {
       {tag: 'input', type: 'url', name: 'url', title: 'Сайт', path: 'url'},
       {tag: 'input', type: 'hidden', name: 'id', path: 'id'},
     ]
-    const userpicUrl = user.photo && `{rootUrl}images/` + user.photo.original
+    const userpicUrl = user.photo && `${rootUrl}/images/` + user.photo.original
 
     return (
       <Modal
