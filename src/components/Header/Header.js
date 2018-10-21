@@ -7,7 +7,7 @@ import Search from './components/Search/Search'
 import SignInModal from './components/SignInModal/SignInModal'
 import SignUpModal from './components/SignUpModal/SignUpModal'
 import {isCustomer, isProvider, isModerator} from 'utils/auth'
-import {scope} from 'utils/fetch'
+import {rootUrl} from 'utils/fetch'
 
 export default class Header extends Component {
   static propTypes = {
@@ -87,7 +87,7 @@ export default class Header extends Component {
             {
               isAuthorized &&
               <Dropdown item trigger={
-                <Image src={user.photo && (scope + user.photo.original)} avatar/>
+                <Image src={user.photo && (rootUrl + user.photo.original)} avatar/>
               }>
                 <Dropdown.Menu>
                   {

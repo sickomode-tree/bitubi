@@ -6,6 +6,7 @@ import Card from 'components/Card/Card'
 import {isCustomer, isModerator} from 'utils/auth'
 import IconList from 'components/IconList/IconList'
 import Tag from 'components/Tag/Tag'
+import {rootUrl} from 'utils/fetch'
 
 export default class ProductCard extends Component {
   static propTypes = {
@@ -37,10 +38,10 @@ export default class ProductCard extends Component {
         onClose={!_.isNil(onClose) ? onClose : null}
         trigger={
           <Card
-            link
+            inverted
             style={style || {}}
-            color='green'
             className={product.verifying ? 'disabled' : null}
+            imagePath={product.subcategory.pic}
           >
             <div>
               <h3>
@@ -64,7 +65,10 @@ export default class ProductCard extends Component {
       >
         <Modal.Header>{product.providerName}</Modal.Header>
         <Modal.Content image>
-          <Image wrapped circular size='medium' src='http://react.semantic-ui.com/images/avatar/large/daniel.jpg'/>
+          {
+            product.subcategory.pic &&
+            <Image wrapped size='medium' src={rootUrl + product.subcategory.pic}/>
+          }
           <Modal.Description style={{width: '100%'}}>
             {product.category && <Tag content={product.category.title}/>}
             {product.subcategory && <Tag content={product.subcategory.title}/>}

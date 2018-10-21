@@ -18,6 +18,8 @@
 }
 
 .card-grid {
+  overflow: hidden;
+
   .ui.cards {
     & > .card {
       flex: 0 1 27%;

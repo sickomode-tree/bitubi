@@ -5,7 +5,7 @@ import {Button, Dimmer, Grid, Image, Modal, Reveal} from 'semantic-ui-react'
 import Dropzone from 'react-dropzone'
 import EditForm from 'components/EditForm/EditForm'
 import {getUserType} from 'utils/auth'
-import {scope} from 'utils/fetch'
+import {rootUrl} from 'utils/fetch'
 
 class ProfileEditModal extends Component {
   static propTypes = {
@@ -113,7 +113,8 @@ class ProfileEditModal extends Component {
       {tag: 'input', type: 'url', name: 'url', title: 'Сайт', path: 'url'},
       {tag: 'input', type: 'hidden', name: 'id', path: 'id'},
     ]
-    const userpicUrl = user.photo && (scope + user.photo.original)
+
+    const userpicUrl = user.photo && (rootUrl + user.photo.original)
 
     return (
       <Modal
