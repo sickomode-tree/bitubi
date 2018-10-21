@@ -41,7 +41,7 @@ export default class ProductCard extends Component {
             inverted
             style={style || {}}
             className={product.verifying ? 'disabled' : null}
-            imagePath={product.subcategory.pic}
+            imagePath={product.subcategory && product.subcategory.pic}
           >
             <div>
               <h3>
@@ -66,7 +66,7 @@ export default class ProductCard extends Component {
         <Modal.Header>{product.providerName}</Modal.Header>
         <Modal.Content image>
           {
-            product.subcategory.pic &&
+            product.subcategory && product.subcategory.pic &&
             <Image wrapped size='medium' src={rootUrl + product.subcategory.pic}/>
           }
           <Modal.Description style={{width: '100%'}}>

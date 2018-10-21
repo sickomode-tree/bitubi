@@ -194,7 +194,10 @@ export function toggleTender (id) {
       })
       .then(response => response.json())
       .then(json => dispatch(onToggleTenderSuccess()))
-      .catch(error => dispatch(onToggleTenderFailure(true)))
+      .catch(error => {
+        console.error(error)
+        dispatch(onToggleTenderFailure(true))
+      })
   }
 }
 
@@ -230,7 +233,10 @@ export function verifyingTender (id, verifying) {
       })
       .then(response => response.json())
       .then(json => dispatch(onVerifyingTenderSuccess()))
-      .catch(error => dispatch(onVerifyingTenderFailure(true)))
+      .catch(error => {
+        console.error(error)
+        dispatch(onVerifyingTenderFailure(true))
+      })
   }
 }
 
@@ -266,7 +272,10 @@ export function verifiedTender (id, verified) {
       })
       .then(response => response.json())
       .then(json => dispatch(onVerifiedTenderSuccess()))
-      .catch(error => dispatch(onVerifiedTenderFailure(true)))
+      .catch(error => {
+        console.error(error)
+        dispatch(onVerifiedTenderFailure(true))
+      })
   }
 }
 

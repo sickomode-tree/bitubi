@@ -50,7 +50,10 @@ export function fetchFavourites () {
       })
       .then(response => response.json())
       .then(json => dispatch(onFetchFavouritesSuccess(json)))
-      .catch(error => dispatch(onFetchFavouritesFailure(true)))
+      .catch(error => {
+        console.error(error)
+        dispatch(onFetchFavouritesFailure(true))
+      })
   }
 }
 

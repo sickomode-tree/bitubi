@@ -50,7 +50,10 @@ export function fetchHistory () {
       })
       .then(response => response.json())
       .then(json => dispatch(onFetchHistorySuccess(json)))
-      .catch(error => dispatch(onFetchHistoryFailure(true)))
+      .catch(error => {
+        console.error(error)
+        dispatch(onFetchHistoryFailure(true))
+      })
   }
 }
 
@@ -83,7 +86,10 @@ export function saveToHistory (id) {
       })
       .then(response => response.json())
       .then(json => dispatch(onSaveToHistorySuccess()))
-      .catch(error => dispatch(onSaveToHistoryFailure(true)))
+      .catch(error => {
+        console.error(error)
+        dispatch(onSaveToHistoryFailure(true))
+      })
   }
 }
 

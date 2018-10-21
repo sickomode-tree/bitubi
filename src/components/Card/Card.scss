@@ -40,9 +40,21 @@
     position: absolute;
     display: block;
     width: 100%;
-    height: 100%;
+    height: auto;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
   }
+
+  .floated.right {
+    position: absolute;
+    right: 15px;
+    top: 15px;
+  }
+}
+
+.ui.three.cards>.Card {
+  width: calc(33.33333333% - 2em);
+  margin-left: 1em;
+  margin-right: 1em;
 }
