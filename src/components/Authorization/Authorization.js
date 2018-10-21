@@ -13,6 +13,7 @@ export const Authorization = (WrappedComponent, allowedUserTypes) => {
 
     render () {
       const { userType } = this.state
+
       if (allowedUserTypes.includes(userType)) {
         return <WrappedComponent {...this.props} />
       } else {

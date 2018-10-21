@@ -18,12 +18,8 @@ export function getToken () {
 }
 
 export function getUserType () {
-  const state = loadState()
-  let userType = null
-
-  if (!_.isNil(state)) {
-    userType = state.auth.userType
-  }
+  const state = loadState(),
+        userType = !_.isNil(state) ? state.auth.userType : guestUserType
 
   return userType
 }
