@@ -1,5 +1,6 @@
 import { checkAuthorized, getToken, isModerator } from 'utils/auth'
 import api, {scope} from 'utils/fetch'
+import {signOut} from 'store/auth'
 
 // ------------------------------------
 // Constants
@@ -52,6 +53,10 @@ export function fetchProducts () {
       .then(response => {
         if (!response.ok) {
           throw Error(response.statusText)
+        }
+
+        if (response.status === 401) {
+            dispatch(signOut());
         }
 
         dispatch(onFetchProductsRequest(false))
