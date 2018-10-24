@@ -71,6 +71,7 @@ body.blurring {
   height: 50px;
   border-radius: 50px;
   background-color: $c-primary;
+  cursor: pointer;
 
   &::before {
     content: "\f075";
