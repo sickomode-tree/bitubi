@@ -60,3 +60,26 @@ body.blurring {
     flex: 1;
   }
 }
+
+.jivo_custom_widget {
+  position: absolute;
+  z-index: 9999999999;
+  right: 20px;
+  bottom: 20px;
+  display: block;
+  width: 50px;
+  height: 50px;
+  border-radius: 50px;
+  background-color: $c-primary;
+
+  &::before {
+    content: "\f075";
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: #fff;
+    font-size: 25px;
+    font-family: Icons;
+  }
+}
