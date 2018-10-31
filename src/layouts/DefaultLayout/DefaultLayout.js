@@ -3,6 +3,7 @@ import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
 import Notifications from 'react-notification-system-redux'
 import Header from 'components/Header/Header'
+import Footer from 'components/Footer/Footer'
 import { Container, Dimmer, Loader, Portal } from 'semantic-ui-react'
 import { fetchCities } from 'store/cities'
 import { fetchCategories } from 'store/categories'
@@ -73,7 +74,8 @@ class DefaultLayout extends Component {
           sendSingUpRequest={sendSingUpRequest}
           signOut={signOut}
         />
-        <Container style={{ display: 'flex', height: '100%' }}>
+
+        <Container style={{ display: 'flex', height: '100%', paddingTop: 90 }}>
           {children}
           <Dimmer active={isLoading} inverted>
             <Loader>Загрузка...</Loader>
@@ -84,6 +86,8 @@ class DefaultLayout extends Component {
             />
           </Portal>
         </Container>
+
+        <Footer />
       </div>
     )
   }
