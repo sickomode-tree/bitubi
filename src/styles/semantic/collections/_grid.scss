@@ -26,19 +26,10 @@
   -webkit-box-align: stretch;
       -ms-flex-align: stretch;
           align-items: stretch;
+  margin: 0 -1rem;
   padding: 0em;
 }
 
-/*----------------------
-      Remove Gutters
------------------------*/
-
-.ui.grid {
-  margin-top: -1rem;
-  margin-bottom: -1rem;
-  margin-left: -1rem;
-  margin-right: -1rem;
-}
 .ui.relaxed.grid {
   margin-left: -1.5rem;
   margin-right: -1.5rem;
