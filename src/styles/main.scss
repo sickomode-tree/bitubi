@@ -11,10 +11,11 @@ html {
 html,
 body {
   margin: 0;
-  height: 100%;
 }
 
 body {
+  position: relative;
+  height: 100%;
   background-color: #fafafa;
 
   a {
@@ -62,7 +63,7 @@ body.blurring {
 }
 
 .jivo_custom_widget {
-  position: absolute;
+  position: fixed;
   z-index: 9999999999;
   right: 20px;
   bottom: 20px;
