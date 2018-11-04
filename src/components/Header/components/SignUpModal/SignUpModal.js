@@ -216,7 +216,7 @@ export default class SignUpModal extends Component {
         trigger={trigger || <Button circular color='green'>Зарегистрироваться</Button>}
         size='tiny'
         dimmer='blurring'
-        closeIcon={true}
+        closeIcon
         mountNode={document.getElementById('root')}
         onClose={onClose}
       >
