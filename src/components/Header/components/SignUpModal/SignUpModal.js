@@ -53,7 +53,10 @@ export default class SignUpModal extends Component {
     const category1Value = state.category_1
     const category2Value = state.category_2
     const category3Value = state.category_3
-    const tariffOptions = [{value: 1, text: '1 месяц, 3000руб'}, {value: 2, text: '3 месяца, 2600/мес'}, {value: 3, text: '6 месяцев, 2300/мес.'}]
+    const tariffOptions = [{value: 1, text: '1 месяц, 3000руб'}, {value: 2, text: '3 месяца, 2600/мес'}, {
+      value: 3,
+      text: '6 месяцев, 2300/мес.'
+    }]
     const tariffValue = state.tariff
     const subcategories1 = category1Value ? categories.find(category => category.id === category1Value).children : []
     const subcategories2 = category2Value ? categories.find(category => category.id === category2Value).children : []
@@ -198,7 +201,7 @@ export default class SignUpModal extends Component {
         visible: state.activeTab === 1
       },
       {tag: 'input', type: 'hidden', name: 'userType', value: userType},
-  ]
+    ]
 
     const panes = [
       {
@@ -229,9 +232,17 @@ export default class SignUpModal extends Component {
             onTabChange={this.handleTabChange.bind(this)}
           />
         </Modal.Content>
-        <Modal.Actions>
+        <Modal.Actions style={{display: 'flex'}}>
           <Checkbox
-            label={{children: <a href={'/policy'} target={'_blank'} title={'Политика конфиденциальности'}>Я прочитал/а и принимаю политику конфиденциальности</a>}}
+            label={{
+              children: (
+                <div>Я прочитал/а и принимаю <a href={'/terms'} target={'_blank'} style={{textDecoration: 'underline'}}
+                                                title={'Пользовательское соглашение'}>пользовательское
+                  соглашение</a> и <a href={'/policy'} target={'_blank'} style={{textDecoration: 'underline'}}
+                                      title={'Политика конфиденциальности'}>политику
+                  конфиденциальности</a></div>
+              )
+            }}
             defaultValue={this.state.agreedToTerms}
             onChange={this.handleCheckboxChange.bind(this)}
           />
