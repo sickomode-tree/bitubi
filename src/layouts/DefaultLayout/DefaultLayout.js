@@ -19,6 +19,7 @@ class DefaultLayout extends Component {
     cities: PropTypes.array.isRequired,
     categories: PropTypes.array.isRequired,
     notifications: PropTypes.array.isRequired,
+    auth: PropTypes.object.isRequired,
     user: PropTypes.object.isRequired,
     filters: PropTypes.object.isRequired,
     searchTerm: PropTypes.string.isRequired,
@@ -47,7 +48,7 @@ class DefaultLayout extends Component {
 
   render () {
     const {
-      children, cards, categories, cities, filters, searchTerm, notifications, user,
+      children, cards, categories, cities, filters, searchTerm, notifications, user, auth,
       isAuthorized, isLoading, isErrored,
       fetchCategories, fetchCities, fetchProducts,
       changeSearchTerm, changeFilterValue, resetFilter,
@@ -57,6 +58,7 @@ class DefaultLayout extends Component {
     return (
       <div style={{ display: 'flex', flexDirection: 'column', height: '100%' }}>
         <Header
+          auth={auth}
           user={user}
           cards={cards}
           categories={categories}
@@ -95,6 +97,7 @@ class DefaultLayout extends Component {
 
 const mapStateToProps = (state) => {
   return {
+    auth: state.auth,
     user: state.user.user,
     cards: state.products.products,
     categories: state.categories.categories,

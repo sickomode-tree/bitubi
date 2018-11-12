@@ -6,11 +6,11 @@ import Logo from './components/Logo/Logo'
 import Search from './components/Search/Search'
 import SignInModal from './components/SignInModal/SignInModal'
 import SignUpModal from './components/SignUpModal/SignUpModal'
-import {isCustomer, isProvider, isModerator} from 'utils/auth'
 import {rootUrl} from 'utils/fetch'
 
 export default class Header extends Component {
   static propTypes = {
+    auth: PropTypes.object.isRequired,
     user: PropTypes.object.isRequired,
     cards: PropTypes.array.isRequired,
     cities: PropTypes.array.isRequired,
@@ -29,18 +29,28 @@ export default class Header extends Component {
     signOut: PropTypes.func.isRequired
   }
 
-  render() {
+  render () {
     const {
-      cards, cities, categories, filters, user, isAuthorized,
-      changeFilterValue, changeSearchTerm,
-      fetchCategories, fetchCities, fetchProducts,
-      resetFilter, searchTerm
-    } = this.props
+        cards, cities, categories, filters, auth, user, isAuthorized,
+        changeFilterValue, changeSearchTerm,
+        fetchCategories, fetchCities, fetchProducts,
+        resetFilter, searchTerm
+      } = this.props
+
+    const isProvider = auth.userType === 'provider',
+      isCustomer = auth.userType === 'customer',
+      isModerator = auth.userType === 'moderator'
 
     return (
-      <Menu fixed='top' borderless secondary color={'green'} style={{background: '#fff', boxShadow: '0px 0px 10px 1px #ccc'}}>
+      <Menu
+        fixed='top'
+        borderless
+        secondary
+        color={'green'}
+        style={{background: '#fff', boxShadow: '0px 0px 10px 1px #ccc'}}
+      >
         <Container>
-        <IndexLink to='/' className='item' onClick={resetFilter}><Logo/></IndexLink>
+          <IndexLink to='/' className='item' onClick={resetFilter}><Logo/></IndexLink>
           {
             isAuthorized &&
             <Menu.Menu position='left'>
@@ -101,22 +111,22 @@ export default class Header extends Component {
               </Dropdown>
             }
           </Menu.Menu>
-        {
-          !isAuthorized &&
-          <Item>
-            <SignUpModal
-              cities={cities} categories={categories}
-              fetchProducts={fetchProducts} fetchCategories={fetchCategories} fetchCities={fetchCities}
-              onClose={fetchProducts} onSubmit={this.handleSignUp.bind(this)}
-            />
-          </Item>
-        }
-        {
-          !isAuthorized &&
-          <Item>
-            <SignInModal fetchProducts={fetchProducts} handleSignIn={this.handleSignIn.bind(this)}/>
-          </Item>
-        }
+          {
+            !isAuthorized &&
+            <Item>
+              <SignUpModal
+                cities={cities} categories={categories}
+                fetchProducts={fetchProducts} fetchCategories={fetchCategories} fetchCities={fetchCities}
+                onClose={fetchProducts} onSubmit={this.handleSignUp.bind(this)}
+              />
+            </Item>
+          }
+          {
+            !isAuthorized &&
+            <Item>
+              <SignInModal fetchProducts={fetchProducts} handleSignIn={this.handleSignIn.bind(this)}/>
+            </Item>
+          }
         </Container>
       </Menu>
     )
