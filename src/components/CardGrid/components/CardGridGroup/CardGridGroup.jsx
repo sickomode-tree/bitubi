@@ -43,7 +43,7 @@ export default class CardGridGroup extends Component {
               let CardComponent = () => getCardComponent(card)
 
               return (
-                <CardComponent key={index}/>
+                index < cardCount && <CardComponent key={index} />
               )
             })
           }
