@@ -26,6 +26,7 @@ const mapDispatchToProps = {
 
 const mapStateToProps = (state) => {
   return {
+    auth: state.auth,
     products: state.products.products,
     filter: state.filter,
     isLoading: state.products.isLoading,

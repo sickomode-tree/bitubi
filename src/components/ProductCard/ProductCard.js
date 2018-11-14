@@ -3,13 +3,13 @@ import PropTypes from 'prop-types'
 import _ from 'lodash'
 import {Button, Icon, Image, Modal} from 'semantic-ui-react'
 import Card from 'components/Card/Card'
-import {isCustomer, isModerator} from 'utils/auth'
 import IconList from 'components/IconList/IconList'
 import Tag from 'components/Tag/Tag'
 import {rootUrl} from 'utils/fetch'
 
 export default class ProductCard extends Component {
   static propTypes = {
+    auth: PropTypes.object.isRequired,
     product: PropTypes.object.isRequired,
     style: PropTypes.object,
     saveToHistory: PropTypes.func,
@@ -25,8 +25,11 @@ export default class ProductCard extends Component {
   }
 
   render() {
-    const {product, style, saveToHistory, onClose} = this.props
+    const {auth, product, style, saveToHistory, onClose} = this.props
     const {favourite, verifying} = this.state
+
+    const isModerator = auth.userType === 'moderator',
+      isCustomer = auth.userType === 'customer'
 
     return (
       <Modal

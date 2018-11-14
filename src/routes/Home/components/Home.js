@@ -6,10 +6,10 @@ import CardGrid from 'components/CardGrid/CardGrid'
 import ProductCard from 'components/ProductCard/ProductCard'
 import EmptyText from 'components/EmptyText/EmptyText'
 import {getObjectValue} from 'utils/array'
-import {isModerator} from 'utils/auth'
 
 export default class Home extends Component {
   static propTypes = {
+    auth: PropTypes.object.isRequired,
     filter: PropTypes.object.isRequired,
     products: PropTypes.array.isRequired,
     isLoading: PropTypes.bool,
@@ -24,9 +24,11 @@ export default class Home extends Component {
   }
 
   render() {
-    const {products, isLoading, filter, fetchProducts, verifyingProduct, verifiedProduct} = this.props
+    const {auth, products, isLoading, filter, fetchProducts, verifyingProduct, verifiedProduct} = this.props
     const cards = this.getCards.call(this, products)
     const groupKey = _.isEmpty(filter.filters) && _.isEmpty(filter.searchTerm) ? 'category.title' : 'subcategory.title'
+
+    const isModerator = auth.userType === 'moderator'
 
     if (!isLoading) {
       if (!_.isEmpty(cards)) {
@@ -37,6 +39,7 @@ export default class Home extends Component {
                 products.map((product, index) => (
                   <ProductCard
                     key={product.id + '_' + index}
+                    auth={auth}
                     product={product}
                     style={{height: 150}}
                     verifyingProduct={verifyingProduct}
@@ -116,7 +119,8 @@ export default class Home extends Component {
   }
 
   getCards(products) {
-    const {filter} = this.props
+    const {auth, filter} = this.props
+    const isModerator = auth.userType === 'moderator'
 
     if (_.isEmpty(filter.filters) && _.isEmpty(filter.searchTerm) && !isModerator) {
       return this.getSubcategoryCards.call(this, products)
@@ -146,6 +150,7 @@ export default class Home extends Component {
     return (
       <ProductCard
         product={card}
+        auth={this.props.auth}
         saveToFavourites={saveToFavourites}
         saveToHistory={saveToHistory}
         verifyingProduct={verifyingProduct}

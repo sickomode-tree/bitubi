@@ -39,6 +39,7 @@ export default class History extends Component {
                 items.map(card => (
                   <ProductCard
                     key={card.id}
+                    auth={auth}
                     product={card}
                     style={{ height: 150 }}
                     onClose={fetchHistory}
