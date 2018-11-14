@@ -1,4 +1,5 @@
 import api, {scope} from 'utils/fetch'
+import { checkAuthorized, getToken, isModerator } from 'utils/auth'
 
 // ------------------------------------
 // Constants
@@ -49,7 +50,31 @@ export function fetchHistory () {
         return response
       })
       .then(response => response.json())
-      .then(json => dispatch(onFetchHistorySuccess(json)))
+      .then(json => {
+        let cards = []
+
+        if (!isModerator) {
+          json.forEach(product => {
+            product.categories.forEach(categoryConfig => {
+              if (categoryConfig) {
+                let category = categoryConfig.parent
+
+                categoryConfig.children.forEach(subcategory => {
+                  let card = _.clone(product, true)
+                  card.category = category
+                  card.subcategory = subcategory
+                  // delete card.categories
+                  cards.push(card)
+                })
+              }
+            })
+          })
+        } else {
+          cards = json
+        }
+
+        dispatch(onFetchHistorySuccess(cards))
+      })
       .catch(error => {
         console.error(error)
         dispatch(onFetchHistoryFailure(true))

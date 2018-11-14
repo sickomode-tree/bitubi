@@ -1,5 +1,5 @@
-import { checkAuthorized, getToken, isModerator } from 'utils/auth'
 import api, {scope} from 'utils/fetch'
+import { checkAuthorized, getToken, isModerator } from 'utils/auth'
 import {signOut} from 'store/auth'
 
 // ------------------------------------
@@ -87,7 +87,7 @@ export function fetchProducts () {
           cards = json
         }
 
-      return dispatch(onFetchProductsSuccess(cards))
+        return dispatch(onFetchProductsSuccess(cards))
       })
       .catch(error => {
         console.error(error)
