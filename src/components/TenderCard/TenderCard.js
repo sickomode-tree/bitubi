@@ -1,7 +1,8 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import _ from 'lodash'
-import { Button, Card, Icon, Image, Modal, Progress } from 'semantic-ui-react'
+import { Button, Icon, Image, Modal, Progress } from 'semantic-ui-react'
+import Card from 'components/Card/Card'
 import IconList from 'components/IconList/IconList'
 import Tag from 'components/Tag/Tag'
 import moment from 'moment/moment'
@@ -42,18 +43,18 @@ export default class TenderCard extends Component {
             className={tender.disabled || tender.verifying ? 'disabled' : null}
             style={style || {}}
           >
-            <Card.Content>
-              <Card.Header>
+            <div>
+              <h3>
                 {tender.title}
-                {tender.favourite &&
-                  <i className='right floated bookmark icon red' />
-                }
-                {tender.verified === false &&
-                  <i className='right floated bookmark icon red' />
-                }
-              </Card.Header>
-            </Card.Content>
-            <Card.Content>
+              </h3>
+              {tender.favourite &&
+                <i className='right floated bookmark icon red' />
+              }
+              {tender.verified === false &&
+                <i className='right floated bookmark icon red' />
+              }
+            </div>
+            <div>
               <IconList data={[
                 {
                   icon: 'calendar',
@@ -63,8 +64,8 @@ export default class TenderCard extends Component {
                 { icon: 'box', header: 'Количество, шт', description: +tender.amount },
                 { icon: 'ruble', header: 'Стоимость, руб', description: +tender.price },
               ]} />
-            </Card.Content>
-            <Progress percent={100 - tender.totalDays / tender.daysToGo * 100} attached='bottom' />
+            </div>
+            {/*<Progress percent={100 - tender.totalDays / tender.daysToGo * 100} />*/}
           </Card>
         }
       >
