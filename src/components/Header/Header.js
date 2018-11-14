@@ -52,11 +52,11 @@ export default class Header extends Component {
           style={{
             display: 'flex',
             justifyContent: 'space-between',
-            minWidth: 930,
-            maxWidth: 1100,
+            padding: '0 50px',
             width: '100%',
             margin:'0 auto',
-          }}>
+          }}
+        >
           <IndexLink to='/' className='item' onClick={resetFilter}><Logo/></IndexLink>
           {
             isAuthorized &&
@@ -117,7 +117,6 @@ export default class Header extends Component {
                   <a className='item' onClick={this.handleSignOut.bind(this)}>Выйти</a>
                 </Dropdown.Menu>
               </Dropdown>
-              }
             </Menu.Menu>
           }
           {
