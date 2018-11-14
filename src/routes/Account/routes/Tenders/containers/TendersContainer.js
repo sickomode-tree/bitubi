@@ -33,6 +33,7 @@ const mapDispatchToProps = {
 }
 
 const mapStateToProps = (state) => ({
+  auth: state.auth,
   items: state.tenders.items,
   filter: state.filter,
   cities: state.cities.cities,

@@ -1,7 +1,7 @@
 import React, {Component} from 'react'
 import {browserHistory, IndexLink, Link} from 'react-router'
 import PropTypes from 'prop-types'
-import {Container, Dropdown, Image, Item, Menu, Responsive} from 'semantic-ui-react'
+import {Dropdown, Image, Item, Menu, Responsive} from 'semantic-ui-react'
 import Logo from './components/Logo/Logo'
 import Search from './components/Search/Search'
 import SignInModal from './components/SignInModal/SignInModal'
@@ -43,13 +43,20 @@ export default class Header extends Component {
 
     return (
       <Menu
-        fixed='top'
         borderless
         secondary
         color={'green'}
         style={{background: '#fff', boxShadow: '0px 0px 10px 1px #ccc'}}
       >
-        <Container>
+        <div
+          style={{
+            display: 'flex',
+            justifyContent: 'space-between',
+            minWidth: 930,
+            maxWidth: 1100,
+            width: '100%',
+            margin:'0 auto',
+          }}>
           <IndexLink to='/' className='item' onClick={resetFilter}><Logo/></IndexLink>
           {
             isAuthorized &&
@@ -93,9 +100,10 @@ export default class Header extends Component {
               />
             </Menu.Item>
           }
-          <Menu.Menu position='right'>
-            {
-              isAuthorized &&
+          {
+            isAuthorized &&
+            <Menu.Menu position='right'>
+
               <Dropdown item trigger={
                 <Image src={user.photo && (rootUrl + user.photo.original)} avatar/>
               }>
@@ -109,25 +117,25 @@ export default class Header extends Component {
                   <a className='item' onClick={this.handleSignOut.bind(this)}>Выйти</a>
                 </Dropdown.Menu>
               </Dropdown>
-            }
-          </Menu.Menu>
-          {
-            !isAuthorized &&
-            <Item>
-              <SignUpModal
-                cities={cities} categories={categories}
-                fetchProducts={fetchProducts} fetchCategories={fetchCategories} fetchCities={fetchCities}
-                onClose={fetchProducts} onSubmit={this.handleSignUp.bind(this)}
-              />
-            </Item>
+              }
+            </Menu.Menu>
           }
           {
             !isAuthorized &&
-            <Item>
-              <SignInModal fetchProducts={fetchProducts} handleSignIn={this.handleSignIn.bind(this)}/>
-            </Item>
+            <div style={{display: 'flex'}}>
+              <Item>
+                <SignUpModal
+                  cities={cities} categories={categories}
+                  fetchProducts={fetchProducts} fetchCategories={fetchCategories} fetchCities={fetchCities}
+                  onClose={fetchProducts} onSubmit={this.handleSignUp.bind(this)}
+                />
+              </Item>
+              <Item>
+                <SignInModal fetchProducts={fetchProducts} handleSignIn={this.handleSignIn.bind(this)}/>
+              </Item>
+            </div>
           }
-        </Container>
+        </div>
       </Menu>
     )
   }

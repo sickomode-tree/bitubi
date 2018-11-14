@@ -20,7 +20,9 @@ const mapDispatchToProps = {
 }
 
 const mapStateToProps = (state) => ({
+  auth: state.auth,
   items: state.favourites.items,
+  isLoading: state.favourites.isLoading,
 })
 
 /*  Note: mapStateToProps is where you should use `reselect` to create selectors, ie:

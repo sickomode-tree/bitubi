@@ -33,16 +33,16 @@ export default class CardGrid extends Component {
         {
           groups.length > groupCount &&
           <Button onClick={this.showPreviousCardGroup.bind(this)}
-                  style={{position: 'fixed', top: 0, bottom: 0, left: 0, height: '100%', boxShadow: 'none'}}
+                  style={{position: 'absolute', top: 0, bottom: 0, left: 0, height: '100%', boxShadow: 'none'}}
                   icon='angle left' basic size='large'/>
         }
         {
           groups.length > groupCount &&
           <Button onClick={this.showNextCardGroup.bind(this)}
-                  style={{position: 'fixed', top: 0, right: 0, bottom: 0, height: '100%', boxShadow: 'none'}}
+                  style={{position: 'absolute', top: 0, right: 0, bottom: 0, height: '100%', boxShadow: 'none'}}
                   icon='angle right' basic size='large'/>
         }
-        <Grid columns={groupCount} style={{overflow: 'hidden', width: '100%'}}>
+        <Grid columns={groupCount} style={{overflow: 'hidden', width: '100%', margin: 0, padding: '0 50px'}}>
           <Grid.Row>
             {
               groups.map(group => (

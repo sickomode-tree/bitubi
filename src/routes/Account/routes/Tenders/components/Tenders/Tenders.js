@@ -2,18 +2,19 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import moment from 'moment/moment'
 import _ from 'lodash'
-import { Button, Card, Icon, Header, Progress } from 'semantic-ui-react'
+import { Button, Card as SUICard, Icon, Header, Progress } from 'semantic-ui-react'
+import Card from 'components/Card/Card'
 import EmptyText from 'components/EmptyText/EmptyText'
 import TenderEditModal from './components/TenderEditModal/TenderEditModal'
 import TenderViewModal from './components/TenderViewModal/TenderViewModal'
 import IconList from 'components/IconList/IconList'
 import CardGrid from 'components/CardGrid/CardGrid'
 import TenderCard from 'components/TenderCard/TenderCard'
-import { isProvider, isCustomer, isModerator } from 'utils/auth'
 import { verifyingTender } from '../../modules/tenders'
 
 export default class Tenders extends Component {
   static propTypes = {
+    auth: PropTypes.object.isRequired,
     items: PropTypes.array.isRequired,
     cities: PropTypes.array.isRequired,
     categories: PropTypes.array.isRequired,
@@ -29,6 +30,7 @@ export default class Tenders extends Component {
     verifiedTender: PropTypes.func,
     changeFilterValue: PropTypes.func.isRequired,
     resetFilter: PropTypes.func.isRequired,
+    isLoading: PropTypes.bool.isRequired,
   }
 
   componentDidMount () {
@@ -39,184 +41,207 @@ export default class Tenders extends Component {
 
   render () {
     const {
-      cities, categories, items, filter,
+      auth, cities, categories, items, filter,
       fetchTenders, fetchCities, fetchCategories,
       saveTender, saveToFavourites, saveToHistory,
-      verifyingTender, verifiedTender,
+      verifyingTender, verifiedTender, isLoading,
     } = this.props
+
     const cards = this.getCards.call(this, items)
     const groupKey = _.isEmpty(filter.filters) && _.isEmpty(filter.searchTerm) ? 'category.title' : 'subcategory.title'
 
-    if (!_.isEmpty(items)) {
-      if (isCustomer) {
-        return (
-          <div style={{ flex: 1 }}>
-            <h2>Тендеры</h2>
+    const isProvider = auth.userType === 'provider',
+      isModerator = auth.userType === 'moderator',
+      isCustomer = auth.userType === 'customer'
 
-            <Card.Group itemsPerRow={3} doubling stackable>
-              <TenderEditModal
-                cities={cities}
-                categories={categories}
-                fetchCities={fetchCities}
-                fetchCategories={fetchCategories}
-                onSubmit={saveTender}
-                onClose={fetchTenders}
-                trigger={
-                  <Card
-                    fluid
-                    link
-                    color='green'
-                    style={{ justifyContent: 'center' }}
-                    content={
+    if (!isLoading) {
+      if (!_.isEmpty(items)) {
+        if (isCustomer) {
+          return (
+            <div style={{flex: 1}}>
+              <h2>Тендеры</h2>
+
+              <SUICard.Group itemsPerRow={3} doubling stackable>
+                <TenderEditModal
+                  cities={cities}
+                  categories={categories}
+                  fetchCities={fetchCities}
+                  fetchCategories={fetchCategories}
+                  onSubmit={saveTender}
+                  onClose={fetchTenders}
+                  trigger={
+                    <Card style={{justifyContent: 'center'}}>
                       <Header as='h2' icon textAlign='center' color='green'>
-                        <Icon name='plus' circular />
+                        <Icon name='plus' circular/>
                         <Header.Content>Добавить</Header.Content>
                       </Header>
-                    }
-                  />
-                }
-              />
-              {
-                items.map(card => (
-                  <TenderViewModal
-                    key={card.id}
-                    tender={card}
-                    saveToFavourites={saveToFavourites}
-                    onOpen={() => (isProvider && !_.isNil(saveToHistory)) ? saveToHistory(card.id) : null}
-                    onClose={fetchTenders}
-                    trigger={
-                      <Card
-                        fluid
-                        color={card.disabled ? null : 'green'}
-                        className={card.disabled ? 'disabled' : null}
-                      >
-                        <Card.Content>
-                          <Card.Header>
-                            {card.title}
-                            {card.verified === false &&
-                            <i className='right floated ban icon red' />
-                            }
-                          </Card.Header>
-                        </Card.Content>
-                        <Card.Content>
-                          <IconList color={card.disabled ? 'grey' : 'green'} data={[
-                            {
-                              icon: 'calendar',
-                              header: 'Ожидаемая дата',
-                              description: moment(card.expectedDate).format('DD.MM.YYYY')
-                            },
-                            { icon: 'box', header: 'Количество, шт', description: +card.amount },
-                            { icon: 'ruble', header: 'Стоимость, руб', description: +card.price },
-                          ]} />
-                        </Card.Content>
-                        {
-                          isCustomer &&
-                          <Card.Content extra>
-                            <Button.Group circular size='small'>
-                              <Button circular
-                                color={card.disabled ? null : 'green'}
-                                icon='trash alternate outline'
-                                onClick={this.handleDeleteTender.bind(this, card.id)}
-                              />
+                    </Card>
+                  }
+                />
+                {
+                  items.map(card => (
+                    <TenderViewModal
+                      key={card.id}
+                      tender={card}
+                      saveToFavourites={saveToFavourites}
+                      onOpen={() => (isProvider && !_.isNil(saveToHistory)) ? saveToHistory(card.id) : null}
+                      onClose={fetchTenders}
+                      trigger={
+                        <Card
+                          className={card.disabled ? 'disabled' : null}
+                        >
+                          <div>
+                            <h3>
+                              {card.title}
+                            </h3>
                               {
-                                // TODO: исправить ошибку
+                                !card.verified &&
+                                <i className='right floated ban icon red'/>
+                              }
+                          </div>
+                          <div>
+                            <IconList
+                              color={card.disabled ? 'grey' : 'green'}
+                              data={[
+                                {
+                                  icon: 'calendar',
+                                  header: 'Ожидаемая дата',
+                                  description: moment(card.expectedDate).format('DD.MM.YYYY')
+                                },
+                                {
+                                  icon: 'box',
+                                  header: 'Количество, шт',
+                                  description: +card.amount
+                                },
+                                {
+                                  icon: 'ruble',
+                                  header: 'Стоимость, руб',
+                                  description: +card.price
+                                },
+                              ]}
+                            />
+                          </div>
+                          {
+                            isCustomer &&
+                            <div
+                              style={{
+                                position: 'relative',
+                                display: 'flex',
+                                justifyContent: 'space-between',
+                                marginTop: 10,
+                              }}
+                            >
+                              <Button.Group circular size={'small'}>
+                                <Button
+                                  circular
+                                  color={card.disabled ? null : 'green'}
+                                  icon='trash alternate outline'
+                                  onClick={this.handleDeleteTender.bind(this, card.id)}
+                                />
+                                {
+                                  // TODO: исправить ошибку
+                                  !card.disabled &&
+                                  <TenderEditModal
+                                    tender={card}
+                                    cities={cities}
+                                    categories={categories}
+                                    fetchCities={fetchCities}
+                                    fetchCategories={fetchCategories}
+                                    onSubmit={saveTender}
+                                    onClose={fetchTenders}
+                                    trigger={
+                                      <Button
+                                        circular
+                                        color='green'
+                                        icon='pencil alternate'
+                                        onClick={this.handleEditTender.bind(this, card.id)}
+                                      />
+                                    }
+                                  />
+                                }
+                              </Button.Group>{' '}
+                              {
                                 !card.disabled &&
-                                <TenderEditModal
-                                  tender={card}
-                                  cities={cities}
-                                  categories={categories}
-                                  fetchCities={fetchCities}
-                                  fetchCategories={fetchCategories}
-                                  onSubmit={saveTender}
-                                  onClose={fetchTenders}
-                                  trigger={
-                                    <Button circular
-                                      color='green'
-                                      icon='pencil alternate'
-                                      onClick={this.handleEditTender.bind(this, card.id)}
-                                    />
-                                  }
+                                <Button
+                                  color='red'
+                                  circular
+                                  content='Завершить'
+                                  onClick={this.handleToggleTender.bind(this, card.id)}
                                 />
                               }
-                            </Button.Group>{' '}
-                            {
-                              !card.disabled &&
-                              <Button
-                                color='red'
-                                circular
-                                content='Завершить'
-                                floated='right'
-                                onClick={this.handleToggleTender.bind(this, card.id)}
-                              />
-                            }
-                            {
-                              card.disabled &&
-                              <Button
-                                color={card.disabled ? null : 'green'}
-                                content='Восстановить'
-                                floated='right'
-                                onClick={this.handleToggleTender.bind(this, card.id)}
-                              />
-                            }
-                          </Card.Content>
-                        }
-                        <Progress percent={100 - card.totalDays / card.daysToGo * 100} attached='bottom' />
-                      </Card>
-                    }
+                              {
+                                card.disabled &&
+                                <Button
+                                  color={card.disabled ? null : 'green'}
+                                  content='Восстановить'
+                                  onClick={this.handleToggleTender.bind(this, card.id)}
+                                />
+                              }
+                            </div>
+                          }
+                          {/*<Progress*/}
+                            {/*percent={100 - card.totalDays / card.daysToGo * 100}*/}
+                            {/*attached='bottom'*/}
+                          {/*/>*/}
+                        </Card>
+                      }
+                    />
+                  ))
+                }
+              </SUICard.Group>
+            </div>
+          )
+        } else if (isProvider) {
+          return (
+            <CardGrid
+              cards={cards}
+              getCardComponent={this.getCardComponent.bind(this)}
+              groupKey={groupKey}
+            />
+          )
+        } else if (isModerator) {
+          return (
+            <SUICard.Group>
+              {
+                cards.map((card, index) => (
+                  <TenderCard
+                    key={index}
+                    tender={card}
+                    style={{height: 150}}
+                    verifyingTender={verifyingTender}
+                    verifiedTender={verifiedTender}
+                    onClose={fetchTenders}
                   />
                 ))
               }
-            </Card.Group>
-          </div>
-        )
-      } else if (isProvider) {
-        return (
-          <CardGrid
-            cards={cards}
-            getCardComponent={this.getCardComponent.bind(this)}
-            groupKey={groupKey}
-          />
-        )
-      } else if (isModerator) {
-        return (
-          <Card.Group>
-            {
-              cards.map((card, index) => (
-                <TenderCard
-                  key={index}
-                  tender={card}
-                  style={{ height: 150 }}
-                  verifyingTender={verifyingTender}
-                  verifiedTender={verifiedTender}
-                  onClose={fetchTenders}
-                />
-              ))
-            }
-          </Card.Group>
-        )
+            </SUICard.Group>
+          )
+        }
       }
+
+      return (
+        <EmptyText
+          icon='shopping cart'
+          title='Здесь появятся тендеры'
+          actions={
+            isCustomer &&
+            <TenderEditModal
+              cities={cities}
+              categories={categories}
+              fetchCities={fetchCities}
+              fetchCategories={fetchCategories}
+              onSubmit={saveTender}
+              onClose={fetchTenders}
+              trigger={
+                <Button positive>Добавить тендер</Button>
+              }
+            />
+          }
+        />
+      )
     }
 
-    return (
-      <EmptyText
-        icon='shopping cart'
-        title='Здесь появятся тендеры'
-        actions={
-          isCustomer &&
-          <TenderEditModal
-            cities={cities}
-            categories={categories}
-            fetchCities={fetchCities}
-            fetchCategories={fetchCategories}
-            onSubmit={saveTender}
-            onClose={fetchTenders}
-            trigger={
-              <Button positive>Добавить тендер</Button>
-            }
-          />
-        }
-      />
-    )
+    return <div />
   }
 
   handleDeleteTender (id, event) {
@@ -291,7 +316,8 @@ export default class Tenders extends Component {
   }
 
   getCards (items) {
-    const { filter } = this.props
+    const { filter } = this.props,
+      isModerator = this.props.auth.userType === 'moderator'
 
     if (_.isEmpty(filter.filters) && _.isEmpty(filter.searchTerm) && !isModerator) {
       return this.getSubcategoryCards.call(this, items)

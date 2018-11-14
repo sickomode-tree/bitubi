@@ -5,14 +5,15 @@ import { Card } from 'semantic-ui-react'
 import EmptyText from 'components/EmptyText/EmptyText'
 import ProductCard from 'components/ProductCard/ProductCard'
 import TenderCard from 'components/TenderCard/TenderCard'
-import { isCustomer, isProvider } from 'utils/auth'
 
 export default class Favourites extends Component {
   static propTypes = {
+    auth: PropTypes.object.isRequired,
     items: PropTypes.array.isRequired,
     fetchFavourites: PropTypes.func.isRequired,
     saveToFavourites: PropTypes.func.isRequired,
     resetFilter: PropTypes.func.isRequired,
+    isLoading: PropTypes.bool.isRequired,
   }
 
   componentDidMount () {
@@ -21,46 +22,53 @@ export default class Favourites extends Component {
   }
 
   render () {
-    const { items, fetchFavourites, saveToFavourites } = this.props
+    const {auth, items, isLoading, fetchFavourites, saveToFavourites} = this.props
 
-    if (!_.isEmpty(items)) {
+    const isProvider = auth.userType === 'provider',
+      isCustomer = auth.userType === 'customer'
+
+    if (!isLoading) {
+      if (!_.isEmpty(items)) {
+        return (
+          <div style={{flex: 1}}>
+            <h2>Закладки</h2>
+            <Card.Group itemsPerRow={3}>
+              {
+                isCustomer &&
+                items.map(card => (
+                  <ProductCard
+                    key={card.id}
+                    product={card}
+                    style={{height: 150}}
+                    onClose={fetchFavourites}
+                    saveToFavourites={saveToFavourites}
+                  />
+                ))
+              }
+              {
+                isProvider &&
+                items.map(card => (
+                  <TenderCard
+                    key={card.id}
+                    tender={card}
+                    onClose={fetchFavourites}
+                    saveToFavourites={saveToFavourites}
+                  />
+                ))
+              }
+            </Card.Group>
+          </div>
+        )
+      }
+
       return (
-        <div style={{ flex: 1 }}>
-          <h2>Закладки</h2>
-          <Card.Group itemsPerRow={3}>
-            {
-              isCustomer &&
-              items.map(card => (
-                <ProductCard
-                  key={card.id}
-                  product={card}
-                  style={{ height: 150 }}
-                  onClose={fetchFavourites}
-                  saveToFavourites={saveToFavourites}
-                />
-              ))
-            }
-            {
-              isProvider &&
-              items.map(card => (
-                <TenderCard
-                  key={card.id}
-                  tender={card}
-                  onClose={fetchFavourites}
-                  saveToFavourites={saveToFavourites}
-                />
-              ))
-            }
-          </Card.Group>
-        </div>
+        <EmptyText
+          icon='star outline'
+          title='Здесь появятся сохраненные карточки'
+        />
       )
     }
 
-    return (
-      <EmptyText
-        icon='star outline'
-        title='Здесь появятся сохраненные карточки'
-      />
-    )
+    return <div />
   }
 }

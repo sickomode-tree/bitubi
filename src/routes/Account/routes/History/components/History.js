@@ -5,10 +5,10 @@ import { Card } from 'semantic-ui-react'
 import ProductCard from 'components/ProductCard/ProductCard'
 import EmptyText from 'components/EmptyText/EmptyText'
 import TenderCard from 'components/TenderCard/TenderCard'
-import { isCustomer, isProvider } from 'utils/auth'
 
 export default class History extends Component {
   static propTypes = {
+    auth: PropTypes.object.isRequired,
     items: PropTypes.array.isRequired,
     isLoading: PropTypes.bool.isRequired,
     fetchHistory: PropTypes.func.isRequired,
@@ -22,7 +22,10 @@ export default class History extends Component {
   }
 
   render () {
-    const { items, isLoading, fetchHistory, saveToFavourites } = this.props
+    const { auth, items, isLoading, fetchHistory, saveToFavourites } = this.props
+
+    const isProvider = auth.userType === 'provider',
+      isCustomer = auth.userType === 'customer'
 
     if (!isLoading) {
       if (!_.isEmpty(items)) {
