@@ -52,6 +52,7 @@ export default class History extends Component {
                 items.map(card => (
                   <TenderCard
                     key={card.id}
+                    auth={auth}
                     tender={card}
                     onClose={fetchHistory}
                     saveToFavourites={saveToFavourites}

@@ -206,6 +206,7 @@ export default class Tenders extends Component {
                 cards.map((card, index) => (
                   <TenderCard
                     key={index}
+                    auth={auth}
                     tender={card}
                     style={{height: 150}}
                     verifyingTender={verifyingTender}
@@ -346,6 +347,7 @@ export default class Tenders extends Component {
     return (
       <TenderCard
         tender={tender}
+        auth={auth}
         style={{ flex: '0 0 25%' }}
         saveToFavourites={saveToFavourites}
         saveToHistory={saveToHistory}

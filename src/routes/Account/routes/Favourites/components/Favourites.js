@@ -51,6 +51,7 @@ export default class Favourites extends Component {
                 items.map(card => (
                   <TenderCard
                     key={card.id}
+                    auth={auth}
                     tender={card}
                     onClose={fetchFavourites}
                     saveToFavourites={saveToFavourites}

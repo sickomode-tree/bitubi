@@ -6,7 +6,6 @@ import Card from 'components/Card/Card'
 import IconList from 'components/IconList/IconList'
 import Tag from 'components/Tag/Tag'
 import moment from 'moment/moment'
-import { isCustomer, isProvider, isModerator } from 'utils/auth'
 
 export default class TenderCard extends Component {
   static propTypes = {
@@ -26,8 +25,11 @@ export default class TenderCard extends Component {
   }
 
   render () {
-    const { tender, style, saveToHistory, onClose } = this.props
+    const { auth, tender, style, saveToHistory, onClose } = this.props
     const { favourite, verifying } = this.state
+
+    const isProvider = auth.userType === 'provider',
+      isModerator = auth.userType === 'moderator'
 
     return (
       <Modal
