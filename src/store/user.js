@@ -1,6 +1,6 @@
 import Notifications from 'react-notification-system-redux'
-import {getToken} from 'utils/auth'
-import api, {scope} from 'utils/fetch'
+import { getToken } from 'utils/auth'
+import api, { scope, rootUrl } from 'utils/fetch'
 
 // ------------------------------------
 // Constants
@@ -98,7 +98,7 @@ export const updateUser = form => {
 }
 
 export const updateUserpic = file => {
-  const url = `${scope}private/uploadFile`
+  const url = `${rootUrl}${scope}private/uploadFile`
   const formData = new FormData()
 
   formData.append('file', file)
