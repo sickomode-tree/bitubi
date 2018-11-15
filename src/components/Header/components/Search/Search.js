@@ -1,11 +1,84 @@
-import React, { Component } from 'react'
-import { browserHistory } from 'react-router'
+import React, {Component} from 'react'
+import {browserHistory} from 'react-router'
 import PropTypes from 'prop-types'
-import { Button, Icon, Input, Dropdown, Label, Responsive } from 'semantic-ui-react'
-import { getValues } from 'utils/array'
+import {Button, Icon, Input, Dropdown, Responsive, Search as SUISearch} from 'semantic-ui-react'
+import {getValues} from 'utils/array'
 import SignInModal from '../SignInModal/SignInModal'
 import FilterModal from '../FilterModal/FilterModal'
 import _ from 'lodash'
+
+class SearchExampleStandard extends Component {
+  static propTypes = {
+    cards: PropTypes.array.isRequired,
+  }
+
+  componentWillMount () {
+    this.resetComponent()
+  }
+
+  componentWillReceiveProps () {
+    this.setState({
+      value: this.props.searchTerm
+    })
+  }
+
+  resetComponent = () => this.setState({ isLoading: false, results: [], value: '' })
+
+  handleResultSelect = (event, { result }) => {
+    this.setState({ value: result.title })
+    this.props.changeSearchTerm(result.title)
+
+    if (window.location.pathname !== '/') {
+      browserHistory.push('/')
+    }
+  }
+
+  handleSearchInputKeyPress (event) {
+    if (event.key === 'Enter') {
+      this.handleResultSelect.call(this, event.target.value)
+    }
+  }
+
+  handleSearchChange = (e, { value }) => {
+    this.setState({ isLoading: true, value })
+
+    const source = this.props.cards.map(card => ({
+      ...card,
+      title: card.providerName
+    }))
+
+    setTimeout(() => {
+      if (this.state.value.length < 1) return this.resetComponent()
+
+      const re = new RegExp(_.escapeRegExp(this.state.value), 'i')
+      const isMatch = result => re.test(result.providerName)
+
+      this.setState({
+        isLoading: false,
+        results: _.filter(source, isMatch),
+      })
+    }, 300)
+  }
+
+  render () {
+    const { isLoading, value, results } = this.state
+
+    return (
+      <SUISearch
+        loading={isLoading}
+        onResultSelect={this.handleResultSelect}
+        onSearchChange={_.debounce(this.handleSearchChange, 500, {leading: true})}
+        onKeyPress={this.handleSearchInputKeyPress.bind(this)}
+        results={results}
+        value={value}
+        fluid={true}
+        resultRenderer={({ title }) => <b>{title}</b>}
+        {...this.props}
+      />
+    )
+  }
+}
+
 
 export default class Search extends Component {
   static propTypes = {
@@ -20,31 +93,30 @@ export default class Search extends Component {
     resetFilter: PropTypes.func.isRequired,
   }
 
-  state = {
-    searchTerm: '',
-  }
-
-  render () {
-    const { filters, isAuthorized, searchTerm, fetchProducts, handleSignIn } = this.props
+  render() {
+    const {filters, isAuthorized, searchTerm, fetchProducts, handleSignIn} = this.props
     const quickFilters = [
-      { title: 'Город', key: 'city.name' },
-      { title: 'Категория', key: 'category.title' },
+      {title: 'Город', key: 'city.name'},
+      {title: 'Категория', key: 'category.title'},
     ]
 
     return (
       <Input placeholder='Поиск...' action>
-        <input
-          onChange={event => this.handleSearchInputChange.call(this, event)}
-          onKeyPress={event => this.handleSearchInputKeyPress.call(this, event)}
+        <SearchExampleStandard
+          cards={this.props.cards}
+          searchTerm={this.props.searchTerm}
+          changeSearchTerm={this.props.changeSearchTerm}
         />
+
         {
           quickFilters.map(quickFilter => (
-            <Responsive as={Dropdown} minWidth={Responsive.onlyLargeScreen.minWidth}
+            <Responsive
+              as={Dropdown} minWidth={Responsive.onlyLargeScreen.minWidth}
               key={quickFilter.key} name={quickFilter.key} placeholder={quickFilter.title}
               options={this.getOptions.call(this, quickFilter.key)} value={filters[quickFilter.key] || null}
               search selection noResultsMessage='Нет результатов.'
               selectOnBlur={false} selectOnNavigation={false} wrapSelection={false}
-              style={{ width: 100, whiteSpace: 'nowrap' }}
+              style={{width: 100, whiteSpace: 'nowrap'}}
               onChange={(event, data) => this.handleFilterChange.call(this, event, data)}
             />
           ))
@@ -52,7 +124,11 @@ export default class Search extends Component {
         {
           isAuthorized &&
           <FilterModal
-            trigger={<Button icon basic={_.isEmpty(filters) ? true : false} color={'green'}><Icon name='filter' /></Button>}
+            trigger={
+              <Button icon basic={_.isEmpty(filters) ? true : false} color={'green'}>
+                <Icon name='filter'/>
+              </Button>
+            }
             filters={filters}
             getOptions={this.getOptions.bind(this)}
             handleFilterChange={this.handleFilterChange.bind(this)}
@@ -61,16 +137,25 @@ export default class Search extends Component {
         }
         {
           !isAuthorized &&
-          <SignInModal trigger={<Button color='green' icon='filter' basic />} handleSignIn={handleSignIn} fetchProducts={fetchProducts} />
+          <SignInModal
+            trigger={<Button color='green' icon='filter' basic/>}
+            handleSignIn={handleSignIn}
+            fetchProducts={fetchProducts}
+          />
         }
-        <Button icon='sync' basic color='green' disabled={_.isEmpty(filters) && _.isEmpty(searchTerm)}
-          onClick={this.handleResetFilterButtonClick.bind(this)} />
+        <Button
+          icon='sync'
+          basic
+          color='green'
+          disabled={_.isEmpty(filters) && _.isEmpty(searchTerm)}
+          onClick={this.handleResetFilterButtonClick.bind(this)}
+        />
       </Input>
     )
   }
 
-  getOptions (key) {
-    const { cards } = this.props
+  getOptions(key) {
+    const {cards} = this.props
 
     const values = getValues(cards, key)
 
@@ -83,13 +168,7 @@ export default class Search extends Component {
     return options
   }
 
-  handleSearchInputChange (event) {
-    this.setState({
-      searchTerm: event.target.value,
-    })
-  }
-
-  handleFilterChange (event, data) {
+  handleFilterChange(event, data) {
     const filter = data.name,
       value = data.value
 
@@ -97,19 +176,12 @@ export default class Search extends Component {
     browserHistory.push('/')
   }
 
-  handleSearchInputKeyPress (event) {
-    if (event.key === 'Enter') {
-      this.props.changeSearchTerm(this.state.searchTerm)
-      browserHistory.push('/')
-    }
-  }
-
-  handleResetFilterButtonClick () {
+  handleResetFilterButtonClick() {
     this.props.resetFilter()
     browserHistory.push('/')
   }
 
-  handleSearchButtonClick () {
+  handleSearchButtonClick() {
     this.props.searchChangeValue(this.state.searchValue)
   }
 }

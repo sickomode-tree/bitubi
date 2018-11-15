@@ -254,6 +254,23 @@
 }
 
 /*--------------------
+         Search
+---------------------*/
+
+.ui.input {
+  .search {
+    .input.icon {
+      height: 100%;
+
+      .prompt {
+        border-right: none;
+        border-radius: 2rem 0 0 2rem;
+      }
+    }
+  }
+}
+
+/*--------------------
          Icon
 ---------------------*/
 
