@@ -1,11 +1,11 @@
-import React, {Component} from 'react'
+import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import _ from 'lodash'
-import {Button, Icon, Image, Modal} from 'semantic-ui-react'
+import { Button, Icon, Image, Modal } from 'semantic-ui-react'
 import Card from 'components/Card/Card'
 import IconList from 'components/IconList/IconList'
 import Tag from 'components/Tag/Tag'
-import {rootUrl} from 'utils/fetch'
+import { rootUrl } from 'utils/fetch'
 
 export default class ProductCard extends Component {
   static propTypes = {
@@ -70,27 +70,27 @@ export default class ProductCard extends Component {
         <Modal.Content image>
           {
             product.subcategory && product.subcategory.pic &&
-            <Image wrapped size='medium' src={rootUrl + product.subcategory.pic}/>
+            <Image wrapped size='medium' src={rootUrl + product.subcategory.pic} />
           }
-          <Modal.Description style={{width: '100%'}}>
-            {product.category && <Tag content={product.category.title}/>}
-            {product.subcategory && <Tag content={product.subcategory.title}/>}
-            {product.subcategory && <br/>}
+          <Modal.Description style={{ width: '100%' }}>
+            {product.category && <Tag content={product.category.title} />}
+            {product.subcategory && <Tag content={product.subcategory.title} />}
+            {product.subcategory && <br />}
 
             <IconList
               data={[
-                {icon: 'thumbs up', header: 'Тип деятельности', description: product.actionType},
-                {icon: 'box', header: 'Тип поставки', description: product.deliveryType},
+                { icon: 'thumbs up', header: 'Тип деятельности', description: product.actionType },
+                { icon: 'box', header: 'Тип поставки', description: product.deliveryType },
                 {
                   icon: 'map marker alternate',
                   header: 'Адрес',
                   description:
                     `г. ${product.city.name}, ${product.district ? product.district.name + ' р-н,' : ''} ${product.address}`
                 },
-                {icon: 'phone', header: 'Телефон', description: product.phoneNumber},
-                {icon: 'world', header: 'Сайт', description: product.url},
-                {icon: 'mail', header: 'Email', description: product.email},
-                {icon: 'info circle', header: 'Описание', description: product.description},
+                { icon: 'phone', header: 'Телефон', description: product.phoneNumber },
+                { icon: 'world', header: 'Сайт', description: product.url },
+                { icon: 'mail', header: 'Email', description: product.email },
+                { icon: 'info circle', header: 'Описание', description: product.description },
               ]}
             />
           </Modal.Description>

@@ -1,11 +1,12 @@
-import React, {Component} from 'react'
+import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import _ from 'lodash'
+import { Card as SUICard } from 'semantic-ui-react'
 import Card from 'components/Card/Card'
 import CardGrid from 'components/CardGrid/CardGrid'
 import ProductCard from 'components/ProductCard/ProductCard'
 import EmptyText from 'components/EmptyText/EmptyText'
-import {getObjectValue} from 'utils/array'
+import { getObjectValue } from 'utils/array'
 
 export default class Home extends Component {
   static propTypes = {
@@ -19,12 +20,12 @@ export default class Home extends Component {
     saveToHistory: PropTypes.func.isRequired,
   }
 
-  componentDidMount() {
+  componentDidMount () {
     this.props.fetchProducts()
   }
 
-  render() {
-    const {auth, products, isLoading, filter, fetchProducts, verifyingProduct, verifiedProduct} = this.props
+  render () {
+    const { auth, products, isLoading, filter, fetchProducts, verifyingProduct, verifiedProduct } = this.props
     const cards = this.getCards.call(this, products)
     const groupKey = _.isEmpty(filter.filters) && _.isEmpty(filter.searchTerm) ? 'category.title' : 'subcategory.title'
 
@@ -34,28 +35,31 @@ export default class Home extends Component {
       if (!_.isEmpty(cards)) {
         if (isModerator) {
           return (
-            <Card.Group>
-              {
-                products.map((product, index) => (
-                  <ProductCard
-                    key={product.id + '_' + index}
-                    auth={auth}
-                    product={product}
-                    style={{height: 150}}
-                    verifyingProduct={verifyingProduct}
-                    verifiedProduct={verifiedProduct}
-                    onClose={fetchProducts}
-                  />
-                ))
-              }
-            </Card.Group>
+            <div style={{ flex: 1, padding: '0 50px' }}>
+              <h2>Продукты</h2>
+              <SUICard.Group itemsPerRow={3}>
+                {
+                  products.map((product, index) => (
+                    <ProductCard
+                      key={product.id + '_' + index}
+                      auth={auth}
+                      product={product}
+                      style={{ height: 150 }}
+                      verifyingProduct={verifyingProduct}
+                      verifiedProduct={verifiedProduct}
+                      onClose={fetchProducts}
+                    />
+                  ))
+                }
+              </SUICard.Group>
+            </div>
           )
         } else {
           return (
             <CardGrid
-              cards={cards}
-              getCardComponent={this.getCardComponent.bind(this)}
-              groupKey={groupKey}
+              cards={ cards }
+              getCardComponent={ this.getCardComponent.bind(this) }
+              groupKey={ groupKey }
             />
           )
         }
@@ -69,7 +73,7 @@ export default class Home extends Component {
       )
     }
 
-    return (<div/>)
+    return (<div />)
   }
 
   getProductCards(items) {

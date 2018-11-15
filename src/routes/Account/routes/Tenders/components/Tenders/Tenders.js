@@ -201,21 +201,25 @@ export default class Tenders extends Component {
           )
         } else if (isModerator) {
           return (
-            <SUICard.Group>
-              {
-                cards.map((card, index) => (
-                  <TenderCard
-                    key={index}
-                    auth={auth}
-                    tender={card}
-                    style={{height: 150}}
-                    verifyingTender={verifyingTender}
-                    verifiedTender={verifiedTender}
-                    onClose={fetchTenders}
-                  />
-                ))
-              }
-            </SUICard.Group>
+            <div style={{ flex: 1, padding: '0 50px' }}>
+              <h2>Тендеры</h2>
+
+              <SUICard.Group itemsPerRow={3}>
+                {
+                  cards.map((card, index) => (
+                    <TenderCard
+                      key={index}
+                      auth={auth}
+                      tender={card}
+                      style={{ height: 250 }}
+                      verifyingTender={verifyingTender}
+                      verifiedTender={verifiedTender}
+                      onClose={fetchTenders}
+                    />
+                  ))
+                }
+              </SUICard.Group>
+            </div>
           )
         }
       }
