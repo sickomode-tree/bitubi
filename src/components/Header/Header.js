@@ -84,7 +84,7 @@ export default class Header extends Component {
           }
           {
             !isModerator &&
-            <Menu.Item style={{flex: 1}}>
+            <Menu.Item style={{ flex: 1 }}>
               <Responsive
                 minWidth={Responsive.onlyTablet.minWidth}
                 as={Search}

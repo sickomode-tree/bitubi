@@ -44,14 +44,15 @@ class SearchExampleStandard extends Component {
 
     const source = this.props.cards.map(card => ({
       ...card,
-      title: card.providerName
+      title: card.providerName,
+      subcategoryTitle: card.subcategory.title,
     }))
 
     setTimeout(() => {
       if (this.state.value.length < 1) return this.resetComponent()
 
       const re = new RegExp(_.escapeRegExp(this.state.value), 'i')
-      const isMatch = result => re.test(result.providerName)
+      const isMatch = result => re.test(result.providerName) || re.test(result.subcategory.title)
 
       this.setState({
         isLoading: false,
@@ -73,14 +74,18 @@ class SearchExampleStandard extends Component {
         value={value}
         fluid
         // category
-        resultRenderer={({ title }) => <b>{title}</b>}
+        resultRenderer={({ title, subcategoryTitle }) => (
+          <div>
+            <div style={{ fontWeight: 600 }}>{title}</div>
+            <small style={{ color: '#929292' }}>{subcategoryTitle}</small>
+          </div>
+        )}
         style={{ flex: 1 }}
         {...this.props}
       />
     )
   }
 }
-
 
 export default class Search extends Component {
   static propTypes = {
@@ -118,7 +123,7 @@ export default class Search extends Component {
               options={this.getOptions.call(this, quickFilter.key)} value={filters[quickFilter.key] || null}
               search selection noResultsMessage='Нет результатов.'
               selectOnBlur={false} selectOnNavigation={false} wrapSelection={false}
-              style={{width: 100, whiteSpace: 'nowrap'}}
+              style={{ width: 100, whiteSpace: 'nowrap' }}
               onChange={(event, data) => this.handleFilterChange.call(this, event, data)}
             />
           ))
@@ -127,8 +132,8 @@ export default class Search extends Component {
           isAuthorized &&
           <FilterModal
             trigger={
-              <Button icon basic={_.isEmpty(filters) ? true : false} color={'green'}>
-                <Icon name='filter'/>
+              <Button icon basic={_.isEmpty(filters)} color={'green'}>
+                <Icon name='filter' />
               </Button>
             }
             filters={filters}
@@ -140,7 +145,7 @@ export default class Search extends Component {
         {
           !isAuthorized &&
           <SignInModal
-            trigger={<Button color='green' icon='filter' basic/>}
+            trigger={<Button color='green' icon='filter' basic />}
             handleSignIn={handleSignIn}
             fetchProducts={fetchProducts}
           />
