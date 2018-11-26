@@ -35,7 +35,7 @@ export default class Home extends Component {
       if (!_.isEmpty(cards)) {
         if (isModerator) {
           return (
-            <div style={{ flex: 1, padding: '0 50px' }}>
+            <div style={{ flex: 1, maxWidth: 1400, margin: '0 auto' }}>
               <h2>Продукты</h2>
               <SUICard.Group itemsPerRow={3}>
                 {

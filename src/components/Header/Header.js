@@ -52,8 +52,8 @@ export default class Header extends Component {
           style={{
             display: 'flex',
             justifyContent: 'space-between',
-            padding: '0 50px',
             width: '100%',
+            maxWidth: 1400,
             margin:'0 auto',
           }}
         >

@@ -20,16 +20,21 @@ const Card = props => (
   >
     {
       props.imagePath &&
-      <img src={rootUrl + props.imagePath} alt={props.title} className={'Card__Image'}/>
+      <div style={{ backgroundImage: `url(${rootUrl + props.imagePath})` }} alt={props.title} className={'Card__Image'} />
     }
     {props.children}
   </a>
 )
 
 Card.propTypes = {
+  title: PropTypes.string,
+  imagePath: PropTypes.string,
   color: PropTypes.string,
   align: PropTypes.string,
+  style: PropTypes.object,
+  inverted: PropTypes.bool,
   onClick: PropTypes.func,
+  children: PropTypes.node,
 }
 
 export default Card

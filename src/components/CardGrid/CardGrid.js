@@ -24,25 +24,29 @@ export default class CardGrid extends Component {
     })
   }
 
-  render() {
-    const {getCardComponent} = this.props
-    const {groups, groupCount} = this.state
+  render () {
+    const { getCardComponent } = this.props
+    const { groups, groupCount } = this.state
 
     return (
-      <section style={{display: 'flex', width: '100%'}} className='card-grid'>
+      <section style={{ display: 'flex', width: '100%' }} className='card-grid'>
         {
           groups.length > groupCount &&
-          <Button onClick={this.showPreviousCardGroup.bind(this)}
-                  style={{position: 'absolute', top: 0, bottom: 0, left: 0, height: '100%', boxShadow: 'none'}}
-                  icon='angle left' basic size='large'/>
+          <Button
+            onClick={this.showPreviousCardGroup.bind(this)}
+            style={{ position: 'absolute', top: 0, bottom: 0, left: 0, height: '100%', boxShadow: 'none' }}
+            icon='angle left' basic size='large'
+          />
         }
         {
           groups.length > groupCount &&
-          <Button onClick={this.showNextCardGroup.bind(this)}
-                  style={{position: 'absolute', top: 0, right: 0, bottom: 0, height: '100%', boxShadow: 'none'}}
-                  icon='angle right' basic size='large'/>
+          <Button
+            onClick={this.showNextCardGroup.bind(this)}
+            style={{ position: 'absolute', top: 0, right: 0, bottom: 0, height: '100%', boxShadow: 'none' }}
+            icon='angle right' basic size='large'
+          />
         }
-        <Grid columns={groupCount} style={{overflow: 'hidden', width: '100%', margin: 0, padding: '0 50px'}}>
+        <Grid columns={groupCount} style={{ overflow: 'hidden', width: '100%', maxWidth: 1400, margin: '0 auto' }}>
           <Grid.Row>
             {
               groups.map(group => (
@@ -62,7 +66,7 @@ export default class CardGrid extends Component {
                   >
                     {group.title}
                   </Label>
-                  <CardGridGroup cards={group.cards} getCardComponent={getCardComponent}/>
+                  <CardGridGroup cards={group.cards} getCardComponent={getCardComponent} />
                 </Grid.Column>
               ))
             }

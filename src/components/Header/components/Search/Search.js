@@ -67,12 +67,14 @@ class SearchExampleStandard extends Component {
       <SUISearch
         loading={isLoading}
         onResultSelect={this.handleResultSelect}
-        onSearchChange={_.debounce(this.handleSearchChange, 500, {leading: true})}
+        onSearchChange={_.debounce(this.handleSearchChange, 500, { leading: true })}
         onKeyPress={this.handleSearchInputKeyPress.bind(this)}
         results={results}
         value={value}
-        fluid={true}
+        fluid
+        // category
         resultRenderer={({ title }) => <b>{title}</b>}
+        style={{ flex: 1 }}
         {...this.props}
       />
     )
@@ -93,15 +95,15 @@ export default class Search extends Component {
     resetFilter: PropTypes.func.isRequired,
   }
 
-  render() {
-    const {filters, isAuthorized, searchTerm, fetchProducts, handleSignIn} = this.props
+  render () {
+    const { filters, isAuthorized, searchTerm, fetchProducts, handleSignIn } = this.props
     const quickFilters = [
-      {title: 'Город', key: 'city.name'},
-      {title: 'Категория', key: 'category.title'},
+      { title: 'Город', key: 'city.name' },
+      { title: 'Категория', key: 'category.title' },
     ]
 
     return (
-      <Input placeholder='Поиск...' action>
+      <Input action>
         <SearchExampleStandard
           cards={this.props.cards}
           searchTerm={this.props.searchTerm}

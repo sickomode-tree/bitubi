@@ -58,7 +58,7 @@ export default class Tenders extends Component {
       if (!_.isEmpty(items)) {
         if (isCustomer) {
           return (
-            <div style={{ flex: 1, padding: '0 50px' }}>
+            <div style={{ flex: 1, maxWidth: 1400, margin: '0 auto' }}>
               <h2>Тендеры</h2>
 
               <SUICard.Group itemsPerRow={3} doubling stackable>
@@ -201,7 +201,7 @@ export default class Tenders extends Component {
           )
         } else if (isModerator) {
           return (
-            <div style={{ flex: 1, padding: '0 50px' }}>
+            <div style={{ flex: 1, maxWidth: 1400, margin: '0 auto' }}>
               <h2>Тендеры</h2>
 
               <SUICard.Group itemsPerRow={3}>
