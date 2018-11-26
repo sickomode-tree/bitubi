@@ -52,10 +52,10 @@ export function fetchProducts () {
     api(path)
       .then(response => {
         if (!response.ok) {
-          if (response.status === 401) {
-            dispatch(signOut())
-            window.location.reload()
-          }
+          // if (response.status === 401) {
+          //   dispatch(signOut())
+          //   window.location.reload()
+          // }
 
           throw Error(response.statusText)
         }

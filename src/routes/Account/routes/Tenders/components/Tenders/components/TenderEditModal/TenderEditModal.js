@@ -25,6 +25,7 @@ class TenderEditModal extends Component {
     district: null,
     subcategory: null,
     expectedDate: null,
+    measure: 'кг',
   }
 
   componentDidMount () {
@@ -37,6 +38,7 @@ class TenderEditModal extends Component {
   render () {
     const { tender, trigger, cities, categories, onClose } = this.props
     const { state } = this
+
     const cityOptions = cities.map(city => ({ value: city.id, text: city.name }))
     const cityValue = state.city || (tender ? tender.city.id : null)
     const districts = cityValue ? cities.find(city => city.id === cityValue).districts : []
@@ -50,11 +52,19 @@ class TenderEditModal extends Component {
     const subcategoryValue = state.subcategory || (tender ? tender.subcategory.id : null)
     const commentValue = state.comment || (tender ? tender.comment : null)
     const expectedDateValue = state.expectedDate || (tender ? tender.expectedDate : null)
+    const measureOptions = [
+      {value: 'кг', text: 'кг'},
+      {value: 'тонн', text: 'тонн'},
+      {value: 'шт', text: 'шт'},
+      {value: 'л', text: 'л'},
+    ]
+    const measureValue = state.measure || (tender ? tender.measure : null)
     // TODO: move the following config to Tenders and pass it to all modals. then remove this file
 
     const formFields = [
       { tag: 'input', type: 'text', name: 'title', title: 'Название', required: true, path: 'title' },
-      { tag: 'input', type: 'number', name: 'amount', title: 'Количество, шт', required: true, path: 'amount' },
+      { tag: 'input', type: 'number', name: 'amount', title: 'Количество', required: true, path: 'amount', width: 8 },
+      { tag: 'select', name: 'measure', title: 'Единица измерения', required: true, value: measureValue, options: measureOptions, onChange: this.handleSelectChange.bind(this), width: 8 },
       { tag: 'select', name: 'city', title: 'Город', required: true, value: cityValue, options: cityOptions, onChange: this.handleSelectChange.bind(this), width: 8 },
       { tag: 'select', name: 'district', title: 'Район', required: !_.isEmpty(districtOptions), value: districtValue, options: districtOptions, onChange: this.handleSelectChange.bind(this), width: 8, disabled: _.isEmpty(districtOptions) },
       { tag: 'select', name: 'category', title: 'Категория', required: true, value: categoryValue, options: categoryOptions, onChange: this.handleSelectChange.bind(this), width: 8 },
