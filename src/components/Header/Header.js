@@ -55,6 +55,7 @@ export default class Header extends Component {
             width: '100%',
             maxWidth: 1400,
             margin:'0 auto',
+            padding: '0 50px',
           }}
         >
           <IndexLink to='/' className='item' onClick={resetFilter}><Logo/></IndexLink>

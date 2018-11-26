@@ -63,7 +63,11 @@ export default class TenderCard extends Component {
                   header: 'Ожидаемая дата',
                   description: moment(tender.expectedDate).format('DD.MM.YYYY')
                 },
-                { icon: 'box', header: 'Количество, шт', description: +tender.amount },
+                {
+                  icon: 'box',
+                  header: `Количество${tender.measure ? ' ,' + tender.measure : ''}`,
+                  description: +tender.amount
+                },
                 { icon: 'ruble', header: 'Стоимость, руб', description: +tender.price },
               ]} />
             </div>

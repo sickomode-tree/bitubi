@@ -91,7 +91,7 @@ export default class Tenders extends Component {
                           className={card.disabled ? 'disabled' : null}
                         >
                           <div>
-                            <h3>
+                            <h3 style={{ marginBottom: '1rem' }}>
                               {card.title}
                             </h3>
                               {
@@ -110,7 +110,7 @@ export default class Tenders extends Component {
                                 },
                                 {
                                   icon: 'box',
-                                  header: 'Количество, шт',
+                                  header: `Количество${card.measure ? ' ,' + card.measure : ''}`,
                                   description: +card.amount
                                 },
                                 {
