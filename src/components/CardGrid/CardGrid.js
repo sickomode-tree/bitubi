@@ -46,7 +46,7 @@ export default class CardGrid extends Component {
             icon='angle right' basic size='large'
           />
         }
-        <Grid columns={groupCount} style={{ overflow: 'hidden', width: '100%', maxWidth: 1400, margin: '0 auto' }}>
+        <Grid columns={groupCount} style={{ overflow: 'hidden', width: '100%', maxWidth: 1400, margin: '0 auto', padding: '0 50px' }}>
           <Grid.Row>
             {
               groups.map(group => (

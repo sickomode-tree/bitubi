@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import _ from 'lodash'
 import { Button, Icon, Image, Modal } from 'semantic-ui-react'
+import Dotdotdot from 'react-dotdotdot'
 import Card from 'components/Card/Card'
 import IconList from 'components/IconList/IconList'
 import Tag from 'components/Tag/Tag'
@@ -46,7 +47,7 @@ export default class ProductCard extends Component {
             className={product.verifying ? 'disabled' : null}
             imagePath={product.subcategory && product.subcategory.pic}
           >
-            <div>
+            <div style={{ marginBottom: 10 }}>
               <h3>
                 {product.providerName}
               </h3>
@@ -57,12 +58,12 @@ export default class ProductCard extends Component {
               <i className='right floated eye icon'/>
               }
             </div>
-            <div>
+            <div style={{ marginBottom: 10 }}>
               {product.city.name}
             </div>
-            <div>
+            <Dotdotdot clamp={3}>
               {product.description}
-            </div>
+            </Dotdotdot>
           </Card>
         }
       >

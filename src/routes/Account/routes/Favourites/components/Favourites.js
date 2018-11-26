@@ -30,7 +30,7 @@ export default class Favourites extends Component {
     if (!isLoading) {
       if (!_.isEmpty(items)) {
         return (
-          <div style={{flex: 1, maxWidth: 1400, margin: '0 auto' }}>
+          <div style={{flex: 1, maxWidth: 1400, margin: '0 auto', padding: '0 50px' }}>
             <h2>Закладки</h2>
             <Card.Group itemsPerRow={3}>
               {
