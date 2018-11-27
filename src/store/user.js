@@ -1,4 +1,5 @@
 import Notifications from 'react-notification-system-redux'
+import axios from 'axios'
 import { getToken } from 'utils/auth'
 import api, { scope, rootUrl } from 'utils/fetch'
 
@@ -106,44 +107,32 @@ export const updateUserpic = file => {
   return (dispatch) => {
     dispatch(onUpdateUserpicRequest(true))
 
-    api(url, {
-      method: 'POST',
-      headers: {
-        // no need to set Content-Type for fetch
-        // 'Content-Type': 'multipart/form-data; boundary=boundary',
-        'Authorization': `Bearer ${getToken()}`
-      },
-      body: formData,
+    axios.post(
+      url,
+      formData, {
+        onUploadProgress: progressEvent => {
+          console.log(progressEvent.loaded / progressEvent.total)
+        }
+      }
+    )
+    .then(response => {
+      if (!response.ok) {
+        throw Error(response.statusText)
+      }
+
+      dispatch(onUpdateUserpicRequest(false))
+
+      return response
     })
-      .then(response => {
-        if (!response.ok) {
-          throw Error(response.statusText)
-        }
-
-        dispatch(onUpdateUserpicRequest(false))
-
-        return response
-      })
-      .then(response => response.json())
-      .then(json => {
-        if (!json.success) {
-          dispatch(Notifications.error({
-            title: 'Не удалось загрузить фотографию.',
-            message: json.message,
-            position: 'bl',
-          }))
-        }
-        dispatch(onUpdateUserpicSuccess())
-      })
-      .catch(error => {
-        console.error(error)
-        dispatch(Notifications.error({
-          title: 'Не удалось загрузить фотографию.',
-          message: 'Пожалуйста, попробуйте еще раз.',
-          position: 'bl',
-        }))
-        dispatch(onUpdateUserpicFailure(true))
-      })
+    .catch(error => {
+      console.error(error)
+      dispatch(Notifications.error({
+        title: 'Не удалось загрузить фотографию.',
+        message: 'Пожалуйста, попробуйте еще раз.',
+        position: 'bl',
+      }))
+      dispatch(onUpdateUserpicFailure(true))
+    })
   }
 }
 
