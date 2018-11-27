@@ -36,16 +36,16 @@ export default class Profile extends Component {
     this.props.fetchUser()
   }
 
-  render() {
-    const {user, cities, fetchCities, fetchUser, updateUser, updateUserpic} = this.props
+  render () {
+    const { user, cities, fetchCities, fetchUser, updateUser, updateUserpic } = this.props
     const userInfo = [
-      {code: 'login', title: 'Логин'},
-      {code: 'city.name', title: 'Город'},
-      {code: 'district.name', title: 'Район'},
-      {code: 'address', title: 'Адрес'},
-      {code: 'email', title: 'Email'},
-      {code: 'phoneNumber', title: 'Телефон'},
-      {code: 'url', title: 'Сайт'},
+      { code: 'login', title: 'Логин' },
+      { code: 'city.name', title: 'Город' },
+      { code: 'district.name', title: 'Район' },
+      { code: 'address', title: 'Адрес' },
+      { code: 'email', title: 'Email' },
+      { code: 'phoneNumber', title: 'Телефон' },
+      { code: 'url', title: 'Сайт' },
     ]
     let title
 
@@ -63,8 +63,8 @@ export default class Profile extends Component {
     return (
       <Container>
         <Segment.Group horizontal>
-          <Segment style={{flex: 1}}>
-            <Segment vertical style={{border: 0}}>
+          <Segment style={{ flex: 1 }}>
+            <Segment vertical style={{ border: 0 }}>
               <Image
                 circular
                 src={user.photo && (rootUrl + user.photo.original)}
@@ -73,8 +73,8 @@ export default class Profile extends Component {
             <Message warning={!user.verified} success={user.verified}>
               {
                 user.verified
-                  ? <div><Icon name='check circle' size='large' color='green'/> Подтвержден</div>
-                  : <div><Icon name='question circle' size='large' color='yellow'/> На рассмотрении</div>
+                  ? <div><Icon name='check circle' size='large' color='green' /> Подтвержден</div>
+                  : <div><Icon name='question circle' size='large' color='yellow' /> На рассмотрении</div>
               }
             </Message>
             <Segment vertical>

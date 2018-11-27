@@ -42,7 +42,7 @@ class ProfileEditModal extends Component {
     const districtValue = state.district || (user && user.district ? user.district.id : null)
 
     const formFields = [
-      {tag: 'input', type: 'text', name: 'login', title: 'Логин', required: true, path: 'login', width: 16},
+      { tag: 'input', type: 'text', name: 'login', title: 'Логин', required: true, path: 'login', width: 16 },
       {
         tag: 'input',
         type: 'text',
@@ -72,7 +72,7 @@ class ProfileEditModal extends Component {
         path: 'providerName',
         visible: getUserType() === 'provider'
       },
-      {tag: 'input', type: 'text', name: 'email', title: 'Email', required: true, path: 'email'},
+      { tag: 'input', type: 'text', name: 'email', title: 'Email', required: true, path: 'email' },
       {
         tag: 'select',
         name: 'city',
@@ -110,8 +110,8 @@ class ProfileEditModal extends Component {
         required: getUserType() === 'provider',
         path: 'phoneNumber'
       },
-      {tag: 'input', type: 'url', name: 'url', title: 'Сайт', path: 'url'},
-      {tag: 'input', type: 'hidden', name: 'id', path: 'id'},
+      { tag: 'input', type: 'url', name: 'url', title: 'Сайт', path: 'url' },
+      { tag: 'input', type: 'hidden', name: 'id', path: 'id' },
     ]
 
     const userpicUrl = user.photo && (rootUrl + user.photo.original)

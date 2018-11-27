@@ -106,7 +106,7 @@ export default class Header extends Component {
             <Menu.Menu position='right'>
 
               <Dropdown item trigger={
-                <Image src={user.photo && (rootUrl + user.photo.original)} avatar/>
+                <Image src={user.photo && (rootUrl + user.photo.original)} avatar />
               }>
                 <Dropdown.Menu>
                   {
