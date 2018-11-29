@@ -1,6 +1,7 @@
+import {browserHistory} from 'react-router'
+import {signOut} from 'store/auth'
 import api, {scope} from 'utils/fetch'
 import { checkAuthorized, getToken, isModerator } from 'utils/auth'
-import {signOut} from 'store/auth'
 
 // ------------------------------------
 // Constants
@@ -52,10 +53,10 @@ export function fetchProducts () {
     api(path)
       .then(response => {
         if (!response.ok) {
-          // if (response.status === 401) {
-          //   dispatch(signOut())
-          //   window.location.reload()
-          // }
+          if (response.status === 401) {
+            dispatch(signOut())
+            browserHistory.push('/')
+          }
 
           throw Error(response.statusText)
         }
@@ -116,6 +117,11 @@ export function verifyingProduct (id, verifying) {
     })
       .then(response => {
         if (!response.ok) {
+          if (response.status === 401) {
+            dispatch(signOut())
+            browserHistory.push('/')
+          }
+
           throw Error(response.statusText)
         }
 
@@ -155,6 +161,11 @@ export function verifiedProduct (id, verified) {
     })
       .then(response => {
         if (!response.ok) {
+          if (response.status === 401) {
+            dispatch(signOut())
+            browserHistory.push('/')
+          }
+
           throw Error(response.statusText)
         }
 

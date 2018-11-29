@@ -1,3 +1,5 @@
+import {browserHistory} from 'react-router'
+import {signOut} from 'store/auth'
 import api, {scope} from 'utils/fetch'
 
 // ------------------------------------
@@ -33,6 +35,11 @@ export function fetchCategories () {
     })
       .then(response => {
         if (!response.ok) {
+          if (response.status === 401) {
+            dispatch(signOut())
+            browserHistory.push('/')
+          }
+
           throw Error(response.statusText)
         }
 

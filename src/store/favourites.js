@@ -1,3 +1,5 @@
+import {browserHistory} from 'react-router'
+import {signOut} from 'store/auth'
 import api, {scope} from 'utils/fetch'
 import { checkAuthorized, getToken, isModerator } from 'utils/auth'
 
@@ -42,6 +44,11 @@ export function fetchFavourites () {
     })
       .then(response => {
         if (!response.ok) {
+          if (response.status === 401) {
+            dispatch(signOut())
+            browserHistory.push('/')
+          }
+
           throw Error(response.statusText)
         }
 
@@ -104,6 +111,11 @@ export function saveToFavourites (id) {
     })
       .then(response => {
         if (!response.ok) {
+          if (response.status === 401) {
+            dispatch(signOut())
+            browserHistory.push('/')
+          }
+
           throw Error(response.statusText)
         }
 

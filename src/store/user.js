@@ -1,3 +1,5 @@
+import {browserHistory} from 'react-router'
+import {signOut} from 'store/auth'
 import Notifications from 'react-notification-system-redux'
 import axios from 'axios'
 import { getToken } from 'utils/auth'
@@ -50,6 +52,11 @@ export const fetchUser = () => {
     })
       .then(response => {
         if (!response.ok) {
+          if (response.status === 401) {
+            dispatch(signOut())
+            browserHistory.push('/')
+          }
+
           throw Error(response.statusText)
         }
 
@@ -83,6 +90,11 @@ export const updateUser = form => {
     })
       .then(response => {
         if (!response.ok) {
+          if (response.status === 401) {
+            dispatch(signOut())
+            browserHistory.push('/')
+          }
+
           throw Error(response.statusText)
         }
 
@@ -117,6 +129,11 @@ export const updateUserpic = file => {
     )
     .then(response => {
       if (!response.ok) {
+        if (response.status === 401) {
+          dispatch(signOut())
+          browserHistory.push('/')
+        }
+
         throw Error(response.statusText)
       }
 
