@@ -128,16 +128,21 @@ export const updateUserpic = file => {
       }
     )
     .then(response => {
-      if (!response.ok) {
-        if (response.status === 401) {
+      switch (response.status) {
+        case 200:
+          if (response.data.success) {
+            dispatch(onUpdateUserpicRequest(false))
+          } else {
+            throw Error(response.data.message)
+          }
+          break
+        case 401:
           dispatch(signOut())
           browserHistory.push('/')
-        }
-
-        throw Error(response.statusText)
+          break
+        default:
+          throw Error(response.statusText)
       }
-
-      dispatch(onUpdateUserpicRequest(false))
 
       return response
     })
@@ -145,7 +150,7 @@ export const updateUserpic = file => {
       console.error(error)
       dispatch(Notifications.error({
         title: 'Не удалось загрузить фотографию.',
-        message: 'Пожалуйста, попробуйте еще раз.',
+        message: error.message,
         position: 'bl',
       }))
       dispatch(onUpdateUserpicFailure(true))

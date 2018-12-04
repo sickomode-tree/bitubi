@@ -1,6 +1,6 @@
 export const loadState = state => {
   try {
-    const serializedState = localStorage.getItem('state')
+    const serializedState = localStorage.getItem('bitubi::state')
     if (serializedState === null) {
       return undefined
     }
@@ -13,7 +13,7 @@ export const loadState = state => {
 export const saveState = state => {
   try {
     const serializedState = JSON.stringify(state)
-    localStorage.setItem('state', serializedState)
+    localStorage.setItem('bitubi::state', serializedState)
   } catch (error) {
     console.log(error)
   }
