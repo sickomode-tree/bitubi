@@ -102,10 +102,7 @@ export default class Search extends Component {
 
   render () {
     const { filters, isAuthorized, searchTerm, fetchProducts, handleSignIn } = this.props
-    const quickFilters = [
-      { title: 'Город', key: 'city.name' },
-      { title: 'Категория', key: 'category.title' },
-    ]
+    const quickFilters = [{ title: 'Категория', key: 'category.title' }]
 
     return (
       <Input action>
