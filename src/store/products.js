@@ -54,7 +54,7 @@ export function fetchProducts () {
       .then(response => {
         if (!response.ok) {
           if (response.status === 401) {
-            dispatch(signOut())
+            // dispatch(signOut())
             browserHistory.push('/')
           }
 

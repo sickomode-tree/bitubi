@@ -53,11 +53,16 @@
   .floated.right {
     position: absolute;
     right: 15px;
-    top: 15px;
+    top: 10px;
+  }
+
+  .attached.progress.bottom {
+    position: absolute;
+    bottom: 0;
   }
 }
 
-.ui.three.cards>.Card {
+.ui.three.cards > .Card {
   width: calc(33.33333333% - 2em);
   margin-left: 1em;
   margin-right: 1em;

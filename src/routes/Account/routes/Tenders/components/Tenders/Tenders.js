@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import moment from 'moment/moment'
 import _ from 'lodash'
-import { Button, Card as SUICard, Icon, Header, Progress } from 'semantic-ui-react'
+import { Button, Card as SUICard, Icon, Label, Header, Progress } from 'semantic-ui-react'
 import Card from 'components/Card/Card'
 import EmptyText from 'components/EmptyText/EmptyText'
 import TenderEditModal from './components/TenderEditModal/TenderEditModal'
@@ -93,11 +93,12 @@ export default class Tenders extends Component {
                           <div>
                             <h3 style={{ marginBottom: '1rem' }}>
                               {card.title}
-                            </h3>
+
                               {
                                 !card.verified &&
-                                <i className='right floated ban icon red'/>
+                                <Label basic size={'mini'} className={'floated right'} color={'yellow'}>На рассмотрении</Label>
                               }
+                            </h3>
                           </div>
                           <div>
                             <IconList
@@ -179,10 +180,10 @@ export default class Tenders extends Component {
                               }
                             </div>
                           }
-                          {/*<Progress*/}
-                            {/*percent={100 - card.totalDays / card.daysToGo * 100}*/}
-                            {/*attached='bottom'*/}
-                          {/*/>*/}
+                          <Progress
+                            percent={100 - card.totalDays / card.daysToGo * 100}
+                            attached='bottom'
+                          />
                         </Card>
                       }
                     />
