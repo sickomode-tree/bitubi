@@ -55,7 +55,7 @@ export function fetchProducts () {
         if (!response.ok) {
           if (response.status === 401) {
             // dispatch(signOut())
-            browserHistory.push('/')
+            //browserHistory.push('/')
           }
 
           throw Error(response.statusText)
@@ -118,8 +118,8 @@ export function verifyingProduct (id, verifying) {
       .then(response => {
         if (!response.ok) {
           if (response.status === 401) {
-            dispatch(signOut())
-            browserHistory.push('/')
+            //dispatch(signOut())
+            //browserHistory.push('/')
           }
 
           throw Error(response.statusText)
@@ -162,8 +162,8 @@ export function verifiedProduct (id, verified) {
       .then(response => {
         if (!response.ok) {
           if (response.status === 401) {
-            dispatch(signOut())
-            browserHistory.push('/')
+            //dispatch(signOut())
+            //browserHistory.push('/')
           }
 
           throw Error(response.statusText)

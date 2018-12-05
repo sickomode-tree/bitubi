@@ -45,8 +45,8 @@ export function fetchFavourites () {
       .then(response => {
         if (!response.ok) {
           if (response.status === 401) {
-            dispatch(signOut())
-            browserHistory.push('/')
+            //dispatch(signOut())
+            //browserHistory.push('/')
           }
 
           throw Error(response.statusText)
@@ -112,8 +112,8 @@ export function saveToFavourites (id) {
       .then(response => {
         if (!response.ok) {
           if (response.status === 401) {
-            dispatch(signOut())
-            browserHistory.push('/')
+            //dispatch(signOut())
+            //browserHistory.push('/')
           }
 
           throw Error(response.statusText)

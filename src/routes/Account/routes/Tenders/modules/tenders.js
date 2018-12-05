@@ -85,8 +85,8 @@ export function fetchTenders () {
       .then(response => {
         if (!response.ok) {
           if (response.status === 401) {
-            dispatch(signOut())
-            browserHistory.push('/')
+            //dispatch(signOut())
+            //browserHistory.push('/')
           }
 
           throw Error(response.statusText)
@@ -123,8 +123,8 @@ export function saveTender (form) {
       .then(response => {
         if (!response.ok) {
           if (response.status === 401) {
-            dispatch(signOut())
-            browserHistory.push('/')
+            //dispatch(signOut())
+            //browserHistory.push('/')
           }
 
           throw Error(response.statusText)
@@ -163,8 +163,8 @@ export function deleteTender (id) {
       .then(response => {
         if (!response.ok) {
           if (response.status === 401) {
-            dispatch(signOut())
-            browserHistory.push('/')
+            //dispatch(signOut())
+            //browserHistory.push('/')
           }
 
           throw Error(response.statusText)
@@ -203,8 +203,8 @@ export function toggleTender (id) {
       .then(response => {
         if (!response.ok) {
           if (response.status === 401) {
-            dispatch(signOut())
-            browserHistory.push('/')
+            //dispatch(signOut())
+            //browserHistory.push('/')
           }
 
           throw Error(response.statusText)
@@ -247,8 +247,8 @@ export function verifyingTender (id, verifying) {
       .then(response => {
         if (!response.ok) {
           if (response.status === 401) {
-            dispatch(signOut())
-            browserHistory.push('/')
+            //dispatch(signOut())
+            //browserHistory.push('/')
           }
 
           throw Error(response.statusText)
@@ -291,8 +291,8 @@ export function verifiedTender (id, verified) {
       .then(response => {
         if (!response.ok) {
           if (response.status === 401) {
-            dispatch(signOut())
-            browserHistory.push('/')
+            //dispatch(signOut())
+            //browserHistory.push('/')
           }
 
           throw Error(response.statusText)

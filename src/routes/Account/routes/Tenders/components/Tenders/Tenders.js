@@ -56,28 +56,31 @@ export default class Tenders extends Component {
 
     if (!isLoading) {
       if (!_.isEmpty(items)) {
-        if (isCustomer) {
+        if (!isModerator) {
           return (
             <div style={{ flex: 1, maxWidth: 1400, margin: '0 auto', padding: '0 50px' }}>
               <h2>Тендеры</h2>
 
               <SUICard.Group itemsPerRow={3} doubling stackable>
-                <TenderEditModal
-                  cities={cities}
-                  categories={categories}
-                  fetchCities={fetchCities}
-                  fetchCategories={fetchCategories}
-                  onSubmit={saveTender}
-                  onClose={fetchTenders}
-                  trigger={
-                    <Card style={{justifyContent: 'center'}}>
-                      <Header as='h2' icon textAlign='center' color='green'>
-                        <Icon name='plus' circular/>
-                        <Header.Content>Добавить</Header.Content>
-                      </Header>
-                    </Card>
-                  }
-                />
+                {
+                  isCustomer &&
+                  <TenderEditModal
+                    cities={cities}
+                    categories={categories}
+                    fetchCities={fetchCities}
+                    fetchCategories={fetchCategories}
+                    onSubmit={saveTender}
+                    onClose={fetchTenders}
+                    trigger={
+                      <Card style={{justifyContent: 'center'}}>
+                        <Header as='h2' icon textAlign='center' color='green'>
+                          <Icon name='plus' circular/>
+                          <Header.Content>Добавить</Header.Content>
+                        </Header>
+                      </Card>
+                    }
+                  />
+                }
                 {
                   items.map(card => (
                     <TenderViewModal
@@ -192,15 +195,7 @@ export default class Tenders extends Component {
               </SUICard.Group>
             </div>
           )
-        } else if (isProvider) {
-          return (
-            <CardGrid
-              cards={cards}
-              getCardComponent={this.getCardComponent.bind(this)}
-              groupKey={groupKey}
-            />
-          )
-        } else if (isModerator) {
+        } else {
           return (
             <div style={{ flex: 1, maxWidth: 1400, margin: '0 auto', padding: '0 50px' }}>
               <h2>Тендеры</h2>
@@ -310,7 +305,11 @@ export default class Tenders extends Component {
     items.forEach(card => {
       subcategoryMap[card.subcategory.id] = {
         id: card.id,
-        header: card.subcategory.title,
+        title: card.subcategory.title,
+        expectedDate: card.expectedDate,
+        measure: card.measure,
+        amount: card.amount,
+        price: card.price,
         category: card.category,
         subcategory: card.subcategory,
       }
@@ -338,13 +337,41 @@ export default class Tenders extends Component {
     if (_.isEmpty(filter.filters) && _.isEmpty(filter.searchTerm)) {
       return (
         <Card
-          link
-          onClick={() => changeFilterValue('subcategory.title', tender.subcategory.title)}
           style={{ flex: '0 1 25%' }}
         >
-          <Card.Content style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', textAlign: 'center' }}>
-            <Card.Header>{tender.subcategory.title}</Card.Header>
-          </Card.Content>
+          <div>
+            <h3
+              title={tender.title}
+              style={{ marginBottom: '1rem', whiteSpace: 'nowrap', textOverflow: 'ellipsis', overflow: 'hidden'}}
+            >
+              {tender.title}
+            </h3>
+          </div>
+          <div>
+            <IconList
+              data={[
+                {
+                  icon: 'calendar',
+                  header: 'Ожидаемая дата',
+                  description: moment(tender.expectedDate).format('DD.MM.YYYY')
+                },
+                {
+                  icon: 'box',
+                  header: `Количество${tender.measure ? ' ,' + tender.measure : ''}`,
+                  description: +tender.amount
+                },
+                {
+                  icon: 'ruble',
+                  header: 'Стоимость, руб',
+                  description: +tender.price
+                },
+              ]}
+            />
+          </div>
+          <Progress
+            percent={100 - tender.totalDays / tender.daysToGo * 100}
+            attached='bottom'
+          />
         </Card>
       )
     }
