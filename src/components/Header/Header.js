@@ -90,12 +90,14 @@ export default class Header extends Component {
                 minWidth={Responsive.onlyTablet.minWidth}
                 as={Search}
                 cards={cards}
+                categories={categories}
                 filters={filters}
                 isAuthorized={isAuthorized}
                 searchTerm={searchTerm}
                 changeFilterValue={changeFilterValue}
                 changeSearchTerm={changeSearchTerm}
                 fetchProducts={fetchProducts}
+                fetchCategories={fetchCategories}
                 handleSignIn={this.handleSignIn.bind(this)}
                 resetFilter={resetFilter}
               />

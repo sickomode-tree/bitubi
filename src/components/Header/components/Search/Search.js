@@ -90,18 +90,28 @@ class SearchExampleStandard extends Component {
 export default class Search extends Component {
   static propTypes = {
     cards: PropTypes.array.isRequired,
+    categories: PropTypes.array.isRequired,
     filters: PropTypes.object.isRequired,
     isAuthorized: PropTypes.bool.isRequired,
     searchTerm: PropTypes.string.isRequired,
     changeFilterValue: PropTypes.func.isRequired,
     changeSearchTerm: PropTypes.func.isRequired,
+    fetchCategories: PropTypes.func.isRequired,
     fetchProducts: PropTypes.func.isRequired,
     handleSignIn: PropTypes.func.isRequired,
     resetFilter: PropTypes.func.isRequired,
   }
 
+  state = {
+    filterModalOpen: false,
+  }
+
+  componentDidMount() {
+    this.props.fetchCategories()
+  }
+
   render () {
-    const { filters, isAuthorized, searchTerm, fetchProducts, handleSignIn } = this.props
+    const { categories, filters, isAuthorized, searchTerm, fetchProducts, handleSignIn } = this.props
     const quickFilters = [{ title: 'Категория', key: 'category.title' }]
 
     return (
@@ -129,14 +139,17 @@ export default class Search extends Component {
           isAuthorized &&
           <FilterModal
             trigger={
-              <Button icon basic={_.isEmpty(filters)} color={'green'}>
+              <Button icon basic={_.isEmpty(filters)} color={'green'} onClick={this.handleFilterModalToggle.bind(this)}>
                 <Icon name='filter' />
               </Button>
             }
+            open={this.state.filterModalOpen}
             filters={filters}
+            categories={categories}
             getOptions={this.getOptions.bind(this)}
+            handleModalToggle={this.handleFilterModalToggle.bind(this)}
             handleFilterChange={this.handleFilterChange.bind(this)}
-            handleResetFilterButtonClick={this.handleResetFilterButtonClick.bind(this)}
+            handleFilterReset={this.handleFilterReset.bind(this)}
           />
         }
         {
@@ -152,18 +165,27 @@ export default class Search extends Component {
           basic
           color='green'
           disabled={_.isEmpty(filters) && _.isEmpty(searchTerm)}
-          onClick={this.handleResetFilterButtonClick.bind(this)}
+          onClick={this.handleFilterReset.bind(this)}
         />
       </Input>
     )
   }
 
-  getOptions(key) {
-    const {cards} = this.props
+  getOptions(key, selectedFilters) {
+    let {cards, filters} = this.props
+    let values = getValues(cards, key), options
 
-    const values = getValues(cards, key)
+    filters = selectedFilters || filters
 
-    let options = values.map((value, index) => ({
+    if (key === 'subcategory.title' && filters['category.title']) {
+      values = this.props.categories.find(category => category.title === filters['category.title']).children
+        // filter only existing options
+        .filter(subcategory => values.indexOf(subcategory.title) >= 0)
+        // retrieve titles
+        .map(subcategory => subcategory.title)
+    }
+
+    options = values.map((value, index) => ({
       key: index,
       text: value,
       value: value,
@@ -172,15 +194,20 @@ export default class Search extends Component {
     return options
   }
 
+  handleFilterModalToggle() {
+    this.setState({filterModalOpen: !this.state.filterModalOpen})
+  }
+
   handleFilterChange(event, data) {
     const filter = data.name,
       value = data.value
 
     this.props.changeFilterValue(filter, value)
+
     browserHistory.push('/')
   }
 
-  handleResetFilterButtonClick() {
+  handleFilterReset() {
     this.props.resetFilter()
     browserHistory.push('/')
   }
