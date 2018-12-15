@@ -73,7 +73,7 @@ export const fetchUser = () => {
   }
 }
 
-export const updateUser = form => {
+export const updateUser = (form, cb) => {
   const formData = new FormData(form)
   const url = `${scope}private/user/edit`
 
@@ -102,7 +102,10 @@ export const updateUser = form => {
 
         return response
       })
-      .then(response => dispatch(onUpdateUserSuccess()))
+      .then(response => {
+        dispatch(onUpdateUserSuccess())
+        cb()
+      })
       .catch(error => {
         console.error(error)
         dispatch(onUpdateUserFailure(true))

@@ -105,7 +105,15 @@ export default class SignUpModal extends Component {
         visible: state.activeTab === 0,
         width: 8
       },
-      { tag: 'input', name: 'email', title: 'Email', value: state.email, required: true, width: 8 },
+      {
+        tag: 'input',
+        type: 'email',
+        name: 'email',
+        title: 'Email',
+        value: state.email,
+        required: true,
+        width: 8
+      },
       {
         tag: 'input',
         type: 'tel',

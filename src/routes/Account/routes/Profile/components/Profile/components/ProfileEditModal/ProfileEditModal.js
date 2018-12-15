@@ -14,7 +14,9 @@ class ProfileEditModal extends Component {
     cities: PropTypes.array.isRequired,
     fetchCities: PropTypes.func.isRequired,
     updateUserpic: PropTypes.func.isRequired,
+    handleModalToggle: PropTypes.func.isRequired,
     onSubmit: PropTypes.func.isRequired,
+    onOpen: PropTypes.func.isRequired,
     onClose: PropTypes.func.isRequired,
   }
 
@@ -32,7 +34,7 @@ class ProfileEditModal extends Component {
   }
 
   render() {
-    const {user, cities, trigger, updateUserpic, onClose} = this.props
+    const {user, cities, trigger, updateUserpic, onClose, onOpen} = this.props
     const {state} = this
 
     const cityOptions = cities.map(city => ({value: city.id, text: city.name}))
@@ -72,7 +74,14 @@ class ProfileEditModal extends Component {
         path: 'providerName',
         visible: getUserType() === 'provider'
       },
-      { tag: 'input', type: 'text', name: 'email', title: 'Email', required: true, path: 'email' },
+      {
+        tag: 'input',
+        type: 'email',
+        name: 'email',
+        title: 'Email',
+        value: state.email || user.email,
+        required: true,
+      },
       {
         tag: 'select',
         name: 'city',
@@ -119,6 +128,7 @@ class ProfileEditModal extends Component {
     return (
       <Modal
         trigger={trigger || <Button basic>Редактировать</Button>}
+        open={this.props.open}
         size='large'
         dimmer='blurring'
         closeIcon={true}
@@ -204,6 +214,8 @@ class ProfileEditModal extends Component {
     const form = event.target
 
     onSubmit(form)
+
+    this.props.handleModalToggle()
   }
 }
 

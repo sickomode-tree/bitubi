@@ -92,12 +92,40 @@ export const getFormFieldComponent = (config, data) => {
               required={config.required}
               children={
                 <InputMask
+                  type={config.type}
                   name={config.name}
                   mask='+7 (999) 999-99-99'
                   placeholder='+7 (999) 999-99-99'
                   defaultValue={config.value || (config.path ? getObjectValue(data, config.path, config.type) : '')}
                 />
               }
+            />
+          )
+          break
+        case 'email':
+          formFieldComponent = (
+            <Form.Input
+              type={config.type}
+              label={config.title}
+              name={config.name}
+              width={16}
+              required={config.required}
+              placeholder={config.title || config.placeholder}
+              defaultValue={config.value || (config.path ? getObjectValue(data, config.path, config.type) : '')}
+              pattern={'[a-zA-Z0-9.-_]{1,}@[a-zA-Z.-]{2,}[.]{1}[a-zA-Z]{2,}'}
+            />
+          )
+          break
+        case 'url':
+          formFieldComponent = (
+            <Form.Input
+              type={config.type}
+              label={config.title}
+              name={config.name}
+              width={16}
+              required={config.required}
+              placeholder={'https://example.com'}
+              defaultValue={config.value || (config.path ? getObjectValue(data, config.path, config.type) : '')}
             />
           )
           break

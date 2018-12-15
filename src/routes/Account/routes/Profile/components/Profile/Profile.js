@@ -31,6 +31,10 @@ export default class Profile extends Component {
     resetFilter: PropTypes.func.isRequired,
   }
 
+  state = {
+    profileModalOpen: false,
+  }
+
   componentDidMount() {
     this.props.resetFilter()
     this.props.fetchUser()
@@ -79,15 +83,30 @@ export default class Profile extends Component {
             </Message>
             <Segment vertical>
               <ProfileEditModal
+                open={this.state.profileModalOpen}
                 user={user}
                 cities={cities}
                 updateUserpic={updateUserpic}
                 fetchCities={fetchCities}
-                onClose={fetchUser}
-                onSubmit={updateUser}
+                onOpen={this.handleProfileModalToggle.bind(this)}
+                onClose={() => {
+                  fetchUser()
+                  this.handleProfileModalToggle.call(this)
+                }}
+                onSubmit={form => {
+                  updateUser(form, fetchUser)
+                  this.handleProfileModalToggle.call(this)
+                }}
+                handleModalToggle={this.handleProfileModalToggle.bind(this)}
                 trigger={
                   <Card.Content extra as='a'>
-                    <Button content='Редактировать' icon='cog' labelPosition='left' fluid circular positive/>
+                    <Button
+                      onClick={this.handleProfileModalToggle.bind(this)}
+                      content='Редактировать'
+                      icon='cog'
+                      labelPosition='left'
+                      fluid circular positive
+                    />
                   </Card.Content>
                 }
               />
@@ -114,5 +133,11 @@ export default class Profile extends Component {
         </Segment.Group>
       </Container>
     )
+  }
+
+  handleProfileModalToggle() {
+    this.setState({
+      profileModalOpen: !this.state.profileModalOpen,
+    })
   }
 }
