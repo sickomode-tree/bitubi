@@ -50,6 +50,7 @@ export const getFormFieldComponent = (config, data) => {
             name={config.name}
             label={config.title}
             placeholder={config.title}
+            search={config.search || true}
             required={config.required || false}
             disabled={config.disabled || _.isEmpty(config.options) || false}
             defaultValue={config.value || null}
