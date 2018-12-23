@@ -68,7 +68,8 @@ export function fetchProducts () {
       })
       .then(response => response.json())
       .then(json => {
-        let cards = []
+        let cards = [],
+          cardIdHash = []
 
         json.forEach(product => {
           product.categories.forEach(categoryConfig => {
@@ -80,7 +81,10 @@ export function fetchProducts () {
                 card.category = category
                 card.subcategory = subcategory
                 // delete card.categories
-                cards.push(card)
+                if (!isModerator || !cardIdHash.includes(product.id)) {
+                  cards.push(card)
+                  cardIdHash.push(product.id)
+                }
               })
             }
           })

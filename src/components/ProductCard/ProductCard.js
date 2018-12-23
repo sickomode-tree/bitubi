@@ -7,6 +7,7 @@ import Card from 'components/Card/Card'
 import IconList from 'components/IconList/IconList'
 import Tag from 'components/Tag/Tag'
 import { rootUrl } from 'utils/fetch'
+import { isModerator } from 'utils/auth'
 
 export default class ProductCard extends Component {
   static propTypes = {
@@ -74,9 +75,16 @@ export default class ProductCard extends Component {
             <Image wrapped size='medium' src={rootUrl + product.subcategory.pic} />
           }
           <Modal.Description style={{ width: '100%' }}>
-            {product.category && <Tag content={product.category.title} />}
-            {product.subcategory && <Tag content={product.subcategory.title} />}
-            {product.subcategory && <br />}
+            { !isModerator && <Tag content={product.category.title} /> }
+            { !isModerator && <Tag content={product.subcategory.title} /> }
+            { !isModerator && <br /> }
+
+            {
+              isModerator &&
+              product.categories && product.categories.map(category => (
+                <Tag content={category.parent.title} />
+              ))
+            }
 
             <IconList
               data={[
