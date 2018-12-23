@@ -18,3 +18,7 @@ export const saveState = state => {
     console.log(error)
   }
 }
+
+export const clearState = () => {
+  localStorage.setItem('bitubi::state', null)
+}

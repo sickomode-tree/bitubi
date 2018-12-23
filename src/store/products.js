@@ -1,6 +1,7 @@
 import {browserHistory} from 'react-router'
 import {signOut} from 'store/auth'
 import api, {scope} from 'utils/fetch'
+import {clearState, loadState} from 'utils/localStorage'
 import { checkAuthorized, getToken, isModerator } from 'utils/auth'
 
 // ------------------------------------
@@ -52,10 +53,10 @@ export function fetchProducts () {
 
     api(path)
       .then(response => {
+
         if (!response.ok) {
-          if (response.status === 401) {
-            // dispatch(signOut())
-            //browserHistory.push('/')
+          if (response.status === 401 && token) {
+            clearState()
           }
 
           throw Error(response.statusText)
