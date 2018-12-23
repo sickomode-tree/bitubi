@@ -15,6 +15,7 @@ export default class Header extends Component {
     cards: PropTypes.array.isRequired,
     cities: PropTypes.array.isRequired,
     categories: PropTypes.array.isRequired,
+    deliveryTypes: PropTypes.array.isRequired,
     filters: PropTypes.object.isRequired,
     isAuthorized: PropTypes.bool.isRequired,
     searchTerm: PropTypes.string.isRequired,
@@ -22,6 +23,8 @@ export default class Header extends Component {
     changeSearchTerm: PropTypes.func.isRequired,
     fetchCategories: PropTypes.func.isRequired,
     fetchCities: PropTypes.func.isRequired,
+    fetchDeliveryTypes: PropTypes.func.isRequired,
+    fetchActivityDescriptors: PropTypes.func.isRequired,
     fetchProducts: PropTypes.func.isRequired,
     resetFilter: PropTypes.func.isRequired,
     sendSingInRequest: PropTypes.func.isRequired,
@@ -31,9 +34,9 @@ export default class Header extends Component {
 
   render () {
     const {
-        cards, cities, categories, filters, auth, user, isAuthorized,
+        cards, cities, categories, deliveryTypes, activityDescriptors, filters, auth, user, isAuthorized,
         changeFilterValue, changeSearchTerm,
-        fetchCategories, fetchCities, fetchProducts,
+        fetchCategories, fetchCities, fetchDeliveryTypes, fetchActivityDescriptors, fetchProducts,
         resetFilter, searchTerm
       } = this.props
 
@@ -127,8 +130,9 @@ export default class Header extends Component {
             <div style={{display: 'flex'}}>
               <Item>
                 <SignUpModal
-                  cities={cities} categories={categories}
+                  cities={cities} categories={categories} deliveryTypes={deliveryTypes} activityDescriptors={activityDescriptors}
                   fetchProducts={fetchProducts} fetchCategories={fetchCategories} fetchCities={fetchCities}
+                  fetchDeliveryTypes={fetchDeliveryTypes} fetchActivityDescriptors={fetchActivityDescriptors}
                   onClose={fetchProducts} onSubmit={this.handleSignUp.bind(this)}
                 />
               </Item>

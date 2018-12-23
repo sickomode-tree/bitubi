@@ -7,6 +7,8 @@ import Footer from 'components/Footer/Footer'
 import { Dimmer, Loader, Portal } from 'semantic-ui-react'
 import { fetchCities } from 'store/cities'
 import { fetchCategories } from 'store/categories'
+import { fetchActivityDescriptors } from 'store/activityDescriptors'
+import { fetchDeliveryTypes } from 'store/deliveryTypes'
 import { sendSingInRequest, sendSingUpRequest, signOut } from 'store/auth'
 import { changeFilterValue, changeSearchTerm, resetFilter } from 'store/filter'
 import { fetchProducts } from 'store/products'
@@ -18,6 +20,7 @@ class DefaultLayout extends Component {
     cards: PropTypes.array.isRequired,
     cities: PropTypes.array.isRequired,
     categories: PropTypes.array.isRequired,
+    deliveryTypes: PropTypes.array.isRequired,
     notifications: PropTypes.array.isRequired,
     auth: PropTypes.object.isRequired,
     user: PropTypes.object.isRequired,
@@ -31,6 +34,7 @@ class DefaultLayout extends Component {
     fetchProducts: PropTypes.func.isRequired,
     fetchCategories: PropTypes.func.isRequired,
     fetchCities: PropTypes.func.isRequired,
+    fetchDeliveryTypes: PropTypes.func.isRequired,
     resetFilter: PropTypes.func.isRequired,
     fetchUser: PropTypes.func.isRequired,
     sendSingInRequest: PropTypes.func.isRequired,
@@ -48,9 +52,10 @@ class DefaultLayout extends Component {
 
   render () {
     const {
-      children, cards, categories, cities, filters, searchTerm, notifications, user, auth,
+      children, cards, categories, cities, deliveryTypes, activityDescriptors,
+      filters, searchTerm, notifications, user, auth,
       isAuthorized, isLoading, isErrored,
-      fetchCategories, fetchCities, fetchProducts,
+      fetchActivityDescriptors, fetchCategories, fetchCities, fetchDeliveryTypes, fetchProducts,
       changeSearchTerm, changeFilterValue, resetFilter,
       sendSingInRequest, sendSingUpRequest, signOut,
     } = this.props
@@ -63,6 +68,8 @@ class DefaultLayout extends Component {
           cards={cards}
           categories={categories}
           cities={cities}
+          activityDescriptors={activityDescriptors}
+          deliveryTypes={deliveryTypes}
           filters={filters}
           isAuthorized={isAuthorized}
           searchTerm={searchTerm}
@@ -71,6 +78,8 @@ class DefaultLayout extends Component {
           resetFilter={resetFilter}
           fetchCategories={fetchCategories}
           fetchCities={fetchCities}
+          fetchActivityDescriptors={fetchActivityDescriptors}
+          fetchDeliveryTypes={fetchDeliveryTypes}
           fetchProducts={fetchProducts}
           sendSingInRequest={sendSingInRequest}
           sendSingUpRequest={sendSingUpRequest}
@@ -102,6 +111,8 @@ const mapStateToProps = (state) => {
     cards: state.products.products,
     categories: state.categories.categories,
     cities: state.cities.cities,
+    activityDescriptors: state.activityDescriptors.activityDescriptors,
+    deliveryTypes: state.deliveryTypes.deliveryTypes,
     filters: state.filter.filters,
     notifications: state.notifications,
     isAuthorized: state.auth.isAuthorized,
@@ -113,9 +124,11 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = {
   changeFilterValue,
   changeSearchTerm,
+  fetchActivityDescriptors,
   fetchProducts,
   fetchCategories,
   fetchCities,
+  fetchDeliveryTypes,
   fetchUser,
   resetFilter,
   sendSingUpRequest,

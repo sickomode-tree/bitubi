@@ -9,16 +9,21 @@ export default class SignUpModal extends Component {
   static propTypes = {
     categories: PropTypes.array.isRequired,
     cities: PropTypes.array.isRequired,
+    activityDescriptors: PropTypes.array.isRequired,
+    deliveryTypes: PropTypes.array.isRequired,
     onClose: PropTypes.func.isRequired,
     onSubmit: PropTypes.func.isRequired,
     fetchCategories: PropTypes.func.isRequired,
     fetchCities: PropTypes.func.isRequired,
+    fetchDeliveryTypes: PropTypes.func.isRequired,
+    fetchActivityDescriptors: PropTypes.func.isRequired,
     trigger: PropTypes.node,
   }
 
   state = {
     activeTab: 0,
     city: '',
+    deliveryType: '',
     tariff: 3,
     district: '',
     firstName: '',
@@ -35,16 +40,20 @@ export default class SignUpModal extends Component {
   }
 
   componentDidMount () {
-    const { fetchCategories, fetchCities } = this.props
+    const { fetchCategories, fetchCities, fetchDeliveryTypes, fetchActivityDescriptors } = this.props
 
     fetchCategories()
     fetchCities()
+    fetchDeliveryTypes()
+    fetchActivityDescriptors()
   }
 
   render () {
-    const { cities, categories, trigger, onClose, onSubmit } = this.props
+    const { cities, categories, deliveryTypes, activityDescriptors, trigger, onClose, onSubmit } = this.props
     const { state } = this
     const userType = state.activeTab === 0 ? 'customer' : 'provider'
+    const deliveryTypeOptions = deliveryTypes.map(deliveryType => ({value: deliveryType.id, text: deliveryType.value}))
+    const activityDescriptorOptions = activityDescriptors.map(activityDescriptor => ({value: activityDescriptor.id, text: activityDescriptor.value}))
     const cityOptions = cities.map(city => ({value: city.id, text: city.name}))
     const cityValue = state.city
     const districts = cityValue ? cities.find(city => city.id === cityValue).districts : []
@@ -153,6 +162,29 @@ export default class SignUpModal extends Component {
         visible: state.activeTab === 1
       },
       { tag: 'input', name: 'providerTaxId', title: 'ИНН', required: true, visible: state.activeTab === 1 },
+      { tag: 'input', type: 'url', name: 'url', title: 'Сайт', visible: state.activeTab === 1 },
+      {
+        tag: 'select',
+        name: 'deliveryType',
+        title: 'Поставляемое количество',
+        required: true,
+        value: state.deliveryType,
+        options: deliveryTypeOptions,
+        width: 8,
+        onChange: this.handleSelectChange.bind(this),
+        visible: state.activeTab === 1
+      },
+      {
+        tag: 'select',
+        name: 'activityDescriptor',
+        title: 'Тип деятельности',
+        required: true,
+        value: state.activityDescriptor,
+        options: activityDescriptorOptions,
+        width: 8,
+        onChange: this.handleSelectChange.bind(this),
+        visible: state.activeTab === 1
+      },
       {
         tag: 'select',
         name: 'category_1',
