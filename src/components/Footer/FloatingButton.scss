@@ -1,6 +1,13 @@
 .FloatingButton {
   position: fixed;
   right: 20px;
-  bottom: 90px;
   margin: 0 !important;
+
+  &:nth-child(1) {
+    bottom: 90px;
+  }
+
+  &:nth-child(2) {
+    bottom: 160px;
+  }
 }
